@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexJobs - Find Remote Jobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="images/FlexJobs_logo-1.png" alt="FlexJobs" class="navbar-logo">
+            </a>
+            
+            <!-- Mobile Menu Button -->
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Main Search Bar - Desktop Only -->
+            <div class="d-none d-lg-flex flex-grow-1 mx-4 desktop-search-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Job title, keyword...">
+                    <input type="text" class="form-control" placeholder="Location">
+                    <button class="btn btn-warning" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <button class="btn btn-link text-primary ms-2">Advanced</button>
+            </div>
+            
+            
+            <!-- Desktop Auth Buttons -->
+            <div class="d-none d-lg-flex align-items-center gap-3">
+                <a href="#" class="text-decoration-none text-muted">For Employers</a>
+                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</button>
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#registerModal">Sign Up</button>
+            </div>
+            
+            <!-- Mobile Auth Button -->
+            <button class="btn btn-warning d-lg-none" data-bs-toggle="modal" data-bs-target="#registerModal">Sign Up</button>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div class="collapse navbar-collapse d-lg-none mobile-nav-menu" id="navbarNav">
+            <div class="container">
+                <div class="navbar-nav py-3">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</a>
+                    <a class="nav-link" href="#">For Employers</a>
+                    <hr class="my-2">
+                    <a class="nav-link" href="#">Find Remote Jobs</a>
+                    <a class="nav-link" href="#">How It Works</a>
+                    <a class="nav-link" href="#">Career Advice</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Secondary Navigation -->
+    <nav class="navbar navbar-expand-lg secondary-nav">
+        <div class="container">
+            <div class="navbar-nav flex-wrap">
+                <a class="nav-link text-white" href="#">Find Remote Jobs</a>
+                <a class="nav-link text-white" href="#">How It Works</a>
+                <a class="nav-link text-white" href="#">Career Advice</a>
+                <a class="nav-link text-white" href="#">Events</a>
+                <a class="nav-link text-white" href="#">Articles</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Mobile Search Bar -->
+        <section class="mobile-only mobile-search-bar">
+            <div class="container">
+                <div class="row g-2">
+                    <div class="col-7">
+                        <input type="text" class="form-control" placeholder="Search for Jobs...">
+                    </div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="Location">
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-warning mobile-search-btn" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Tablet Search Bar -->
+        <section class="tablet-only py-3 bg-light">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control tablet-search-input-left" placeholder="Job title, keyword...">
+                            <input type="text" class="form-control" placeholder="Location">
+                            <button class="btn btn-warning tablet-search-btn" type="button">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Hero Section -->
+        <section class="hero-section py-4 py-lg-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Mobile Hero Content -->
+                    <div class="col-12 mobile-only">
+                        <div class="text-white text-center">
+                            <h1 class="hero-text fw-bold mb-3">
+                                The <span style="color: #ff6b35;">#1</span> Job Site to Find Remote Jobs
+                            </h1>
+                            <p class="hero-subtitle mb-4 opacity-90">
+                                Find legitimate work-from-home jobs with flexible hours.
+                            </p>
+                            <button class="btn btn-warning btn-lg px-4 py-3 fw-semibold w-100">
+                                Find Remote Jobs!
+                            </button>
+                        </div>
+                        <!-- Mobile Image Grid - Sequential order as requested -->
+                        <div class="mobile-hero-images mt-4">
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <div class="hero-image-card">
+                                        <img src="images/index_3.png" alt="Remote worker 1" class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="hero-image-card">
+                                        <img src="images/index_1.png" alt="Remote worker 2" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <div class="hero-image-card">
+                                        <img src="images/index_2.png" alt="Remote worker 3" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tablet Hero Content -->
+                    <div class="tablet-only">
+                        <div class="row align-items-center">
+                            <div class="col-7">
+                                <div class="text-white text-center">
+                                    <h1 class="hero-text fw-bold mb-3">
+                                        The <span style="color: #ff6b35;">#1</span> Job Site<br> to Find Remote Jobs
+                                    </h1>
+                                    <p class="hero-subtitle mb-4 opacity-90">
+                                        Find legitimate work-from-home jobs with<br>
+                                        options for flexible hours and hybrid work.
+                                    </p>
+                                    <button class="btn btn-warning btn-lg px-4 py-3 fw-semibold">
+                                        Find Your Next Remote Job!
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="text-center">
+                                    <img src="images/hero-image.png" alt="Professional woman working remotely" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Desktop Hero Content -->
+                    <div class="desktop-only">
+                        <div class="row align-items-center">
+                            <div class="col-7">
+                                <div class="text-white text-start">
+                                    <h1 class="hero-text fw-bold mb-3">
+                                        The <span style="color: #ff6b35;">#1</span> Job Site<br> to Find<br>
+                                        Remote Jobs. No Ads,<br>
+                                        Scams, or Junk
+                                    </h1>
+                                    <p class="hero-subtitle mb-4 opacity-90">
+                                        Find legitimate work-from-home jobs with<br>
+                                        options for flexible hours and hybrid work.
+                                    </p>
+                                    <button class="btn btn-warning btn-lg px-4 py-3 fw-semibold">
+                                        Find Your Next Remote Job!
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="position-relative text-center">
+                                    <img src="images/hero-image.png" alt="Professional woman working remotely" class="img-fluid">
+                                    <!-- Floating badges -->
+                                    <div class="hero-floating-badge badge-jobs">
+                                        ✨ 100+ Jobs Available
+                                    </div>
+                                    <div class="hero-floating-badge badge-remote">
+                                        💼 100% Remote Jobs
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        </section>
+
+        <!-- Company Logos Section -->
+        <section class="company-logos">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="h4 fw-bold mb-4 text-muted">Awesome Companies Hiring for Remote Jobs*</h2>
+                    <div class="row justify-content-center align-items-center g-3 g-md-4">
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/dropbox-1.svg" alt="Dropbox" class="img-fluid company-logos img">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/netflix-3.svg" alt="Netflix" class="img-fluid company-logos img">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/zillow-1.svg" alt="Zillow" class="img-fluid company-logos img">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/doordash-1.svg" alt="DoorDash" class="img-fluid company-logos img">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Kaplan_Inc_logo.svg/1200px-Kaplan_Inc_logo.svg.png" alt="Kaplan" class="img-fluid company-logos img">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/reddit-1.svg" alt="Reddit" class="img-fluid company-logos img">
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">*Sample of companies that have posted remote jobs on FlexJobs</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Jobs Section -->
+        <section class="py-5 bg-white">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="h2 fw-bold">Featuring <span class="text-decoration-underline" style="text-decoration-color: #ffa500;">100k+</span> Flexible & Remote Jobs</h2>
+                </div>
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-4">
+                        <div class="card border shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="badge bg-primary mb-2">Today</span>
+                                        <span class="badge bg-danger ms-1">New!</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title fw-bold">Customer Support Consultant</h5>
+                                <div class="mb-3">
+                                    <span class="badge bg-success me-2">100% Remote Work</span>
+                                    <span class="badge bg-info">Flexible Schedule</span>
+                                </div>
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    Medellin, Colombia; Barranquilla, ATL, Colombia; DC; Colombia; Cal, VAL...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card border shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="badge bg-primary mb-2">Today</span>
+                                        <span class="badge bg-danger ms-1">New!</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title fw-bold">Business Analyst Project Manager</h5>
+                                <div class="mb-3">
+                                    <span class="badge bg-success me-2">Hybrid Remote Work</span>
+                                    <span class="badge bg-warning text-dark">Full-Time</span>
+                                </div>
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    Waterloo, WE; Poland
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card border shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="badge bg-primary mb-2">Today</span>
+                                        <span class="badge bg-danger ms-1">New!</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title fw-bold">Technical Support Engineer 2</h5>
+                                <div class="mb-3">
+                                    <span class="badge bg-success me-2">100% Remote Work</span>
+                                    <span class="badge bg-warning text-dark">Full-Time</span>
+                                </div>
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    Bangalore, KA; India; Chennai, TN; India; Hyderabad, TG; India; Mumbai, MH; Indi...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-4">
+                        <div class="card border shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="badge bg-primary mb-2">Today</span>
+                                        <span class="badge bg-danger ms-1">New!</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title fw-bold">Technical Support Engineer 2</h5>
+                                <div class="mb-3">
+                                    <span class="badge bg-success me-2">100% Remote Work</span>
+                                    <span class="badge bg-warning text-dark">Full-Time</span>
+                                </div>
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    KS; India; UK; India; TN; India; TG; India; MH; India; that riving in United States
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card border shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="badge bg-primary mb-2">Today</span>
+                                        <span class="badge bg-danger ms-1">New!</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title fw-bold">Middle Market Regional Commercial Officer</h5>
+                                <div class="mb-3">
+                                    <span class="badge bg-success me-2">Hybrid Remote Work</span>
+                                    <span class="badge bg-warning text-dark">Full-Time</span>
+                                </div>
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    Atlanta, GA; New York, NY; Chicago, IL
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card border shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="badge bg-primary mb-2">Today</span>
+                                        <span class="badge bg-danger ms-1">New!</span>
+                                    </div>
+                                </div>
+                                <h5 class="card-title fw-bold">Program Manager</h5>
+                                <div class="mb-3">
+                                    <span class="badge bg-success me-2">Hybrid Remote Work</span>
+                                    <span class="badge bg-warning text-dark">Full-Time</span>
+                                </div>
+                                <p class="text-muted small mb-2">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    Fort Meade, MD
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button class="btn btn-warning btn-lg px-5 py-3 fw-semibold">
+                        Find Your Next Remote Job!
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- What Our Members Are Saying Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h3 class="h3 fw-bold">What Our Members Are Saying</h3>
+                </div>
+                
+                <!-- Mobile Single Testimonial -->
+                <div class="d-lg-none">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 text-center">
+                            <div class="mb-3">
+                                <div class="text-warning mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <blockquote class="mb-3">
+                                    "FlexJobs helped me find a remote position that perfectly fits my skills and schedule. The quality of listings is unmatched!"
+                                </blockquote>
+                            </div>
+                            <footer class="blockquote-footer">
+                                <strong>Sarah M.</strong> <cite title="Source Title">Software Developer</cite>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Desktop Three Testimonials -->
+                <div class="d-none d-lg-block">
+                    <div class="row g-4">
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body p-4 text-center">
+                                    <div class="mb-3">
+                                        <div class="text-warning mb-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <blockquote class="mb-0">
+                                            "FlexJobs helped me find a remote position that perfectly fits my skills and schedule. The quality of listings is unmatched!"
+                                        </blockquote>
+                                    </div>
+                                    <footer class="blockquote-footer">
+                                        <strong>Sarah M.</strong> <cite title="Source Title">Software Developer</cite>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body p-4 text-center">
+                                    <div class="mb-3">
+                                        <div class="text-warning mb-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <blockquote class="mb-0">
+                                            "The advanced search filters saved me hours of time. I found my dream marketing role within two weeks of signing up."
+                                        </blockquote>
+                                    </div>
+                                    <footer class="blockquote-footer">
+                                        <strong>Michael R.</strong> <cite title="Source Title">Marketing Manager</cite>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body p-4 text-center">
+                                    <div class="mb-3">
+                                        <div class="text-warning mb-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <blockquote class="mb-0">
+                                            "No more scam job posts! Every application I sent through FlexJobs was to a legitimate company. Highly recommend!"
+                                        </blockquote>
+                                    </div>
+                                    <footer class="blockquote-footer">
+                                        <strong>Jennifer L.</strong> <cite title="Source Title">Project Manager</cite>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Section -->
+        <section class="py-5">
+            <div class="container">
+                <!-- Features Section -->
+                <div class="text-center mb-5">
+                    <h2 class="h2 fw-bold mb-4">Why Choose FlexJobs?</h2>
+                    <div class="d-flex justify-content-center mb-4">
+                        <div class="bg-primary text-white rounded-3 px-4 py-3">
+                            <span class="h4 fw-bold mb-0">4.6★</span>
+                            <small class="d-block">14,000+ Reviews</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-4">
+                        <div class="text-center p-4 h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-shield-alt text-primary" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3">100% Verified Jobs</h5>
+                            <p class="text-muted">
+                                Every job is hand-screened and verified. No ads, scams, or junk - just legitimate remote opportunities from real companies.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center p-4 h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-search text-primary" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3">Advanced Search Tools</h5>
+                            <p class="text-muted">
+                                Find exactly what you're looking for with our powerful search filters including location, salary, and job type.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center p-4 h-100">
+                            <div class="mb-3">
+                                <i class="fas fa-clock text-primary" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-3">Save Time</h5>
+                            <p class="text-muted">
+                                Skip browsing through thousands of irrelevant posts. We curate the best remote jobs so you don't have to.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Search Section -->
+                <div class="bg-light rounded-4 p-5">
+                    <div class="text-center mb-4">
+                        <h3 class="fw-bold mb-3">Start Your Remote Job Search</h3>
+                        <p class="text-muted">Search thousands of verified remote job opportunities</p>
+                    </div>
+                    
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="row g-3">
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control form-control-lg" id="jobTitle" placeholder="Job title, keywords, or company">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form-control-lg" id="jobLocation" placeholder="City or remote">
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary btn-lg w-100" onclick="performJobSearch()">
+                                        <i class="fas fa-search me-2"></i>Search Jobs
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 mt-3">
+                                <div class="col-md-3">
+                                    <select class="form-select" id="jobType">
+                                        <option value="">Job Type</option>
+                                        <option value="full-time">Full-time</option>
+                                        <option value="part-time">Part-time</option>
+                                        <option value="contract">Contract</option>
+                                        <option value="freelance">Freelance</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-select" id="experience">
+                                        <option value="">Experience Level</option>
+                                        <option value="entry">Entry Level</option>
+                                        <option value="mid">Mid Level</option>
+                                        <option value="senior">Senior Level</option>
+                                        <option value="executive">Executive</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-select" id="category">
+                                        <option value="">Category</option>
+                                        <option value="technology">Technology</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="finance">Finance</option>
+                                        <option value="design">Design</option>
+                                        <option value="sales">Sales</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-select" id="salary">
+                                        <option value="">Salary Range</option>
+                                        <option value="0-50000">$0 - $50,000</option>
+                                        <option value="50000-75000">$50,000 - $75,000</option>
+                                        <option value="75000-100000">$75,000 - $100,000</option>
+                                        <option value="100000+">$100,000+</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-5 bg-white d-none">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="h2 fw-bold mb-3">Success Stories</h2>
+                    <p class="text-muted">See how FlexJobs has helped professionals find their perfect remote careers</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <div class="text-warning mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <blockquote class="mb-0">
+                                        "FlexJobs helped me find a remote position that perfectly fits my skills and schedule. The quality of listings is unmatched!"
+                                    </blockquote>
+                                </div>
+                                <footer class="blockquote-footer">
+                                    <strong>Sarah M.</strong> <cite title="Source Title">Software Developer</cite>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <div class="text-warning mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <blockquote class="mb-0">
+                                        "The advanced search filters saved me hours of time. I found my dream marketing role within two weeks of signing up."
+                                    </blockquote>
+                                </div>
+                                <footer class="blockquote-footer">
+                                    <strong>Michael R.</strong> <cite title="Source Title">Marketing Manager</cite>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <div class="text-warning mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <blockquote class="mb-0">
+                                        "No more scam job posts! Every application I sent through FlexJobs was to a legitimate company. Highly recommend!"
+                                    </blockquote>
+                                </div>
+                                <footer class="blockquote-footer">
+                                    <strong>Jennifer L.</strong> <cite title="Source Title">Project Manager</cite>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Categories Section -->
+        <section class="py-6">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="h2 fw-bold">Popular Remote Job Categories</h2>
+                    <p class="fs-5 text-muted">Explore remote opportunities across various industries</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                            <div class="card-body p-4">
+                                <i class="fas fa-laptop-code text-primary mb-3" style="font-size: 2.5rem;"></i>
+                                <h6 class="card-title fw-bold">Technology</h6>
+                                <small class="text-muted">15,234 jobs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                            <div class="card-body p-4">
+                                <i class="fas fa-bullhorn text-success mb-3" style="font-size: 2.5rem;"></i>
+                                <h6 class="card-title fw-bold">Marketing</h6>
+                                <small class="text-muted">8,456 jobs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                            <div class="card-body p-4">
+                                <i class="fas fa-chart-line text-warning mb-3" style="font-size: 2.5rem;"></i>
+                                <h6 class="card-title fw-bold">Finance</h6>
+                                <small class="text-muted">6,789 jobs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                            <div class="card-body p-4">
+                                <i class="fas fa-palette text-info mb-3" style="font-size: 2.5rem;"></i>
+                                <h6 class="card-title fw-bold">Design</h6>
+                                <small class="text-muted">4,321 jobs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                            <div class="card-body p-4">
+                                <i class="fas fa-handshake text-primary mb-3" style="font-size: 2.5rem;"></i>
+                                <h6 class="card-title fw-bold">Sales</h6>
+                                <small class="text-muted">5,678 jobs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                            <div class="card-body p-4">
+                                <i class="fas fa-users text-secondary mb-3" style="font-size: 2.5rem;"></i>
+                                <h6 class="card-title fw-bold">Human Resources</h6>
+                                <small class="text-muted">3,456 jobs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                            <div class="card-body p-4">
+                                <i class="fas fa-headset text-info mb-3" style="font-size: 2.5rem;"></i>
+                                <h6 class="card-title fw-bold">Customer Service</h6>
+                                <small class="text-muted">4,567 jobs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <div class="card h-100 text-center border-0 shadow-sm hover-shadow">
+                            <div class="card-body p-4">
+                                <i class="fas fa-ellipsis-h text-secondary mb-3" style="font-size: 2.5rem;"></i>
+                                <h6 class="card-title fw-bold">View All</h6>
+                                <small class="text-muted">50+ categories</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-5 bg-primary text-white">
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-lg-8">
+                        <h2 class="h2 fw-bold mb-3">Ready to Find Your Perfect Remote Job?</h2>
+                        <p class="fs-5 mb-4 opacity-90">Join thousands of professionals who've found success with FlexJobs</p>
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            <a href="/remote-jobs.html" class="btn btn-light btn-lg px-4">
+                                <i class="fas fa-search me-2"></i>Browse Jobs
+                            </a>
+                            <button type="button" class="btn btn-outline-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#signupModal">
+                                <i class="fas fa-user-plus me-2"></i>Sign Up Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="d-flex align-items-center">
+                        <i class="fas fa-briefcase me-2"></i>FlexJobs
+                    </h5>
+                    <p class="text-muted">The #1 site for remote, part-time, freelance, and flexible jobs.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Job Seekers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Jobs</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Career Advice</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Resume Help</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Employers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Post Jobs</a></li>
+                        <li><a href="#" class="text-decoration-none">Search Resumes</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2025 FlexJobs. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-muted me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-muted"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login to FlexJobs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="#" class="text-muted">Forgot your password?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign Up for FlexJobs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registerFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="registerFirstName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="registerLastName" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required minlength="6">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userType" class="form-label">I am a</label>
+                            <select class="form-select" id="userType" required>
+                                <option value="">Select...</option>
+                                <option value="job_seeker">Job Seeker</option>
+                                <option value="employer">Employer</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/mobile-first.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/jobs.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Scroll to job search section
+        function scrollToJobs() {
+            document.getElementById('jobSearch').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Perform job search
+        function performJobSearch() {
+            const jobTitle = document.getElementById('jobTitle').value;
+            const location = document.getElementById('jobLocation').value;
+            const jobType = document.getElementById('jobType').value;
+            const experience = document.getElementById('experience').value;
+            const category = document.getElementById('category').value;
+            const salary = document.getElementById('salary').value;
+
+            // Construct search parameters
+            const searchParams = new URLSearchParams();
+            if (jobTitle) searchParams.append('title', jobTitle);
+            if (location) searchParams.append('location', location);
+            if (jobType) searchParams.append('type', jobType);
+            if (experience) searchParams.append('experience', experience);
+            if (category) searchParams.append('category', category);
+            if (salary) searchParams.append('salary', salary);
+
+            // Redirect to remote jobs page with search parameters
+            window.location.href = `remote-jobs.html?${searchParams.toString()}`;
+        }
+
+        // Add hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add custom CSS for hover effects
+            const style = document.createElement('style');
+            style.textContent = `
+                .hover-shadow:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+                    transition: all 0.3s ease;
+                }
+                .hover-opacity-100:hover {
+                    opacity: 1 !important;
+                    filter: grayscale(0%) !important;
+                    transition: all 0.3s ease;
+                }
+                .py-6 {
+                    padding-top: 4rem !important;
+                    padding-bottom: 4rem !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Add enter key support for search
+            document.getElementById('jobTitle').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performJobSearch();
+                }
+            });
+
+            document.getElementById('jobLocation').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performJobSearch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

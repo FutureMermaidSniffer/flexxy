@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where do you want to work remotely from? - FlexJobs</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Choose your preferred remote work location. Work from anywhere in the US, globally, or from a specific location.">
+    <meta name="keywords" content="remote work location, work from home, work from anywhere, location preference">
+    <meta property="og:title" content="Where do you want to work remotely from? - FlexJobs">
+    <meta property="og:description" content="Set your location preferences for remote work opportunities.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <!-- Wizard Components CSS -->
+    <link rel="stylesheet" href="css/components/wizard-header.css">
+    <link rel="stylesheet" href="css/components/wizard-footer.css">
+    <!-- Page-specific CSS -->
+    <link rel="stylesheet" href="css/pages/where-remote.css">
+</head>
+<body class="page-where-remote">
+    <!-- Wizard Header -->
+    <div id="wizard-header-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Progress Bar -->
+        <section class="page-location__progress py-2 bg-white border-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Location Section -->
+        <section class="page-location__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <!-- FlexJobs Logo -->
+                        <div class="page-location__brand text-center mb-4">
+                            <img src="images/f.png" alt="FlexJobs" class="title-image" style="height: 60px; max-width: 200px; object-fit: contain;">
+                        </div>
+                        
+                        <!-- Main Title -->
+                        <div class="text-center mb-5">
+                            <h1 class="page-location__title h2 fw-bold text-dark mb-3">
+                                Where do you want to work remotely from?
+                            </h1>
+                        </div>
+                        
+                        <!-- Location Input -->
+                        <div class="page-location__input-container mb-4">
+                            <div class="position-relative">
+                                <div class="page-location__input-icon position-absolute top-50 start-0 translate-middle-y ms-3 text-muted">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <input type="text" 
+                                       class="form-control form-control-lg ps-5" 
+                                       id="locationInput"
+                                       placeholder="Search by location"
+                                       style="border-radius: 12px; border: 2px solid #e9ecef; font-size: 1.1rem;">
+                            </div>
+                            
+                            <!-- Location Suggestions -->
+                            <div class="page-location__suggestions d-none" id="locationSuggestions">
+                                <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+                                    <!-- Suggestions will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Location Options -->
+                        <div class="page-location__options mb-5">
+                            <!-- US Option -->
+                            <div class="page-location__option mb-3">
+                                <div class="form-check d-flex align-items-center p-3 border rounded-3" style="border-width: 2px !important;">
+                                    <input class="form-check-input me-3" 
+                                           type="checkbox" 
+                                           value="us-anywhere" 
+                                           id="usAnywhere"
+                                           style="transform: scale(1.2);">
+                                    <div class="page-location__option-content flex-grow-1">
+                                        <label class="form-check-label fw-bold text-dark h6 mb-1" for="usAnywhere">
+                                            Include jobs where I can work from anywhere in the US
+                                        </label>
+                                    </div>
+                                    <div class="page-location__option-icon text-primary">
+                                        <i class="fas fa-flag-usa fa-lg"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Global Option -->
+                            <div class="page-location__option mb-3">
+                                <div class="form-check d-flex align-items-center p-3 border rounded-3" style="border-width: 2px !important;">
+                                    <input class="form-check-input me-3" 
+                                           type="checkbox" 
+                                           value="global-anywhere" 
+                                           id="globalAnywhere"
+                                           style="transform: scale(1.2);">
+                                    <div class="page-location__option-content flex-grow-1">
+                                        <label class="form-check-label fw-bold text-dark h6 mb-1" for="globalAnywhere">
+                                            Include jobs where I can work from anywhere in the world
+                                        </label>
+                                    </div>
+                                    <div class="page-location__option-icon text-success">
+                                        <i class="fas fa-globe fa-lg"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Selected Locations Display -->
+                        <div class="page-location__selected-display d-none mb-4" id="selectedDisplay">
+                            <div class="alert alert-info border-0 rounded-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    <strong class="me-2">Selected locations:</strong>
+                                    <div id="selectedLocationsList" class="d-flex flex-wrap gap-2">
+                                        <!-- Selected locations will appear here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <div class="page-location__navigation d-flex justify-content-between align-items-center">
+                            <!-- Back Button -->
+                            <button class="page-location__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Back
+                            </button>
+                            
+                            <!-- Next Button -->
+                            <button class="page-location__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
+                                    id="nextBtn"
+                                    style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
+                                Next
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Location Benefits Section -->
+        <section class="page-location__benefits py-5 bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="h4 fw-bold text-dark mb-4">
+                            Why Remote Location Matters
+                        </h2>
+                        <p class="text-muted mb-5">
+                            Your location preferences help us find jobs that match your lifestyle and legal requirements.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    <!-- Benefit 1 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="page-location__benefit text-center p-4">
+                            <div class="page-location__benefit-icon mb-3">
+                                <i class="fas fa-clock fa-2x text-primary"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Time Zone Matching</h4>
+                            <p class="small text-muted mb-0">
+                                Find jobs that align with your preferred working hours and schedule
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 2 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="page-location__benefit text-center p-4">
+                            <div class="page-location__benefit-icon mb-3">
+                                <i class="fas fa-gavel fa-2x text-success"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Legal Compliance</h4>
+                            <p class="small text-muted mb-0">
+                                Only see jobs where you're legally eligible to work
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 3 -->
+                    <div class="col-lg-4 col-md-6 mx-auto">
+                        <div class="page-location__benefit text-center p-4">
+                            <div class="page-location__benefit-icon mb-3">
+                                <i class="fas fa-home fa-2x text-info"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Work-Life Balance</h4>
+                            <p class="small text-muted mb-0">
+                                Find opportunities that support your desired lifestyle and location
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Component JS -->
+    <script src="js/components/component-loader.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/footer.js"></script>
+    <!-- Wizard Components JS -->
+    <script src="js/components/wizard-header.js"></script>
+    <script src="js/components/wizard-footer.js"></script>
+    
+    <!-- Page-specific JavaScript -->
+    <script>
+        // Initialize wizard header and footer
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize wizard header with back button
+            window.wizardHeader = new WizardHeader({
+                isFirstPage: false,
+                backUrl: '/salary-preference'
+            });
+            
+            // Initialize wizard footer
+            window.wizardFooter = new WizardFooter();
+        });
+
+        // Load header and footer components
+        loadComponents();
+        
+        // Set active navigation when components are loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.headerInstance) {
+                window.headerInstance.setActiveNav('remote-jobs');
+            }
+        });
+
+        // Page-specific functionality
+        class WhereRemotePage {
+            constructor() {
+                this.selectedLocation = '';
+                this.selectedOptions = new Set();
+                this.locationSuggestions = [
+                    'New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Houston, TX', 'Phoenix, AZ',
+                    'Philadelphia, PA', 'San Antonio, TX', 'San Diego, CA', 'Dallas, TX', 'San Jose, CA',
+                    'Austin, TX', 'Jacksonville, FL', 'Fort Worth, TX', 'Columbus, OH', 'Charlotte, NC',
+                    'San Francisco, CA', 'Indianapolis, IN', 'Seattle, WA', 'Denver, CO', 'Washington, DC',
+                    'Boston, MA', 'El Paso, TX', 'Nashville, TN', 'Detroit, MI', 'Oklahoma City, OK',
+                    'Portland, OR', 'Las Vegas, NV', 'Memphis, TN', 'Louisville, KY', 'Baltimore, MD'
+                ];
+                
+                this.init();
+            }
+
+            init() {
+                this.setupLocationInput();
+                this.setupLocationOptions();
+                this.setupNavigation();
+                this.restoreFromLocalStorage();
+            }
+
+            setupLocationInput() {
+                const locationInput = document.getElementById('locationInput');
+                const suggestionsContainer = document.getElementById('locationSuggestions');
+                
+                locationInput.addEventListener('input', (e) => {
+                    const query = e.target.value.trim();
+                    if (query.length >= 2) {
+                        this.showLocationSuggestions(query);
+                    } else {
+                        this.hideLocationSuggestions();
+                    }
+                });
+                
+                locationInput.addEventListener('blur', () => {
+                    // Delay hiding to allow clicking on suggestions
+                    setTimeout(() => {
+                        this.hideLocationSuggestions();
+                    }, 200);
+                });
+                
+                locationInput.addEventListener('focus', () => {
+                    const query = locationInput.value.trim();
+                    if (query.length >= 2) {
+                        this.showLocationSuggestions(query);
+                    }
+                });
+                
+                // Handle Enter key
+                locationInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const query = locationInput.value.trim();
+                        if (query) {
+                            this.selectLocation(query);
+                        }
+                    }
+                });
+            }
+
+            showLocationSuggestions(query) {
+                const suggestionsContainer = document.getElementById('locationSuggestions');
+                const filteredSuggestions = this.locationSuggestions.filter(location =>
+                    location.toLowerCase().includes(query.toLowerCase())
+                ).slice(0, 5);
+                
+                if (filteredSuggestions.length > 0) {
+                    const suggestionsHTML = filteredSuggestions.map(location => `
+                        <button class="list-group-item list-group-item-action d-flex align-items-center" 
+                                onclick="whereRemotePageInstance.selectLocation('${location}')">
+                            <i class="fas fa-map-marker-alt me-2 text-muted"></i>
+                            ${location}
+                        </button>
+                    `).join('');
+                    
+                    suggestionsContainer.innerHTML = `
+                        <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+                            ${suggestionsHTML}
+                        </div>
+                    `;
+                    suggestionsContainer.classList.remove('d-none');
+                } else {
+                    this.hideLocationSuggestions();
+                }
+            }
+
+            hideLocationSuggestions() {
+                const suggestionsContainer = document.getElementById('locationSuggestions');
+                suggestionsContainer.classList.add('d-none');
+            }
+
+            selectLocation(location) {
+                const locationInput = document.getElementById('locationInput');
+                locationInput.value = location;
+                this.selectedLocation = location;
+                this.hideLocationSuggestions();
+                this.updateSelectedDisplay();
+                this.storeLocationPreference();
+            }
+
+            setupLocationOptions() {
+                const usCheckbox = document.getElementById('usAnywhere');
+                const globalCheckbox = document.getElementById('globalAnywhere');
+                
+                usCheckbox.addEventListener('change', (e) => {
+                    this.handleOptionChange('us-anywhere', e.target.checked);
+                });
+                
+                globalCheckbox.addEventListener('change', (e) => {
+                    this.handleOptionChange('global-anywhere', e.target.checked);
+                });
+            }
+
+            handleOptionChange(option, isChecked) {
+                if (isChecked) {
+                    this.selectedOptions.add(option);
+                } else {
+                    this.selectedOptions.delete(option);
+                }
+                
+                this.updateSelectedDisplay();
+                this.storeLocationPreference();
+                this.trackOptionSelection(option, isChecked);
+            }
+
+            updateSelectedDisplay() {
+                const selectedDisplay = document.getElementById('selectedDisplay');
+                const selectedLocationsList = document.getElementById('selectedLocationsList');
+                
+                const selections = [];
+                
+                if (this.selectedLocation) {
+                    selections.push({
+                        text: this.selectedLocation,
+                        icon: 'fas fa-map-marker-alt',
+                        color: 'primary'
+                    });
+                }
+                
+                if (this.selectedOptions.has('us-anywhere')) {
+                    selections.push({
+                        text: 'Anywhere in US',
+                        icon: 'fas fa-flag-usa',
+                        color: 'primary'
+                    });
+                }
+                
+                if (this.selectedOptions.has('global-anywhere')) {
+                    selections.push({
+                        text: 'Anywhere globally',
+                        icon: 'fas fa-globe',
+                        color: 'success'
+                    });
+                }
+                
+                if (selections.length > 0) {
+                    const selectionsHTML = selections.map(selection => `
+                        <span class="badge bg-${selection.color} px-3 py-2">
+                            <i class="${selection.icon} me-1"></i>
+                            ${selection.text}
+                        </span>
+                    `).join('');
+                    
+                    selectedLocationsList.innerHTML = selectionsHTML;
+                    selectedDisplay.classList.remove('d-none');
+                } else {
+                    selectedDisplay.classList.add('d-none');
+                }
+            }
+
+            setupNavigation() {
+                const backBtn = document.getElementById('backBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                
+                backBtn.addEventListener('click', () => {
+                    this.goBack();
+                });
+                
+                nextBtn.addEventListener('click', () => {
+                    this.goNext();
+                });
+            }
+
+            goBack() {
+                // Add loading animation
+                const backBtn = document.getElementById('backBtn');
+                const originalText = backBtn.innerHTML;
+                backBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+                backBtn.disabled = true;
+                
+                // Navigate back to salary preference page
+                setTimeout(() => {
+                    window.location.href = '/salary-preference';
+                }, 300);
+            }
+
+            goNext() {
+                // Store location preference
+                this.storeLocationPreference();
+                
+                // Add loading animation
+                const nextBtn = document.getElementById('nextBtn');
+                nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+                nextBtn.disabled = true;
+                
+                // Navigate to next step (job title selection)
+                setTimeout(() => {
+                    window.location.href = '/what-job';
+                }, 500);
+            }
+
+            storeLocationPreference() {
+                const preference = {
+                    location: this.selectedLocation,
+                    options: Array.from(this.selectedOptions),
+                    timestamp: Date.now()
+                };
+                
+                localStorage.setItem('locationPreference', JSON.stringify(preference));
+            }
+
+            restoreFromLocalStorage() {
+                const stored = localStorage.getItem('locationPreference');
+                if (stored) {
+                    try {
+                        const preference = JSON.parse(stored);
+                        
+                        if (preference.location) {
+                            this.selectedLocation = preference.location;
+                            document.getElementById('locationInput').value = preference.location;
+                        }
+                        
+                        if (preference.options) {
+                            preference.options.forEach(option => {
+                                this.selectedOptions.add(option);
+                                const checkbox = document.getElementById(option === 'us-anywhere' ? 'usAnywhere' : 'globalAnywhere');
+                                if (checkbox) {
+                                    checkbox.checked = true;
+                                }
+                            });
+                        }
+                        
+                        this.updateSelectedDisplay();
+                    } catch (e) {
+                        console.error('Error restoring location preference:', e);
+                    }
+                }
+            }
+
+            trackOptionSelection(option, isChecked) {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'location_option_changed', {
+                        option: option,
+                        selected: isChecked,
+                        page: 'where-remote'
+                    });
+                }
+
+                console.log('Location option changed:', { option, isChecked });
+            }
+
+            // Public methods for external access
+            getLocationPreference() {
+                return {
+                    location: this.selectedLocation,
+                    options: Array.from(this.selectedOptions)
+                };
+            }
+
+            setLocationPreference(location, options = []) {
+                this.selectedLocation = location;
+                this.selectedOptions = new Set(options);
+                
+                // Update UI
+                if (location) {
+                    document.getElementById('locationInput').value = location;
+                }
+                
+                options.forEach(option => {
+                    const checkbox = document.getElementById(option === 'us-anywhere' ? 'usAnywhere' : 'globalAnywhere');
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
+                
+                this.updateSelectedDisplay();
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        let whereRemotePageInstance;
+        document.addEventListener('DOMContentLoaded', () => {
+            whereRemotePageInstance = new WhereRemotePage();
+        });
+
+        // Export for external access
+        window.whereRemotePageInstance = whereRemotePageInstance;
+    </script>
+
+</body>
+</html>

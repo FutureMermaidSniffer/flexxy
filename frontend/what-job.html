@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do you have a job title in mind? - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Enter your desired job title to find remote opportunities that match your career goals and expertise.">
+    <meta name="keywords" content="job title, remote jobs, career search, job search, remote work">
+    <meta property="og:title" content="Do you have a job title in mind? - FlexJobs">
+    <meta property="og:description" content="Find remote jobs that match your desired job title and career aspirations.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <!-- Wizard Components CSS -->
+    <link rel="stylesheet" href="css/components/wizard-header.css">
+    <link rel="stylesheet" href="css/components/wizard-footer.css">
+</head>
+<body class="page-what-job">
+    <!-- Wizard Header -->
+    <div id="wizard-header-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Progress Bar -->
+        <section class="page-job__progress py-2 bg-white border-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Job Title Section -->
+        <section class="page-job__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <!-- Main Title -->
+                        <div class="text-center mb-5">
+                            <h1 class="page-job__title h2 fw-bold text-dark mb-3">
+                                Do you have a job title in mind?
+                            </h1>
+                        </div>
+                        
+                        <!-- Job Title Input -->
+                        <div class="page-job__input-container mb-5">
+                            <div class="position-relative">
+                                <div class="page-job__input-icon position-absolute top-50 start-0 translate-middle-y ms-3 text-muted">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <input type="text" 
+                                       class="form-control form-control-lg ps-5" 
+                                       id="jobTitleInput"
+                                       placeholder="Enter job title. You may search more than one."
+                                       style="border-radius: 12px; border: 2px solid #e9ecef; font-size: 1.1rem; min-height: 60px;">
+                            </div>
+                            
+                            <!-- Job Title Suggestions -->
+                            <div class="page-job__suggestions d-none" id="jobSuggestions">
+                                <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+                                    <!-- Suggestions will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Selected Job Titles Display -->
+                        <div class="page-job__selected-display d-none mb-4" id="selectedDisplay">
+                            <div class="alert alert-info border-0 rounded-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-briefcase me-2"></i>
+                                    <strong class="me-2">Selected job titles:</strong>
+                                    <div id="selectedJobsList" class="d-flex flex-wrap gap-2">
+                                        <!-- Selected jobs will appear here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Popular Job Titles -->
+                        <div class="page-job__popular mb-5">
+                            <h3 class="h6 text-muted mb-3 text-center">Popular remote job titles</h3>
+                            <div class="page-job__popular-grid d-flex flex-wrap justify-content-center gap-2">
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Software Engineer">
+                                    Software Engineer
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Marketing Manager">
+                                    Marketing Manager
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Data Analyst">
+                                    Data Analyst
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="UX Designer">
+                                    UX Designer
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Content Writer">
+                                    Content Writer
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Project Manager">
+                                    Project Manager
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Customer Success Manager">
+                                    Customer Success Manager
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Virtual Assistant">
+                                    Virtual Assistant
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Sales Representative">
+                                    Sales Representative
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn" data-job="Graphic Designer">
+                                    Graphic Designer
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Skip Option -->
+                        <div class="page-job__skip-container text-center mb-5">
+                            <button class="page-job__skip-btn btn btn-link text-info text-decoration-none fw-medium" id="skipBtn">
+                                <i class="fas fa-forward me-2"></i>
+                                Skip, I want to see all jobs
+                            </button>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <div class="page-job__navigation d-flex justify-content-between align-items-center">
+                            <!-- Back Button -->
+                            <button class="page-job__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Back
+                            </button>
+                            
+                            <!-- Next Button -->
+                            <button class="page-job__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
+                                    id="nextBtn"
+                                    style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
+                                Next
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Search Tips Section -->
+        <section class="page-job__tips py-5 bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="h4 fw-bold text-dark mb-4">
+                            Job Search Tips
+                        </h2>
+                        <p class="text-muted mb-5">
+                            Get the most out of your remote job search with these helpful suggestions.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    <!-- Tip 1 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="page-job__tip text-center p-4">
+                            <div class="page-job__tip-icon mb-3">
+                                <i class="fas fa-search fa-2x text-primary"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Use Multiple Keywords</h4>
+                            <p class="small text-muted mb-0">
+                                Search for variations of your desired role to find more opportunities
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 2 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="page-job__tip text-center p-4">
+                            <div class="page-job__tip-icon mb-3">
+                                <i class="fas fa-star fa-2x text-warning"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Be Specific</h4>
+                            <p class="small text-muted mb-0">
+                                Include seniority levels and specializations for better matches
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tip 3 -->
+                    <div class="col-lg-4 col-md-6 mx-auto">
+                        <div class="page-job__tip text-center p-4">
+                            <div class="page-job__tip-icon mb-3">
+                                <i class="fas fa-lightbulb fa-2x text-success"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Stay Open</h4>
+                            <p class="small text-muted mb-0">
+                                Consider similar roles that might be a great fit for your skills
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Component JS -->
+    <script src="js/components/component-loader.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/footer.js"></script>
+    <!-- Wizard Components JS -->
+    <script src="js/components/wizard-header.js"></script>
+    <script src="js/components/wizard-footer.js"></script>
+    
+    <!-- Page-specific JavaScript -->
+    <script>
+        // Initialize wizard header and footer
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize wizard header with back button
+            window.wizardHeader = new WizardHeader({
+                isFirstPage: false,
+                backUrl: '/where-remote'
+            });
+            
+            // Initialize wizard footer
+            window.wizardFooter = new WizardFooter();
+        });
+
+        // Load header and footer components
+        loadComponents();
+        
+        // Set active navigation when components are loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.headerInstance) {
+                window.headerInstance.setActiveNav('remote-jobs');
+            }
+        });
+
+        // Page-specific functionality
+        class WhatJobPage {
+            constructor() {
+                this.selectedJobs = new Set();
+                this.jobSuggestions = [
+                    'Software Engineer', 'Senior Software Engineer', 'Frontend Developer', 'Backend Developer', 'Full Stack Developer',
+                    'Marketing Manager', 'Digital Marketing Manager', 'Content Marketing Manager', 'Social Media Manager',
+                    'Data Analyst', 'Data Scientist', 'Business Analyst', 'Financial Analyst', 'Research Analyst',
+                    'UX Designer', 'UI Designer', 'Graphic Designer', 'Web Designer', 'Product Designer',
+                    'Content Writer', 'Technical Writer', 'Copywriter', 'Blog Writer', 'Grant Writer',
+                    'Project Manager', 'Product Manager', 'Program Manager', 'Operations Manager', 'Account Manager',
+                    'Customer Success Manager', 'Customer Support Representative', 'Sales Representative', 'Account Executive',
+                    'Virtual Assistant', 'Executive Assistant', 'Administrative Assistant', 'Personal Assistant',
+                    'DevOps Engineer', 'QA Engineer', 'Mobile Developer', 'WordPress Developer', 'Python Developer',
+                    'HR Manager', 'Recruiter', 'Training Specialist', 'Consultant', 'Freelancer'
+                ];
+                
+                this.init();
+            }
+
+            init() {
+                this.setupJobInput();
+                this.setupPopularJobs();
+                this.setupSkipButton();
+                this.setupNavigation();
+                this.restoreFromLocalStorage();
+            }
+
+            setupJobInput() {
+                const jobInput = document.getElementById('jobTitleInput');
+                const suggestionsContainer = document.getElementById('jobSuggestions');
+                
+                jobInput.addEventListener('input', (e) => {
+                    const query = e.target.value.trim();
+                    if (query.length >= 2) {
+                        this.showJobSuggestions(query);
+                    } else {
+                        this.hideJobSuggestions();
+                    }
+                });
+                
+                jobInput.addEventListener('blur', () => {
+                    // Delay hiding to allow clicking on suggestions
+                    setTimeout(() => {
+                        this.hideJobSuggestions();
+                    }, 200);
+                });
+                
+                jobInput.addEventListener('focus', () => {
+                    const query = jobInput.value.trim();
+                    if (query.length >= 2) {
+                        this.showJobSuggestions(query);
+                    }
+                });
+                
+                // Handle Enter key and comma separation
+                jobInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ',') {
+                        e.preventDefault();
+                        const query = jobInput.value.replace(/,$/, '').trim();
+                        if (query) {
+                            this.addJobTitle(query);
+                            jobInput.value = '';
+                            this.hideJobSuggestions();
+                        }
+                    }
+                });
+            }
+
+            showJobSuggestions(query) {
+                const suggestionsContainer = document.getElementById('jobSuggestions');
+                const filteredSuggestions = this.jobSuggestions
+                    .filter(job => 
+                        job.toLowerCase().includes(query.toLowerCase()) && 
+                        !this.selectedJobs.has(job)
+                    )
+                    .slice(0, 6);
+                
+                if (filteredSuggestions.length > 0) {
+                    const suggestionsHTML = filteredSuggestions.map(job => `
+                        <button class="list-group-item list-group-item-action d-flex align-items-center" 
+                                onclick="whatJobPageInstance.addJobTitle('${job}')">
+                            <i class="fas fa-briefcase me-2 text-muted"></i>
+                            ${job}
+                        </button>
+                    `).join('');
+                    
+                    suggestionsContainer.innerHTML = `
+                        <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+                            ${suggestionsHTML}
+                        </div>
+                    `;
+                    suggestionsContainer.classList.remove('d-none');
+                } else {
+                    this.hideJobSuggestions();
+                }
+            }
+
+            hideJobSuggestions() {
+                const suggestionsContainer = document.getElementById('jobSuggestions');
+                suggestionsContainer.classList.add('d-none');
+            }
+
+            addJobTitle(jobTitle) {
+                if (jobTitle && !this.selectedJobs.has(jobTitle)) {
+                    this.selectedJobs.add(jobTitle);
+                    this.updateSelectedDisplay();
+                    this.storeJobPreference();
+                    this.trackJobSelection(jobTitle);
+                    
+                    // Clear input
+                    const jobInput = document.getElementById('jobTitleInput');
+                    jobInput.value = '';
+                    this.hideJobSuggestions();
+                }
+            }
+
+            removeJobTitle(jobTitle) {
+                this.selectedJobs.delete(jobTitle);
+                this.updateSelectedDisplay();
+                this.storeJobPreference();
+            }
+
+            setupPopularJobs() {
+                const popularBtns = document.querySelectorAll('.page-job__popular-btn');
+                
+                popularBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const jobTitle = btn.getAttribute('data-job');
+                        this.addJobTitle(jobTitle);
+                        
+                        // Add visual feedback
+                        btn.classList.add('btn-success');
+                        btn.classList.remove('btn-outline-secondary');
+                        setTimeout(() => {
+                            btn.classList.remove('btn-success');
+                            btn.classList.add('btn-outline-secondary');
+                        }, 1000);
+                    });
+                });
+            }
+
+            updateSelectedDisplay() {
+                const selectedDisplay = document.getElementById('selectedDisplay');
+                const selectedJobsList = document.getElementById('selectedJobsList');
+                
+                if (this.selectedJobs.size > 0) {
+                    const jobsHTML = Array.from(this.selectedJobs).map(job => `
+                        <span class="badge bg-primary px-3 py-2">
+                            ${job}
+                            <button class="btn-close btn-close-white ms-2" 
+                                    style="font-size: 10px;" 
+                                    onclick="whatJobPageInstance.removeJobTitle('${job}')"></button>
+                        </span>
+                    `).join('');
+                    
+                    selectedJobsList.innerHTML = jobsHTML;
+                    selectedDisplay.classList.remove('d-none');
+                } else {
+                    selectedDisplay.classList.add('d-none');
+                }
+            }
+
+            setupSkipButton() {
+                const skipBtn = document.getElementById('skipBtn');
+                
+                skipBtn.addEventListener('click', () => {
+                    this.skipJobSelection();
+                });
+            }
+
+            skipJobSelection() {
+                // Clear any selected jobs
+                this.selectedJobs.clear();
+                this.updateSelectedDisplay();
+                
+                // Track skip action
+                this.trackSkipAction();
+                
+                // Go to next step
+                this.goNext();
+            }
+
+            setupNavigation() {
+                const backBtn = document.getElementById('backBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                
+                backBtn.addEventListener('click', () => {
+                    this.goBack();
+                });
+                
+                nextBtn.addEventListener('click', () => {
+                    this.goNext();
+                });
+            }
+
+            goBack() {
+                // Add loading animation
+                const backBtn = document.getElementById('backBtn');
+                const originalText = backBtn.innerHTML;
+                backBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+                backBtn.disabled = true;
+                
+                // Navigate back to location preference page
+                setTimeout(() => {
+                    window.location.href = '/where-remote';
+                }, 300);
+            }
+
+            goNext() {
+                // Store job preference
+                this.storeJobPreference();
+                
+                // Add loading animation
+                const nextBtn = document.getElementById('nextBtn');
+                nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+                nextBtn.disabled = true;
+                
+                // Navigate to next step (job categories)
+                setTimeout(() => {
+                    window.location.href = '/job-category';
+                }, 500);
+            }
+
+            storeJobPreference() {
+                const preference = {
+                    jobTitles: Array.from(this.selectedJobs),
+                    timestamp: Date.now()
+                };
+                
+                localStorage.setItem('jobTitlePreference', JSON.stringify(preference));
+            }
+
+            restoreFromLocalStorage() {
+                const stored = localStorage.getItem('jobTitlePreference');
+                if (stored) {
+                    try {
+                        const preference = JSON.parse(stored);
+                        
+                        if (preference.jobTitles && Array.isArray(preference.jobTitles)) {
+                            preference.jobTitles.forEach(job => {
+                                this.selectedJobs.add(job);
+                            });
+                            
+                            this.updateSelectedDisplay();
+                        }
+                    } catch (e) {
+                        console.error('Error restoring job preference:', e);
+                    }
+                }
+            }
+
+            trackJobSelection(jobTitle) {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'job_title_selected', {
+                        job_title: jobTitle,
+                        total_selected: this.selectedJobs.size,
+                        page: 'what-job'
+                    });
+                }
+
+                console.log('Job title selected:', jobTitle);
+            }
+
+            trackSkipAction() {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'job_selection_skipped', {
+                        page: 'what-job'
+                    });
+                }
+
+                console.log('Job selection skipped');
+            }
+
+            // Public methods for external access
+            getJobPreference() {
+                return {
+                    jobTitles: Array.from(this.selectedJobs)
+                };
+            }
+
+            setJobPreference(jobTitles = []) {
+                this.selectedJobs = new Set(jobTitles);
+                this.updateSelectedDisplay();
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        let whatJobPageInstance;
+        document.addEventListener('DOMContentLoaded', () => {
+            whatJobPageInstance = new WhatJobPage();
+        });
+
+        // Export for external access
+        window.whatJobPageInstance = whatJobPageInstance;
+    </script>
+    
+    <!-- Page-specific CSS -->
+    <style>
+        /* Page-specific styles */
+        .page-what-job {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page-job__logo {
+            transition: all 0.3s ease;
+        }
+
+        .page-job__logo:hover {
+            transform: scale(1.05);
+        }
+
+        .page-job__title {
+            color: #2c3e50;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-job__input-container .form-control {
+            transition: all 0.3s ease;
+        }
+
+        .page-job__input-container .form-control:focus {
+            border-color: #0dcaf0;
+            box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .page-job__suggestions .list-group-item {
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .page-job__suggestions .list-group-item:hover {
+            background-color: rgba(13, 202, 240, 0.1);
+            transform: translateX(5px);
+        }
+
+        .page-job__selected-display {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-job__popular-btn {
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            border-width: 2px;
+        }
+
+        .page-job__popular-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #0dcaf0;
+            color: #0dcaf0;
+        }
+
+        .page-job__skip-btn {
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .page-job__skip-btn:hover {
+            color: #0891b2 !important;
+            transform: translateY(-2px);
+        }
+
+        .page-job__back-btn {
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+
+        .page-job__back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+        }
+
+        .page-job__next-btn {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-job__next-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .page-job__next-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .page-job__next-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+        }
+
+        .page-job__tip {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .page-job__tip:hover {
+            background: rgba(13, 202, 240, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .page-job__tip-icon {
+            transition: all 0.3s ease;
+        }
+
+        .page-job__tip:hover .page-job__tip-icon {
+            transform: scale(1.1);
+        }
+
+        /* Badge animations */
+        .badge {
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .page-job__main {
+                padding: 2rem 0 !important;
+            }
+            
+            .page-job__navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .page-job__navigation .btn {
+                width: 100%;
+            }
+            
+            .page-job__popular-grid {
+                justify-content: stretch !important;
+            }
+            
+            .page-job__popular-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-job__title {
+                font-size: 1.5rem !important;
+            }
+            
+            .page-job__input-container .form-control {
+                min-height: 50px !important;
+                font-size: 1rem !important;
+            }
+            
+            .page-job__popular-btn {
+                font-size: 0.875rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</body>
+</html>

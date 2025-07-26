@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Job Categories - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Select up to 5 job categories to find remote opportunities that match your interests and skills.">
+    <meta name="keywords" content="job categories, remote jobs, career fields, job search, remote work categories">
+    <meta property="og:title" content="Select Job Categories - FlexJobs">
+    <meta property="og:description" content="Choose your preferred job categories to get better matched remote job opportunities.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <!-- Wizard Components CSS -->
+    <link rel="stylesheet" href="css/components/wizard-header.css">
+    <link rel="stylesheet" href="css/components/wizard-footer.css">
+</head>
+<body class="page-job-category">
+    <!-- Wizard Header -->
+    <div id="wizard-header-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Progress Bar -->
+        <section class="page-category__progress py-2 bg-white border-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Category Selection Section -->
+        <section class="page-category__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-xl-8">
+                        <!-- Main Title -->
+                        <div class="text-center mb-5">
+                            <h1 class="page-category__title h2 fw-bold text-dark mb-3">
+                                Select up to 5 job categories.
+                            </h1>
+                        </div>
+                        
+                        <!-- Selection Counter -->
+                        <div class="page-category__counter text-center mb-4 d-none" id="selectionCounter">
+                            <div class="alert alert-info border-0 rounded-3">
+                                <span id="selectedCount">0</span> of 5 categories selected
+                            </div>
+                        </div>
+                        
+                        <!-- Category Grid -->
+                        <div class="page-category__grid mb-4">
+                            <!-- First Row -->
+                            <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Accounting & Finance">
+                                    Accounting & Finance
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Administrative">
+                                    Administrative
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Computer & IT">
+                                    Computer & IT
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Customer Service">
+                                    Customer Service
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Data Entry">
+                                    Data Entry
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Second Row -->
+                            <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Marketing">
+                                    Marketing
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Medical & Health">
+                                    Medical & Health
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary btn-primary text-white" data-category="Project Management">
+                                    Project Management
+                                    <i class="fas fa-check ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Transcription">
+                                    Transcription
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Writing">
+                                    Writing
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Categories (Hidden Initially) -->
+                        <div class="page-category__additional d-none" id="additionalCategories">
+                            <!-- Third Row -->
+                            <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Account Management">
+                                    Account Management
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Advertising & PR">
+                                    Advertising & PR
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary btn-primary text-white" data-category="Animals & Wildlife">
+                                    Animals & Wildlife
+                                    <i class="fas fa-check ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Art & Creative">
+                                    Art & Creative
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Bilingual">
+                                    Bilingual
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Fourth Row -->
+                            <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Business Development">
+                                    Business Development
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Call Center">
+                                    Call Center
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Communications">
+                                    Communications
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Consulting">
+                                    Consulting
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Editing">
+                                    Editing
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Fifth Row -->
+                            <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Education & Training">
+                                    Education & Training
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Engineering">
+                                    Engineering
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Entertainment & Media">
+                                    Entertainment & Media
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Environmental & Green">
+                                    Environmental & Green
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Sixth Row -->
+                            <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Event Planning">
+                                    Event Planning
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Fashion & Beauty">
+                                    Fashion & Beauty
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Food & Beverage">
+                                    Food & Beverage
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Government & Politics">
+                                    Government & Politics
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                                <button class="page-category__btn btn btn-outline-secondary" data-category="Graphic Design">
+                                    Graphic Design
+                                    <i class="fas fa-plus ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- See More Button -->
+                        <div class="text-center mb-5">
+                            <button class="page-category__see-more btn btn-link text-info text-decoration-none fw-medium" id="seeMoreBtn">
+                                <span id="seeMoreText">See More</span>
+                                <i class="fas fa-chevron-down ms-1" id="seeMoreIcon"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Skip Option -->
+                        <div class="page-category__skip-container text-center mb-5">
+                            <button class="page-category__skip-btn btn btn-link text-muted text-decoration-none" id="skipBtn">
+                                <i class="fas fa-forward me-2"></i>
+                                Skip, I want to see all categories
+                            </button>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <div class="page-category__navigation d-flex justify-content-between align-items-center">
+                            <!-- Back Button -->
+                            <button class="page-category__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Back
+                            </button>
+                            
+                            <!-- Next Button -->
+                            <button class="page-category__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
+                                    id="nextBtn"
+                                    style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
+                                Next
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Benefits Section -->
+        <section class="page-category__benefits py-5 bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="h4 fw-bold text-dark mb-4">
+                            Why Select Categories?
+                        </h2>
+                        <p class="text-muted mb-5">
+                            Categories help us understand your interests and deliver more relevant job recommendations.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    <!-- Benefit 1 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="page-category__benefit text-center p-4">
+                            <div class="page-category__benefit-icon mb-3">
+                                <i class="fas fa-filter fa-2x text-primary"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Better Filtering</h4>
+                            <p class="small text-muted mb-0">
+                                Get jobs filtered to match your specific field of interest
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 2 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="page-category__benefit text-center p-4">
+                            <div class="page-category__benefit-icon mb-3">
+                                <i class="fas fa-bullseye fa-2x text-success"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Targeted Results</h4>
+                            <p class="small text-muted mb-0">
+                                See opportunities that align with your career goals and expertise
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Benefit 3 -->
+                    <div class="col-lg-4 col-md-6 mx-auto">
+                        <div class="page-category__benefit text-center p-4">
+                            <div class="page-category__benefit-icon mb-3">
+                                <i class="fas fa-bell fa-2x text-info"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Smart Alerts</h4>
+                            <p class="small text-muted mb-0">
+                                Receive notifications when new jobs in your categories are posted
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Component JS -->
+    <script src="js/components/component-loader.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/footer.js"></script>
+    <!-- Wizard Components JS -->
+    <script src="js/components/wizard-header.js"></script>
+    <script src="js/components/wizard-footer.js"></script>
+    
+    <!-- Page-specific JavaScript -->
+    <script>
+        // Initialize wizard header and footer
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize wizard header with back button
+            window.wizardHeader = new WizardHeader({
+                isFirstPage: false,
+                backUrl: '/what-job'
+            });
+            
+            // Initialize wizard footer
+            window.wizardFooter = new WizardFooter();
+        });
+
+        // Load header and footer components
+        loadComponents();
+        
+        // Set active navigation when components are loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.headerInstance) {
+                window.headerInstance.setActiveNav('remote-jobs');
+            }
+        });
+
+        // Page-specific functionality
+        class JobCategoryPage {
+            constructor() {
+                this.selectedCategories = new Set();
+                this.maxSelections = 5;
+                this.isExpanded = false;
+                
+                this.init();
+            }
+
+            init() {
+                this.setupCategoryButtons();
+                this.setupSeeMoreButton();
+                this.setupSkipButton();
+                this.setupNavigation();
+                this.restoreFromLocalStorage();
+                
+                // Pre-select some categories as shown in the image
+                this.preSelectCategories();
+            }
+
+            preSelectCategories() {
+                // Pre-select "Project Management" and "Animals & Wildlife" as shown in the image
+                this.selectCategory('Project Management');
+                this.selectCategory('Animals & Wildlife');
+            }
+
+            setupCategoryButtons() {
+                const categoryBtns = document.querySelectorAll('.page-category__btn');
+                
+                categoryBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const category = btn.getAttribute('data-category');
+                        this.toggleCategory(category, btn);
+                    });
+                });
+            }
+
+            toggleCategory(category, btn) {
+                if (this.selectedCategories.has(category)) {
+                    this.deselectCategory(category, btn);
+                } else {
+                    this.selectCategory(category, btn);
+                }
+                
+                this.updateSelectionCounter();
+                this.storeSelection();
+            }
+
+            selectCategory(category, btn = null) {
+                if (this.selectedCategories.size >= this.maxSelections) {
+                    this.showMaxSelectionAlert();
+                    return;
+                }
+                
+                this.selectedCategories.add(category);
+                
+                // Find button if not provided
+                if (!btn) {
+                    btn = document.querySelector(`[data-category="${category}"]`);
+                }
+                
+                if (btn) {
+                    // Update button appearance
+                    btn.classList.remove('btn-outline-secondary');
+                    btn.classList.add('btn-primary', 'text-white');
+                    
+                    // Update icon
+                    const icon = btn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-plus');
+                        icon.classList.add('fa-check');
+                    }
+                    
+                    // Add animation
+                    btn.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        btn.style.transform = 'scale(1)';
+                    }, 150);
+                }
+                
+                this.trackCategorySelection(category, true);
+            }
+
+            deselectCategory(category, btn = null) {
+                this.selectedCategories.delete(category);
+                
+                // Find button if not provided
+                if (!btn) {
+                    btn = document.querySelector(`[data-category="${category}"]`);
+                }
+                
+                if (btn) {
+                    // Update button appearance
+                    btn.classList.remove('btn-primary', 'text-white');
+                    btn.classList.add('btn-outline-secondary');
+                    
+                    // Update icon
+                    const icon = btn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-check');
+                        icon.classList.add('fa-plus');
+                    }
+                }
+                
+                this.trackCategorySelection(category, false);
+            }
+
+            setupSeeMoreButton() {
+                const seeMoreBtn = document.getElementById('seeMoreBtn');
+                const additionalCategories = document.getElementById('additionalCategories');
+                const seeMoreText = document.getElementById('seeMoreText');
+                const seeMoreIcon = document.getElementById('seeMoreIcon');
+                
+                seeMoreBtn.addEventListener('click', () => {
+                    this.isExpanded = !this.isExpanded;
+                    
+                    if (this.isExpanded) {
+                        // Show additional categories
+                        additionalCategories.classList.remove('d-none');
+                        additionalCategories.style.opacity = '0';
+                        additionalCategories.style.transform = 'translateY(-20px)';
+                        
+                        // Animate in
+                        setTimeout(() => {
+                            additionalCategories.style.transition = 'all 0.3s ease';
+                            additionalCategories.style.opacity = '1';
+                            additionalCategories.style.transform = 'translateY(0)';
+                        }, 10);
+                        
+                        // Update button text
+                        seeMoreText.textContent = 'See Less';
+                        seeMoreIcon.classList.remove('fa-chevron-down');
+                        seeMoreIcon.classList.add('fa-chevron-up');
+                        
+                        // Setup new category buttons
+                        this.setupAdditionalCategoryButtons();
+                    } else {
+                        // Hide additional categories
+                        additionalCategories.style.transition = 'all 0.3s ease';
+                        additionalCategories.style.opacity = '0';
+                        additionalCategories.style.transform = 'translateY(-20px)';
+                        
+                        setTimeout(() => {
+                            additionalCategories.classList.add('d-none');
+                        }, 300);
+                        
+                        // Update button text
+                        seeMoreText.textContent = 'See More';
+                        seeMoreIcon.classList.remove('fa-chevron-up');
+                        seeMoreIcon.classList.add('fa-chevron-down');
+                    }
+                    
+                    this.trackSeeMoreAction();
+                });
+            }
+
+            setupAdditionalCategoryButtons() {
+                const additionalBtns = document.querySelectorAll('#additionalCategories .page-category__btn');
+                
+                additionalBtns.forEach(btn => {
+                    // Remove existing listeners to avoid duplicates
+                    btn.replaceWith(btn.cloneNode(true));
+                });
+                
+                // Re-select the new buttons and add listeners
+                const newBtns = document.querySelectorAll('#additionalCategories .page-category__btn');
+                newBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const category = btn.getAttribute('data-category');
+                        this.toggleCategory(category, btn);
+                    });
+                });
+            }
+
+            updateSelectionCounter() {
+                const counter = document.getElementById('selectionCounter');
+                const selectedCount = document.getElementById('selectedCount');
+                
+                selectedCount.textContent = this.selectedCategories.size;
+                
+                if (this.selectedCategories.size > 0) {
+                    counter.classList.remove('d-none');
+                } else {
+                    counter.classList.add('d-none');
+                }
+                
+                // Update alert color based on selection count
+                const alert = counter.querySelector('.alert');
+                if (this.selectedCategories.size >= this.maxSelections) {
+                    alert.classList.remove('alert-info');
+                    alert.classList.add('alert-warning');
+                } else {
+                    alert.classList.remove('alert-warning');
+                    alert.classList.add('alert-info');
+                }
+            }
+
+            showMaxSelectionAlert() {
+                // Create temporary alert
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-warning alert-dismissible fade show position-fixed';
+                alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                alertDiv.innerHTML = `
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    You can only select up to ${this.maxSelections} categories.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(alertDiv);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            }
+
+            setupSkipButton() {
+                const skipBtn = document.getElementById('skipBtn');
+                
+                skipBtn.addEventListener('click', () => {
+                    this.skipCategorySelection();
+                });
+            }
+
+            skipCategorySelection() {
+                // Clear selections
+                this.selectedCategories.clear();
+                this.updateSelectionCounter();
+                
+                // Update all buttons to deselected state
+                const allBtns = document.querySelectorAll('.page-category__btn');
+                allBtns.forEach(btn => {
+                    btn.classList.remove('btn-primary', 'text-white');
+                    btn.classList.add('btn-outline-secondary');
+                    
+                    const icon = btn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-check');
+                        icon.classList.add('fa-plus');
+                    }
+                });
+                
+                this.trackSkipAction();
+                this.goNext();
+            }
+
+            setupNavigation() {
+                const backBtn = document.getElementById('backBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                
+                backBtn.addEventListener('click', () => {
+                    this.goBack();
+                });
+                
+                nextBtn.addEventListener('click', () => {
+                    this.goNext();
+                });
+            }
+
+            goBack() {
+                // Add loading animation
+                const backBtn = document.getElementById('backBtn');
+                const originalText = backBtn.innerHTML;
+                backBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+                backBtn.disabled = true;
+                
+                // Navigate back to job title page
+                setTimeout(() => {
+                    window.location.href = '/what-job';
+                }, 300);
+            }
+
+            goNext() {
+                // Store category preferences
+                this.storeSelection();
+                
+                // Add loading animation
+                const nextBtn = document.getElementById('nextBtn');
+                nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+                nextBtn.disabled = true;
+                
+                // Navigate to next step (relevant experience)
+                setTimeout(() => {
+                    window.location.href = '/relevant-experience';
+                }, 500);
+            }
+
+            storeSelection() {
+                const preference = {
+                    categories: Array.from(this.selectedCategories),
+                    timestamp: Date.now()
+                };
+                
+                localStorage.setItem('categoryPreference', JSON.stringify(preference));
+            }
+
+            restoreFromLocalStorage() {
+                const stored = localStorage.getItem('categoryPreference');
+                if (stored) {
+                    try {
+                        const preference = JSON.parse(stored);
+                        
+                        if (preference.categories && Array.isArray(preference.categories)) {
+                            preference.categories.forEach(category => {
+                                this.selectedCategories.add(category);
+                                const btn = document.querySelector(`[data-category="${category}"]`);
+                                if (btn) {
+                                    this.selectCategory(category, btn);
+                                }
+                            });
+                            
+                            this.updateSelectionCounter();
+                        }
+                    } catch (e) {
+                        console.error('Error restoring category preference:', e);
+                    }
+                }
+            }
+
+            trackCategorySelection(category, isSelected) {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'category_selected', {
+                        category: category,
+                        selected: isSelected,
+                        total_selected: this.selectedCategories.size,
+                        page: 'job-category'
+                    });
+                }
+
+                console.log('Category selection:', { category, isSelected, total: this.selectedCategories.size });
+            }
+
+            trackSeeMoreAction() {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'see_more_clicked', {
+                        expanded: this.isExpanded,
+                        page: 'job-category'
+                    });
+                }
+
+                console.log('See more clicked:', this.isExpanded);
+            }
+
+            trackSkipAction() {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'categories_skipped', {
+                        page: 'job-category'
+                    });
+                }
+
+                console.log('Category selection skipped');
+            }
+
+            // Public methods for external access
+            getCategoryPreference() {
+                return {
+                    categories: Array.from(this.selectedCategories)
+                };
+            }
+
+            setCategoryPreference(categories = []) {
+                this.selectedCategories = new Set(categories);
+                this.updateSelectionCounter();
+                
+                // Update UI
+                const allBtns = document.querySelectorAll('.page-category__btn');
+                allBtns.forEach(btn => {
+                    const category = btn.getAttribute('data-category');
+                    if (this.selectedCategories.has(category)) {
+                        this.selectCategory(category, btn);
+                    }
+                });
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        let jobCategoryPageInstance;
+        document.addEventListener('DOMContentLoaded', () => {
+            jobCategoryPageInstance = new JobCategoryPage();
+        });
+
+        // Export for external access
+        window.jobCategoryPageInstance = jobCategoryPageInstance;
+    </script>
+    
+    <!-- Page-specific CSS -->
+    <style>
+        /* Page-specific styles */
+        .page-job-category {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page-category__logo {
+            transition: all 0.3s ease;
+        }
+
+        .page-category__logo:hover {
+            transform: scale(1.05);
+        }
+
+        .page-category__title {
+            color: #2c3e50;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-category__btn {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 25px;
+            border-width: 2px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-category__btn:hover:not(.btn-primary) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #0dcaf0;
+            color: #0dcaf0;
+        }
+
+        .page-category__btn.btn-primary {
+            background: linear-gradient(135deg, #0dcaf0 0%, #0891b2 100%);
+            border-color: #0dcaf0;
+            box-shadow: 0 4px 12px rgba(13, 202, 240, 0.3);
+        }
+
+        .page-category__btn.btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13, 202, 240, 0.4);
+        }
+
+        .page-category__btn i {
+            transition: all 0.3s ease;
+        }
+
+        .page-category__additional {
+            transition: all 0.3s ease;
+        }
+
+        .page-category__see-more {
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .page-category__see-more:hover {
+            background-color: rgba(13, 202, 240, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .page-category__see-more i {
+            transition: all 0.3s ease;
+        }
+
+        .page-category__skip-btn {
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .page-category__skip-btn:hover {
+            color: #6c757d !important;
+            transform: translateY(-2px);
+        }
+
+        .page-category__back-btn {
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+
+        .page-category__back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+        }
+
+        .page-category__next-btn {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-category__next-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .page-category__next-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .page-category__next-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+        }
+
+        .page-category__benefit {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .page-category__benefit:hover {
+            background: rgba(13, 202, 240, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .page-category__benefit-icon {
+            transition: all 0.3s ease;
+        }
+
+        .page-category__benefit:hover .page-category__benefit-icon {
+            transform: scale(1.1);
+        }
+
+        .page-category__counter {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .page-category__main {
+                padding: 2rem 0 !important;
+            }
+            
+            .page-category__navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .page-category__navigation .btn {
+                width: 100%;
+            }
+            
+            .page-category__row {
+                justify-content: stretch !important;
+            }
+            
+            .page-category__btn {
+                flex: 1;
+                min-width: 140px;
+                font-size: 0.9rem;
+                padding: 0.6rem 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-category__title {
+                font-size: 1.5rem !important;
+            }
+            
+            .page-category__btn {
+                min-width: 120px;
+                font-size: 0.85rem;
+                padding: 0.5rem 0.8rem;
+            }
+            
+            .page-category__row {
+                gap: 0.5rem !important;
+            }
+        }
+    </style>
+</body>
+</html>
+

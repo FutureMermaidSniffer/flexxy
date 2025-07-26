@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexJobs - Device-Specific UI/UX Examples</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Mobile Navigation (Bottom Tab Bar) -->
+    <div class="mobile-nav d-flex justify-content-around">
+        <a href="#" class="mobile-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <i class="fas fa-search"></i>
+            <span>Search</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <i class="fas fa-bookmark"></i>
+            <span>Saved</span>
+        </a>
+        <a href="#" class="mobile-nav-item">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </div>
+
+    <!-- PC Navigation (Top Horizontal) -->
+    <nav class="pc-nav">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="images/FlexJobs_logo-1.png" alt="FlexJobs" height="40">
+                    <div class="d-flex align-items-center ms-4">
+                        <a href="#" class="pc-nav-item active">Home</a>
+                        <a href="#" class="pc-nav-item">Jobs</a>
+                        <a href="#" class="pc-nav-item">Companies</a>
+                        <a href="#" class="pc-nav-item">Resources</a>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="#" class="pc-nav-item">For Employers</a>
+                    <button class="btn btn-outline-primary">Log In</button>
+                    <button class="btn btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-4">
+        <!-- Hero Section with Device-Specific Content -->
+        <section class="hero-section text-white py-5 mb-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <!-- Mobile Hero -->
+                        <div class="mobile-only mobile-text-center">
+                            <h1 class="hero-text mb-3">Find Your Perfect Remote Job</h1>
+                            <p class="lead mb-4">Join thousands who found flexible work opportunities</p>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-warning btn-lg mobile-touch-friendly">Get Started</button>
+                                <button class="btn btn-outline-light mobile-touch-friendly">Browse Jobs</button>
+                            </div>
+                        </div>
+
+                        <!-- PC Hero -->
+                        <div class="desktop-only">
+                            <h1 class="display-4 fw-bold mb-4">Discover Premium Remote Opportunities</h1>
+                            <p class="lead mb-4">Access exclusive remote positions from top companies worldwide. Join our professional network of remote workers.</p>
+                            <div class="d-flex gap-3">
+                                <button class="btn btn-warning btn-lg pc-hover-effects px-4">Start Your Journey</button>
+                                <button class="btn btn-outline-light btn-lg pc-hover-effects px-4">Explore Careers</button>
+                            </div>
+                            <div class="mt-4">
+                                <small class="text-light opacity-75">✓ Verified companies ✓ Premium support ✓ Career coaching</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mobile-only">
+                        <img src="images/hero-image.png" alt="Remote Work" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <!-- Mobile Search -->
+        <div class="mobile-search mobile-only">
+            <div class="mobile-search-input">
+                <input type="text" placeholder="Search jobs, companies, keywords...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <div class="mobile-search-filters">
+                <a href="#" class="mobile-filter-chip active">All</a>
+                <a href="#" class="mobile-filter-chip">Remote</a>
+                <a href="#" class="mobile-filter-chip">Part-time</a>
+                <a href="#" class="mobile-filter-chip">Full-time</a>
+                <a href="#" class="mobile-filter-chip">Contract</a>
+            </div>
+        </div>
+
+        <!-- PC Search -->
+        <div class="pc-search desktop-only">
+            <h3 class="mb-3">Find Your Perfect Match</h3>
+            <div class="pc-search-form">
+                <div class="pc-search-input">
+                    <label class="form-label">Job Title or Keywords</label>
+                    <input type="text" placeholder="e.g. Software Engineer, Marketing Manager">
+                </div>
+                <div class="pc-search-input">
+                    <label class="form-label">Location</label>
+                    <input type="text" placeholder="e.g. Remote, New York, London">
+                </div>
+                <div class="pc-search-input">
+                    <label class="form-label">Job Type</label>
+                    <select>
+                        <option>All Types</option>
+                        <option>Full-time</option>
+                        <option>Part-time</option>
+                        <option>Contract</option>
+                    </select>
+                </div>
+                <button class="pc-search-btn">
+                    <i class="fas fa-search me-2"></i>Search
+                </button>
+            </div>
+            <div class="pc-search-filters">
+                <a href="#" class="pc-filter-chip active">All Jobs</a>
+                <a href="#" class="pc-filter-chip">Remote Only</a>
+                <a href="#" class="pc-filter-chip">Entry Level</a>
+                <a href="#" class="pc-filter-chip">Senior Level</a>
+                <a href="#" class="pc-filter-chip">Tech</a>
+                <a href="#" class="pc-filter-chip">Marketing</a>
+                <a href="#" class="pc-filter-chip">Design</a>
+            </div>
+        </div>
+
+        <!-- Job Listings -->
+        <section class="my-5">
+            <h2 class="mb-4">Featured Opportunities</h2>
+
+            <!-- Mobile Job List -->
+            <div class="mobile-job-list mobile-only">
+                <div class="mobile-job-item featured">
+                    <div class="mobile-job-header">
+                        <div class="mobile-job-logo">
+                            <i class="fab fa-google text-primary"></i>
+                        </div>
+                        <div class="mobile-job-info">
+                            <h3 class="mobile-job-title">Senior UX Designer</h3>
+                            <p class="mobile-job-company">Google • Remote</p>
+                        </div>
+                        <i class="fas fa-bookmark text-muted"></i>
+                    </div>
+                    <div class="mobile-job-meta">
+                        <span class="mobile-job-badge">Full-time</span>
+                        <span class="mobile-job-badge">$120k - $150k</span>
+                        <span class="mobile-job-badge">Remote</span>
+                    </div>
+                </div>
+
+                <div class="mobile-job-item">
+                    <div class="mobile-job-header">
+                        <div class="mobile-job-logo">
+                            <i class="fab fa-microsoft text-info"></i>
+                        </div>
+                        <div class="mobile-job-info">
+                            <h3 class="mobile-job-title">Product Manager</h3>
+                            <p class="mobile-job-company">Microsoft • Remote</p>
+                        </div>
+                        <i class="far fa-bookmark text-muted"></i>
+                    </div>
+                    <div class="mobile-job-meta">
+                        <span class="mobile-job-badge">Full-time</span>
+                        <span class="mobile-job-badge">$110k - $140k</span>
+                        <span class="mobile-job-badge">Remote</span>
+                    </div>
+                </div>
+
+                <div class="mobile-job-item">
+                    <div class="mobile-job-header">
+                        <div class="mobile-job-logo">
+                            <i class="fab fa-slack text-warning"></i>
+                        </div>
+                        <div class="mobile-job-info">
+                            <h3 class="mobile-job-title">Frontend Developer</h3>
+                            <p class="mobile-job-company">Slack • Remote</p>
+                        </div>
+                        <i class="far fa-bookmark text-muted"></i>
+                    </div>
+                    <div class="mobile-job-meta">
+                        <span class="mobile-job-badge">Full-time</span>
+                        <span class="mobile-job-badge">$90k - $120k</span>
+                        <span class="mobile-job-badge">Remote</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PC Job List -->
+            <div class="pc-job-list desktop-only">
+                <div class="pc-job-item featured">
+                    <div class="pc-job-header">
+                        <div class="pc-job-logo">
+                            <i class="fab fa-google text-primary fs-2"></i>
+                        </div>
+                        <div class="pc-job-info">
+                            <h3 class="pc-job-title">Senior UX Designer</h3>
+                            <p class="pc-job-company">Google • Mountain View, CA (Remote Available)</p>
+                            <p class="pc-job-description">Lead design initiatives for next-generation products. Work with cross-functional teams to create intuitive user experiences that impact millions of users worldwide.</p>
+                        </div>
+                        <div class="pc-job-actions">
+                            <button class="pc-job-btn primary">Apply Now</button>
+                            <button class="pc-job-btn secondary"><i class="far fa-bookmark me-1"></i>Save</button>
+                        </div>
+                    </div>
+                    <div class="pc-job-meta">
+                        <div class="pc-job-badges">
+                            <span class="pc-job-badge salary">$120,000 - $150,000</span>
+                            <span class="pc-job-badge remote">Remote Friendly</span>
+                            <span class="pc-job-badge">Full-time</span>
+                            <span class="pc-job-badge">Senior Level</span>
+                        </div>
+                        <small class="text-muted">Posted 2 days ago • 47 applicants</small>
+                    </div>
+                </div>
+
+                <div class="pc-job-item">
+                    <div class="pc-job-header">
+                        <div class="pc-job-logo">
+                            <i class="fab fa-microsoft text-info fs-2"></i>
+                        </div>
+                        <div class="pc-job-info">
+                            <h3 class="pc-job-title">Product Manager - Cloud Services</h3>
+                            <p class="pc-job-company">Microsoft • Seattle, WA (Remote Available)</p>
+                            <p class="pc-job-description">Drive product strategy and roadmap for Azure cloud services. Collaborate with engineering teams and stakeholders to deliver innovative solutions for enterprise customers.</p>
+                        </div>
+                        <div class="pc-job-actions">
+                            <button class="pc-job-btn primary">Apply Now</button>
+                            <button class="pc-job-btn secondary"><i class="far fa-bookmark me-1"></i>Save</button>
+                        </div>
+                    </div>
+                    <div class="pc-job-meta">
+                        <div class="pc-job-badges">
+                            <span class="pc-job-badge salary">$110,000 - $140,000</span>
+                            <span class="pc-job-badge remote">Remote Friendly</span>
+                            <span class="pc-job-badge">Full-time</span>
+                            <span class="pc-job-badge">Mid Level</span>
+                        </div>
+                        <small class="text-muted">Posted 1 week ago • 23 applicants</small>
+                    </div>
+                </div>
+
+                <div class="pc-job-item">
+                    <div class="pc-job-header">
+                        <div class="pc-job-logo">
+                            <i class="fab fa-slack text-warning fs-2"></i>
+                        </div>
+                        <div class="pc-job-info">
+                            <h3 class="pc-job-title">Frontend Developer - React</h3>
+                            <p class="pc-job-company">Slack • San Francisco, CA (Fully Remote)</p>
+                            <p class="pc-job-description">Build and maintain user-facing features using React, TypeScript, and modern web technologies. Join a team focused on creating seamless communication experiences.</p>
+                        </div>
+                        <div class="pc-job-actions">
+                            <button class="pc-job-btn primary">Apply Now</button>
+                            <button class="pc-job-btn secondary"><i class="far fa-bookmark me-1"></i>Save</button>
+                        </div>
+                    </div>
+                    <div class="pc-job-meta">
+                        <div class="pc-job-badges">
+                            <span class="pc-job-badge salary">$90,000 - $120,000</span>
+                            <span class="pc-job-badge remote">Fully Remote</span>
+                            <span class="pc-job-badge">Full-time</span>
+                            <span class="pc-job-badge">Mid Level</span>
+                        </div>
+                        <small class="text-muted">Posted 3 days ago • 12 applicants</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Example -->
+        <section class="my-5">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="text-center mb-4">Get Job Alerts</h2>
+                    
+                    <!-- Mobile Form -->
+                    <div class="mobile-form mobile-only">
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Your email address">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control">
+                                <option>Select job category</option>
+                                <option>Technology</option>
+                                <option>Marketing</option>
+                                <option>Design</option>
+                                <option>Sales</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary">Get Alerts</button>
+                    </div>
+
+                    <!-- PC Form -->
+                    <div class="pc-form desktop-only">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" placeholder="Enter your email">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Job Category</label>
+                                    <select class="form-control">
+                                        <option>Select category</option>
+                                        <option>Technology</option>
+                                        <option>Marketing</option>
+                                        <option>Design</option>
+                                        <option>Sales</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Keywords (Optional)</label>
+                            <input type="text" class="form-control" placeholder="e.g. React, Senior, Remote">
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-primary">Subscribe to Job Alerts</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Example JavaScript for device-specific interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile-specific touch interactions
+            if (window.innerWidth < 992) {
+                // Add touch feedback for mobile job items
+                const mobileJobItems = document.querySelectorAll('.mobile-job-item');
+                mobileJobItems.forEach(item => {
+                    item.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.98)';
+                    });
+                    
+                    item.addEventListener('touchend', function() {
+                        this.style.transform = 'scale(1)';
+                    });
+                });
+                
+                // Mobile swipe gestures could be added here
+                console.log('Mobile-specific interactions loaded');
+            } else {
+                // PC-specific interactions
+                const pcJobItems = document.querySelectorAll('.pc-job-item');
+                pcJobItems.forEach(item => {
+                    item.addEventListener('mouseenter', function() {
+                        // Enhanced hover effects could be added here
+                        console.log('PC hover effects active');
+                    });
+                });
+                
+                // Keyboard navigation for PC
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === '/' && !e.target.matches('input, textarea')) {
+                        e.preventDefault();
+                        // Focus search input
+                        const searchInput = document.querySelector('.pc-search input');
+                        if (searchInput) searchInput.focus();
+                    }
+                });
+                
+                console.log('PC-specific interactions loaded');
+            }
+        });
+    </script>
+</body>
+</html>

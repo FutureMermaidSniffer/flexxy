@@ -1,0 +1,138 @@
+/* Wizard Header Component Styles */
+.wizard-header {
+    background-color: white; /* Dark blue matching the logo */
+    padding: 0;
+    margin: 0;
+    min-height: 60px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.wizard-header__container {
+    padding: 0;
+    margin: 0;
+    max-width: 100%;
+}
+
+.wizard-header__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 10px;
+}
+
+.wizard-header__logo-container {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.wizard-header__logo {
+    height: 50px;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.wizard-header__back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wizard-header__back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.wizard-header__back-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.wizard-header__back-btn i {
+    font-size: 12px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .wizard-header__content {
+        background-color: #004f6d;
+        justify-content: center;
+        position: relative;
+        padding: 0 15px;
+    }
+    
+    .wizard-header__logo-container {
+        
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .wizard-header__logo {
+        height: 30px;
+    }
+    
+    /* Mobile logo - use different image */
+    .wizard-header__logo--mobile {
+        height: 60px;
+        content: url("../images/images.png");
+    }
+    
+    .wizard-header__back-btn {
+        position: absolute;
+        left: 15px;
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+    
+    .wizard-header__back-btn i {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wizard-header__content {
+        height: 55px;
+        padding: 0 10px;
+    }
+    
+    .wizard-header__logo {
+        height: 50px;
+    }
+    
+    .wizard-header__back-btn {
+        left: 10px;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}
+
+/* Hide back button for first page */
+.wizard-header--first-page .wizard-header__back-btn {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .wizard-header--first-page .wizard-header__logo-container {
+        position: static;
+        transform: none;
+    }
+}

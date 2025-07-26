@@ -1,0 +1,164 @@
+/* Wizard Footer Component Styles */
+.wizard-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 20px 0;
+    margin-top: auto;
+}
+
+.wizard-footer__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.wizard-footer__content {
+    text-align: center;
+}
+
+.wizard-footer__text {
+    color: #6c757d;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.wizard-footer__link {
+    color: #1e3a8a;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.wizard-footer__link:hover {
+    color: #1e40af;
+    text-decoration: underline;
+}
+
+.wizard-footer__divider {
+    margin: 0 8px;
+    color: #dee2e6;
+}
+
+/* Mobile Sticky Footer */
+.wizard-mobile-footer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    background: white;
+    border-top: 1px solid #e9ecef;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.wizard-mobile-footer__progress {
+    padding: 1rem 1rem 0.5rem;
+    background: white;
+}
+
+.wizard-mobile-footer__progress-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.wizard-mobile-footer__progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.wizard-mobile-footer__progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b35, #e55a2b);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.wizard-mobile-footer__button {
+    background: #ff6b35;
+    border: none;
+    color: white;
+    padding: 1.25rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    border-radius: 0;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.wizard-mobile-footer__button.enabled {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.wizard-mobile-footer__button.enabled:hover {
+    background: #e55a2b;
+}
+
+.wizard-mobile-footer__button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .wizard-mobile-footer {
+        display: block;
+    }
+    
+    /* Hide existing mobile progress modal and next button when wizard footer is present */
+    .progress-modal {
+        display: none !important;
+    }
+    
+    .next-button {
+        display: none !important;
+    }
+    
+    .page-why-remote__next-btn {
+        display: none !important;
+    }
+    
+    /* Add bottom padding to pages to account for sticky footer */
+    .page-why-remote .why-remote-container,
+    .page-job-category .container,
+    .page-what-job .container,
+    .page-salary-preference .container,
+    .page-education-level .container,
+    .page-relevant-experience .container,
+    .page-upload-resume .container,
+    .page-where-remote .container {
+        padding-bottom: 140px;
+    }
+}
+
+/* Desktop Footer Responsive Styles */
+@media (max-width: 768px) {
+    .wizard-footer {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .wizard-mobile-footer__progress {
+        padding: 0.75rem 1rem 0.5rem;
+    }
+    
+    .wizard-mobile-footer__progress-text {
+        font-size: 0.8rem;
+    }
+    
+    .wizard-mobile-footer__button {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,472 @@
+/* Salary Preference Page Styles */
+.page-salary-preference {
+    background: white;
+    min-height: 100vh;
+    font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.salary-preference-container {
+    padding-top: 2rem;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+}
+
+.salary-preference-container h4 {
+    font-size: 1.5rem;
+    padding-bottom: 2rem;
+    padding-top: 0;
+    margin-top: 0;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Salary Display Card */
+.salary-display-card {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.salary-amount-display {
+    position: relative;
+}
+
+.salary-amount-box {
+    background: #004f6d;
+    color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    position: relative;
+}
+
+.salary-amount-box::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #004f6d;
+}
+
+/* Salary Type Toggle */
+.salary-type-toggle {
+    margin-bottom: 2rem;
+}
+
+.salary-type-toggle .btn-group .btn {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-color: #004f6d;
+    color: #004f6d;
+}
+
+.salary-type-toggle .btn-check:checked + .btn {
+    background-color: #004f6d;
+    border-color: #004f6d;
+    color: white;
+}
+
+.salary-type-toggle .btn:hover {
+    background-color: #004f6d;
+    border-color: #004f6d;
+    color: white;
+}
+
+/* Salary Slider */
+.salary-slider-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.salary-slider-wrapper {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.salary-slider-track {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.salary-slider-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #004f6d, #004f6d);
+    border-radius: 50px;
+    transition: width 0.3s ease;
+    width: 32.5%; /* Default 65k out of 200k */
+}
+
+.salary-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: transparent;
+    outline: none;
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.salary-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #004f6d;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);
+    transition: all 0.3s ease;
+}
+
+.salary-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.6);
+}
+
+.salary-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: #004f6d;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);
+    transition: all 0.3s ease;
+}
+
+.salary-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.6);
+}
+
+.salary-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.slider-center-label {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Skip Link */
+.skip-link {
+    color: #004f6d;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.skip-link:hover {
+    color: #e55a2b;
+    text-decoration: underline;
+}
+
+/* Success Message */
+.success-message {
+    background: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    margin: 2rem auto;
+    max-width: 400px;
+    text-align: center;
+    color: #0066cc;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.success-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.success-message i {
+    margin-right: 0.5rem;
+    color: #28a745;
+}
+
+/* Next Button */
+.next-button {
+    background: #ff6b35;
+    border: none;
+    color: white;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.next-button:hover {
+    background: #e55a2b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .salary-preference-container {
+        padding: 2rem 0 140px 0; /* Bottom padding for wizard footer */
+    }
+
+    .salary-preference-container h4 {
+        font-size: 1.3rem;
+        padding: 0 1rem 2rem;
+    }
+
+    .salary-display-card {
+        margin: 0 1rem;
+    }
+
+    .salary-amount-box {
+        font-size: 1.3rem;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .salary-slider-container {
+        padding: 0 1rem;
+    }
+
+    .salary-slider-wrapper {
+        padding: 1.5rem 0;
+    }
+
+    .salary-type-toggle .btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Hide desktop next button */
+    .next-button {
+        display: none !important;
+    }
+
+    .success-message {
+        margin: 1.5rem 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+/* Loading Animation */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Accessibility */
+.salary-slider:focus {
+    outline: none;
+}
+
+.salary-slider:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+}
+
+.salary-slider:focus::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
+}
+
+.page-salary__slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 6px 20px rgba(13, 202, 240, 0.6);
+}
+
+.page-salary__slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: #0dcaf0;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(13, 202, 240, 0.4);
+    transition: all 0.3s ease;
+    border: 3px solid white;
+}
+
+.page-salary__slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 6px 20px rgba(13, 202, 240, 0.6);
+}
+
+.page-salary__toggle-group .btn {
+    transition: all 0.3s ease;
+    border-width: 2px;
+}
+
+.page-salary__toggle-group .btn-check:checked + .btn {
+    background: #0dcaf0;
+    border-color: #0dcaf0;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 202, 240, 0.3);
+}
+
+.page-salary__skip-link {
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.page-salary__skip-link:hover {
+    color: #0891b2 !important;
+    text-decoration: underline !important;
+}
+
+.page-salary__back-btn {
+    transition: all 0.3s ease;
+    border-width: 2px;
+}
+
+.page-salary__back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.page-salary__next-btn {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-salary__next-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.page-salary__next-btn:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+.page-salary__next-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+}
+
+.page-salary__insight {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+.page-salary__insight:hover {
+    background: rgba(13, 202, 240, 0.05);
+    transform: translateY(-5px);
+}
+
+.page-salary__insight-icon {
+    transition: all 0.3s ease;
+}
+
+.page-salary__insight:hover .page-salary__insight-icon {
+    transform: scale(1.2);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .page-salary__title {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+    
+    .page-salary__navigation {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .page-salary__back-btn,
+    .page-salary__next-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .page-salary__slider-labels {
+        font-size: 0.8rem;
+    }
+    
+    .page-salary__toggle-group .btn {
+        padding: 0.5rem 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-salary__main {
+        padding: 3rem 0;
+    }
+    
+    .page-salary__amount-text {
+        font-size: 1.2rem;
+    }
+    
+    .page-salary__display-card {
+        max-width: 280px !important;
+    }
+}
+
+/* Animation classes */
+.animate-in {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Focus styles for accessibility */
+.page-salary__slider:focus {
+    outline: 2px solid #0dcaf0;
+    outline-offset: 2px;
+}
+
+.page-salary__skip-link:focus {
+    outline: 2px solid #0dcaf0;
+    outline-offset: 2px;
+}
