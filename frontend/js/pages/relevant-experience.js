@@ -139,7 +139,7 @@ class RelevantExperiencePage {
         
         // Navigate to next step
         setTimeout(() => {
-            window.location.href = '/salary-preference';
+            window.location.href = '/education-level.html';
         }, 500);
     }
 

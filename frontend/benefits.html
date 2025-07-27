@@ -4,634 +4,265 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What benefits are you looking for? - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Select the benefits that matter most to you to find remote jobs with the right compensation package.">
+    <meta name="keywords" content="job benefits, remote work benefits, compensation, work-life balance, health insurance">
+    <meta property="og:title" content="What benefits are you looking for? - FlexJobs">
+    <meta property="og:description" content="Find remote jobs with benefits that align with your needs and priorities.">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/style.css">
-    
-    <style>
-        .page-benefits {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            /* Font inherited from main stylesheet */
-        }
-
-        .benefits-container {
-            padding: 2rem 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .benefits-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            padding: 3rem;
-            margin: 2rem auto;
-            max-width: 900px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .benefits-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #007bff, #0056b3);
-        }
-
-        .page-title {
-            color: #2c3e50;
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .benefit-pill {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            color: #495057;
-            text-align: center;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 50px;
-        }
-
-        .benefit-pill:hover {
-            border-color: #007bff;
-            background: #e3f2fd;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
-        }
-
-        .benefit-pill.selected {
-            background: #007bff;
-            border-color: #007bff;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-        }
-
-        .benefit-pill .icon {
-            margin-right: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .benefit-pill .text {
-            flex: 1;
-        }
-
-        .benefit-pill .plus-icon {
-            margin-left: 0.5rem;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        .benefit-pill.selected .plus-icon {
-            transform: rotate(45deg);
-            opacity: 1;
-        }
-
-        .expanded-benefits {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
-
-        .expanded-benefits.show {
-            max-height: 1000px;
-        }
-
-        .see-more-btn {
-            background: #6c757d;
-            border: none;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            margin: 1rem auto;
-            display: block;
-            cursor: pointer;
-        }
-
-        .see-more-btn:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
-        }
-
-        .see-more-btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.3);
-        }
-
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 3rem;
-            gap: 1rem;
-        }
-
-        .btn-back {
-            background: #6c757d;
-            border: none;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .btn-back:hover {
-            background: #5a6268;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
-        }
-
-        .btn-next {
-            background: #ff6b35;
-            border: none;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .btn-next:hover:not(:disabled) {
-            background: #e55a2b;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
-        }
-
-        .btn-next:disabled {
-            background: #dee2e6;
-            color: #6c757d;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        .selection-counter {
-            text-align: center;
-            margin-bottom: 1rem;
-            color: #6c757d;
-            font-weight: 500;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .benefits-card {
-                margin: 1rem;
-                padding: 2rem 1.5rem;
-            }
-
-            .page-title {
-                font-size: 2rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .benefits-grid {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-
-            .navigation-buttons {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .btn-back,
-            .btn-next {
-                width: 100%;
-                justify-content: center;
-                padding: 1rem 2rem;
-            }
-        }
-
-        /* Loading Animation */
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Accessibility */
-        .benefit-pill:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
-        }
-
-        .benefit-pill.selected:focus {
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <!-- Wizard Components CSS -->
+    <link rel="stylesheet" href="css/components/wizard-header.css">
+    <link rel="stylesheet" href="css/components/wizard-footer.css">
 </head>
 
 <body class="page-benefits">
-    <div class="benefits-container">
-        <div class="container-fluid">
-            <div class="benefits-card">
-                <h1 class="page-title">What benefits are you looking for?</h1>
-                
-                <div class="selection-counter">
-                    <span id="selectionCount">0</span> benefits selected
-                </div>
+    <!-- Wizard Header -->
+    <div id="wizard-header-container"></div>
 
-                <div class="benefits-grid" id="benefitsGrid">
-                    <!-- Core Benefits -->
-                    <div class="benefit-pill" data-benefit="health-insurance">
-                        <i class="fas fa-heartbeat icon"></i>
-                        <span class="text">Health Insurance</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="dental-insurance">
-                        <i class="fas fa-tooth icon"></i>
-                        <span class="text">Dental Insurance</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="vision-insurance">
-                        <i class="fas fa-eye icon"></i>
-                        <span class="text">Vision Insurance</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="life-insurance">
-                        <i class="fas fa-shield-alt icon"></i>
-                        <span class="text">Life Insurance</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="retirement-savings">
-                        <i class="fas fa-piggy-bank icon"></i>
-                        <span class="text">Retirement Savings</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="paid-time-off">
-                        <i class="fas fa-calendar-check icon"></i>
-                        <span class="text">Paid Time Off</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="paid-holidays">
-                        <i class="fas fa-calendar-star icon"></i>
-                        <span class="text">Paid Holidays</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="paid-illness-leave">
-                        <i class="fas fa-thermometer icon"></i>
-                        <span class="text">Paid Illness Leave</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="parental-leave">
-                        <i class="fas fa-baby icon"></i>
-                        <span class="text">Parental Leave</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                    
-                    <div class="benefit-pill" data-benefit="flexible-pto">
-                        <i class="fas fa-clock icon"></i>
-                        <span class="text">Unlimited or Flexible PTO</span>
-                        <i class="fas fa-plus plus-icon"></i>
-                    </div>
-                </div>
-
-                <button class="see-more-btn" id="seeMoreBtn">
-                    <i class="fas fa-chevron-down me-2"></i>See More
-                </button>
-
-                <div class="expanded-benefits" id="expandedBenefits">
-                    <div class="benefits-grid">
-                        <div class="benefit-pill" data-benefit="career-development">
-                            <i class="fas fa-chart-line icon"></i>
-                            <span class="text">Career Development</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="continuing-education">
-                            <i class="fas fa-graduation-cap icon"></i>
-                            <span class="text">Continuing Education</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="education-assistance">
-                            <i class="fas fa-book icon"></i>
-                            <span class="text">Education Assistance</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="mental-health-support">
-                            <i class="fas fa-brain icon"></i>
-                            <span class="text">Mental Health Support</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="gym-health-stipend">
-                            <i class="fas fa-dumbbell icon"></i>
-                            <span class="text">Gym/Health Stipend</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="internet-reimbursement">
-                            <i class="fas fa-wifi icon"></i>
-                            <span class="text">Internet Reimbursement</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="cell-reimbursement">
-                            <i class="fas fa-mobile-alt icon"></i>
-                            <span class="text">Cell Reimbursement</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="office-stipend">
-                            <i class="fas fa-chair icon"></i>
-                            <span class="text">Office Stipend</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="computer-provided">
-                            <i class="fas fa-laptop icon"></i>
-                            <span class="text">Computer Provided</span>
-                            <i class="fas fa-plus plus-icon"></i>
-                        </div>
-                        
-                        <div class="benefit-pill" data-benefit="work-from-home-stipend">
-                            <i class="fas fa-home icon"></i>
-                            <span class="text">Work From Home Stipend</span>
-                            <i class="fas fa-plus plus-icon"></i>
+    <!-- Main Content -->
+    <main>
+        <!-- Progress Bar -->
+        <section class="page-benefits__progress py-2 bg-white border-bottom d-none">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 83%" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
-                </div>
-
-                <div class="navigation-buttons">
-                    <button class="btn-back" id="backBtn">
-                        <i class="fas fa-arrow-left me-2"></i>Back
-                    </button>
-                    
-                    <button class="btn-next" id="nextBtn">
-                        Continue<i class="fas fa-arrow-right ms-2"></i>
-                    </button>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+
+        <!-- Main Benefits Section -->
+        <section class="page-benefits__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <!-- Main Title -->
+                        <div class="text-center mb-5">
+                            <h1 class="page-benefits__title h2 fw-bold text-dark mb-3">
+                                What benefits are you looking for?
+                            </h1>
+                        </div>
+                        
+                        <!-- Popular Benefits -->
+                        <div class="page-benefits__popular mb-5">
+                            <h3 class="h6 text-muted mb-3 text-center">Popular benefits for remote workers</h3>
+                            <div class="page-benefits__popular-grid d-flex flex-wrap justify-content-center gap-2">
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Health Insurance">
+                                    <span class="me-2">Health Insurance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Dental Insurance">
+                                    <span class="me-2">Dental Insurance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Vision Insurance">
+                                    <span class="me-2">Vision Insurance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="401(k) / Retirement Plan">
+                                    <span class="me-2">401(k) / Retirement Plan</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Paid Time Off">
+                                    <span class="me-2">Paid Time Off</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Flexible Schedule">
+                                    <span class="me-2">Flexible Schedule</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Professional Development">
+                                    <span class="me-2">Professional Development</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Work-Life Balance">
+                                    <span class="me-2">Work-Life Balance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Home Office Stipend">
+                                    <span class="me-2">Home Office Stipend</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Life Insurance">
+                                    <span class="me-2">Life Insurance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Skip Option -->
+                        <div class="page-benefits__skip-container text-center mb-5">
+                            <button class="page-benefits__skip-btn btn btn-link text-info text-decoration-none fw-medium" id="skipBtn">
+                                <i class="fas fa-forward me-2"></i>
+                                Skip, benefits aren't important to me
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Component JS -->
+    <script src="js/components/component-loader.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/footer.js"></script>
+    <!-- Wizard Components JS -->
+    <script src="js/components/wizard-header.js"></script>
+    <script src="js/components/wizard-footer.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script src="js/pages/benefits.js"></script>
+    
+    <!-- Page-specific CSS -->
+    <style>
+        /* Page-specific styles - Font inherited from main stylesheet */
 
-    <script>
-        class BenefitsPage {
-            constructor() {
-                this.selectedBenefits = new Set();
-                this.isExpanded = false;
-                
-                this.init();
+        .page-benefits__logo {
+            transition: all 0.3s ease;
+        }
+
+        .page-benefits__logo:hover {
+            transform: scale(1.05);
+        }
+
+        .page-benefits__title {
+            color: #2c3e50;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-benefits__popular-btn {
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            border-width: 2px;
+            justify-content: space-between;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-benefits__popular-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #0dcaf0;
+            color: #0dcaf0;
+            background-color: white !important;
+        }
+
+        .page-benefits__popular-btn.selected {
+            border-color: #28a745 !important;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-benefits__popular-btn.selected:hover {
+            border-color: #28a745 !important;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-benefits__btn-icon {
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+
+        .page-benefits__popular-btn.selected .page-benefits__btn-icon {
+            color: #28a745 !important;
+        }
+
+        .page-benefits__skip-btn {
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .page-benefits__skip-btn:hover {
+            color: #0891b2 !important;
+            transform: translateY(-2px);
+        }
+
+        /* Badge animations */
+        .badge {
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 576px) {
+            .page-benefits__main {
+                padding: 1rem 0 140px !important; /* Reduced top/bottom padding for mobile wizard footer */
+                min-height: 70vh !important; /* Reduced min-height for mobile */
             }
-
-            init() {
-                this.setupBenefitSelection();
-                this.setupSeeMoreButton();
-                this.setupNavigation();
-                this.restoreFromLocalStorage();
-                this.updateNextButton();
+            
+            .page-benefits__title {
+                font-size: 1.5rem !important;
             }
-
-            setupBenefitSelection() {
-                const benefitPills = document.querySelectorAll('.benefit-pill');
-                
-                benefitPills.forEach(pill => {
-                    pill.addEventListener('click', () => {
-                        const benefit = pill.getAttribute('data-benefit');
-                        this.toggleBenefit(benefit, pill);
-                    });
-                    
-                    // Keyboard accessibility
-                    pill.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            const benefit = pill.getAttribute('data-benefit');
-                            this.toggleBenefit(benefit, pill);
-                        }
-                    });
-                });
+            
+            .page-benefits__popular-grid {
+                justify-content: center !important;
+                gap: 0.5rem !important;
             }
-
-            toggleBenefit(benefit, pillElement) {
-                if (this.selectedBenefits.has(benefit)) {
-                    this.selectedBenefits.delete(benefit);
-                    pillElement.classList.remove('selected');
-                } else {
-                    this.selectedBenefits.add(benefit);
-                    pillElement.classList.add('selected');
-                }
-                
-                this.updateSelectionCounter();
-                this.storeBenefitsPreference();
-                this.trackBenefitSelection(benefit, this.selectedBenefits.has(benefit));
+            
+            .page-benefits__popular-btn {
+                flex: 0 1 auto;
+                min-width: auto;
+                max-width: 45%;
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.6rem !important;
+                border-radius: 15px !important;
             }
-
-            updateSelectionCounter() {
-                const counter = document.getElementById('selectionCount');
-                counter.textContent = this.selectedBenefits.size;
+            
+            .page-benefits__popular-btn span {
+                font-size: 0.75rem;
             }
-
-            setupSeeMoreButton() {
-                const seeMoreBtn = document.getElementById('seeMoreBtn');
-                const expandedBenefits = document.getElementById('expandedBenefits');
-                
-                seeMoreBtn.addEventListener('click', () => {
-                    this.isExpanded = !this.isExpanded;
-                    
-                    if (this.isExpanded) {
-                        expandedBenefits.classList.add('show');
-                        seeMoreBtn.innerHTML = '<i class="fas fa-chevron-up me-2"></i>See Less';
-                        
-                        // Re-setup benefit selection for new pills
-                        this.setupBenefitSelection();
-                        this.restoreExpandedSelections();
-                    } else {
-                        expandedBenefits.classList.remove('show');
-                        seeMoreBtn.innerHTML = '<i class="fas fa-chevron-down me-2"></i>See More';
-                    }
-                    
-                    this.trackSeeMoreToggle(this.isExpanded);
-                });
-            }
-
-            restoreExpandedSelections() {
-                // Restore selections for expanded benefits
-                const expandedPills = document.querySelectorAll('#expandedBenefits .benefit-pill');
-                expandedPills.forEach(pill => {
-                    const benefit = pill.getAttribute('data-benefit');
-                    if (this.selectedBenefits.has(benefit)) {
-                        pill.classList.add('selected');
-                    }
-                });
-            }
-
-            setupNavigation() {
-                const backBtn = document.getElementById('backBtn');
-                const nextBtn = document.getElementById('nextBtn');
-                
-                backBtn.addEventListener('click', () => {
-                    this.goBack();
-                });
-                
-                nextBtn.addEventListener('click', () => {
-                    this.goNext();
-                });
-            }
-
-            updateNextButton() {
-                const nextBtn = document.getElementById('nextBtn');
-                
-                // Always allow continuing even with no benefits selected
-                nextBtn.disabled = false;
-                nextBtn.classList.remove('opacity-50');
-            }
-
-            goBack() {
-                // Add loading animation
-                const backBtn = document.getElementById('backBtn');
-                const originalText = backBtn.innerHTML;
-                backBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
-                backBtn.disabled = true;
-                
-                // Navigate back to education level page
-                setTimeout(() => {
-                    window.location.href = '/education-level';
-                }, 300);
-            }
-
-            goNext() {
-                // Store preferences
-                this.storeBenefitsPreference();
-                
-                // Add loading animation
-                const nextBtn = document.getElementById('nextBtn');
-                nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
-                nextBtn.disabled = true;
-                
-                // Navigate to upload resume page
-                setTimeout(() => {
-                    window.location.href = '/upload-resume';
-                }, 500);
-            }
-
-            storeBenefitsPreference() {
-                const preference = {
-                    benefits: Array.from(this.selectedBenefits),
-                    isExpanded: this.isExpanded
-                };
-                
-                localStorage.setItem('benefitsPreference', JSON.stringify(preference));
-            }
-
-            restoreFromLocalStorage() {
-                const stored = localStorage.getItem('benefitsPreference');
-                if (stored) {
-                    try {
-                        const preference = JSON.parse(stored);
-                        
-                        // Restore selected benefits
-                        if (preference.benefits && Array.isArray(preference.benefits)) {
-                            preference.benefits.forEach(benefit => {
-                                this.selectedBenefits.add(benefit);
-                                
-                                // Mark as selected in UI
-                                const pill = document.querySelector(`[data-benefit="${benefit}"]`);
-                                if (pill) {
-                                    pill.classList.add('selected');
-                                }
-                            });
-                        }
-                        
-                        // Restore expanded state
-                        if (preference.isExpanded) {
-                            const seeMoreBtn = document.getElementById('seeMoreBtn');
-                            seeMoreBtn.click();
-                        }
-                        
-                        this.updateSelectionCounter();
-                    } catch (error) {
-                        console.error('Error restoring benefits preference:', error);
-                    }
-                }
-            }
-
-            trackBenefitSelection(benefit, isSelected) {
-                // Analytics tracking
-                if (window.gtag) {
-                    gtag('event', 'benefit_selection', {
-                        'benefit_type': benefit,
-                        'action': isSelected ? 'select' : 'deselect',
-                        'total_selected': this.selectedBenefits.size
-                    });
-                }
-            }
-
-            trackSeeMoreToggle(isExpanded) {
-                // Analytics tracking
-                if (window.gtag) {
-                    gtag('event', 'see_more_benefits', {
-                        'action': isExpanded ? 'expand' : 'collapse'
-                    });
-                }
+            
+            .page-benefits__btn-icon {
+                font-size: 0.65rem !important;
             }
         }
 
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', () => {
-            new BenefitsPage();
-        });
-    </script>
+        @media (min-width: 577px) and (max-width: 768px) {
+            .page-benefits__main {
+                padding: 1.5rem 0 140px !important; /* Moderate padding for tablet */
+                min-height: 75vh !important;
+            }
+            
+            .page-benefits__popular-grid {
+                justify-content: stretch !important;
+            }
+            
+            .page-benefits__popular-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .page-benefits__main {
+                padding-bottom: 120px !important; /* Add bottom padding for desktop wizard footer */
+            }
+        }
+    </style>
 </body>
 </html>
-

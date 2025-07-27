@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join FlexJobs - Find Your Perfect Remote Job</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Join FlexJobs today to access thousands of remote and flexible job opportunities.">
+    <meta name="keywords" content="join flexjobs, remote jobs, job search, flexible work, registration">
+    <meta property="og:title" content="Join FlexJobs - Find Your Perfect Remote Job">
+    <meta property="og:description" content="Start your remote job search journey with FlexJobs today.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-registration">
+    <!-- Main Content -->
+    <main>
+        <!-- Header Section -->
+        <section class="registration-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <!-- FlexJobs Logo -->
+                        <div class="logo-container mb-4">
+                            <img src="images/FlexJobs_logo-1.png" alt="FlexJobs" class="logo-img">
+                        </div>
+                        
+                        <!-- Job Search Bar -->
+                        <div class="search-container mb-4">
+                            <div class="search-bar">
+                                <div class="search-inputs">
+                                    <div class="search-input-group">
+                                        <i class="fas fa-search search-icon"></i>
+                                        <input type="text" class="search-input" placeholder="Search for Jobs...">
+                                    </div>
+                                    <div class="location-input-group">
+                                        <i class="fas fa-map-marker-alt location-icon"></i>
+                                        <select class="location-input">
+                                            <option value="">Location</option>
+                                            <option value="remote">Remote</option>
+                                            <option value="us">US</option>
+                                            <option value="world">World</option>
+                                        </select>
+                                    </div>
+                                    <button class="search-btn">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Job Match Message -->
+                        <div class="job-match-message">
+                            <h2 class="match-title">Join today to see 12,020 job matches</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Modal Backdrop -->
+        <div class="modal-backdrop-custom" id="modalBackdrop">
+            <!-- Registration Modal -->
+            <div class="registration-modal" id="registrationModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Create a Password</h3>
+                        <button type="button" class="btn-close" id="closeModal" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="modal-body">
+                        <!-- Registration Form -->
+                        <form id="registrationForm" class="registration-form">
+                            <!-- Email Input -->
+                            <div class="form-group mb-3">
+                                <label for="emailInput" class="form-label">Email Address</label>
+                                <input type="email" 
+                                       class="form-control" 
+                                       id="emailInput" 
+                                       placeholder="Enter your email address"
+                                       required>
+                            </div>
+                            
+                            <!-- Password Input -->
+                            <div class="form-group mb-3">
+                                <label for="passwordInput" class="form-label">Password</label>
+                                <div class="password-input-group">
+                                    <input type="password" 
+                                           class="form-control" 
+                                           id="passwordInput" 
+                                           placeholder="Create a password"
+                                           required>
+                                    <button type="button" class="password-toggle" id="passwordToggle">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <div class="form-group mb-4">
+                                <button type="submit" class="btn btn-primary btn-lg submit-btn">
+                                    I'm ready to see my jobs
+                                </button>
+                            </div>
+                            
+                            <!-- Terms and Privacy -->
+                            <div class="terms-section">
+                                <p class="terms-text">
+                                    By clicking "I'm ready to see my jobs", you agree to our 
+                                    <a href="#" class="terms-link">Terms of Use</a> and 
+                                    <a href="#" class="terms-link">Privacy Policy</a> and to receive work updates. You can unsubscribe at anytime.
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <section class="benefits-section">
+            <div class="container">
+                <div class="benefits-card">
+                    <div class="benefits-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4 class="benefits-title">Your perfect remote job and the expert help you need.</h4>
+                    <ul class="benefits-list">
+                        <li><i class="fas fa-check text-success me-2"></i>156,474 remote-friendly companies</li>
+                        <li><i class="fas fa-check text-success me-2"></i>10,524 remote-friendly companies</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Faster and easier job search</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Resume support and our free Resume Review</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script src="js/pages/registration.js"></script>
+    
+    <!-- Page-specific CSS -->
+    <style>
+        /* Mobile-first design */
+        .page-registration {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Header Section */
+        .registration-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .logo-img {
+            max-width: 150px;
+            width: 100%;
+            height: auto;
+            filter: brightness(0) invert(1); /* Make logo white */
+        }
+
+        /* Search Bar */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 25px;
+            padding: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-inputs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-input-group,
+        .location-input-group {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-input,
+        .location-input {
+            border: none;
+            padding: 12px 40px 12px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            width: 100%;
+            background: #f8f9fa;
+        }
+
+        .search-input:focus,
+        .location-input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+
+        .search-icon,
+        .location-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            background: linear-gradient(45deg, #ff6b35, #f39c12);
+            border: none;
+            border-radius: 20px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 60px;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Job Match Message */
+        .job-match-message {
+            margin-top: 1.5rem;
+        }
+
+        .match-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Modal */
+        .modal-backdrop-custom {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .registration-modal {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            padding: 0;
+        }
+
+        .modal-header {
+            padding: 1.5rem 1.5rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            color: #212529;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-close:hover {
+            color: #000;
+        }
+
+        .modal-body {
+            padding: 1rem 1.5rem 1.5rem;
+        }
+
+        /* Form Styles */
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+        }
+
+        .password-input-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        .password-toggle:hover {
+            color: #495057;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #ff6b35, #f39c12);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+            background: linear-gradient(45deg, #e55a2e, #e67e22);
+        }
+
+        .terms-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .terms-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .terms-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            background: white;
+            padding: 2rem 0;
+        }
+
+        .benefits-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .benefits-icon {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .benefits-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .benefits-list li {
+            padding: 0.5rem 0;
+            font-size: 1rem;
+            color: #495057;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tablet and Desktop */
+        @media (min-width: 768px) {
+            .registration-header {
+                padding: 3rem 0;
+            }
+
+            .logo-img {
+                max-width: 200px;
+            }
+
+            .search-input,
+            .location-input {
+                padding: 15px 45px 15px 15px;
+                font-size: 16px;
+            }
+
+            .search-btn {
+                padding: 15px 25px;
+                min-width: 80px;
+            }
+
+            .match-title {
+                font-size: 1.5rem;
+            }
+
+            .registration-modal {
+                max-width: 450px;
+            }
+
+            .modal-header {
+                padding: 2rem 2rem 1.5rem;
+            }
+
+            .modal-body {
+                padding: 1rem 2rem 2rem;
+            }
+
+            .benefits-title {
+                font-size: 1.4rem;
+            }
+
+            .benefits-list li {
+                font-size: 1.1rem;
+                padding: 0.75rem 0;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .registration-header {
+                padding: 4rem 0;
+            }
+
+            .search-inputs {
+                gap: 12px;
+            }
+
+            .benefits-card {
+                padding: 3rem;
+            }
+        }
+    </style>
+</body>
+</html>
