@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         window.wizardFooter.handleNext = () => {
             window.salaryPreferencePageInstance.handleNext();
         };
+        // Override the handleBack method
+        window.wizardFooter.handleBack = () => {
+            window.salaryPreferencePageInstance.handleBack();
+        };
         // Enable by default since salary preference isn't required
         window.wizardFooter.enableNextButton();
     }
@@ -46,6 +50,7 @@ class SalaryPreferencePage {
         this.setupNavigation();
         this.updateDisplay();
         this.updateSliderFill();
+        this.updateBubble();
         this.restoreFromLocalStorage();
     }
 
@@ -58,6 +63,7 @@ class SalaryPreferencePage {
                 this.hasInteracted = true;
                 this.updateDisplay();
                 this.updateSliderFill();
+                this.updateBubble();
                 this.showSuccessMessage();
             });
         }
@@ -73,6 +79,7 @@ class SalaryPreferencePage {
                     this.updateSliderRange();
                     this.updateDisplay();
                     this.updateSliderFill();
+                    this.updateBubble();
                     this.hasInteracted = true;
                 }
             });
@@ -141,12 +148,34 @@ class SalaryPreferencePage {
 
     updateSliderFill() {
         const slider = document.getElementById('salarySlider');
-        const fill = document.querySelector('.salary-slider-track');
+        const fill = document.querySelector('.salary-slider-fill');
         
         if (!slider || !fill) return;
         
         const percentage = ((this.currentValue - slider.min) / (slider.max - slider.min)) * 100;
         fill.style.width = `${Math.max(0, Math.min(100, percentage))}%`;
+    }
+
+    updateBubble() {
+        const slider = document.getElementById('salarySlider');
+        const bubble = document.getElementById('salaryBubble');
+        const bubbleAmount = document.getElementById('salaryBubbleAmount');
+        const bubbleFrequency = document.getElementById('salaryBubbleFrequency');
+        
+        if (!slider || !bubble || !bubbleAmount || !bubbleFrequency) return;
+        
+        // Calculate position as percentage
+        const percentage = ((this.currentValue - slider.min) / (slider.max - slider.min)) * 100;
+        
+        // Position the bubble
+        bubble.style.left = `${percentage}%`;
+        
+        // Update bubble content
+        const formattedValue = this.formatCurrency(this.currentValue);
+        const frequency = this.salaryType === 'hourly' ? 'per hour' : 'per year';
+        
+        bubbleAmount.textContent = formattedValue;
+        bubbleFrequency.textContent = frequency;
     }
 
     formatCurrency(amount) {
@@ -176,6 +205,11 @@ class SalaryPreferencePage {
         
         // Navigate to next step
         window.location.href = 'where-remote.html';
+    }
+
+    handleBack() {
+        // Navigate to previous step (work type page)
+        window.location.href = 'work-type.html';
     }
 
     skip() {
@@ -215,6 +249,7 @@ class SalaryPreferencePage {
                 this.updateSliderRange();
                 this.updateDisplay();
                 this.updateSliderFill();
+                this.updateBubble();
             } catch (error) {
                 console.error('Error restoring salary preference:', error);
             }
@@ -244,5 +279,6 @@ class SalaryPreferencePage {
         this.updateSliderRange();
         this.updateDisplay();
         this.updateSliderFill();
+        this.updateBubble();
     }
 }

@@ -93,9 +93,24 @@
 /* ========================================
    BASE STYLES
 ======================================== */
-body {
-    font-family: var(--font-family-base);
+body, html {
+    font-family: var(--font-family-base) !important;
     overflow-x: hidden;
+}
+
+/* Ensure all common elements use the base font */
+*, 
+*::before, 
+*::after {
+    font-family: inherit;
+}
+
+/* Override any specific font declarations */
+h1, h2, h3, h4, h5, h6,
+p, span, div, a, button, input, textarea, select,
+.btn, .form-control, .card, .modal, .dropdown,
+.nav, .navbar, .alert, .badge {
+    font-family: var(--font-family-base) !important;
 }
 
 /* Utility Classes */

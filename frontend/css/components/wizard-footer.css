@@ -1,17 +1,99 @@
 /* Wizard Footer Component Styles */
+
+/* Desktop Footer */
 .wizard-footer {
-    background-color: #f8f9fa;
+    background-color: white;
     border-top: 1px solid #e9ecef;
-    padding: 20px 0;
-    margin-top: auto;
+    padding: 1.5rem 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .wizard-footer__container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.wizard-footer__progress {
+    flex: 1;
+    max-width: 200px;
+}
+
+.wizard-footer__progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.wizard-footer__progress-bar {
+    height: 100%;
+    background: #004f6d;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.wizard-footer__btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* Font inherited from main stylesheet */
+    text-decoration: none;
+}
+
+.wizard-footer__btn--back {
+    background: transparent;
+    border: 0px;
+    color: #1e3a8a;
+    font-size: 80%;
+}
+
+.wizard-footer__btn--back:hover:not(.disabled) {
+    border-color: #004f6d;
+    color: #004f6d;
+    text-decoration: none;
+}
+
+.wizard-footer__btn--back.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.wizard-footer__btn--next {
+    background: #e9ecef;
+    color: #6c757d;
+    padding: 0.25rem 4rem;
+    align-items: end;
+    font-size: 80%;
+    border-radius: 2px;
+}
+
+.wizard-footer__btn--next.enabled {
+    background: #ff6b35;
+    color: white;
+}
+
+.wizard-footer__btn--next.enabled:hover {
+    background: #e55a2b;
+    transform: translateY(-1px);
+}
+
+/* Legacy footer styles for non-wizard pages */
 .wizard-footer__content {
     text-align: center;
 }

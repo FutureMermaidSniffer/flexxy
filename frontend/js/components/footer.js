@@ -670,7 +670,7 @@ window.FooterComponent = FooterComponent;
 window.footerInstance = footerInstance;
 
 // Hot module replacement support for development
-if (module && module.hot) {
+if (typeof module !== 'undefined' && module.hot) {
     module.hot.accept();
     
     module.hot.dispose(() => {

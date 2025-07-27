@@ -23,6 +23,8 @@
     <!-- Wizard Components CSS -->
     <link rel="stylesheet" href="css/components/wizard-header.css">
     <link rel="stylesheet" href="css/components/wizard-footer.css">
+    <!-- Page-specific CSS -->
+    <link rel="stylesheet" href="css/pages/upload-resume.css">
 </head>
 <body class="page-upload-resume">
     <!-- Wizard Header -->
@@ -44,31 +46,31 @@
         </section>
 
         <!-- Main Upload Section -->
-        <section class="page-upload__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+        <section class="page-upload__main py-3" style="min-height: 60vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-10 col-xl-8">
+                    <div class="col-lg-8 col-xl-7">
                         <!-- FlexJobs Logo -->
-                        <div class="page-upload__brand text-center mb-4">
+                        <!-- <div class="page-upload__brand text-center mb-4">
                             <img src="images/f.png" alt="FlexJobs" class="title-image" style="height: 60px; max-width: 200px; object-fit: contain;">
-                        </div>
+                        </div> -->
                         
                         <!-- Main Title -->
-                        <div class="text-center mb-5">
-                            <h1 class="page-upload__title h2 fw-bold text-dark mb-3">
+                        <div class="text-center ">
+                            <p class="page-upload__title fw-bold text-dark mb-2">
                                 Keep going, you're on the right track!
-                            </h1>
-                            <p class="page-upload__subtitle text-muted h5 mb-0">
+                            </p>
+                            <p class="page-upload__subtitle text-muted mb-0">
                                 Tell us a little more about you so we can match you with your perfect job.
                             </p>
                         </div>
                         
                         <!-- Upload Options -->
-                        <div class="row g-4 mb-5">
+                        <div class="row mb-4 justify-content-center">
                             <!-- Upload Option -->
-                            <div class="col-md-6">
-                                <div class="page-upload__option-card card border-0 shadow-sm h-100 position-relative" id="uploadOption">
-                                    <div class="card-body text-center p-5">
+                            <div class="col-md-5">
+                                <div class="page-upload__option-card card border-0 shadow-sm position-relative" id="uploadOption">
+                                    <div class="card-body text-center">
                                         <!-- Upload Icon -->
                                         <div class="page-upload__icon-container mb-4">
                                             <div class="page-upload__icon-circle bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
@@ -77,7 +79,7 @@
                                         </div>
                                         
                                         <!-- Title -->
-                                        <h3 class="page-upload__option-title h4 fw-bold text-dark mb-3">
+                                        <h3 class="page-upload__option-title text-dark mb-3">
                                             Yes, upload and go!
                                         </h3>
                                         
@@ -94,7 +96,7 @@
                                         </div>
                                         
                                         <!-- Upload Area -->
-                                        <div class="page-upload__drop-zone border-2 border-dashed border-info rounded p-4 mb-3" id="dropZone">
+                                        <!-- <div class="page-upload__drop-zone border-2 border-dashed border-info rounded p-4 mb-3" id="dropZone">
                                             <input type="file" class="d-none" id="resumeFile" accept=".doc,.docx,.pdf,.rtf,.txt">
                                             <div class="page-upload__drop-content">
                                                 <i class="fas fa-file-upload fa-2x text-info mb-2"></i>
@@ -104,7 +106,7 @@
                                                     Browse Files
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         
                                         <!-- Upload Status -->
                                         <div class="page-upload__status d-none" id="uploadStatus">
@@ -123,9 +125,9 @@
                             </div>
                             
                             <!-- Skip Option -->
-                            <div class="col-md-6">
-                                <div class="page-upload__option-card card border-0 shadow-sm h-100 position-relative" id="skipOption">
-                                    <div class="card-body text-center p-5">
+                            <div class="col-md-5">
+                                <div class="page-upload__option-card card shadow-sm position-relative" id="skipOption">
+                                    <div class="card-body text-center">
                                         <!-- Skip Icon -->
                                         <div class="page-upload__icon-container mb-4">
                                             <div class="page-upload__icon-circle bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
@@ -134,7 +136,7 @@
                                         </div>
                                         
                                         <!-- Title -->
-                                        <h3 class="page-upload__option-title h4 fw-bold text-dark mb-3">
+                                        <h3 class="page-upload__option-title text-dark mb-3">
                                             No, skip the upload
                                         </h3>
                                         
@@ -144,7 +146,7 @@
                                         </p>
                                         
                                         <!-- Benefits List -->
-                                        <div class="page-upload__benefits text-start">
+                                        <!-- <div class="page-upload__benefits text-start">
                                             <div class="d-flex align-items-center mb-2">
                                                 <i class="fas fa-check text-success me-2"></i>
                                                 <small class="text-muted">Complete profile manually</small>
@@ -157,7 +159,7 @@
                                                 <i class="fas fa-check text-success me-2"></i>
                                                 <small class="text-muted">Personalized job matching</small>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     
                                     <!-- Selection Overlay -->
@@ -169,21 +171,21 @@
                         </div>
                         
                         <!-- Navigation Buttons -->
-                        <div class="page-upload__navigation d-flex justify-content-between align-items-center">
-                            <!-- Back Button -->
-                            <button class="page-upload__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
+                        <!-- <div class="page-upload__navigation d-flex justify-content-between align-items-center">
+                            Back Button -->
+                            <!-- <button class="page-upload__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
                                 <i class="fas fa-arrow-left me-2"></i>
                                 Back
-                            </button>
-                            
+                            </button> 
+                             -->
                             <!-- Next Button -->
-                            <button class="page-upload__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
+                            <!-- <button class="page-upload__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
                                     id="nextBtn"
                                     disabled
                                     style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
                                 Next
                                 <i class="fas fa-arrow-right ms-2"></i>
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -207,20 +209,10 @@
     <script src="js/components/wizard-header.js"></script>
     <script src="js/components/wizard-footer.js"></script>
     
-    <!-- Page-specific JavaScript -->
+    <!-- Page Scripts -->
+    <script src="js/pages/upload-resume.js"></script>
+    
     <script>
-        // Initialize wizard header and footer
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize wizard header with back button
-            window.wizardHeader = new WizardHeader({
-                isFirstPage: false,
-                backUrl: '/benefits'
-            });
-            
-            // Initialize wizard footer
-            window.wizardFooter = new WizardFooter();
-        });
-
         // Load header and footer components
         loadComponents();
         
@@ -230,512 +222,11 @@
                 window.headerInstance.setActiveNav('remote-jobs');
             }
         });
-
-        // Page-specific functionality
-        class UploadResumePage {
-            constructor() {
-                this.selectedOption = null;
-                this.uploadedFile = null;
-                this.isFileUploaded = false;
-                
-                this.init();
-            }
-
-            init() {
-                this.setupOptionCards();
-                this.setupFileUpload();
-                this.setupNavigation();
-                this.restoreFromLocalStorage();
-            }
-
-            setupOptionCards() {
-                const uploadOption = document.getElementById('uploadOption');
-                const skipOption = document.getElementById('skipOption');
-                
-                uploadOption.addEventListener('click', () => {
-                    this.selectOption('upload');
-                });
-                
-                skipOption.addEventListener('click', () => {
-                    this.selectOption('skip');
-                });
-            }
-
-            selectOption(option) {
-                // Clear previous selections
-                this.clearSelections();
-                
-                this.selectedOption = option;
-                
-                if (option === 'upload') {
-                    this.showSelection('uploadOption', 'uploadOverlay');
-                    // If no file uploaded yet, trigger file picker
-                    if (!this.isFileUploaded) {
-                        setTimeout(() => {
-                            document.getElementById('resumeFile').click();
-                        }, 300);
-                    }
-                } else if (option === 'skip') {
-                    this.showSelection('skipOption', 'skipOverlay');
-                }
-                
-                this.updateNextButton();
-                this.trackSelection();
-            }
-
-            showSelection(cardId, overlayId) {
-                // Add selected state to card
-                const card = document.getElementById(cardId);
-                const overlay = document.getElementById(overlayId);
-                
-                card.classList.add('border-3');
-                if (cardId === 'uploadOption') {
-                    card.classList.add('border-info');
-                } else {
-                    card.classList.add('border-warning');
-                }
-                
-                // Show overlay
-                overlay.classList.remove('d-none');
-                overlay.classList.add('d-flex');
-                
-                // Animation
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.opacity = '1';
-                }, 10);
-            }
-
-            clearSelections() {
-                // Clear upload option
-                const uploadCard = document.getElementById('uploadOption');
-                const uploadOverlay = document.getElementById('uploadOverlay');
-                uploadCard.classList.remove('border-3', 'border-info');
-                uploadOverlay.classList.add('d-none');
-                uploadOverlay.classList.remove('d-flex');
-                
-                // Clear skip option
-                const skipCard = document.getElementById('skipOption');
-                const skipOverlay = document.getElementById('skipOverlay');
-                skipCard.classList.remove('border-3', 'border-warning');
-                skipOverlay.classList.add('d-none');
-                skipOverlay.classList.remove('d-flex');
-            }
-
-            setupFileUpload() {
-                const fileInput = document.getElementById('resumeFile');
-                const dropZone = document.getElementById('dropZone');
-                
-                // File input change
-                fileInput.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) {
-                        this.handleFileUpload(e.target.files[0]);
-                    }
-                });
-                
-                // Drag and drop
-                dropZone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.add('border-primary', 'bg-primary', 'bg-opacity-10');
-                });
-                
-                dropZone.addEventListener('dragleave', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.remove('border-primary', 'bg-primary', 'bg-opacity-10');
-                });
-                
-                dropZone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.remove('border-primary', 'bg-primary', 'bg-opacity-10');
-                    
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        this.handleFileUpload(files[0]);
-                    }
-                });
-            }
-
-            handleFileUpload(file) {
-                // Validate file type
-                const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/rtf', 'text/plain'];
-                const allowedExtensions = ['.pdf', '.doc', '.docx', '.rtf', '.txt'];
-                
-                const fileName = file.name.toLowerCase();
-                const isValidType = allowedTypes.includes(file.type) || allowedExtensions.some(ext => fileName.endsWith(ext));
-                
-                if (!isValidType) {
-                    this.showError('Please upload a valid resume file (DOC, DOCX, PDF, RTF, or TXT)');
-                    return;
-                }
-                
-                // Validate file size (max 10MB)
-                if (file.size > 10 * 1024 * 1024) {
-                    this.showError('File size must be less than 10MB');
-                    return;
-                }
-                
-                this.uploadedFile = file;
-                this.isFileUploaded = true;
-                this.selectedOption = 'upload';
-                
-                // Show upload success
-                this.showUploadSuccess(file.name);
-                
-                // Select upload option
-                this.clearSelections();
-                this.showSelection('uploadOption', 'uploadOverlay');
-                this.updateNextButton();
-                
-                // Store in localStorage
-                this.storeUploadPreference();
-                
-                // Track upload
-                this.trackFileUpload(file);
-            }
-
-            showUploadSuccess(fileName) {
-                const dropZone = document.getElementById('dropZone');
-                const uploadStatus = document.getElementById('uploadStatus');
-                const uploadedFileName = document.getElementById('uploadedFileName');
-                
-                // Hide drop zone, show status
-                dropZone.classList.add('d-none');
-                uploadStatus.classList.remove('d-none');
-                uploadedFileName.textContent = `${fileName} uploaded successfully!`;
-            }
-
-            showError(message) {
-                // Show error message
-                const dropZone = document.getElementById('dropZone');
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'alert alert-danger mt-2';
-                errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle me-2"></i>${message}`;
-                
-                // Remove any existing errors
-                const existingError = dropZone.parentElement.querySelector('.alert-danger');
-                if (existingError) {
-                    existingError.remove();
-                }
-                
-                dropZone.parentElement.appendChild(errorDiv);
-                
-                // Remove error after 5 seconds
-                setTimeout(() => {
-                    errorDiv.remove();
-                }, 5000);
-            }
-
-            setupNavigation() {
-                const backBtn = document.getElementById('backBtn');
-                const nextBtn = document.getElementById('nextBtn');
-                
-                backBtn.addEventListener('click', () => {
-                    this.goBack();
-                });
-                
-                nextBtn.addEventListener('click', () => {
-                    this.goNext();
-                });
-            }
-
-            updateNextButton() {
-                const nextBtn = document.getElementById('nextBtn');
-                
-                if (this.selectedOption) {
-                    nextBtn.disabled = false;
-                    nextBtn.classList.remove('opacity-50');
-                } else {
-
-                    nextBtn.disabled = true;
-                    nextBtn.classList.add('opacity-50');
-                }
-            }
-
-
-            goBack() {
-                // Add loading animation
-                const backBtn = document.getElementById('backBtn');
-                const originalText = backBtn.innerHTML;
-                backBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
-                backBtn.disabled = true;
-                
-                // Navigate back to benefits page
-                setTimeout(() => {
-                    window.location.href = '/benefits';
-                }, 300);
-            }
-
-            goNext() {
-                if (!this.selectedOption) return;
-                
-                // Store preference
-                this.storeUploadPreference();
-                
-                // Add loading animation
-                const nextBtn = document.getElementById('nextBtn');
-                nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
-                nextBtn.disabled = true;
-                
-                // Navigate to next step
-                setTimeout(() => {
-                    if (this.selectedOption === 'upload' && this.uploadedFile) {
-                        // If file uploaded, process and go to job results
-                        this.processResumeAndContinue();
-                    } else {
-                        // If skipped, go to manual profile creation or job results
-                        this.continueWithoutUpload();
-                    }
-                }, 1000);
-            }
-
-            processResumeAndContinue() {
-                // In a real app, this would upload the file to the server
-                // For now, simulate processing and go to job results
-                
-                const params = new URLSearchParams();
-                
-                // Add previous preferences
-                const workType = localStorage.getItem('workTypePreference');
-                const salaryPreference = localStorage.getItem('salaryPreference');
-                const locationPreference = localStorage.getItem('locationPreference');
-                const jobTitlePreference = localStorage.getItem('jobTitlePreference');
-                const categoryPreference = localStorage.getItem('categoryPreference');
-                const experiencePreference = localStorage.getItem('experiencePreference');
-                const educationPreference = localStorage.getItem('educationPreference');
-                const benefitsPreference = localStorage.getItem('benefitsPreference');
-                
-                if (workType) {
-                    const typeMap = {
-                        '100-remote': 'fully-remote',
-                        'hybrid': 'hybrid',
-                        'flexible': 'flexible'
-                    };
-                    params.set('type', typeMap[workType] || 'remote');
-                }
-                
-                if (salaryPreference) {
-                    const salary = JSON.parse(salaryPreference);
-                    if (salary.type === 'annual') {
-                        params.set('salary_min', salary.salary);
-                    } else {
-                        params.set('hourly_min', salary.salary);
-                    }
-                }
-                
-                if (locationPreference) {
-                    const location = JSON.parse(locationPreference);
-                    if (location.location) {
-                        params.set('location', location.location);
-                    }
-                    if (location.options && location.options.length > 0) {
-                        params.set('location_options', location.options.join(','));
-                    }
-                }
-                
-                if (jobTitlePreference) {
-                    const jobTitles = JSON.parse(jobTitlePreference);
-                    if (jobTitles.jobTitles && jobTitles.jobTitles.length > 0) {
-                        params.set('job_titles', jobTitles.jobTitles.join(','));
-                    }
-                }
-                
-                if (categoryPreference) {
-                    const categories = JSON.parse(categoryPreference);
-                    if (categories.categories && categories.categories.length > 0) {
-                        params.set('categories', categories.categories.join(','));
-                    }
-                }
-                
-                if (experiencePreference) {
-                    const experience = JSON.parse(experiencePreference);
-                    if (experience.experience) {
-                        params.set('experience', experience.experience);
-                    }
-                }
-                
-                if (educationPreference) {
-                    const education = JSON.parse(educationPreference);
-                    if (education.education) {
-                        params.set('education', education.education);
-                    }
-                }
-                
-                if (benefitsPreference) {
-                    const benefits = JSON.parse(benefitsPreference);
-                    if (benefits.benefits && benefits.benefits.length > 0) {
-                        params.set('benefits', benefits.benefits.join(','));
-                    }
-                }
-                
-                // Add resume uploaded flag
-                params.set('resume_uploaded', 'true');
-                
-                window.location.href = `/remote-jobs?${params.toString()}`;
-            }
-
-            continueWithoutUpload() {
-                // Continue to job results without resume
-                const params = new URLSearchParams();
-                
-                // Add previous preferences
-                const workType = localStorage.getItem('workTypePreference');
-                const salaryPreference = localStorage.getItem('salaryPreference');
-                const locationPreference = localStorage.getItem('locationPreference');
-                const jobTitlePreference = localStorage.getItem('jobTitlePreference');
-                const categoryPreference = localStorage.getItem('categoryPreference');
-                const experiencePreference = localStorage.getItem('experiencePreference');
-                const educationPreference = localStorage.getItem('educationPreference');
-                const benefitsPreference = localStorage.getItem('benefitsPreference');
-                
-                if (workType) {
-                    const typeMap = {
-                        '100-remote': 'fully-remote',
-                        'hybrid': 'hybrid',
-                        'flexible': 'flexible'
-                    };
-                    params.set('type', typeMap[workType] || 'remote');
-                }
-                
-                if (salaryPreference) {
-                    const salary = JSON.parse(salaryPreference);
-                    if (salary.type === 'annual') {
-                        params.set('salary_min', salary.salary);
-                    } else {
-                        params.set('hourly_min', salary.salary);
-                    }
-                }
-                
-                if (locationPreference) {
-                    const location = JSON.parse(locationPreference);
-                    if (location.location) {
-                        params.set('location', location.location);
-                    }
-                    if (location.options && location.options.length > 0) {
-                        params.set('location_options', location.options.join(','));
-                    }
-                }
-                
-                if (jobTitlePreference) {
-                    const jobTitles = JSON.parse(jobTitlePreference);
-                    if (jobTitles.jobTitles && jobTitles.jobTitles.length > 0) {
-                        params.set('job_titles', jobTitles.jobTitles.join(','));
-                    }
-                }
-                
-                if (categoryPreference) {
-                    const categories = JSON.parse(categoryPreference);
-                    if (categories.categories && categories.categories.length > 0) {
-                        params.set('categories', categories.categories.join(','));
-                    }
-                }
-                
-                if (experiencePreference) {
-                    const experience = JSON.parse(experiencePreference);
-                    if (experience.experience) {
-                        params.set('experience', experience.experience);
-                    }
-                }
-                
-                if (educationPreference) {
-                    const education = JSON.parse(educationPreference);
-                    if (education.education) {
-                        params.set('education', education.education);
-                    }
-                }
-                
-                if (benefitsPreference) {
-                    const benefits = JSON.parse(benefitsPreference);
-                    if (benefits.benefits && benefits.benefits.length > 0) {
-                        params.set('benefits', benefits.benefits.join(','));
-                    }
-                }
-                
-                window.location.href = `/remote-jobs?${params.toString()}`;
-            }
-
-            storeUploadPreference() {
-                const preference = {
-                    option: this.selectedOption,
-                    hasFile: this.isFileUploaded,
-                    fileName: this.uploadedFile ? this.uploadedFile.name : null,
-                    timestamp: Date.now()
-                };
-                
-                localStorage.setItem('uploadPreference', JSON.stringify(preference));
-            }
-
-            restoreFromLocalStorage() {
-                const stored = localStorage.getItem('uploadPreference');
-                if (stored) {
-                    try {
-                        const preference = JSON.parse(stored);
-                        if (preference.option) {
-                            this.selectedOption = preference.option;
-                            this.isFileUploaded = preference.hasFile || false;
-                            
-                            if (preference.option === 'upload') {
-                                this.showSelection('uploadOption', 'uploadOverlay');
-                                if (preference.hasFile && preference.fileName) {
-                                    this.showUploadSuccess(preference.fileName);
-                                }
-                            } else {
-                                this.showSelection('skipOption', 'skipOverlay');
-                            }
-                            
-                            this.updateNextButton();
-                        }
-                    } catch (e) {
-                        console.error('Error restoring upload preference:', e);
-                    }
-                }
-            }
-
-            trackSelection() {
-                // Analytics tracking
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'upload_option_selected', {
-                        option: this.selectedOption,
-                        page: 'upload-resume'
-                    });
-                }
-
-                console.log('Upload option selected:', this.selectedOption);
-            }
-
-            trackFileUpload(file) {
-                // Analytics tracking
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'resume_uploaded', {
-                        file_type: file.type,
-                        file_size: file.size,
-                        page: 'upload-resume'
-                    });
-                }
-
-                console.log('File uploaded:', {
-                    name: file.name,
-                    type: file.type,
-                    size: file.size
-                });
-            }
-        }
-
-        // Initialize page when DOM is loaded
-        let uploadPageInstance;
-        document.addEventListener('DOMContentLoaded', () => {
-            uploadPageInstance = new UploadResumePage();
-        });
-
-        // Export for external access
-        window.uploadPageInstance = uploadPageInstance;
     </script>
     
     <!-- Page-specific CSS -->
     <style>
-        /* Page-specific styles */
-        .page-upload-resume {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        /* Page-specific styles - Font inherited from main stylesheet */
 
         .page-upload__logo {
             transition: all 0.3s ease;
@@ -761,11 +252,23 @@
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
             overflow: hidden;
+            transform: scale(0.8);
+            margin: 0 auto;
         }
 
         .page-upload__option-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(0.8);
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        /* Reduce spacing in the main container */
+        .page-upload__main .container {
+            max-width: 900px;
+        }
+
+        /* Adjust navigation spacing */
+        .page-upload__navigation {
+            margin-top: 1rem;
         }
 
         .page-upload__icon-circle {
@@ -866,14 +369,14 @@
 
         /* Mobile responsiveness */
         @media (max-width: 768px) {
-            .page-upload__main {
+            /* .page-upload__main {
                 padding: 2rem 0 !important;
-            }
+            } */
             
-            .page-upload__option-card .card-body {
+            /* .page-upload__option-card .card-body {
                 padding: 2rem !important;
             }
-            
+             */
             .page-upload__navigation {
                 flex-direction: column;
                 gap: 1rem;

@@ -1,105 +1,127 @@
+/**
+ * Where Remote Page JavaScript
+ * Handles location search, checkbox options, and wizard navigation
+ */
+
 // Initialize wizard header and footer
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize wizard header with back button
-    window.wizardHeader = new WizardHeader({
-        isFirstPage: false,
-        backUrl: '/salary-preference'
-    });
+    // Initialize wizard header (step 4 - show back button)
+    if (typeof WizardHeader !== 'undefined') {
+        window.wizardHeader = new WizardHeader({
+            isFirstPage: false
+        });
+    }
     
     // Initialize wizard footer
-    window.wizardFooter = new WizardFooter();
-});
-
-// Load header and footer components
-loadComponents();
-
-// Set active navigation when components are loaded
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.headerInstance) {
-        window.headerInstance.setActiveNav('remote-jobs');
+    if (typeof WizardFooter !== 'undefined') {
+        window.wizardFooter = new WizardFooter(4, 6, 'Next');
+        // Override the handleNext method
+        window.wizardFooter.handleNext = () => {
+            window.whereRemotePageInstance.handleNext();
+        };
+        // Override the handleBack method
+        window.wizardFooter.handleBack = () => {
+            window.whereRemotePageInstance.handleBack();
+        };
+        // Enable by default since location preference isn't required
+        window.wizardFooter.enableNextButton();
     }
+    
+    // Initialize page functionality
+    window.whereRemotePageInstance = new WhereRemotePage();
 });
 
-// Page-specific functionality
 class WhereRemotePage {
     constructor() {
         this.selectedLocation = '';
         this.selectedOptions = new Set();
+        this.hasInteracted = false;
         this.locationSuggestions = [
             'New York, NY', 'Los Angeles, CA', 'Chicago, IL', 'Houston, TX', 'Phoenix, AZ',
             'Philadelphia, PA', 'San Antonio, TX', 'San Diego, CA', 'Dallas, TX', 'San Jose, CA',
             'Austin, TX', 'Jacksonville, FL', 'Fort Worth, TX', 'Columbus, OH', 'Charlotte, NC',
             'San Francisco, CA', 'Indianapolis, IN', 'Seattle, WA', 'Denver, CO', 'Washington, DC',
             'Boston, MA', 'El Paso, TX', 'Nashville, TN', 'Detroit, MI', 'Oklahoma City, OK',
-            'Portland, OR', 'Las Vegas, NV', 'Memphis, TN', 'Louisville, KY', 'Baltimore, MD'
+            'Portland, OR', 'Las Vegas, NV', 'Memphis, TN', 'Louisville, KY', 'Baltimore, MD',
+            'Remote - US Only', 'Remote - Global', 'Work from Home'
         ];
         
         this.init();
     }
 
     init() {
-        this.setupLocationInput();
+        this.setupLocationSearch();
         this.setupLocationOptions();
         this.setupNavigation();
         this.restoreFromLocalStorage();
     }
 
-    setupLocationInput() {
+    setupLocationSearch() {
         const locationInput = document.getElementById('locationInput');
         const suggestionsContainer = document.getElementById('locationSuggestions');
         
-        locationInput.addEventListener('input', (e) => {
-            const query = e.target.value.trim();
-            if (query.length >= 2) {
-                this.showLocationSuggestions(query);
-            } else {
-                this.hideLocationSuggestions();
-            }
-        });
-        
-        locationInput.addEventListener('blur', () => {
-            // Delay hiding to allow clicking on suggestions
-            setTimeout(() => {
-                this.hideLocationSuggestions();
-            }, 200);
-        });
-        
-        locationInput.addEventListener('focus', () => {
-            const query = locationInput.value.trim();
-            if (query.length >= 2) {
-                this.showLocationSuggestions(query);
-            }
-        });
-        
-        // Handle Enter key
-        locationInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                const query = locationInput.value.trim();
-                if (query) {
-                    this.selectLocation(query);
+        if (locationInput) {
+            locationInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim();
+                this.hasInteracted = true;
+                
+                if (query.length >= 2) {
+                    this.showLocationSuggestions(query);
+                } else {
+                    this.hideLocationSuggestions();
                 }
-            }
-        });
+                
+                if (query.length > 0) {
+                    this.selectedLocation = query;
+                    this.updateSelectedDisplay();
+                }
+            });
+            
+            locationInput.addEventListener('blur', () => {
+                // Delay hiding to allow clicking on suggestions
+                setTimeout(() => {
+                    this.hideLocationSuggestions();
+                }, 200);
+            });
+            
+            locationInput.addEventListener('focus', () => {
+                const query = locationInput.value.trim();
+                if (query.length >= 2) {
+                    this.showLocationSuggestions(query);
+                }
+            });
+            
+            // Handle Enter key
+            locationInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const query = locationInput.value.trim();
+                    if (query) {
+                        this.selectLocation(query);
+                    }
+                }
+            });
+        }
     }
 
     showLocationSuggestions(query) {
         const suggestionsContainer = document.getElementById('locationSuggestions');
+        if (!suggestionsContainer) return;
+        
         const filteredSuggestions = this.locationSuggestions.filter(location =>
             location.toLowerCase().includes(query.toLowerCase())
         ).slice(0, 5);
         
         if (filteredSuggestions.length > 0) {
             const suggestionsHTML = filteredSuggestions.map(location => `
-                <button class="list-group-item list-group-item-action d-flex align-items-center" 
-                        onclick="whereRemotePageInstance.selectLocation('${location}')">
-                    <i class="fas fa-map-marker-alt me-2 text-muted"></i>
+                <button class="suggestion-item" onclick="window.whereRemotePageInstance.selectLocation('${location.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-map-marker-alt"></i>
                     ${location}
                 </button>
             `).join('');
             
             suggestionsContainer.innerHTML = `
-                <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+                <div class="suggestions-list">
                     ${suggestionsHTML}
                 </div>
             `;
@@ -111,32 +133,39 @@ class WhereRemotePage {
 
     hideLocationSuggestions() {
         const suggestionsContainer = document.getElementById('locationSuggestions');
-        suggestionsContainer.classList.add('d-none');
+        if (suggestionsContainer) {
+            suggestionsContainer.classList.add('d-none');
+        }
     }
 
     selectLocation(location) {
         const locationInput = document.getElementById('locationInput');
-        locationInput.value = location;
+        if (locationInput) {
+            locationInput.value = location;
+        }
+        
         this.selectedLocation = location;
+        this.hasInteracted = true;
         this.hideLocationSuggestions();
         this.updateSelectedDisplay();
-        this.storeLocationPreference();
+        this.saveToLocalStorage();
     }
 
     setupLocationOptions() {
-        const usCheckbox = document.getElementById('usAnywhere');
-        const globalCheckbox = document.getElementById('globalAnywhere');
+        const checkboxes = document.querySelectorAll('.option-checkbox');
         
-        usCheckbox.addEventListener('change', (e) => {
-            this.handleOptionChange('us-anywhere', e.target.checked);
-        });
-        
-        globalCheckbox.addEventListener('change', (e) => {
-            this.handleOptionChange('global-anywhere', e.target.checked);
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const option = e.target.dataset.option;
+                const isChecked = e.target.checked;
+                this.handleOptionChange(option, isChecked);
+            });
         });
     }
 
     handleOptionChange(option, isChecked) {
+        this.hasInteracted = true;
+        
         if (isChecked) {
             this.selectedOptions.add(option);
         } else {
@@ -144,44 +173,42 @@ class WhereRemotePage {
         }
         
         this.updateSelectedDisplay();
-        this.storeLocationPreference();
-        this.trackOptionSelection(option, isChecked);
+        this.saveToLocalStorage();
     }
 
     updateSelectedDisplay() {
         const selectedDisplay = document.getElementById('selectedDisplay');
         const selectedLocationsList = document.getElementById('selectedLocationsList');
         
+        if (!selectedDisplay || !selectedLocationsList) return;
+        
         const selections = [];
         
-        if (this.selectedLocation) {
+        if (this.selectedLocation && this.selectedLocation.trim()) {
             selections.push({
                 text: this.selectedLocation,
-                icon: 'fas fa-map-marker-alt',
-                color: 'primary'
+                icon: 'fas fa-map-marker-alt'
             });
         }
         
         if (this.selectedOptions.has('us-anywhere')) {
             selections.push({
-                text: 'Anywhere in US',
-                icon: 'fas fa-flag-usa',
-                color: 'primary'
+                text: 'US',
+                icon: 'fas fa-flag-usa'
             });
         }
         
         if (this.selectedOptions.has('global-anywhere')) {
             selections.push({
-                text: 'Anywhere globally',
-                icon: 'fas fa-globe',
-                color: 'success'
+                text: 'Globally',
+                icon: 'fas fa-globe'
             });
         }
         
         if (selections.length > 0) {
             const selectionsHTML = selections.map(selection => `
-                <span class="badge bg-${selection.color} px-3 py-2">
-                    <i class="${selection.icon} me-1"></i>
+                <span class="selected-item">
+                    <i class="${selection.icon}"></i>
                     ${selection.text}
                 </span>
             `).join('');
@@ -194,50 +221,49 @@ class WhereRemotePage {
     }
 
     setupNavigation() {
-        const backBtn = document.getElementById('backBtn');
         const nextBtn = document.getElementById('nextBtn');
+        const skipLink = document.getElementById('skipLink');
         
-        backBtn.addEventListener('click', () => {
-            this.goBack();
-        });
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                this.handleNext();
+            });
+        }
         
-        nextBtn.addEventListener('click', () => {
-            this.goNext();
-        });
+        if (skipLink) {
+            skipLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.skip();
+            });
+        }
     }
 
-    goBack() {
-        // Add loading animation
-        const backBtn = document.getElementById('backBtn');
-        const originalText = backBtn.innerHTML;
-        backBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
-        backBtn.disabled = true;
+    handleNext() {
+        // Store preference
+        this.saveToLocalStorage();
         
-        // Navigate back to salary preference page
-        setTimeout(() => {
-            window.location.href = '/salary-preference';
-        }, 300);
+        // Navigate to next step
+        window.location.href = 'what-job.html';
     }
 
-    goNext() {
-        // Store location preference
-        this.storeLocationPreference();
-        
-        // Add loading animation
-        const nextBtn = document.getElementById('nextBtn');
-        nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
-        nextBtn.disabled = true;
-        
-        // Navigate to next step (job title selection)
-        setTimeout(() => {
-            window.location.href = '/what-job';
-        }, 500);
+    handleBack() {
+        // Navigate to previous step
+        window.location.href = 'why-remote.html';
     }
 
-    storeLocationPreference() {
+    skip() {
+        // Clear any saved preference
+        localStorage.removeItem('locationPreference');
+        
+        // Navigate to next step
+        window.location.href = 'what-job.html';
+    }
+
+    saveToLocalStorage() {
         const preference = {
             location: this.selectedLocation,
             options: Array.from(this.selectedOptions),
+            hasInteracted: this.hasInteracted,
             timestamp: Date.now()
         };
         
@@ -245,65 +271,59 @@ class WhereRemotePage {
     }
 
     restoreFromLocalStorage() {
-        const stored = localStorage.getItem('locationPreference');
-        if (stored) {
+        const saved = localStorage.getItem('locationPreference');
+        if (saved) {
             try {
-                const preference = JSON.parse(stored);
+                const preference = JSON.parse(saved);
                 
                 if (preference.location) {
                     this.selectedLocation = preference.location;
-                    document.getElementById('locationInput').value = preference.location;
+                    const locationInput = document.getElementById('locationInput');
+                    if (locationInput) {
+                        locationInput.value = preference.location;
+                    }
                 }
                 
                 if (preference.options) {
                     preference.options.forEach(option => {
                         this.selectedOptions.add(option);
-                        const checkbox = document.getElementById(option === 'us-anywhere' ? 'usAnywhere' : 'globalAnywhere');
+                        const checkbox = document.querySelector(`[data-option="${option}"]`);
                         if (checkbox) {
                             checkbox.checked = true;
                         }
                     });
                 }
                 
+                this.hasInteracted = preference.hasInteracted || false;
                 this.updateSelectedDisplay();
-            } catch (e) {
-                console.error('Error restoring location preference:', e);
+            } catch (error) {
+                console.error('Error restoring location preference:', error);
             }
         }
-    }
-
-    trackOptionSelection(option, isChecked) {
-        // Analytics tracking
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'location_option_changed', {
-                option: option,
-                selected: isChecked,
-                page: 'where-remote'
-            });
-        }
-
-        console.log('Location option changed:', { option, isChecked });
     }
 
     // Public methods for external access
     getLocationPreference() {
         return {
             location: this.selectedLocation,
-            options: Array.from(this.selectedOptions)
+            options: Array.from(this.selectedOptions),
+            hasInteracted: this.hasInteracted
         };
     }
 
     setLocationPreference(location, options = []) {
         this.selectedLocation = location;
         this.selectedOptions = new Set(options);
+        this.hasInteracted = true;
         
         // Update UI
-        if (location) {
-            document.getElementById('locationInput').value = location;
+        const locationInput = document.getElementById('locationInput');
+        if (locationInput && location) {
+            locationInput.value = location;
         }
         
         options.forEach(option => {
-            const checkbox = document.getElementById(option === 'us-anywhere' ? 'usAnywhere' : 'globalAnywhere');
+            const checkbox = document.querySelector(`[data-option="${option}"]`);
             if (checkbox) {
                 checkbox.checked = true;
             }
@@ -312,12 +332,3 @@ class WhereRemotePage {
         this.updateSelectedDisplay();
     }
 }
-
-// Initialize page when DOM is loaded
-let whereRemotePageInstance;
-document.addEventListener('DOMContentLoaded', () => {
-    whereRemotePageInstance = new WhereRemotePage();
-});
-
-// Export for external access
-window.whereRemotePageInstance = whereRemotePageInstance;
