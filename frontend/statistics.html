@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Perfect Remote Job Awaits - FlexJobs</title>
+    <title>Your Perfect Job Awaits - FlexJobs</title>
     <link rel="icon" type="image/png" href="images/f.png">
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Join thousands of professionals who found their perfect remote job through FlexJobs.">
-    <meta name="keywords" content="remote jobs, flexible work, job statistics, remote work opportunities">
-    <meta property="og:title" content="Your Perfect Remote Job Awaits - FlexJobs">
-    <meta property="og:description" content="Discover amazing remote job opportunities tailored to your preferences.">
+    <meta name="description" content="Join thousands of professionals who found their perfect job through FlexJobs.">
+    <meta name="keywords" content="flexible jobs, flexible work, job statistics, work opportunities">
+    <meta property="og:title" content="Your Perfect Job Awaits - FlexJobs">
+    <meta property="og:description" content="Discover amazing job opportunities tailored to your preferences.">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,7 +32,7 @@
                         <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
                     </div>
                     <p class="loading-text mt-3 text-muted">
-                        Finding the best remote & flexible jobs for you...
+                        Finding the best flexible jobs for you...
                     </p>
                 </div>
 
@@ -47,21 +47,21 @@
                     <div class="row text-center mb-5">
                         <div class="col-12 col-md-4 mb-4">
                             <div class="stat-item">
-                                <h2 class="stat-number text-primary" data-target="156454">0</h2>
-                                <p class="stat-label">active remote & flexible jobs</p>
+                                <h2 class="stat-number" data-target="1554">0</h2>
+                                <p class="stat-label">active flexible jobs</p>
                             </div>
                         </div>
                         
                         <div class="col-12 col-md-4 mb-4">
                             <div class="stat-item">
-                                <h2 class="stat-number text-success" data-target="10504">0</h2>
+                                <h2 class="stat-number" data-target="14">0</h2>
                                 <p class="stat-label">companies hiring today</p>
                             </div>
                         </div>
                         
                         <div class="col-12 col-md-4 mb-4">
                             <div class="stat-item">
-                                <h2 class="stat-number text-info" data-target="7000000">0</h2>
+                                <h2 class="stat-number" data-target="70000">0</h2>
                                 <p class="stat-label">people we've helped since 2007</p>
                             </div>
                         </div>
@@ -72,22 +72,22 @@
                         <h3 class="as-seen-title mb-4">As Seen On*</h3>
                         <div class="media-logos">
                             <div class="logo-item">
-                                <div class="media-logo-placeholder today">TODAY</div>
+                                <img src="images/Today_logo.svg.png" alt="Today Show" class="media-logo">
                             </div>
                             <div class="logo-item">
-                                <div class="media-logo-placeholder wsj">WSJ</div>
+                                <img src="images/wsj.jpg" alt="Wall Street Journal" class="media-logo">
                             </div>
                             <div class="logo-item">
-                                <div class="media-logo-placeholder fox">FOX NEWS</div>
+                                <img src="images/foxnews.png" alt="Fox News" class="media-logo">
                             </div>
                             <div class="logo-item">
-                                <div class="media-logo-placeholder cnbc">CNBC</div>
+                                <img src="images/cnbc.png" alt="CNBC" class="media-logo">
                             </div>
                             <div class="logo-item">
-                                <div class="media-logo-placeholder cnn">CNN</div>
+                                <img src="images/cnn.png" alt="CNN" class="media-logo">
                             </div>
                             <div class="logo-item">
-                                <div class="media-logo-placeholder usa-today">USA TODAY</div>
+                                <img src="images/usatoday.png" alt="USA Today" class="media-logo">
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
     <style>
         /* Mobile-first design */
         .page-statistics {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f1f3f4 100%);
             min-height: 100vh;
             display: flex;
@@ -163,8 +163,8 @@
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 300;
             margin-bottom: 0.5rem;
             line-height: 1.2;
         }
@@ -198,50 +198,24 @@
             flex: 0 1 auto;
         }
 
-        .media-logo-placeholder {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #666;
-            padding: 8px 12px;
-            background: #f8f9fa;
-            border-radius: 4px;
-            min-width: 60px;
-            text-align: center;
-            opacity: 0.8;
+        .media-logo {
+            max-width: 30px;
+            max-height: 20px;
+            width: auto;
+            height: auto;
+            opacity: 0.7;
             transition: opacity 0.3s ease;
+            filter: grayscale(0.3);
         }
 
-        .media-logo-placeholder:hover {
+        .media-logo:hover {
             opacity: 1;
-        }
-
-        .media-logo-placeholder.today {
-            color: #ff6600;
-        }
-
-        .media-logo-placeholder.wsj {
-            color: #000;
-        }
-
-        .media-logo-placeholder.fox {
-            color: #003366;
-        }
-
-        .media-logo-placeholder.cnbc {
-            color: #0078d4;
-        }
-
-        .media-logo-placeholder.cnn {
-            color: #cc0000;
-        }
-
-        .media-logo-placeholder.usa-today {
-            color: #1e3a8a;
+            filter: grayscale(0);
         }
 
         /* CTA Button */
         .cta-button {
-            background: linear-gradient(45deg, #ff6b35, #f39c12);
+            background: #ff6b35;
             border: none;
             border-radius: 25px;
             padding: 0.8rem 2rem;
@@ -303,10 +277,9 @@
                 gap: 2rem;
             }
 
-            .media-logo-placeholder {
-                font-size: 0.9rem;
-                padding: 10px 16px;
-                min-width: 80px;
+            .media-logo {
+                max-width: 80px;
+                max-height: 50px;
             }
 
             .cta-button {
@@ -323,6 +296,12 @@
 
             .page-statistics {
                 padding: 2rem 0;
+                justify-content: center;
+            }
+
+            .statistics-content .row {
+                justify-content: center;
+                align-items: flex-start;
             }
 
             .stat-number {
@@ -337,29 +316,36 @@
 
             .stat-item {
                 margin-bottom: 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
             }
 
             .media-logos {
                 gap: 3rem;
                 margin-bottom: 2rem;
+                justify-content: center;
             }
 
-            .media-logo-placeholder {
-                font-size: 1rem;
-                padding: 12px 20px;
-                min-width: 100px;
-                font-weight: 700;
+            .media-logo {
+                max-width: 100px;
+                max-height: 60px;
             }
 
             .as-seen-title {
                 font-size: 1.5rem;
                 margin-bottom: 2rem;
+                text-align: center;
             }
 
             .cta-button {
                 padding: 1.2rem 3rem;
                 font-size: 1.3rem;
                 max-width: 400px;
+                margin: 0 auto;
+                display: block;
             }
         }
 
@@ -369,21 +355,20 @@
             }
 
             .stat-number {
-                font-size: 4.5rem;
+                font-size: 2.5rem;
             }
 
             .stat-label {
-                font-size: 1.3rem;
+                font-size: 1rem;
             }
 
             .media-logos {
                 gap: 4rem;
             }
 
-            .media-logo-placeholder {
-                font-size: 1.1rem;
-                padding: 14px 24px;
-                min-width: 120px;
+            .media-logo {
+                max-width: 120px;
+                max-height: 70px;
             }
         }
 

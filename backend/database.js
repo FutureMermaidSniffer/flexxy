@@ -27,10 +27,19 @@ async function testConnection() {
   }
 }
 
+// Helper function to convert MySQL-style placeholders to PostgreSQL
+function convertQuery(query, params) {
+  let index = 1;
+  const convertedQuery = query.replace(/\?/g, () => `$${index++}`);
+  return { query: convertedQuery, params };
+}
+
 // Execute query helper function
 async function executeQuery(query, params = []) {
   try {
-    const result = await pool.query(query, params);
+    // Convert MySQL-style ? placeholders to PostgreSQL $1, $2, etc.
+    const { query: convertedQuery, params: convertedParams } = convertQuery(query, params);
+    const result = await pool.query(convertedQuery, convertedParams);
     return result.rows;
   } catch (error) {
     console.error('Database query error:', error);

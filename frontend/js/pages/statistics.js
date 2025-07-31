@@ -117,16 +117,16 @@ class StatisticsPage {
         const ctaButton = document.getElementById('ctaButton');
         const originalText = ctaButton.innerHTML;
         
-        ctaButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+        ctaButton.innerHTML = '<i class="fas fa-search me-2"></i>Finding Your Matches...';
         ctaButton.disabled = true;
         
-        // Store user progress
+        // Store user progress and preferences
         this.storeProgress();
         
-        // Navigate to registration page after short delay
+        // Navigate to job preview page after short delay
         setTimeout(() => {
-            window.location.href = 'registration.html';
-        }, 1000);
+            window.location.href = 'job-preview.html';
+        }, 1500);
     }
 
     storeProgress() {
@@ -136,9 +136,21 @@ class StatisticsPage {
             timestamp: Date.now()
         };
         
+        // Store job preferences for the preview page
+        // These would typically come from previous wizard steps
+        const jobPreferences = {
+            category: localStorage.getItem('selectedJobCategory') || 'Technology',
+            location: localStorage.getItem('selectedLocation') || 'Remote',
+            schedule: localStorage.getItem('selectedSchedule') || 'Full-time',
+            experience: localStorage.getItem('selectedExperience') || 'Mid-level',
+            source: 'statistics_page',
+            timestamp: Date.now()
+        };
+        
         try {
             localStorage.setItem('flexjobs_wizard_progress', JSON.stringify(progress));
-            console.log('Wizard progress saved');
+            localStorage.setItem('userJobPreferences', JSON.stringify(jobPreferences));
+            console.log('Wizard progress and job preferences saved');
         } catch (error) {
             console.error('Error saving progress:', error);
         }

@@ -1,0 +1,479 @@
+/* Halcyon Font Declarations */
+@font-face {
+    font-family: 'Halcyon';
+    src: url('../../fonts/Halcyon-Regular.woff2') format('woff2'),
+         url('../../fonts/Halcyon-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Halcyon';
+    src: url('../../fonts/Halcyon-Medium.woff2') format('woff2'),
+         url('../../fonts/Halcyon-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Halcyon';
+    src: url('../../fonts/Halcyon-SemiBold.woff2') format('woff2'),
+         url('../../fonts/Halcyon-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Halcyon';
+    src: url('../../fonts/Halcyon-Bold.woff2') format('woff2'),
+         url('../../fonts/Halcyon-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Main Header Component Styles */
+.main-header {
+    font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Top Row - White Background */
+.main-header__top-row {
+    background-color: white;
+    padding: 8px 0; /* Reduced from 12px */
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Logo */
+.main-header__logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.main-header__logo {
+    height: 32px; /* Reduced from 40px */
+    width: auto;
+}
+
+/* Mobile Logo Centering */
+@media (max-width: 991px) {
+    .main-header__logo-container.text-center {
+        justify-content: center;
+    }
+    
+    /* Ensure equal spacing on mobile */
+    .main-header__top-row .row {
+        display: flex;
+        align-items: center;
+    }
+    
+    .main-header__top-row .col-auto:first-child,
+    .main-header__top-row .col-auto:last-child {
+        min-width: 60px; /* Ensure consistent button areas */
+    }
+}
+
+/* Desktop Search Bar */
+.main-header__search-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.main-header__search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.main-header__search-bar:focus-within {
+    border-color: #004f6e;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.search-input-group {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.search-icon {
+    color: #6c757d;
+    margin-right: 10px;
+}
+
+.search-input,
+.location-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 8px 0; /* Reduced from 12px */
+    font-size: 14px; /* Reduced from 16px */
+    background: transparent;
+}
+
+.search-input::placeholder {
+    color: #6c757d;
+}
+
+.location-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-left: 1px solid #e9ecef;
+}
+
+.location-icon {
+    color: #6c757d;
+    margin-right: 8px;
+}
+
+.location-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 8px 0; /* Reduced from 12px */
+    color: #495057;
+    min-width: 100px; /* Reduced from 120px */
+}
+
+.search-btn {
+    background: orangered;
+    border: none;
+    color: white;
+    padding: 8px 16px; /* Reduced from 12px 20px */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background: #004f6e;
+}
+
+/* Account Button */
+.main-header__account-btn {
+    background: #f8f9fa;
+    border: 0px solid #dee2e6;
+    color: #495057;
+    padding: 2px 16px;
+    border-radius: 20px;
+    font-weight: 300;
+    transition: all 0.3s ease;
+}
+
+.main-header__account-btn:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* Hamburger Menu */
+.main-header__hamburger {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.hamburger-line {
+    width: 20px;
+    height: 2px;
+    background-color: #495057;
+    transition: all 0.3s ease;
+}
+
+.main-header__hamburger.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.main-header__hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.main-header__hamburger.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Message Button */
+.main-header__message-btn {
+    background: none;
+    border: none;
+    color: #495057;
+    font-size: 18px;
+    padding: 8px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.main-header__message-btn:hover {
+    color: #004f6e;
+}
+
+/* Mobile Search Row */
+.main-header__mobile-search {
+    background: #004f6e;
+    padding: 12px 0;
+}
+
+.main-header__mobile-search .main-header__search-bar {
+    border: none;
+    background: white;
+}
+
+.main-header__mobile-search .search-input {
+    color: #495057;
+}
+
+/* Navigation Row - Blue Background */
+.main-header__nav-row {
+    background: #004f6e;
+    padding: 0;
+}
+
+.main-header__nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.nav-item {
+    margin-right: 0;
+}
+
+/* Account button in navigation row */
+.main-header__nav-row .main-header__account-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 300;
+    transition: all 0.3s ease;
+}
+
+.main-header__nav-row .main-header__account-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Dropdown Menu Styling */
+.main-header__nav-row .dropdown-menu {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 8px;
+    min-width: 200px;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.main-header__nav-row .dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    display: block;
+}
+
+.main-header__nav-row .dropdown-item {
+    color: #495057;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.main-header__nav-row .dropdown-item:hover {
+    background: #f8f9fa;
+    color: #004f6e;
+}
+
+.nav-item {
+    margin-right: 0;
+}
+
+.nav-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 12px 16px; /* Reduced from 16px 20px */
+    text-align: center;
+    font-weight: 300;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom-color: #ffc107;
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom-color: #ffc107;
+}
+
+/* Mobile Slide-out Menu */
+.main-header__mobile-menu {
+    position: fixed;
+    top: 65px; /* Position below the top row */
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 65px); /* Full height minus top row */
+    background: #004f6e; /* Blue background like nav row */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 999; /* Lower than top row */
+    overflow-y: auto;
+}
+
+.main-header__mobile-menu.active {
+    transform: translateX(0);
+}
+
+.mobile-menu__content {
+    padding: 40px 0 20px;
+}
+
+.mobile-nav-list,
+.mobile-account-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-nav-link,
+.mobile-account-link {
+    display: block;
+    color: white; /* White text */
+    text-decoration: none;
+    padding: 20px 24px;
+    font-weight: 400;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-nav-link:hover,
+.mobile-account-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu__divider {
+    margin: 20px 24px;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.logout-link {
+    color: #ff6b6b !important; /* Light red for logout */
+}
+
+.logout-link:hover {
+    background: rgba(255, 107, 107, 0.1) !important;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 65px; /* Start below top row */
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 65px);
+    background: rgba(0, 0, 0, 0.3); /* Lighter overlay */
+    z-index: 998; /* Below mobile menu */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Dynamic Content */
+.main-header__content {
+    background: linear-gradient(135deg, #004f6e 0%, #004f6e 100%);
+    color: white;
+    padding: 1.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .main-header__logo {
+        height: 38px; /* Reduced from 35px */
+    }
+}
+
+@media (max-width: 767px) {
+    .main-header__top-row {
+        padding: 6px 0; /* Reduced from 10px */
+    }
+    
+    .main-header__logo {
+        height: 34px; /* Reduced from 30px */
+    }
+    
+    .main-header__search-bar {
+        border-radius: 20px;
+    }
+    
+    .search-input,
+    .location-input {
+        padding: 8px 0; /* Reduced from 10px */
+        font-size: 13px; /* Reduced from 14px */
+    }
+    
+    .search-btn {
+        padding: 8px 12px; /* Reduced from 10px 16px */
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .main-header__search-bar {
+        border-width: 3px;
+    }
+    
+    .nav-link:hover {
+        outline: 2px solid white;
+        outline-offset: -2px;
+    }
+}

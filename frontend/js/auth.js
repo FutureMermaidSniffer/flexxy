@@ -3,12 +3,23 @@ class Auth {
     constructor() {
         this.token = localStorage.getItem('flexjobs_token');
         this.user = JSON.parse(localStorage.getItem('flexjobs_user') || 'null');
+        this.logoutHandlersSetup = false; // Track if logout handlers are already setup
         this.init();
     }
 
     init() {
         this.updateNavbar();
+        this.setupLogoutHandlers(); // Set up logout handlers once
         this.setupEventListeners();
+        this.addAuthStyles(); // Add styles for auth links
+        
+        // Listen for main header ready event
+        document.addEventListener('mainHeaderReady', () => {
+            this.updateNavbar();
+        });
+        
+        // Also check periodically if elements exist but navbar hasn't been updated
+        this.checkNavbarElements();
         
         // Verify token if exists
         if (this.token) {
@@ -27,6 +38,24 @@ class Auth {
         const registerForm = document.getElementById('registerForm');
         if (registerForm) {
             registerForm.addEventListener('submit', (e) => this.handleRegister(e));
+        }
+    }
+
+    // Add styles for auth links
+    addAuthStyles() {
+        if (!document.getElementById('authLinkStyles')) {
+            const style = document.createElement('style');
+            style.id = 'authLinkStyles';
+            style.textContent = `
+                .auth-link {
+                    transition: color 0.3s ease;
+                }
+                .auth-link:hover,
+                .auth-link:focus {
+                    color: #ff6b35 !important;
+                }
+            `;
+            document.head.appendChild(style);
         }
     }
 
@@ -63,6 +92,11 @@ class Auth {
                 e.target.reset();
                 
                 this.showAlert('Login successful!', 'success');
+                
+                // Redirect to browse jobs page
+                setTimeout(() => {
+                    window.location.href = 'browse-jobs.html';
+                }, 1000);
             } else {
                 this.showAlert(data.message || 'Login failed', 'danger');
             }
@@ -116,6 +150,11 @@ class Auth {
                 e.target.reset();
                 
                 this.showAlert('Registration successful! Welcome to FlexJobs!', 'success');
+                
+                // Redirect to browse jobs page
+                setTimeout(() => {
+                    window.location.href = 'browse-jobs.html';
+                }, 1000);
             } else {
                 if (data.errors) {
                     const errorMessages = data.errors.map(err => err.msg).join(', ');
@@ -159,66 +198,133 @@ class Auth {
         localStorage.setItem('flexjobs_user', JSON.stringify(user));
     }
 
-    logout() {
+    async logout() {
+        try {
+            // Call backend logout endpoint if token exists
+            if (this.token) {
+                await fetch('/api/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${this.token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+            }
+        } catch (error) {
+            console.log('Logout endpoint error:', error);
+            // Continue with client-side logout even if server call fails
+        }
+
+        // Clear client-side data
         this.token = null;
         this.user = null;
         localStorage.removeItem('flexjobs_token');
         localStorage.removeItem('flexjobs_user');
+        
+        // Update navbar immediately
         this.updateNavbar();
+        
+        // Also check for navbar elements periodically in case they weren't loaded yet
+        this.checkNavbarElements();
+        
         this.showAlert('You have been logged out', 'info');
+        
+        // Redirect to browse jobs page
+        setTimeout(() => {
+            window.location.href = 'browse-jobs.html';
+        }, 1000);
     }
 
     updateNavbar() {
-        const navbarAuth = document.getElementById('navbarAuth');
-        if (!navbarAuth) return;
-
+        const desktopNavbarAuth = document.getElementById('navbarAuth');
+        const mobileNavbarAuth = document.getElementById('mobileNavbarAuth');
+        
+        console.log('Auth updateNavbar called:', {
+            user: !!this.user,
+            desktopElement: !!desktopNavbarAuth,
+            mobileElement: !!mobileNavbarAuth
+        });
+        
         if (this.user) {
-            navbarAuth.innerHTML = `
-                <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user me-1"></i>
-                        ${this.user.first_name} ${this.user.last_name}
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" onclick="auth.showDashboard()">
-                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                        </a></li>
-                        <li><a class="dropdown-item" href="#" onclick="auth.showProfile()">
-                            <i class="fas fa-user me-2"></i>Profile
-                        </a></li>
-                        ${this.user.user_type === 'job_seeker' ? `
-                        <li><a class="dropdown-item" href="#" onclick="auth.showSavedJobs()">
-                            <i class="fas fa-heart me-2"></i>Saved Jobs
-                        </a></li>
-                        <li><a class="dropdown-item" href="#" onclick="auth.showMyApplications()">
-                            <i class="fas fa-paper-plane me-2"></i>My Applications
-                        </a></li>
-                        ` : ''}
-                        ${this.user.user_type === 'employer' ? `
-                        <li><a class="dropdown-item" href="#" onclick="auth.showMyJobs()">
-                            <i class="fas fa-briefcase me-2"></i>My Jobs
-                        </a></li>
-                        <li><a class="dropdown-item" href="#" onclick="auth.showPostJob()">
-                            <i class="fas fa-plus me-2"></i>Post Job
-                        </a></li>
-                        ` : ''}
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" onclick="auth.logout()">
-                            <i class="fas fa-sign-out-alt me-2"></i>Logout
-                        </a></li>
+            // User is logged in - show account dropdown for desktop
+            if (desktopNavbarAuth) {
+                desktopNavbarAuth.innerHTML = `
+                    <div class="dropdown">
+                        <button class="main-header__account-btn dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            My Account
+                            <i class="fas fa-chevron-down ms-1"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="account.html">Account Details</a></li>
+                            <li><a class="dropdown-item" href="faq.html">FAQs</a></li>
+                            <li><a class="dropdown-item" href="support.html">Customer Support</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item logout-btn" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // User is logged in - show account menu for mobile
+            if (mobileNavbarAuth) {
+                mobileNavbarAuth.innerHTML = `
+                    <hr class="mobile-menu__divider">
+                    <ul class="mobile-account-list">
+                        <li class="mobile-account-item">
+                            <a href="account.html" class="mobile-account-link">
+                                Profile
+                            </a>
+                        </li>
+                        <li class="mobile-account-item">
+                            <a href="#" class="mobile-account-link">
+                                Saved Jobs
+                            </a>
+                        </li>
+                        <li class="mobile-account-item">
+                            <a href="#" class="mobile-account-link">
+                                Applications
+                            </a>
+                        </li>
+                        <li class="mobile-account-item">
+                            <a href="#" class="mobile-account-link logout-link logout-btn">
+                                Logout
+                            </a>
+                        </li>
                     </ul>
-                </div>
-            `;
+                `;
+            }
         } else {
-            navbarAuth.innerHTML = `
-                <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
-                    Login
-                </button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
-                    Sign Up
-                </button>
-            `;
+            // User is logged out - show login/signup links for desktop
+            if (desktopNavbarAuth) {
+                desktopNavbarAuth.innerHTML = `
+                    <div class="d-flex align-items-center gap-3">
+                        <a href="registration.html" class="text-decoration-none text-white auth-link">Sign Up</a>
+                        <a href="login.html" class="text-decoration-none text-white auth-link">Log In</a>
+                    </div>
+                `;
+            }
+
+            // User is logged out - show login/signup links for mobile
+            if (mobileNavbarAuth) {
+                mobileNavbarAuth.innerHTML = `
+                    <hr class="mobile-menu__divider">
+                    <ul class="mobile-account-list">
+                        <li class="mobile-account-item">
+                            <a href="registration.html" class="mobile-account-link" style="color:white;">
+                                Sign Up
+                            </a>
+                        </li>
+                        <li class="mobile-account-item">
+                            <a href="login.html" class="mobile-account-link" style="color:white;">
+                                Log In
+                            </a>
+                        </li>
+                    </ul>
+                `;
+            }
         }
+
+        // No need to re-initialize logout handlers here since they're set up once in init()
     }
 
     // Placeholder methods for dashboard features
@@ -302,10 +408,44 @@ class Auth {
     isAdmin() {
         return this.user && this.user.user_type === 'admin';
     }
+
+    // Setup logout event handlers
+    setupLogoutHandlers() {
+        // Only set up event listeners once
+        if (this.logoutHandlersSetup) return;
+        
+        // Use event delegation to handle dynamically added logout buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('.logout-btn') || e.target.matches('.logout-link')) {
+                e.preventDefault();
+                this.logout();
+            }
+        });
+        
+        this.logoutHandlersSetup = true;
+    }
+    
+    // Check if navbar elements exist and update if needed
+    checkNavbarElements() {
+        const checkInterval = setInterval(() => {
+            const desktopAuth = document.getElementById('navbarAuth');
+            const mobileAuth = document.getElementById('mobileNavbarAuth');
+            
+            if (desktopAuth || mobileAuth) {
+                this.updateNavbar();
+                clearInterval(checkInterval);
+            }
+        }, 100);
+        
+        // Stop checking after 5 seconds
+        setTimeout(() => clearInterval(checkInterval), 5000);
+    }
 }
 
 // Initialize auth when DOM is loaded
 let auth;
 document.addEventListener('DOMContentLoaded', () => {
     auth = new Auth();
+    // Make auth globally available
+    window.auth = auth;
 });

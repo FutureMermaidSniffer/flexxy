@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join FlexJobs - Find Your Perfect Remote Job</title>
+    <title>Join FlexJobs - Find Your Perfect Job</title>
     <link rel="icon" type="image/png" href="images/f.png">
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Join FlexJobs today to access thousands of remote and flexible job opportunities.">
-    <meta name="keywords" content="join flexjobs, remote jobs, job search, flexible work, registration">
-    <meta property="og:title" content="Join FlexJobs - Find Your Perfect Remote Job">
-    <meta property="og:description" content="Start your remote job search journey with FlexJobs today.">
+    <meta name="description" content="Join FlexJobs today to access thousands of flexible job opportunities.">
+    <meta name="keywords" content="join flexjobs, flexible jobs, job search, flexible work, registration">
+    <meta property="og:title" content="Join FlexJobs - Find Your Perfect Job">
+    <meta property="og:description" content="Start your job search journey with FlexJobs today.">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -70,20 +70,42 @@
         <div class="modal-backdrop-custom" id="modalBackdrop">
             <!-- Registration Modal -->
             <div class="registration-modal" id="registrationModal">
-                <div class="modal-content">
+                <!-- <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title">Create a Password</h3>
+                        <h3 class="modal-title">Success! <br>We found <span class="highlight">12,020</span> job matches for you!</h3>
                         <button type="button" class="btn-close" id="closeModal" aria-label="Close">
                             <i class="fas fa-times"></i>
                         </button>
-                    </div>
+                    </div> -->
                     
                     <div class="modal-body">
+                        <p class="join-message">Join today to see MORE flexible jobs.</p>
+                        
                         <!-- Registration Form -->
                         <form id="registrationForm" class="registration-form">
+                            <!-- Name Fields Row -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="firstNameInput" class="form-label">First Name*</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="firstNameInput" 
+                                           placeholder="First name"
+                                           required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastNameInput" class="form-label">Last Name*</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="lastNameInput" 
+                                           placeholder="Last name"
+                                           required>
+                                </div>
+                            </div>
+                            
                             <!-- Email Input -->
                             <div class="form-group mb-3">
-                                <label for="emailInput" class="form-label">Email Address</label>
+                                <label for="emailInput" class="form-label">Email Address*</label>
                                 <input type="email" 
                                        class="form-control" 
                                        id="emailInput" 
@@ -93,32 +115,62 @@
                             
                             <!-- Password Input -->
                             <div class="form-group mb-3">
-                                <label for="passwordInput" class="form-label">Password</label>
+                                <label for="passwordInput" class="form-label">Create a Password*</label>
                                 <div class="password-input-group">
                                     <input type="password" 
                                            class="form-control" 
                                            id="passwordInput" 
-                                           placeholder="Create a password"
+                                           placeholder="Create a password (min 6 characters)"
+                                           minlength="6"
                                            required>
                                     <button type="button" class="password-toggle" id="passwordToggle">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
                             </div>
+
+                            <!-- Contact Information Row -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="phoneInput" class="form-label">Phone </small></label>
+                                    <input type="tel" 
+                                           class="form-control" 
+                                           id="phoneInput" 
+                                           placeholder="Phone number">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="locationInput" class="form-label">Location </small></label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="locationInput" 
+                                           placeholder="City, State or Remote">
+                                </div>
+                            </div>
+
+                            <!-- Hidden User Type Field (defaults to job_seeker) -->
+                            <input type="hidden" id="userTypeInput" value="job_seeker">
                             
                             <!-- Submit Button -->
-                            <div class="form-group mb-4">
+                            <div class="form-group mb-3">
                                 <button type="submit" class="btn btn-primary btn-lg submit-btn">
-                                    I'm ready to see my jobs
+                                    Create Account
+                                </button>
+                            </div>
+                            
+                            <!-- Skip Button -->
+                            <div class="form-group mb-4">
+                                <button type="button" class="btn btn-link skip-btn" id="skipRegistration">
+                                    Skip Registration
                                 </button>
                             </div>
                             
                             <!-- Terms and Privacy -->
                             <div class="terms-section">
                                 <p class="terms-text">
-                                    By clicking "I'm ready to see my jobs", you agree to our 
+                                    By clicking "Create Account", you agree to our 
                                     <a href="#" class="terms-link">Terms of Use</a> and 
-                                    <a href="#" class="terms-link">Privacy Policy</a> and to receive work updates. You can unsubscribe at anytime.
+                                    <a href="#" class="terms-link">Privacy Policy</a>, 
+                                    and to receive email updates. You can unsubscribe anytime.
                                 </p>
                             </div>
                         </form>
@@ -134,10 +186,10 @@
                     <div class="benefits-icon">
                         <i class="fas fa-star"></i>
                     </div>
-                    <h4 class="benefits-title">Your perfect remote job and the expert help you need.</h4>
+                    <h4 class="benefits-title">Your perfect job and the expert help you need.</h4>
                     <ul class="benefits-list">
-                        <li><i class="fas fa-check text-success me-2"></i>156,474 remote-friendly companies</li>
-                        <li><i class="fas fa-check text-success me-2"></i>10,524 remote-friendly companies</li>
+                        <li><i class="fas fa-check text-success me-2"></i>156,474 flexible companies</li>
+                        <li><i class="fas fa-check text-success me-2"></i>10,524 flexible companies</li>
                         <li><i class="fas fa-check text-success me-2"></i>Faster and easier job search</li>
                         <li><i class="fas fa-check text-success me-2"></i>Resume support and our free Resume Review</li>
                     </ul>
@@ -248,8 +300,8 @@
         }
 
         .match-title {
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 400;
             margin: 0;
         }
 
@@ -291,10 +343,24 @@
         }
 
         .modal-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 600;
             margin: 0;
             color: #212529;
+            line-height: 1.3;
+            justify-content: center;
+        }
+
+        .modal-title .highlight {
+            color: #007bff;
+            font-weight: 700;
+        }
+
+        .join-message {
+            font-size: 1rem;
+            color: #495057;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
 
         .btn-close {
@@ -361,10 +427,10 @@
         }
 
         .submit-btn {
-            background: linear-gradient(45deg, #ff6b35, #f39c12);
+            background: #ff6b35;
             border: none;
-            border-radius: 25px;
-            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            padding: 0.2rem 1rem;
             font-size: 1rem;
             font-weight: 600;
             width: 100%;
@@ -376,6 +442,24 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
             background: linear-gradient(45deg, #e55a2e, #e67e22);
+        }
+
+        .skip-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: underline;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .skip-btn:hover {
+            color: #495057;
+            text-decoration: none;
         }
 
         .terms-text {
@@ -483,15 +567,36 @@
             }
 
             .registration-modal {
-                max-width: 450px;
+                max-width: 500px;
+                margin: 2rem auto;
             }
 
             .modal-header {
-                padding: 2rem 2rem 1.5rem;
+                padding: 2rem 2rem 1rem;
+            }
+
+            .modal-title {
+                font-size: 1.6rem;
+                line-height: 1.2;
             }
 
             .modal-body {
                 padding: 1rem 2rem 2rem;
+            }
+
+            .join-message {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+
+            .form-control {
+                padding: 0.875rem;
+                font-size: 1.05rem;
+            }
+
+            .submit-btn {
+                padding: 0.875rem 1.5rem;
+                font-size: 1.05rem;
             }
 
             .benefits-title {

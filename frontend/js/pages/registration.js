@@ -17,6 +17,9 @@ class RegistrationPage {
         // Setup password toggle
         this.setupPasswordToggle();
         
+        // Setup skip button
+        this.setupSkipButton();
+        
         // Show modal automatically
         this.showModal();
         
@@ -65,8 +68,25 @@ class RegistrationPage {
     }
 
     setupFormValidation() {
+        const firstNameInput = document.getElementById('firstNameInput');
+        const lastNameInput = document.getElementById('lastNameInput');
         const emailInput = document.getElementById('emailInput');
         const passwordInput = document.getElementById('passwordInput');
+        const phoneInput = document.getElementById('phoneInput');
+        const locationInput = document.getElementById('locationInput');
+        
+        // Clear errors on input for all fields
+        if (firstNameInput) {
+            firstNameInput.addEventListener('input', () => {
+                this.clearFieldError(firstNameInput);
+            });
+        }
+        
+        if (lastNameInput) {
+            lastNameInput.addEventListener('input', () => {
+                this.clearFieldError(lastNameInput);
+            });
+        }
         
         if (emailInput) {
             emailInput.addEventListener('input', () => {
@@ -81,6 +101,18 @@ class RegistrationPage {
         if (passwordInput) {
             passwordInput.addEventListener('input', () => {
                 this.validatePassword(passwordInput);
+            });
+        }
+        
+        if (phoneInput) {
+            phoneInput.addEventListener('input', () => {
+                this.clearFieldError(phoneInput);
+            });
+        }
+        
+        if (locationInput) {
+            locationInput.addEventListener('input', () => {
+                this.clearFieldError(locationInput);
             });
         }
     }
@@ -99,6 +131,32 @@ class RegistrationPage {
                 icon.classList.toggle('fa-eye-slash');
             });
         }
+    }
+
+    setupSkipButton() {
+        const skipBtn = document.getElementById('skipRegistration');
+        if (skipBtn) {
+            skipBtn.addEventListener('click', () => {
+                this.handleSkipRegistration();
+            });
+        }
+    }
+
+    handleSkipRegistration() {
+        // Track skip action
+        this.trackSkipRegistration();
+        
+        // Add loading state to skip button
+        const skipBtn = document.getElementById('skipRegistration');
+        const originalText = skipBtn.textContent;
+        skipBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+        skipBtn.disabled = true;
+        
+        // Close modal and redirect after short delay
+        setTimeout(() => {
+            this.closeModal();
+            window.location.href = 'browse-jobs.html';
+        }, 800);
     }
 
     showModal() {
@@ -179,28 +237,51 @@ class RegistrationPage {
     }
 
     async handleRegistration() {
+        const firstNameInput = document.getElementById('firstNameInput');
+        const lastNameInput = document.getElementById('lastNameInput');
         const emailInput = document.getElementById('emailInput');
         const passwordInput = document.getElementById('passwordInput');
+        const phoneInput = document.getElementById('phoneInput');
+        const locationInput = document.getElementById('locationInput');
+        const userTypeInput = document.getElementById('userTypeInput');
         const submitBtn = document.querySelector('.submit-btn');
         
+        const firstName = firstNameInput.value.trim();
+        const lastName = lastNameInput.value.trim();
         const email = emailInput.value.trim();
         const password = passwordInput.value;
+        const phone = phoneInput.value.trim();
+        const location = locationInput.value.trim();
+        const userType = userTypeInput.value || 'job_seeker';
         
-        // Validate inputs
-        const isEmailValid = this.validateEmail(emailInput);
-        const isPasswordValid = this.validatePassword(passwordInput);
+        // Validate required inputs
+        let hasErrors = false;
+        
+        if (!firstName) {
+            this.showFieldError(firstNameInput, 'First name is required');
+            hasErrors = true;
+        }
+        
+        if (!lastName) {
+            this.showFieldError(lastNameInput, 'Last name is required');
+            hasErrors = true;
+        }
         
         if (!email) {
             this.showFieldError(emailInput, 'Email is required');
-            return;
+            hasErrors = true;
         }
         
         if (!password) {
             this.showFieldError(passwordInput, 'Password is required');
-            return;
+            hasErrors = true;
         }
         
-        if (!isEmailValid || !isPasswordValid) {
+        // Validate email and password format
+        const isEmailValid = this.validateEmail(emailInput);
+        const isPasswordValid = this.validatePassword(passwordInput);
+        
+        if (!isEmailValid || !isPasswordValid || hasErrors) {
             return;
         }
         
@@ -210,11 +291,22 @@ class RegistrationPage {
         submitBtn.disabled = true;
         
         try {
-            // Simulate API call
-            await this.registerUser(email, password);
+            // Prepare registration data
+            const registrationData = {
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                password: password,
+                user_type: userType,
+                phone: phone || null,
+                location: location || null
+            };
             
-            // Store registration data
-            this.storeUserData(email);
+            // Call registration API
+            await this.registerUser(registrationData);
+            
+            // Store user data locally
+            this.storeUserData(registrationData);
             
             // Track successful registration
             this.trackRegistration(email);
@@ -222,9 +314,9 @@ class RegistrationPage {
             // Show success message briefly
             submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Account created!';
             
-            // Redirect to job search results
+            // Redirect to browse jobs page
             setTimeout(() => {
-                window.location.href = 'job-search-results.html';
+                window.location.href = 'browse-jobs.html';
             }, 1500);
             
         } catch (error) {
@@ -238,23 +330,40 @@ class RegistrationPage {
         }
     }
 
-    async registerUser(email, password) {
-        // Simulate API registration call
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                // Simulate success (in real app, this would be an actual API call)
-                if (email && password) {
-                    resolve({ success: true, userId: Date.now() });
-                } else {
-                    reject(new Error('Invalid credentials'));
-                }
-            }, 2000);
+    async registerUser(registrationData) {
+        // Make actual API call to backend
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(registrationData)
         });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Registration failed');
+        }
+        
+        const result = await response.json();
+        
+        // Store token and user data if registration successful
+        if (result.token) {
+            localStorage.setItem('flexjobs_token', result.token);
+            localStorage.setItem('flexjobs_user', JSON.stringify(result.user));
+        }
+        
+        return result;
     }
 
-    storeUserData(email) {
+    storeUserData(registrationData) {
         const userData = {
-            email: email,
+            email: registrationData.email,
+            first_name: registrationData.first_name,
+            last_name: registrationData.last_name,
+            phone: registrationData.phone,
+            location: registrationData.location,
+            user_type: registrationData.user_type,
             registrationDate: new Date().toISOString(),
             wizardCompleted: true,
             preferences: this.getUserPreferences()
@@ -339,6 +448,18 @@ class RegistrationPage {
         }
         
         console.log('User registered:', email);
+    }
+
+    trackSkipRegistration() {
+        // Analytics tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'registration_skipped', {
+                page: 'registration',
+                action: 'skip'
+            });
+        }
+        
+        console.log('User skipped registration');
     }
 
     // Public methods

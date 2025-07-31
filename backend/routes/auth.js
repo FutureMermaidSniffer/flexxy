@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const { getOne, insertOne, updateOne } = require('../database');
 const { authenticateToken } = require('../middleware/auth');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const router = express.Router();
 
@@ -246,6 +248,172 @@ router.get('/verify', authenticateToken, (req, res) => {
       user_type: req.user.user_type
     }
   });
+});
+
+// Configure Google OAuth Strategy
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(new GoogleStrategy({
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL || "/api/auth/google/callback"
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // Check if user already exists with this Google ID
+        let user = await getOne('SELECT * FROM users WHERE google_id = ?', [profile.id]);
+        
+        if (user) {
+          return done(null, user);
+        }
+
+        // Check if user exists with same email
+        user = await getOne('SELECT * FROM users WHERE email = ?', [profile.emails[0].value]);
+        
+        if (user) {
+          // Link Google account to existing user
+          await updateOne('users', { 
+            google_id: profile.id,
+            avatar_url: profile.photos[0]?.value 
+          }, 'id = ?', [user.id]);
+          
+          user.google_id = profile.id;
+          user.avatar_url = profile.photos[0]?.value;
+          return done(null, user);
+        }
+
+        // Create new user
+        const newUserData = {
+          email: profile.emails[0].value,
+          first_name: profile.name.givenName,
+          last_name: profile.name.familyName,
+          google_id: profile.id,
+          avatar_url: profile.photos[0]?.value,
+          user_type: 'job_seeker', // Default type
+          email_verified: true, // Google emails are pre-verified
+          created_at: new Date(),
+          updated_at: new Date()
+        };
+
+        const userId = await insertOne('users', newUserData);
+        const newUser = await getOne('SELECT * FROM users WHERE id = ?', [userId]);
+        
+        return done(null, newUser);
+      } catch (error) {
+        return done(error, null);
+      }
+    }
+  ));
+} else {
+  console.log('⚠️  Google OAuth disabled - missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET');
+}
+
+// Serialize user for session
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await getOne('SELECT * FROM users WHERE id = ?', [id]);
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
+
+// Google OAuth routes
+router.get('/google', 
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+router.get('/google/callback',
+  passport.authenticate('google', { session: false }),
+  (req, res) => {
+    try {
+      // Generate JWT token
+      const token = generateToken(req.user.id, req.user.email, req.user.user_type);
+      
+      // Redirect to browse jobs page with token
+      const redirectUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/browse-jobs.html?token=${token}&success=1`;
+      res.redirect(redirectUrl);
+    } catch (error) {
+      console.error('Google callback error:', error);
+      const errorUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=google_auth_failed`;
+      res.redirect(errorUrl);
+    }
+  }
+);
+
+// Apple OAuth routes (simplified implementation)
+router.post('/apple/callback', async (req, res) => {
+  try {
+    const { id_token, user_info } = req.body;
+    
+    // In a production environment, you would verify the Apple ID token
+    // For now, this is a simplified implementation
+    if (!id_token) {
+      return res.status(400).json({ message: 'Invalid Apple ID token' });
+    }
+
+    // Decode Apple ID token (in production, use proper verification)
+    const appleUserId = user_info?.sub || 'apple_' + Date.now();
+    const email = user_info?.email;
+    const firstName = user_info?.given_name || 'Apple';
+    const lastName = user_info?.family_name || 'User';
+
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    // Check if user already exists with this Apple ID
+    let user = await getOne('SELECT * FROM users WHERE apple_id = ?', [appleUserId]);
+    
+    if (user) {
+      const token = generateToken(user.id, user.email, user.user_type);
+      return res.json({ token, user: { id: user.id, email: user.email, user_type: user.user_type } });
+    }
+
+    // Check if user exists with same email
+    user = await getOne('SELECT * FROM users WHERE email = ?', [email]);
+    
+    if (user) {
+      // Link Apple account to existing user
+      await updateOne('users', { apple_id: appleUserId }, 'id = ?', [user.id]);
+      user.apple_id = appleUserId;
+      
+      const token = generateToken(user.id, user.email, user.user_type);
+      return res.json({ token, user: { id: user.id, email: user.email, user_type: user.user_type } });
+    }
+
+    // Create new user
+    const newUserData = {
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      apple_id: appleUserId,
+      user_type: 'job_seeker', // Default type
+      email_verified: true, // Apple emails are pre-verified
+      created_at: new Date(),
+      updated_at: new Date()
+    };
+
+    const userId = await insertOne('users', newUserData);
+    const newUser = await getOne('SELECT * FROM users WHERE id = ?', [userId]);
+    
+    const token = generateToken(newUser.id, newUser.email, newUser.user_type);
+    res.json({ token, user: { id: newUser.id, email: newUser.email, user_type: newUser.user_type } });
+
+  } catch (error) {
+    console.error('Apple authentication error:', error);
+    res.status(500).json({ message: 'Apple authentication failed' });
+  }
+});
+
+// Logout endpoint
+router.post('/logout', authenticateToken, (req, res) => {
+  // Since we're using JWT tokens (stateless), we don't need to do anything server-side
+  // In a production app, you might want to blacklist the token or store logout events
+  res.json({ message: 'Logout successful' });
 });
 
 module.exports = router;

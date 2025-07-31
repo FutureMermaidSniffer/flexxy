@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Find answers to frequently asked questions about FlexJobs, remote work, and flexible job opportunities.">
+    <meta name="keywords" content="FAQ, FlexJobs help, remote work questions, flexible jobs, job search help">
+    <meta property="og:title" content="FAQ - FlexJobs">
+    <meta property="og:description" content="Get answers to common questions about FlexJobs and remote work.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+</head>
+
+<body class="faq-page">
+    <!-- Main Header Component -->
+    <div id="main-header-placeholder"></div>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">FAQ</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="hero-title">Frequently Asked Questions</h1>
+                    <p class="hero-subtitle">Find quick answers to common questions about FlexJobs, remote work, and flexible job opportunities</p>
+                    
+                    <!-- Search Box -->
+                    <div class="faq-search">
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="form-control search-input" placeholder="Search for answers..." id="faqSearch">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Categories -->
+    <section class="faq-categories">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="category-tabs">
+                        <ul class="nav nav-pills justify-content-center" id="faq-category-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="general-tab" data-bs-toggle="pill" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">
+                                    <i class="fas fa-question-circle me-2"></i>General
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="account-tab" data-bs-toggle="pill" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">
+                                    <i class="fas fa-user me-2"></i>Account
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="billing-tab" data-bs-toggle="pill" data-bs-target="#billing" type="button" role="tab" aria-controls="billing" aria-selected="false">
+                                    <i class="fas fa-credit-card me-2"></i>Billing
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="jobs-tab" data-bs-toggle="pill" data-bs-target="#jobs" type="button" role="tab" aria-controls="jobs" aria-selected="false">
+                                    <i class="fas fa-briefcase me-2"></i>Jobs
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="technical-tab" data-bs-toggle="pill" data-bs-target="#technical" type="button" role="tab" aria-controls="technical" aria-selected="false">
+                                    <i class="fas fa-cog me-2"></i>Technical
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="faq-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="tab-content" id="faq-tab-content">
+                        <!-- General FAQ -->
+                        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                            <div class="faq-section">
+                                <h3 class="section-title">General Questions</h3>
+                                
+                                <div class="accordion" id="generalAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="general1">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#generalCollapse1" aria-expanded="true" aria-controls="generalCollapse1">
+                                                What is FlexJobs?
+                                            </button>
+                                        </h2>
+                                        <div id="generalCollapse1" class="accordion-collapse collapse show" aria-labelledby="general1" data-bs-parent="#generalAccordion">
+                                            <div class="accordion-body">
+                                                FlexJobs is a premium job board specializing in remote, flexible, and part-time jobs. We hand-screen every job listing to ensure they are legitimate and high-quality opportunities from reputable companies.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="general2">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#generalCollapse2" aria-expanded="false" aria-controls="generalCollapse2">
+                                                How is FlexJobs different from other job sites?
+                                            </button>
+                                        </h2>
+                                        <div id="generalCollapse2" class="accordion-collapse collapse" aria-labelledby="general2" data-bs-parent="#generalAccordion">
+                                            <div class="accordion-body">
+                                                Unlike other job sites, FlexJobs focuses exclusively on flexible work opportunities. We manually review every job posting to eliminate scams and low-quality listings. Our jobs come from trusted companies and include detailed information about flexibility options.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="general3">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#generalCollapse3" aria-expanded="false" aria-controls="generalCollapse3">
+                                                What types of jobs are available?
+                                            </button>
+                                        </h2>
+                                        <div id="generalCollapse3" class="accordion-collapse collapse" aria-labelledby="general3" data-bs-parent="#generalAccordion">
+                                            <div class="accordion-body">
+                                                FlexJobs features opportunities across 50+ career categories including technology, marketing, customer service, education, healthcare, finance, and more. We offer remote, hybrid, part-time, freelance, and flexible schedule positions.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="general4">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#generalCollapse4" aria-expanded="false" aria-controls="generalCollapse4">
+                                                Is FlexJobs legitimate?
+                                            </button>
+                                        </h2>
+                                        <div id="generalCollapse4" class="accordion-collapse collapse" aria-labelledby="general4" data-bs-parent="#generalAccordion">
+                                            <div class="accordion-body">
+                                                Yes, FlexJobs is a legitimate company that has been helping people find flexible work since 2007. We have an A+ rating with the Better Business Bureau and have helped over 4 million people in their job search.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account FAQ -->
+                        <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
+                            <div class="faq-section">
+                                <h3 class="section-title">Account Questions</h3>
+                                
+                                <div class="accordion" id="accountAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="account1">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accountCollapse1" aria-expanded="true" aria-controls="accountCollapse1">
+                                                How do I create an account?
+                                            </button>
+                                        </h2>
+                                        <div id="accountCollapse1" class="accordion-collapse collapse show" aria-labelledby="account1" data-bs-parent="#accountAccordion">
+                                            <div class="accordion-body">
+                                                Creating an account is easy! Click "Sign Up" at the top of any page, enter your email address and create a password. You can also sign up using your Google or LinkedIn account for faster registration.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="account2">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountCollapse2" aria-expanded="false" aria-controls="accountCollapse2">
+                                                How do I reset my password?
+                                            </button>
+                                        </h2>
+                                        <div id="accountCollapse2" class="accordion-collapse collapse" aria-labelledby="account2" data-bs-parent="#accountAccordion">
+                                            <div class="accordion-body">
+                                                If you've forgotten your password, click "Forgot Password" on the login page. Enter your email address and we'll send you a link to reset your password. The link will expire in 24 hours for security purposes.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="account3">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountCollapse3" aria-expanded="false" aria-controls="accountCollapse3">
+                                                How do I update my profile information?
+                                            </button>
+                                        </h2>
+                                        <div id="accountCollapse3" class="accordion-collapse collapse" aria-labelledby="account3" data-bs-parent="#accountAccordion">
+                                            <div class="accordion-body">
+                                                Go to "My Account" in the top navigation, then select "Account Settings". From there you can update your contact information, email preferences, and other profile details. Don't forget to save your changes!
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="account4">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accountCollapse4" aria-expanded="false" aria-controls="accountCollapse4">
+                                                Can I delete my account?
+                                            </button>
+                                        </h2>
+                                        <div id="accountCollapse4" class="accordion-collapse collapse" aria-labelledby="account4" data-bs-parent="#accountAccordion">
+                                            <div class="accordion-body">
+                                                Yes, you can delete your account at any time. Contact our customer support team and they will help you permanently delete your account and all associated data. Please note that this action cannot be undone.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Billing FAQ -->
+                        <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+                            <div class="faq-section">
+                                <h3 class="section-title">Billing & Subscription</h3>
+                                
+                                <div class="accordion" id="billingAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="billing1">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#billingCollapse1" aria-expanded="true" aria-controls="billingCollapse1">
+                                                How much does FlexJobs cost?
+                                            </button>
+                                        </h2>
+                                        <div id="billingCollapse1" class="accordion-collapse collapse show" aria-labelledby="billing1" data-bs-parent="#billingAccordion">
+                                            <div class="accordion-body">
+                                                FlexJobs offers several subscription plans: Monthly ($14.95/month), Quarterly ($29.95/3 months), and Annual ($49.95/year). All plans include access to our full database of hand-screened jobs, advanced search features, and career resources.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="billing2">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#billingCollapse2" aria-expanded="false" aria-controls="billingCollapse2">
+                                                Can I cancel my subscription anytime?
+                                            </button>
+                                        </h2>
+                                        <div id="billingCollapse2" class="accordion-collapse collapse" aria-labelledby="billing2" data-bs-parent="#billingAccordion">
+                                            <div class="accordion-body">
+                                                Yes, you can cancel your subscription at any time with no cancellation fees. Your access will continue until the end of your current billing period. You can cancel through your account settings or by contacting customer support.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="billing3">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#billingCollapse3" aria-expanded="false" aria-controls="billingCollapse3">
+                                                Do you offer refunds?
+                                            </button>
+                                        </h2>
+                                        <div id="billingCollapse3" class="accordion-collapse collapse" aria-labelledby="billing3" data-bs-parent="#billingAccordion">
+                                            <div class="accordion-body">
+                                                We offer a 30-day satisfaction guarantee. If you're not satisfied with FlexJobs within the first 30 days of your subscription, contact us for a full refund. Refunds after 30 days are considered on a case-by-case basis.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="billing4">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#billingCollapse4" aria-expanded="false" aria-controls="billingCollapse4">
+                                                What payment methods do you accept?
+                                            </button>
+                                        </h2>
+                                        <div id="billingCollapse4" class="accordion-collapse collapse" aria-labelledby="billing4" data-bs-parent="#billingAccordion">
+                                            <div class="accordion-body">
+                                                We accept all major credit cards (Visa, MasterCard, American Express, Discover) and PayPal. All payments are processed securely through our encrypted payment system.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Jobs FAQ -->
+                        <div class="tab-pane fade" id="jobs" role="tabpanel" aria-labelledby="jobs-tab">
+                            <div class="faq-section">
+                                <h3 class="section-title">Job Search & Applications</h3>
+                                
+                                <div class="accordion" id="jobsAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="jobs1">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#jobsCollapse1" aria-expanded="true" aria-controls="jobsCollapse1">
+                                                How do I search for jobs?
+                                            </button>
+                                        </h2>
+                                        <div id="jobsCollapse1" class="accordion-collapse collapse show" aria-labelledby="jobs1" data-bs-parent="#jobsAccordion">
+                                            <div class="accordion-body">
+                                                Use our advanced search filters to find jobs by keyword, location, career category, job type (remote, part-time, freelance), and more. You can also set up job alerts to receive new matching opportunities via email.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="jobs2">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#jobsCollapse2" aria-expanded="false" aria-controls="jobsCollapse2">
+                                                How do I apply for jobs?
+                                            </button>
+                                        </h2>
+                                        <div id="jobsCollapse2" class="accordion-collapse collapse" aria-labelledby="jobs2" data-bs-parent="#jobsAccordion">
+                                            <div class="accordion-body">
+                                                Each job listing includes application instructions. Some jobs allow you to apply directly through FlexJobs, while others will redirect you to the company's website. We provide the company's application requirements and contact information.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="jobs3">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#jobsCollapse3" aria-expanded="false" aria-controls="jobsCollapse3">
+                                                Why can't I see salary information?
+                                            </button>
+                                        </h2>
+                                        <div id="jobsCollapse3" class="accordion-collapse collapse" aria-labelledby="jobs3" data-bs-parent="#jobsAccordion">
+                                            <div class="accordion-body">
+                                                Not all companies choose to publish salary information in their job postings. We include salary details when provided by the employer. You can also use our salary research tools to get compensation insights for specific roles and companies.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="jobs4">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#jobsCollapse4" aria-expanded="false" aria-controls="jobsCollapse4">
+                                                How often are new jobs posted?
+                                            </button>
+                                        </h2>
+                                        <div id="jobsCollapse4" class="accordion-collapse collapse" aria-labelledby="jobs4" data-bs-parent="#jobsAccordion">
+                                            <div class="accordion-body">
+                                                New jobs are added to FlexJobs every day. We typically add 200-500 new opportunities daily across all career categories. Set up job alerts to be notified immediately when jobs matching your criteria are posted.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Technical FAQ -->
+                        <div class="tab-pane fade" id="technical" role="tabpanel" aria-labelledby="technical-tab">
+                            <div class="faq-section">
+                                <h3 class="section-title">Technical Support</h3>
+                                
+                                <div class="accordion" id="technicalAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="technical1">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#technicalCollapse1" aria-expanded="true" aria-controls="technicalCollapse1">
+                                                I'm having trouble logging in. What should I do?
+                                            </button>
+                                        </h2>
+                                        <div id="technicalCollapse1" class="accordion-collapse collapse show" aria-labelledby="technical1" data-bs-parent="#technicalAccordion">
+                                            <div class="accordion-body">
+                                                First, make sure you're using the correct email address and password. Try clearing your browser cache and cookies, or try logging in from a different browser or device. If you still can't access your account, use the "Forgot Password" link or contact our support team.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="technical2">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#technicalCollapse2" aria-expanded="false" aria-controls="technicalCollapse2">
+                                                Why am I not receiving job alert emails?
+                                            </button>
+                                        </h2>
+                                        <div id="technicalCollapse2" class="accordion-collapse collapse" aria-labelledby="technical2" data-bs-parent="#technicalAccordion">
+                                            <div class="accordion-body">
+                                                Check your spam/junk folder first. Add FlexJobs to your email whitelist or safe sender list. Verify that your email preferences are set to receive job alerts in your account settings. If you're still not receiving emails, contact our technical support team.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="technical3">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#technicalCollapse3" aria-expanded="false" aria-controls="technicalCollapse3">
+                                                The website is loading slowly. How can I fix this?
+                                            </button>
+                                        </h2>
+                                        <div id="technicalCollapse3" class="accordion-collapse collapse" aria-labelledby="technical3" data-bs-parent="#technicalAccordion">
+                                            <div class="accordion-body">
+                                                Try refreshing the page, clearing your browser cache, or checking your internet connection. If the problem persists, try using a different browser or device. You can also check our status page for any known technical issues.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="technical4">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#technicalCollapse4" aria-expanded="false" aria-controls="technicalCollapse4">
+                                                Can I use FlexJobs on my mobile device?
+                                            </button>
+                                        </h2>
+                                        <div id="technicalCollapse4" class="accordion-collapse collapse" aria-labelledby="technical4" data-bs-parent="#technicalAccordion">
+                                            <div class="accordion-body">
+                                                Yes! FlexJobs is fully optimized for mobile devices. You can access all features through your mobile browser. We also have mobile apps available for iOS and Android devices for an even better mobile experience.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Support Section -->
+    <section class="support-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="support-card">
+                        <h3 class="support-title">Still need help?</h3>
+                        <p class="support-subtitle">Can't find the answer you're looking for? Our customer support team is here to help!</p>
+                        
+                        <div class="support-options">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="support-option">
+                                        <div class="support-icon">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <h5>Email Support</h5>
+                                        <p>Get help via email</p>
+                                        <a href="support.html" class="btn btn-outline-primary">Contact Us</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="support-option">
+                                        <div class="support-icon">
+                                            <i class="fas fa-comments"></i>
+                                        </div>
+                                        <h5>Live Chat</h5>
+                                        <p>Chat with our team</p>
+                                        <button class="btn btn-outline-primary" id="startChat">Start Chat</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="support-option">
+                                        <div class="support-icon">
+                                            <i class="fas fa-book"></i>
+                                        </div>
+                                        <h5>Help Center</h5>
+                                        <p>Browse our guides</p>
+                                        <a href="help.html" class="btn btn-outline-primary">Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script src="js/faq.js"></script>
+    
+    <!-- Load Header and Footer -->
+    <script>
+        // Load header
+        fetch('components/main-header/main-header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('main-header-placeholder').innerHTML = data;
+                // Load header CSS and JS
+                const headerCSS = document.createElement('link');
+                headerCSS.rel = 'stylesheet';
+                headerCSS.href = 'components/main-header/main-header.css';
+                document.head.appendChild(headerCSS);
+                
+                const headerJS = document.createElement('script');
+                headerJS.src = 'components/main-header/main-header.js';
+                document.body.appendChild(headerJS);
+            });
+
+        // Load footer
+        fetch('components/main-footer/main-footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+    </script>
+
+    <!-- Page-specific CSS -->
+    <style>
+        .faq-page {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Hero Section */
+        .faq-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .faq-search {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            z-index: 10;
+        }
+
+        .search-input {
+            padding-left: 3rem;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        /* Categories */
+        .faq-categories {
+            padding: 2rem 0;
+            background: #f8f9fa;
+        }
+
+        .category-tabs .nav-link {
+            border-radius: 25px;
+            margin: 0 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            color: #6c757d;
+            border: 2px solid transparent;
+        }
+
+        .category-tabs .nav-link.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .category-tabs .nav-link:hover:not(.active) {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        /* FAQ Content */
+        .faq-content {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .accordion-item {
+            border: 1px solid #e9ecef;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-button {
+            font-weight: 500;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: #f8f9fa;
+            color: #667eea;
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Support Section */
+        .support-section {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+
+        .support-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .support-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .support-subtitle {
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        .support-option {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .support-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .support-icon i {
+            font-size: 1.5rem;
+        }
+
+        .support-option h5 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .support-option p {
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .category-tabs .nav-link {
+                margin: 0.25rem;
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .support-card {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Search highlighting */
+        .search-highlight {
+            background: yellow;
+            padding: 0.1rem 0.2rem;
+            border-radius: 3px;
+        }
+    </style>
+</body>
+</html>

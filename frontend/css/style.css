@@ -52,7 +52,7 @@
     --font-family-base: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     
     /* Spacing Variables */
-    --border-radius-base: 12px;
+    --border-radius-base: 5px;
     --border-radius-pill: 20px;
     
     /* Responsive Typography Scale */
@@ -96,6 +96,101 @@
 body, html {
     font-family: var(--font-family-base) !important;
     overflow-x: hidden;
+    color: #000 !important; /* Ensure text is black by default */
+}
+
+/* Override any white text */
+.text-white {
+    /* color: #000 !important; */
+}
+
+/* Hero section styling */
+.hero-section {
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    color: #004f6e !important;
+}
+
+.hero-text {
+    color: #004f6e !important;
+}
+
+.hero-subtitle {
+    color: #333 !important;
+}
+
+/* Company logo sizing - reduced by 50% */
+.company-logo-small {
+    max-height: 30px !important;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.company-logo-small:hover {
+    opacity: 1;
+}
+
+/* Consistent badge styling */
+.badge.bg-secondary {
+    background-color: #6c757d !important;
+    color: #000 !important;
+}
+
+/* Header color for all headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #004f6e !important;
+}
+
+/* Floating badges for hero section */
+.hero-floating-badge {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    color: #004f6e;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: float 3s ease-in-out infinite;
+}
+
+.badge-jobs {
+    top: 20%;
+    right: -10%;
+    animation-delay: -1s;
+}
+
+.badge-remote {
+    bottom: 20%;
+    left: -10%;
+    animation-delay: -2s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .company-logo-small {
+        max-height: 25px !important;
+    }
+    
+    .hero-floating-badge {
+        display: none !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .company-logo-small {
+        max-height: 20px !important;
+    }
 }
 
 /* Ensure all common elements use the base font */
@@ -111,25 +206,6 @@ p, span, div, a, button, input, textarea, select,
 .btn, .form-control, .card, .modal, .dropdown,
 .nav, .navbar, .alert, .badge {
     font-family: var(--font-family-base) !important;
-}
-
-/* Utility Classes */
-.mobile-only {
-    display: block;
-}
-
-.desktop-only {
-    display: none;
-}
-
-@media (min-width: 992px) {
-    .mobile-only {
-        display: none;
-    }
-    
-    .desktop-only {
-        display: block;
-    }
 }
 
 /* ========================================
