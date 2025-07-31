@@ -7,6 +7,9 @@ const passport = require('passport');
 const path = require('path');
 require('dotenv').config();
 
+// Auto admin creation (optional)
+const { createAdminFromEnv } = require('./auto-create-admin');
+
 // Updated admin endpoints - fixed column issues
 const authRoutes = require('./backend/routes/auth');
 const jobRoutes = require('./backend/routes/jobs');
@@ -181,7 +184,11 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
   // Agents page search functionality should now work properly
+  
+  // Auto-create admin user if environment variables are set
+  const { createAdminFromEnv } = require('./auto-create-admin');
+  await createAdminFromEnv();
 });

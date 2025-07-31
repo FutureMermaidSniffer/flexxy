@@ -94,7 +94,7 @@ class IndexJobsManager {
             this.loadingElement.style.display = 'none';
         }
         if (this.container) {
-            this.container.style.display = 'block';
+            this.container.style.display = 'flex'; // Use flex to enable Bootstrap grid
         }
     }
 
@@ -257,12 +257,16 @@ class IndexJobsManager {
         
         // Clear container
         this.container.innerHTML = '';
+        
+        // Ensure the container has proper Bootstrap row classes
+        this.container.className = 'row g-4 mb-4';
+        this.container.style.display = 'flex';
 
         // Create job cards
         jobs.forEach((job, index) => {
             const jobCardHtml = this.jobCard.render(job);
             const cardWrapper = document.createElement('div');
-            cardWrapper.className = 'col-lg-4 col-md-6 mb-4';
+            cardWrapper.className = 'col-lg-4 col-md-6 col-sm-12 mb-4';
             cardWrapper.innerHTML = jobCardHtml;
             
             // Add staggered animation

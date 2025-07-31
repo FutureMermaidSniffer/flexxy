@@ -35,6 +35,7 @@ class SalaryPreferencePage {
     constructor() {
         this.currentValue = 65000;
         this.salaryType = 'annually';
+        this.previousSalaryType = 'annually'; // Track previous type for proper conversion
         this.hasInteracted = false;
         this.ranges = {
             annually: { min: 0, max: 200000, step: 1000 },
@@ -84,6 +85,8 @@ class SalaryPreferencePage {
         toggles.forEach(toggle => {
             toggle.addEventListener('change', (e) => {
                 if (e.target.checked) {
+                    // Store the previous type before changing
+                    this.previousSalaryType = this.salaryType;
                     this.salaryType = e.target.value;
                     this.updateSliderRange();
                     this.updateDisplay();
@@ -226,13 +229,22 @@ class SalaryPreferencePage {
         
         const range = this.ranges[this.salaryType];
         
-        if (this.salaryType === 'hourly') {
-            // Convert current annual value to hourly
-            this.currentValue = Math.round(this.currentValue / 2080);
-        } else {
-            // Convert current hourly value to annual
-            this.currentValue = Math.round(this.currentValue * 2080);
+        // Only convert if the salary type actually changed
+        if (this.previousSalaryType !== this.salaryType) {
+            if (this.salaryType === 'hourly' && this.previousSalaryType === 'annually') {
+                // Convert annual to hourly (assuming 2080 work hours per year)
+                this.currentValue = Math.round(this.currentValue / 2080);
+            } else if (this.salaryType === 'annually' && this.previousSalaryType === 'hourly') {
+                // Convert hourly to annual
+                this.currentValue = Math.round(this.currentValue * 2080);
+            }
+            
+            // Update the previous type tracker
+            this.previousSalaryType = this.salaryType;
         }
+        
+        // Ensure the value is within the valid range
+        this.currentValue = Math.max(range.min, Math.min(range.max, this.currentValue));
         
         // Update slider attributes
         slider.min = range.min;

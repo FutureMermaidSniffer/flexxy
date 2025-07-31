@@ -93,7 +93,7 @@ class WhatJobPage {
         if (filteredSuggestions.length > 0) {
             const suggestionsHTML = filteredSuggestions.map(job => `
                 <button class="list-group-item list-group-item-action d-flex align-items-center" 
-                        onclick="window.whatJobPageInstance.addJobTitle('${job}')">
+                        data-job-title="${job}">
                     <i class="fas fa-briefcase me-2 text-muted"></i>
                     ${job}
                 </button>
@@ -104,6 +104,17 @@ class WhatJobPage {
                     ${suggestionsHTML}
                 </div>
             `;
+            
+            // Add event listeners to suggestion buttons
+            const suggestionButtons = suggestionsContainer.querySelectorAll('[data-job-title]');
+            suggestionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const jobTitle = button.getAttribute('data-job-title');
+                    this.addJobTitle(jobTitle);
+                });
+            });
+            
             suggestionsContainer.classList.remove('d-none');
         } else {
             this.hideJobSuggestions();
