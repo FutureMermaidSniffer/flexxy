@@ -519,105 +519,198 @@
             font-weight: 500;
         }
 
-        /* Job Cards Dynamic Styling */
+        /* Job Cards Dynamic Styling - Compact Design */
         .job-card {
             background: #fff;
             border: 1px solid #e9ecef;
             border-radius: 10px;
-            padding: 1.5rem;
+            padding: 1.25rem;
             height: 100%;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            margin-bottom: 1rem;
         }
 
         .job-card:hover {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transform: translateY(-1px);
             border-color: #007bff;
         }
 
+        /* Header with logo positioned top-right */
+        .job-card .job-header {
+            position: relative;
+            margin-bottom: 0.75rem;
+        }
+
+        .job-card .company-logo {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .job-card .company-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        /* Job badges */
+        .job-card .job-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .job-card .job-badge.new {
+            background: #e8f5e8;
+            color: #2d5a2d;
+        }
+
+        .job-card .job-badge.featured {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* Compact content layout */
+        .job-card .job-content {
+            padding-right: 50px; /* Make room for logo */
+        }
+
         .job-card .job-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #212529;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
             line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .job-card .company-name {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #6c757d;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             font-weight: 500;
         }
 
-        .job-card .job-meta {
+        /* Compact metadata */
+        .job-card .job-details {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            font-size: 0.85rem;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.8rem;
             color: #6c757d;
         }
 
-        .job-card .job-meta-item {
+        .job-card .job-details span {
             display: flex;
             align-items: center;
             gap: 0.25rem;
         }
 
-        .job-card .job-meta-item i {
-            font-size: 0.8rem;
+        .job-card .job-details i {
+            font-size: 0.75rem;
             color: #007bff;
+            width: 12px;
         }
 
+        /* Compact description */
         .job-card .job-description {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #495057;
-            line-height: 1.5;
-            margin-bottom: 1rem;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
             overflow: hidden;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
         }
 
+        /* Compact tags */
         .job-card .job-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            gap: 0.25rem;
+            margin-bottom: 0.75rem;
         }
 
-        .job-card .job-tag {
-            background: #e7f3ff;
-            color: #007bff;
-            padding: 0.25rem 0.5rem;
-            border-radius: 15px;
-            font-size: 0.75rem;
+        .job-card .job-tags .tag {
+            background: #f0f7ff;
+            color: #0056b3;
+            padding: 0.2rem 0.4rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
             font-weight: 500;
         }
 
+        /* Compact footer */
         .job-card .job-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid #f8f9fa;
-        }
-
-        .job-card .job-posted {
             font-size: 0.8rem;
             color: #6c757d;
+            padding-top: 0.75rem;
+            border-top: 1px solid #f1f3f4;
         }
 
-        .job-card .job-salary {
-            font-size: 0.9rem;
+        .job-card .salary {
             font-weight: 600;
             color: #28a745;
+        }
+
+        .job-card .posted-date {
+            color: #9ca3af;
+        }
+
+        /* Hide action buttons in compact mode */
+        .job-card .job-actions {
+            display: none;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .job-card {
+                padding: 1rem;
+            }
+            
+            .job-card .company-logo {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .job-card .company-img {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .job-card .job-content {
+                padding-right: 45px;
+            }
+            
+            .job-card .job-details {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
         }
 
         /* Fade in animation */

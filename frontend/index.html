@@ -94,162 +94,31 @@
         </section>
 
         <!-- Featured Jobs Section -->
-        <section class="py-5 bg-white">
+        <section class="py-5 bg-white" id="featured-jobs-section">
             <div class="container">
                 <div class="text-center mb-5">
                     <h2 class="h2 fw-bold" style="color: #004f6e;">Featuring <span class="text-decoration-underline" style="text-decoration-color: #ffa500 !important;">100k+</span> Flexible & Remote Jobs</h2>
                 </div>
                 
-                <div class="row g-4 mb-4">
-                    <div class="col-lg-4">
-                        <div class="card border shadow-sm h-100 job-card-clickable" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#progressModal">
-                            <a href="why-remote.html">
-                                <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <span class="badge bg-light text-dark mb-2 fw-normal">1 days ago</span>
-                                        <span class="badge bg-light text-dark ms-1 fw-normal">New!</span>
-                                    </div>
-                                </div>
-                                <h5 class="card-title fw-bold">Customer Support Consultant</h5>
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark me-2 fw-normal">100% Remote Work</span>
-                                    <span class="badge bg-light text-dark fw-normal">Flexible Schedule</span>
-                                </div>
-                                <p class="text-muted small mb-2">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    Medellin, Colombia; Barranquilla, ATL, Colombia; DC; Colombia; Cal, VAL...
-                                </p>
-                            </a>
+                <!-- Loading State -->
+                <div id="featured-jobs-loading" class="row">
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading featured jobs...</span>
                         </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-lg-4">
-                        <a href="why-remote.html">
-                        <div class="card border shadow-sm h-100 job-card-clickable" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#progressModal">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <span class="badge bg-light text-dark mb-2 fw-normal">4 days ago</span>
-                                        <!-- <span class="badge bg-secondary text-dark ms-1">New!</span> -->
-                                    </div>
-                                </div>
-                                <h5 class="card-title fw-bold">Business Analyst Project Manager</h5>
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark me-2 fw-normal">Hybrid Remote Work</span>
-                                    <span class="badge bg-light text-dark fw-normal">Full-Time</span>
-                                </div>
-                                <p class="text-muted small mb-2">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    Waterloo, WE; Poland
-                                </p>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-lg-4">
-                        <a href="why-remote.html"></a>
-                        <div class="card border shadow-sm h-100 job-card-clickable" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#progressModal">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <span class="badge bg-light text-dark mb-2 fw-normal">10 days ago</span>
-                                        <!-- <span class="badge bg-secondary text-dark ms-1">New!</span> -->
-                                    </div>
-                                </div>
-                                <h5 class="card-title fw-bold">Technical Support Engineer 2</h5>
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark me-2 fw-normal">100% Remote Work</span>
-                                    <span class="badge bg-light text-dark fw-normal">Full-Time</span>
-                                </div>
-                                <p class="text-muted small mb-2">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    Bangalore, KA; India; Chennai, TN; India; Hyderabad, TG; India; Mumbai, MH; Indi...
-                                </p>
-                            </div>
-                        </div>
-                        </a>
+                        <p class="mt-3 text-muted">Loading top job opportunities...</p>
                     </div>
                 </div>
                 
-                <div class="row g-4 mb-4">
-                    <a href="why-remote.html">
-                    <div class="col-lg-4">
-                        <div class="card border shadow-sm h-100 job-card-clickable" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#progressModal">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <span class="badge bg-light text-dark mb-2 fw-normal">2 days ago</span>
-                                        <span class="badge bg-light text-dark ms-1 fw-normal">New!</span>
-                                    </div>
-                                </div>
-                                <h5 class="card-title fw-bold">Technical Support Engineer 2</h5>
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark me-2 fw-normal">100% Remote Work</span>
-                                    <span class="badge bg-light text-dark fw-normal">Full-Time</span>
-                                </div>
-                                <p class="text-muted small mb-2">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    KS; India; UK; India; TN; India; TG; India; MH; India; that riving in United States
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    </a>
-                    
-                    <div class="col-lg-4">
-                        <a href="why-remote.html"></a>
-                        <div class="card border shadow-sm h-100 job-card-clickable" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#progressModal">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <span class="badge bg-light text-dark mb-2 fw-normal">Today</span>
-                                        <span class="badge bg-light text-dark ms-1 fw-normal">New!</span>
-                                    </div>
-                                </div>
-                                <h5 class="card-title fw-bold">Middle Market Regional Commercial Officer</h5>
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark me-2 fw-normal">Hybrid Remote Work</span>
-                                    <span class="badge bg-light text-dark fw-normal">Full-Time</span>
-                                </div>
-                                <p class="text-muted small mb-2">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    Atlanta, GA; New York, NY; Chicago, IL
-                                </p>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    
-                    <div class="col-lg-4">
-                        <div class="card border shadow-sm h-100 job-card-clickable" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#progressModal">
-                            <div class="card-body p-4">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                        <span class="badge bg-light text-dark mb-2 fw-normal">9 days ago</span>
-                                        <!-- <span class="badge bg-secondary text-dark ms-1">New!</span> -->
-                                    </div>
-                                </div>
-                                <h5 class="card-title fw-bold">Program Manager</h5>
-                                <div class="mb-3">
-                                    <span class="badge bg-light text-dark me-2 fw-normal">Hybrid Remote Work</span>
-                                    <span class="badge bg-light text-dark fw-normal">Full-Time</span>
-                                </div>
-                                <p class="text-muted small mb-2">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    Fort Meade, MD
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Featured Jobs Container -->
+                <div id="featured-jobs" class="row g-4 mb-4" style="display: none;">
+                    <!-- Dynamic job cards will be inserted here -->
                 </div>
                 
                 <div class="text-center">
-                    <button class="btn btn-warning btn-lg px-5 py-3 fw-semibold" data-bs-toggle="modal" data-bs-target="#progressModal">
+                    <a href="browse-jobs.html" class="btn btn-warning btn-lg px-5 py-3 fw-semibold text-decoration-none">
                         Find Your Next Remote Job!
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>
@@ -788,15 +657,203 @@
                     filter: grayscale(0%) !important;
                     transition: all 0.3s ease;
                 }
-                .job-card-clickable:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 0.75rem 1.5rem rgba(0,0,0,0.12) !important;
+                
+                /* Job Cards Dynamic Styling - Grid Layout for Index Page */
+                .job-card {
+                    background: #fff;
+                    border: 1px solid #e9ecef;
+                    border-radius: 10px;
+                    padding: 1.25rem;
+                    height: 100%;
                     transition: all 0.3s ease;
+                    cursor: pointer;
+                    position: relative;
+                    overflow: hidden;
+                    margin-bottom: 1rem;
+                    display: flex;
+                    flex-direction: column;
                 }
-                .job-card-clickable:hover .card-title {
-                    color: #007bff !important;
-                    transition: color 0.3s ease;
+
+                .job-card:hover {
+                    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+                    transform: translateY(-1px);
+                    border-color: #007bff;
                 }
+
+                /* Header with logo positioned top-right */
+                .job-card .job-header {
+                    position: relative;
+                    margin-bottom: 0.75rem;
+                    min-height: 45px;
+                }
+
+                .job-card .company-logo {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #f8f9fa;
+                    border-radius: 8px;
+                    border: 1px solid #e9ecef;
+                    flex-shrink: 0;
+                }
+
+                .job-card .company-img {
+                    width: 32px;
+                    height: 32px;
+                    object-fit: contain;
+                    border-radius: 4px;
+                }
+
+                /* Job badges */
+                .job-card .job-badge {
+                    display: inline-block;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    margin-right: 0.5rem;
+                }
+
+                .job-card .job-badge.new {
+                    background: #e8f5e8;
+                    color: #2d5a2d;
+                }
+
+                .job-card .job-badge.featured {
+                    background: #fff3cd;
+                    color: #856404;
+                }
+
+                /* Grid content layout */
+                .job-card .job-content {
+                    padding-right: 50px; /* Make room for logo */
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .job-card .job-title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    color: #212529;
+                    margin-bottom: 0.5rem;
+                    line-height: 1.3;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+                .job-card .company-name {
+                    font-size: 0.9rem;
+                    color: #6c757d;
+                    margin-bottom: 0.75rem;
+                    font-weight: 500;
+                }
+
+                /* Compact metadata */
+                .job-card .job-details {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.75rem;
+                    margin-bottom: 0.75rem;
+                    font-size: 0.8rem;
+                    color: #6c757d;
+                }
+
+                .job-card .job-details span {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                }
+
+                .job-card .job-details i {
+                    font-size: 0.75rem;
+                    color: #007bff;
+                    width: 12px;
+                }
+
+                /* Compact description */
+                .job-card .job-description {
+                    font-size: 0.85rem;
+                    color: #495057;
+                    line-height: 1.4;
+                    margin-bottom: 0.75rem;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                }
+
+                /* Compact tags */
+                .job-card .job-tags {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.25rem;
+                    margin-bottom: 0.75rem;
+                }
+
+                .job-card .job-tags .tag {
+                    background: #f0f7ff;
+                    color: #0056b3;
+                    padding: 0.2rem 0.4rem;
+                    border-radius: 10px;
+                    font-size: 0.7rem;
+                    font-weight: 500;
+                }
+
+                /* Compact footer */
+                .job-card .job-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 0.8rem;
+                    color: #6c757d;
+                    padding-top: 0.75rem;
+                    border-top: 1px solid #f1f3f4;
+                }
+
+                .job-card .salary {
+                    font-weight: 600;
+                    color: #28a745;
+                }
+
+                .job-card .posted-date {
+                    color: #9ca3af;
+                }
+
+                /* Hide action buttons in compact mode */
+                .job-card .job-actions {
+                    display: none;
+                }
+
+                /* Mobile responsiveness */
+                @media (max-width: 768px) {
+                    .job-card {
+                        padding: 1rem;
+                    }
+                    
+                    .job-card .company-logo {
+                        width: 36px;
+                        height: 36px;
+                    }
+                    
+                    .job-card .company-img {
+                        width: 28px;
+                        height: 28px;
+                    }
+                    
+                    .job-card .job-content {
+                        padding-right: 45px;
+                    }
+                }
+                
                 .py-6 {
                     padding-top: 4rem !important;
                     padding-bottom: 4rem !important;

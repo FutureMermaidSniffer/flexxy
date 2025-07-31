@@ -166,6 +166,125 @@ class StatisticsPage {
             }
         });
     }
+    
+    async processWizardCompletion() {
+        // Collect all wizard data from localStorage
+        const wizardData = this.collectWizardData();
+        
+        // Create user account if we have sufficient data
+        if (wizardData && Object.keys(wizardData).length > 0) {
+            try {
+                await this.createUserAccount(wizardData);
+            } catch (error) {
+                console.error('Error creating user account:', error);
+                // Continue with the normal flow even if account creation fails
+            }
+        }
+    }
+    
+    collectWizardData() {
+        const data = {};
+        
+        // Collect work type preference
+        const workType = localStorage.getItem('workType');
+        if (workType) {
+            data.workType = JSON.parse(workType);
+        }
+        
+        // Collect salary preference
+        const salaryPreference = localStorage.getItem('salaryPreference');
+        if (salaryPreference) {
+            data.salaryPreference = JSON.parse(salaryPreference);
+        }
+        
+        // Collect location preference
+        const locationPreference = localStorage.getItem('locationPreference');
+        if (locationPreference) {
+            data.locationPreference = JSON.parse(locationPreference);
+        }
+        
+        // Collect job preference
+        const jobPreference = localStorage.getItem('jobTitlePreference');
+        if (jobPreference) {
+            data.jobPreference = JSON.parse(jobPreference);
+        }
+        
+        // Collect experience level
+        const experienceLevel = localStorage.getItem('experienceLevel');
+        if (experienceLevel) {
+            data.experienceLevel = JSON.parse(experienceLevel);
+        }
+        
+        // Collect education level
+        const educationLevel = localStorage.getItem('educationLevel');
+        if (educationLevel) {
+            data.educationLevel = JSON.parse(educationLevel);
+        }
+        
+        // Collect benefits preference
+        const benefitPreference = localStorage.getItem('benefitPreference');
+        if (benefitPreference) {
+            data.benefitPreference = JSON.parse(benefitPreference);
+        }
+        
+        return data;
+    }
+    
+    async createUserAccount(wizardData) {
+        // Generate a temporary user account based on wizard data
+        const userData = {
+            email: `user_${Date.now()}@temp.flexjobs.com`, // Temporary email
+            password: 'temp_password_123', // Temporary password
+            user_type: 'job_seeker',
+            preferences: wizardData,
+            is_temp_account: true,
+            created_via_wizard: true
+        };
+        
+        // Call the registration API
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            
+            // Store the auth token and user data
+            if (result.token) {
+                localStorage.setItem('flexjobs_token', result.token);
+                localStorage.setItem('flexjobs_user', JSON.stringify(result.user));
+                console.log('Temporary user account created successfully');
+                
+                // Clear wizard data from localStorage
+                this.clearWizardData();
+            }
+        } else {
+            throw new Error('Failed to create user account');
+        }
+    }
+    
+    clearWizardData() {
+        // Clear all wizard-related data from localStorage
+        const wizardKeys = [
+            'workType',
+            'salaryPreference', 
+            'locationPreference',
+            'jobTitlePreference',
+            'experienceLevel',
+            'educationLevel',
+            'benefitPreference'
+        ];
+        
+        wizardKeys.forEach(key => {
+            localStorage.removeItem(key);
+        });
+        
+        console.log('Wizard data cleared from localStorage');
+    }
 
     checkRegistrationReturn() {
         // Check if user returned from registration
@@ -178,6 +297,33 @@ class StatisticsPage {
             setTimeout(() => {
                 this.showAgentNotification();
             }, 1000);
+        }
+        
+        // Check if user came from job details and should be redirected back
+        const intendedJobId = localStorage.getItem('intended_job_id');
+        if (intendedJobId) {
+            // Clear the intended job ID
+            localStorage.removeItem('intended_job_id');
+            
+            // Show a brief message and redirect after the loading sequence
+            setTimeout(() => {
+                // Show redirect message
+                const notification = document.getElementById('loadingNotification');
+                if (notification) {
+                    notification.innerHTML = `
+                        <div class="text-center">
+                            <i class="fas fa-check-circle text-success mb-3" style="font-size: 3rem;"></i>
+                            <h4>Welcome! Redirecting to your job...</h4>
+                            <p class="text-muted">Taking you back to the job details</p>
+                        </div>
+                    `;
+                }
+                
+                // Redirect after a brief delay
+                setTimeout(() => {
+                    window.location.href = `job-details.html?id=${intendedJobId}`;
+                }, 2000);
+            }, this.loadingDuration + 1000); // After loading sequence completes
         }
     }
 
@@ -270,7 +416,7 @@ class StatisticsPage {
         }
     }
 
-    handleCTAClick() {
+    async handleCTAClick() {
         // Track CTA click
         this.trackCTAClick();
         
@@ -278,16 +424,37 @@ class StatisticsPage {
         const ctaButton = document.getElementById('ctaButton');
         const originalText = ctaButton.innerHTML;
         
-        ctaButton.innerHTML = '<i class="fas fa-search me-2"></i>Finding Your Matches...';
+        ctaButton.innerHTML = '<i class="fas fa-search me-2"></i>Creating Your Account...';
         ctaButton.disabled = true;
         
-        // Store user progress and preferences
-        this.storeProgress();
-        
-        // Navigate to job preview page after short delay
-        setTimeout(() => {
-            window.location.href = 'job-preview.html';
-        }, 1500);
+        try {
+            // Collect wizard data and create user account
+            await this.processWizardCompletion();
+            
+            // Show success notification
+            this.showAccountCreatedNotification();
+            
+            // Update button text
+            ctaButton.innerHTML = '<i class="fas fa-search me-2"></i>Finding Your Matches...';
+            
+            // Store user progress and preferences
+            this.storeProgress();
+            
+            // Navigate to job preview page after short delay
+            setTimeout(() => {
+                window.location.href = 'job-preview.html';
+            }, 2000); // Slightly longer to show success message
+            
+        } catch (error) {
+            console.error('Error creating account:', error);
+            
+            // Reset button on error
+            ctaButton.innerHTML = originalText;
+            ctaButton.disabled = false;
+            
+            // Show error message
+            alert('There was an error creating your account. Please try again.');
+        }
     }
 
     storeProgress() {
@@ -315,6 +482,38 @@ class StatisticsPage {
         } catch (error) {
             console.error('Error saving progress:', error);
         }
+    }
+
+    showAccountCreatedNotification() {
+        // Create a temporary success notification
+        const notification = document.createElement('div');
+        notification.className = 'alert alert-success position-fixed';
+        notification.style.cssText = `
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: none;
+            max-width: 300px;
+        `;
+        notification.innerHTML = `
+            <div class="d-flex align-items-center">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                <div>
+                    <strong>Welcome!</strong><br>
+                    <small>Your account has been created successfully.</small>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 3000);
     }
 
     // Analytics tracking

@@ -38,39 +38,32 @@ class BrowseJobsManager {
             });
         }
 
-        // Find the job listings container
+        // Find the existing HTML elements
         this.container = document.querySelector('#jobs-container');
         this.loadingElement = document.querySelector('#jobs-loading');
+        this.paginationContainer = document.querySelector('#pagination-container');
         
         if (!this.container) {
             console.error('❌ Job listings container (#jobs-container) not found');
             return;
         }
 
-        console.log('✅ Job listings container found:', this.container);
+        if (!this.loadingElement) {
+            console.error('❌ Loading element (#jobs-loading) not found');
+            return;
+        }
 
-        // Create status elements
-        this.createStatusElements();
+        console.log('✅ Job listings elements found');
 
-        // Find pagination container
-        this.paginationContainer = document.querySelector('#pagination-container');
+        // Create error element for dynamic use
+        this.createErrorElement();
 
         // Load initial jobs
         await this.loadJobs();
     }
 
-    // Create loading and error status elements
-    createStatusElements() {
-        // Loading spinner
-        this.loadingElement = document.createElement('div');
-        this.loadingElement.className = 'col-12 text-center py-5';
-        this.loadingElement.innerHTML = `
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading jobs...</span>
-            </div>
-            <p class="mt-3 text-muted">Finding amazing job opportunities...</p>
-        `;
-
+    // Create error status element
+    createErrorElement() {
         // Error state
         this.errorElement = document.createElement('div');
         this.errorElement.className = 'col-12 text-center py-5';
@@ -86,29 +79,15 @@ class BrowseJobsManager {
         `;
     }
 
-    // Initialize pagination controls
-    initializePaginationControls() {
-        // Create pagination container if it doesn't exist
-        let paginationContainer = document.querySelector('.pagination-container');
-        if (!paginationContainer) {
-            paginationContainer = document.createElement('div');
-            paginationContainer.className = 'pagination-container text-center mt-5';
-            
-            // Insert after the job listings container
-            if (this.container.parentNode) {
-                this.container.parentNode.insertBefore(paginationContainer, this.container.nextSibling);
-            }
-        }
-
-        this.paginationContainer = paginationContainer;
-    }
-
     // Show loading state
     showLoading() {
         if (this.loadingElement) {
             this.loadingElement.style.display = 'block';
         }
-        this.container.style.display = 'none';
+        if (this.container) {
+            this.container.style.display = 'none';
+        }
+        console.log('🔄 Showing loading state');
     }
 
     // Hide loading state
@@ -116,7 +95,10 @@ class BrowseJobsManager {
         if (this.loadingElement) {
             this.loadingElement.style.display = 'none';
         }
-        this.container.style.display = 'flex';
+        if (this.container) {
+            this.container.style.display = 'flex';
+        }
+        console.log('✅ Hiding loading state');
     }
 
     // Show error state

@@ -211,6 +211,13 @@ class WhatJobPage {
     }
 
     goNext() {
+        // Capture any text in the input field before proceeding
+        const jobInput = document.getElementById('jobTitleInput');
+        if (jobInput && jobInput.value.trim()) {
+            const inputValue = jobInput.value.trim();
+            this.addJobTitle(inputValue);
+        }
+        
         // Store job preference
         this.storeJobPreference();
         

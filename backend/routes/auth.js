@@ -47,7 +47,11 @@ router.post('/register', registerValidation, async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, first_name, last_name, user_type } = req.body;
+    const { email, password, first_name, last_name, user_type, preferences, is_temp_account, created_via_wizard } = req.body;
+
+    // For wizard-created accounts, generate default names if not provided
+    const finalFirstName = first_name || 'User';
+    const finalLastName = last_name || Date.now().toString().slice(-4); // Last 4 digits of timestamp
 
     // Check if user already exists
     const existingUser = await getOne('SELECT id FROM users WHERE email = ?', [email]);
@@ -59,14 +63,34 @@ router.post('/register', registerValidation, async (req, res) => {
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+    // Prepare wizard preferences data
+    let wizardData = {};
+    if (preferences && created_via_wizard) {
+      wizardData = {
+        work_type_preference: preferences.workType ? JSON.stringify(preferences.workType) : null,
+        salary_preference: preferences.salaryPreference ? JSON.stringify(preferences.salaryPreference) : null,
+        location_preference: preferences.locationPreference ? JSON.stringify(preferences.locationPreference) : null,
+        job_preference: preferences.jobPreference ? JSON.stringify(preferences.jobPreference) : null,
+        experience_level_preference: preferences.experienceLevel?.level || null,
+        education_level_preference: preferences.educationLevel?.level || null,
+        benefit_preferences: preferences.benefitPreference ? JSON.stringify(preferences.benefitPreference) : null,
+        wizard_completed_at: new Date()
+      };
+    }
+
     // Create user
-    const userId = await insertOne('users', {
+    const userData = {
       email,
       password: hashedPassword,
-      first_name,
-      last_name,
-      user_type
-    });
+      first_name: finalFirstName,
+      last_name: finalLastName,
+      user_type,
+      is_temp_account: is_temp_account || false,
+      created_via_wizard: created_via_wizard || false,
+      ...wizardData
+    };
+
+    const userId = await insertOne('users', userData);
 
     // Generate token
     const token = generateToken(userId, email, user_type);
@@ -77,9 +101,10 @@ router.post('/register', registerValidation, async (req, res) => {
       user: {
         id: userId,
         email,
-        first_name,
-        last_name,
-        user_type
+        first_name: finalFirstName,
+        last_name: finalLastName,
+        user_type,
+        is_temp_account: is_temp_account || false
       }
     });
   } catch (error) {

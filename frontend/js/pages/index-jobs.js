@@ -1,33 +1,13 @@
 // Index Page - Featured Jobs Management
-// Fetches and displays featured jobs f    // Show error state for featured jobs
-    showError(message = null) {
-        if (message) {
-            this.errorElement.querySelector('.alert').innerHTML = `
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <strong>Error:</strong> ${message}
-                <br>
-                <button class="btn btn-primary btn-sm mt-2" id="retry-featured-jobs-btn">
-                    <i class="fas fa-redo me-1"></i> Try Again
-                </button>
-            `;
-        }
-        this.container.innerHTML = '';
-        this.container.appendChild(this.errorElement);
-        
-        // Add event listener for retry button
-        const retryBtn = this.errorElement.querySelector('#retry-featured-jobs-btn');
-        if (retryBtn) {
-            retryBtn.addEventListener('click', () => this.loadFeaturedJobs());
-        }
-    }
+// Fetches and displays featured jobs for the homepage
 
 class IndexJobsManager {
     constructor() {
         this.jobCard = new JobCard({
-            displayMode: 'featured',
+            displayMode: 'grid',
             showSaveButton: true,
             showApplyButton: true,
-            showViewsCount: false,
+            showViewsCount: true,
             truncateDescription: true
         });
         this.container = null;
@@ -46,41 +26,31 @@ class IndexJobsManager {
             });
         }
 
-        // Find the featured jobs container - look for the parent of job cards
-        this.container = document.querySelector('#featured-jobs .row');
+        // Find the existing HTML elements
+        this.container = document.querySelector('#featured-jobs');
+        this.loadingElement = document.querySelector('#featured-jobs-loading');
+        
         if (!this.container) {
-            // Try alternative selectors
-            this.container = document.querySelector('.featured-jobs .row');
-            if (!this.container) {
-                console.error('❌ Featured jobs container not found');
-                return;
-            }
+            console.error('❌ Featured jobs container (#featured-jobs) not found');
+            return;
         }
 
-        console.log('✅ Featured jobs container found:', this.container);
+        if (!this.loadingElement) {
+            console.error('❌ Loading element (#featured-jobs-loading) not found');
+            return;
+        }
 
-        // Create status elements
-        this.createStatusElements();
+        console.log('✅ Featured jobs elements found');
 
-        // Set up event listeners
-        this.setupEventListeners();
+        // Create error element for dynamic use
+        this.createErrorElement();
 
         // Load featured jobs
         await this.loadFeaturedJobs();
     }
 
-    // Create loading and error status elements
-    createStatusElements() {
-        // Loading spinner
-        this.loadingElement = document.createElement('div');
-        this.loadingElement.className = 'col-12 text-center py-5';
-        this.loadingElement.innerHTML = `
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading featured jobs...</span>
-            </div>
-            <p class="mt-3 text-muted">Loading top job opportunities...</p>
-        `;
-
+    // Create error status element
+    createErrorElement() {
         // Error state
         this.errorElement = document.createElement('div');
         this.errorElement.className = 'col-12 text-center py-4';
@@ -107,12 +77,35 @@ class IndexJobsManager {
 
     // Show loading state
     showLoading() {
-        this.container.innerHTML = '';
-        this.container.appendChild(this.loadingElement);
+        console.log('⏳ Showing loading state for featured jobs');
+        if (this.loadingElement) {
+            this.loadingElement.style.display = 'block';
+        }
+        if (this.container) {
+            this.container.innerHTML = '';
+            this.container.style.display = 'none';
+        }
+    }
+
+    // Hide loading state
+    hideLoading() {
+        console.log('✅ Hiding loading state for featured jobs');
+        if (this.loadingElement) {
+            this.loadingElement.style.display = 'none';
+        }
+        if (this.container) {
+            this.container.style.display = 'block';
+        }
     }
 
     // Show error state
     showError(message = null) {
+        console.log('❌ Showing error state for featured jobs');
+        // Hide loading
+        if (this.loadingElement) {
+            this.loadingElement.style.display = 'none';
+        }
+        
         if (message) {
             this.errorElement.querySelector('.alert').innerHTML = `
                 <i class="fas fa-exclamation-triangle me-2"></i>
@@ -131,21 +124,31 @@ class IndexJobsManager {
                 }
             }, 100);
         }
-        this.container.innerHTML = '';
-        this.container.appendChild(this.errorElement);
+        
+        if (this.container) {
+            this.container.innerHTML = '';
+            this.container.appendChild(this.errorElement);
+            this.container.style.display = 'block';
+        }
     }
 
     // Show empty state
     showEmptyState() {
-        this.container.innerHTML = `
-            <div class="col-12 text-center py-4">
-                <div class="alert alert-info">
-                    <i class="fas fa-briefcase me-2"></i>
-                    <strong>No featured jobs available</strong><br>
-                    Check back soon for new opportunities!
+        console.log('📭 Showing empty state for featured jobs');
+        this.hideLoading();
+        
+        if (this.container) {
+            this.container.innerHTML = `
+                <div class="col-12 text-center py-4">
+                    <div class="alert alert-info">
+                        <i class="fas fa-briefcase me-2"></i>
+                        <strong>No featured jobs available</strong><br>
+                        Check back soon for new opportunities!
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+            this.container.style.display = 'block';
+        }
     }
 
     // Load and display featured jobs
@@ -154,32 +157,59 @@ class IndexJobsManager {
         this.showLoading();
 
         try {
-            // Fetch featured jobs (limit 6 for homepage)
-            const response = await fetch('/api/jobs?is_featured=true&limit=6&is_active=true', {
+            // First try to fetch featured jobs
+            const featuredResponse = await fetch('/api/jobs?is_featured=true&limit=6&is_active=true', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            if (!featuredResponse.ok) {
+                throw new Error(`HTTP error! status: ${featuredResponse.status}`);
             }
 
-            const data = await response.json();
-            console.log('✅ Featured jobs data received:', data);
+            const featuredData = await featuredResponse.json();
+            console.log('✅ Featured jobs data received:', featuredData);
 
-            if (!data.jobs || data.jobs.length === 0) {
-                // If no featured jobs, get regular jobs
-                console.log('🔄 No featured jobs found, loading regular jobs');
-                await this.loadRegularJobs();
+            let jobsToShow = [];
+            
+            // If we have featured jobs, use them
+            if (featuredData.jobs && featuredData.jobs.length > 0) {
+                jobsToShow = featuredData.jobs;
+                console.log(`🎯 Found ${jobsToShow.length} featured jobs`);
+            }
+
+            // If we need more jobs to reach 6, fetch regular jobs
+            if (jobsToShow.length < 6) {
+                console.log(`🔄 Need ${6 - jobsToShow.length} more jobs, fetching regular jobs`);
+                const regularResponse = await fetch(`/api/jobs?limit=${6 - jobsToShow.length}&is_active=true`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (regularResponse.ok) {
+                    const regularData = await regularResponse.json();
+                    if (regularData.jobs && regularData.jobs.length > 0) {
+                        // Filter out any jobs that are already in our featured list
+                        const featuredIds = jobsToShow.map(job => job.id);
+                        const newJobs = regularData.jobs.filter(job => !featuredIds.includes(job.id));
+                        jobsToShow = [...jobsToShow, ...newJobs].slice(0, 6); // Ensure max 6 jobs
+                        console.log(`📋 Added ${newJobs.length} regular jobs`);
+                    }
+                }
+            }
+
+            if (jobsToShow.length === 0) {
+                this.showEmptyState();
                 return;
             }
 
-            // Render featured job cards
-            this.renderJobs(data.jobs);
-
-            console.log(`🎯 Successfully loaded ${data.jobs.length} featured jobs`);
+            // Render all jobs
+            this.renderJobs(jobsToShow);
+            console.log(`🎯 Successfully loaded ${jobsToShow.length} jobs for homepage`);
 
         } catch (error) {
             console.error('❌ Error loading featured jobs:', error);
@@ -208,7 +238,7 @@ class IndexJobsManager {
                 return;
             }
 
-            // Render regular jobs
+            // Render regular jobs (ensure we get up to 6)
             this.renderJobs(data.jobs);
             console.log(`📋 Loaded ${data.jobs.length} regular jobs as fallback`);
 
@@ -220,6 +250,11 @@ class IndexJobsManager {
 
     // Render jobs using the job card component
     renderJobs(jobs) {
+        console.log(`🎨 Rendering ${jobs.length} featured jobs`);
+        
+        // Hide loading and show container
+        this.hideLoading();
+        
         // Clear container
         this.container.innerHTML = '';
 
