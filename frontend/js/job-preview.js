@@ -179,6 +179,21 @@ class JobPreview {
             time_on_page: this.getTimeOnPage()
         });
 
+        // Check if user came from wizard completion (statistics page)
+        const wizardProgress = localStorage.getItem('flexjobs_wizard_progress');
+        if (wizardProgress) {
+            try {
+                const progress = JSON.parse(wizardProgress);
+                if (progress.completedWizard && progress.statisticsViewed) {
+                    // User completed wizard and came from statistics page
+                    window.location.href = 'statistics.html';
+                    return;
+                }
+            } catch (error) {
+                console.error('Error parsing wizard progress:', error);
+            }
+        }
+
         // Go back to previous page or quiz
         if (document.referrer && document.referrer.includes(window.location.origin)) {
             window.history.back();

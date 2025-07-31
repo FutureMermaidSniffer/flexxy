@@ -61,18 +61,6 @@ class JobDetails {
 
     // Load job details from API
     async loadJobDetails() {
-        // Double-check authentication as a failsafe
-        if (typeof window.auth !== 'undefined' && !window.auth.isAuthenticated()) {
-            console.log('🔒 Secondary auth check failed - redirecting to wizard');
-            
-            // Store the intended job ID
-            localStorage.setItem('intended_job_id', this.jobId.toString());
-            
-            // Redirect to sign-up wizard
-            window.location.href = 'why-remote.html';
-            return;
-        }
-        
         this.showLoading();
 
         try {
@@ -241,8 +229,13 @@ class JobDetails {
 
     // Show internal application form (fallback)
     showInternalApplicationForm() {
-        alert(`Internal application form for: ${this.jobData.title}\n\nThis would normally show an application modal or redirect to an application page.`);
-        console.log('🎯 Internal application triggered for job:', this.jobData.title);
+        // Store the intended job ID for after authentication
+        localStorage.setItem('intended_job_id', this.jobId.toString());
+        
+        // Redirect to sign-up wizard for account creation
+        window.location.href = 'why-remote.html';
+        
+        console.log('🎯 Redirecting to wizard for account creation, job:', this.jobData.title);
     }
 
     // Update element content or attribute
