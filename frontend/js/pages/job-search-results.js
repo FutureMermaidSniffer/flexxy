@@ -131,12 +131,110 @@ class JobSearchResultsPage {
     }
 
     async fetchJobs() {
-        // Simulate API call with realistic job data
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(this.generateMockJobs());
-            }, 2000);
-        });
+        // Fetch real jobs from API
+        try {
+            const response = await fetch('/api/jobs?limit=50&is_active=true', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('✅ Real jobs data received:', data);
+
+            // Transform API response to match expected format
+            return data.jobs.map(job => ({
+                id: job.id,
+                title: job.title,
+                company: job.company_name,
+                location: job.location || 'Remote',
+                salary: this.formatSalary(job.salary_min, job.salary_max, job.salary_currency),
+                type: this.formatJobType(job.job_type),
+                experience: this.formatExperienceLevel(job.experience_level),
+                description: job.description.substring(0, 200) + '...',
+                tags: this.extractTags(job),
+                postedDate: this.formatDate(job.created_at),
+                isRemote: job.remote_type === 'remote',
+                isSaved: false,
+                // Keep original data for job details navigation
+                originalJob: job
+            }));
+
+        } catch (error) {
+            console.error('❌ Error fetching real jobs:', error);
+            // Fallback to mock data if API fails
+            console.log('🔄 Falling back to mock data');
+            return this.generateMockJobs();
+        }
+    }
+
+    // Helper methods for data transformation
+    formatSalary(min, max, currency = 'USD') {
+        if (!min && !max) return 'Competitive';
+        if (!max) return `$${parseInt(min).toLocaleString()}+`;
+        if (!min) return `Up to $${parseInt(max).toLocaleString()}`;
+        return `$${parseInt(min).toLocaleString()} - $${parseInt(max).toLocaleString()}`;
+    }
+
+    formatJobType(jobType) {
+        const typeMap = {
+            'full-time': 'Full-time',
+            'part-time': 'Part-time',
+            'contract': 'Contract',
+            'freelance': 'Freelance',
+            'internship': 'Internship'
+        };
+        return typeMap[jobType] || jobType;
+    }
+
+    formatExperienceLevel(level) {
+        const levelMap = {
+            'entry': 'Entry Level',
+            'mid': 'Mid Level',
+            'senior': 'Senior Level',
+            'executive': 'Executive Level'
+        };
+        return levelMap[level] || level;
+    }
+
+    extractTags(job) {
+        const tags = [];
+        
+        // Add job type and remote type
+        if (job.remote_type === 'remote') tags.push('Remote');
+        if (job.remote_type === 'hybrid') tags.push('Hybrid');
+        if (job.job_type === 'full-time') tags.push('Full-time');
+        
+        // Add category
+        if (job.category_name) tags.push(job.category_name);
+        
+        // Add experience level
+        if (job.experience_level) tags.push(this.formatExperienceLevel(job.experience_level));
+        
+        // Parse tags from job.tags field if available
+        if (job.tags && typeof job.tags === 'string') {
+            const jobTags = job.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+            tags.push(...jobTags);
+        }
+        
+        return tags.slice(0, 6); // Limit to 6 tags
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now - date);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) return '1 day ago';
+        if (diffDays < 7) return `${diffDays} days ago`;
+        if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
+        return `${Math.ceil(diffDays / 30)} months ago`;
     }
 
     generateMockJobs() {
@@ -440,12 +538,20 @@ class JobSearchResultsPage {
                 <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
                 <h3>Something went wrong</h3>
                 <p class="text-muted">${message}</p>
-                <button class="btn btn-primary" onclick="window.jobSearchResultsPage.loadJobs()">
+                <button class="btn btn-primary" id="retry-job-search-btn">
                     Try Again
                 </button>
             </div>
         `;
         jobListings.style.display = 'block';
+        
+        // Add event listener for retry button
+        setTimeout(() => {
+            const retryBtn = document.getElementById('retry-job-search-btn');
+            if (retryBtn) {
+                retryBtn.addEventListener('click', () => this.loadJobs());
+            }
+        }, 100);
     }
 
     // Event handlers

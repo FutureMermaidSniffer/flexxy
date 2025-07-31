@@ -1,4 +1,4 @@
-# FlexJobs - Remote Job Board
+ # FlexJobs - Remote Job Board
 
 A full-stack web application for finding and posting remote jobs, built with Node.js, Express, MySQL, and Bootstrap.
 

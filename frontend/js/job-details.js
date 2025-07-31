@@ -1,302 +1,284 @@
-// Job Details functionality
+// Job Details Page - Enhanced for External Application URLs
+// Displays detailed job information and handles external application links
+
 class JobDetails {
     constructor() {
         this.jobId = null;
         this.jobData = null;
+        this.loadingState = document.getElementById('loadingState');
+        this.errorState = document.getElementById('errorState');
+        this.contentState = document.getElementById('jobDetailsContent');
         this.init();
     }
 
+    // Initialize the job details page
     init() {
-        // Get job ID from URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        this.jobId = urlParams.get('id');
+        console.log('🚀 Initializing Job Details Page');
+        
+        // Get job ID from URL parameters
+        this.jobId = this.getJobIdFromUrl();
         
         if (!this.jobId) {
-            this.showError();
+            this.showError('No job ID provided');
             return;
         }
 
+        console.log(`📋 Loading job details for ID: ${this.jobId}`);
+        
+        // Load job details
         this.loadJobDetails();
-        this.bindEvents();
     }
 
+    // Extract job ID from URL parameters
+    getJobIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        return id ? parseInt(id) : null;
+    }
+
+    // Show loading state
+    showLoading() {
+        if (this.loadingState) this.loadingState.style.display = 'flex';
+        if (this.errorState) this.errorState.style.display = 'none';
+        if (this.contentState) this.contentState.style.display = 'none';
+    }
+
+    // Show error state
+    showError(message = 'Job not found') {
+        if (this.loadingState) this.loadingState.style.display = 'none';
+        if (this.errorState) this.errorState.style.display = 'flex';
+        if (this.contentState) this.contentState.style.display = 'none';
+        
+        console.error('❌ Job Details Error:', message);
+    }
+
+    // Show content state
+    showContent() {
+        if (this.loadingState) this.loadingState.style.display = 'none';
+        if (this.errorState) this.errorState.style.display = 'none';
+        if (this.contentState) this.contentState.style.display = 'block';
+    }
+
+    // Load job details from API
     async loadJobDetails() {
+        this.showLoading();
+
         try {
-            const response = await fetch(`/api/jobs/${this.jobId}`);
-            
+            const response = await fetch(`/api/jobs/${this.jobId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
             if (!response.ok) {
-                throw new Error('Job not found');
+                if (response.status === 404) {
+                    this.showError('Job not found');
+                } else {
+                    this.showError(`Error loading job: ${response.status}`);
+                }
+                return;
             }
 
             const data = await response.json();
-            this.jobData = data.job || data;
             
+            if (!data.job) {
+                this.showError('Invalid job data received');
+                return;
+            }
+
+            this.jobData = data.job;
+            console.log('✅ Job data loaded:', this.jobData);
+            
+            // Render job details
             this.renderJobDetails();
-            this.loadSimilarJobs();
+            this.showContent();
             
+            // Update page title
+            document.title = `${this.jobData.title} - ${this.jobData.company_name} | FlexJobs`;
+
         } catch (error) {
-            console.error('Error loading job details:', error);
-            this.showError();
+            console.error('❌ Error loading job details:', error);
+            this.showError('Failed to load job details');
         }
     }
 
+    // Render job details to the page
     renderJobDetails() {
         const job = this.jobData;
         
-        // Update page title
-        document.title = `${job.title} - ${job.company_name} | FlexJobs`;
+        // Job header information
+        this.updateElement('jobTitle', job.title);
+        this.updateElement('companyName', job.company_name);
+        this.updateElement('sidebarCompanyName', job.company_name);
         
-        // Update breadcrumb
-        document.getElementById('jobBreadcrumb').textContent = job.title;
-        
-        // Job header
-        document.getElementById('jobTitle').textContent = job.title;
-        document.getElementById('companyName').textContent = job.company_name;
-        document.getElementById('companyLogo').src = job.company_logo || 'images/logo.png';
-        document.getElementById('companyLogo').alt = job.company_name;
+        // Company logos
+        const logoUrl = job.company_logo || 'images/logo.png';
+        this.updateElement('companyLogo', logoUrl, 'src');
+        this.updateElement('sidebarCompanyLogo', logoUrl, 'src');
         
         // Job meta information
-        document.getElementById('jobLocation').innerHTML = `<i class="fas fa-map-marker-alt me-1"></i>${job.location || 'Not specified'}`;
-        document.getElementById('jobType').innerHTML = `<i class="fas fa-briefcase me-1"></i>${this.formatJobType(job.job_type)}`;
-        document.getElementById('remoteType').innerHTML = `<i class="fas fa-laptop me-1"></i>${this.formatRemoteType(job.remote_type)}`;
-        document.getElementById('postedDate').innerHTML = `<i class="fas fa-clock me-1"></i>Posted ${this.formatDate(job.created_at)}`;
+        this.updateElement('jobLocation', `${job.location || 'Remote'}`);
+        this.updateElement('jobType', this.formatJobType(job.job_type));
+        this.updateElement('remoteType', this.formatRemoteType(job.remote_type));
+        this.updateElement('postedDate', this.formatTimeAgo(job.created_at));
         
-        // Salary
-        if (job.salary_min && job.salary_max) {
-            document.getElementById('salaryRange').textContent = `$${this.formatSalary(job.salary_min)} - $${this.formatSalary(job.salary_max)}`;
-        } else if (job.salary_min) {
-            document.getElementById('salaryRange').textContent = `From $${this.formatSalary(job.salary_min)}`;
-        } else {
-            document.getElementById('salaryRange').textContent = 'Salary not disclosed';
-        }
+        // Salary information
+        const salaryText = this.formatSalary(job);
+        this.updateElement('salaryRange', salaryText);
         
         // Job content
-        document.getElementById('jobDescription').innerHTML = this.formatContent(job.description);
-        document.getElementById('jobRequirements').innerHTML = this.formatContent(job.requirements || 'Requirements will be discussed during the interview process.');
-        document.getElementById('jobBenefits').innerHTML = this.formatContent(job.benefits || 'Competitive benefits package available.');
+        this.updateElement('jobDescription', this.formatContent(job.description), 'innerHTML');
+        this.updateElement('jobRequirements', this.formatContent(job.requirements), 'innerHTML');
         
-        // Skills
-        if (job.skills && job.skills.length > 0) {
-            const skillsContainer = document.getElementById('jobSkills');
-            skillsContainer.innerHTML = job.skills.map(skill => 
-                `<span class="skill-tag">${skill}</span>`
-            ).join('');
+        // Benefits (show/hide section based on content)
+        if (job.benefits && job.benefits.trim()) {
+            this.updateElement('jobBenefits', this.formatContent(job.benefits), 'innerHTML');
+            const benefitsSection = document.getElementById('benefitsSection');
+            if (benefitsSection) benefitsSection.style.display = 'block';
         } else {
-            document.getElementById('jobSkills').innerHTML = '<p class="text-muted">Skills will be discussed during the application process.</p>';
+            const benefitsSection = document.getElementById('benefitsSection');
+            if (benefitsSection) benefitsSection.style.display = 'none';
         }
         
-        // Sidebar information
-        document.getElementById('experienceLevel').textContent = this.formatExperienceLevel(job.experience_level);
-        document.getElementById('employmentType').textContent = this.formatJobType(job.job_type);
-        document.getElementById('workStyle').textContent = this.formatRemoteType(job.remote_type);
-        document.getElementById('jobCategory').textContent = job.category_name || 'General';
+        // Job information sidebar
+        this.updateElement('experienceLevel', this.formatExperienceLevel(job.experience_level));
+        this.updateElement('employmentType', this.formatJobType(job.job_type));
+        this.updateElement('workStyle', this.formatRemoteType(job.remote_type));
+        this.updateElement('jobCategory', job.category_name || 'General');
         
-        // Company sidebar
-        document.getElementById('sidebarCompanyLogo').src = job.company_logo || 'images/logo.png';
-        document.getElementById('sidebarCompanyLogo').alt = job.company_name;
-        document.getElementById('sidebarCompanyName').textContent = job.company_name;
-        document.getElementById('companySize').textContent = job.company_size || 'Company size not specified';
-        document.getElementById('companyDescription').textContent = job.company_description || 'Learn more about this company by visiting their profile.';
+        // Company information
+        this.updateElement('companySize', job.company_size || 'Not specified');
+        this.updateElement('companyDescription', job.company_description || 'No description available');
         
-        // Show content
-        document.getElementById('loadingState').style.display = 'none';
-        document.getElementById('jobDetailsContent').style.display = 'block';
+        // Company website link
+        const companyWebsite = job.company_website;
+        const websiteBtn = document.getElementById('viewCompanyWebsite');
+        if (companyWebsite && websiteBtn) {
+            websiteBtn.href = companyWebsite.startsWith('http') ? companyWebsite : `https://${companyWebsite}`;
+            websiteBtn.style.display = 'inline-block';
+        } else if (websiteBtn) {
+            websiteBtn.style.display = 'none';
+        }
+        
+        // Application button - this is the key part for external URLs
+        this.setupApplicationButton();
     }
 
-    async loadSimilarJobs() {
-        try {
-            const response = await fetch(`/api/jobs?category_id=${this.jobData.category_id}&limit=5&exclude=${this.jobId}`);
+    // Set up the application button with external URL or internal form
+    setupApplicationButton() {
+        const applyBtn = document.getElementById('applyBtn');
+        const job = this.jobData;
+        
+        if (!applyBtn) {
+            console.error('Apply button not found');
+            return;
+        }
+        
+        if (job.application_url && job.application_url.trim()) {
+            // External application URL exists
+            const cleanUrl = job.application_url.trim();
+            const applicationUrl = cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`;
             
-            if (response.ok) {
-                const data = await response.json();
-                this.renderSimilarJobs(data.jobs || []);
-            }
-        } catch (error) {
-            console.error('Error loading similar jobs:', error);
+            applyBtn.href = applicationUrl;
+            applyBtn.target = '_blank';
+            applyBtn.rel = 'noopener noreferrer';
+            applyBtn.innerHTML = `
+                <i class="fas fa-external-link-alt me-2"></i>Apply Now
+            `;
+            
+            // Add click tracking
+            applyBtn.addEventListener('click', () => {
+                console.log(`🔗 External application click: ${applicationUrl}`);
+                this.trackApplicationClick();
+            });
+            
+            console.log(`🔗 External application URL configured: ${applicationUrl}`);
+        } else {
+            // No external URL - use internal application system
+            applyBtn.href = '#';
+            applyBtn.target = '_self';
+            applyBtn.removeAttribute('rel');
+            applyBtn.innerHTML = `
+                <i class="fas fa-paper-plane me-2"></i>Apply Now
+            `;
+            
+            // Add click handler for internal application
+            applyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.showInternalApplicationForm();
+            });
+            
+            console.log('📧 Internal application form configured');
         }
     }
 
-    renderSimilarJobs(jobs) {
-        const container = document.getElementById('similarJobs');
-        
-        if (jobs.length === 0) {
-            container.innerHTML = '<p class="text-muted small">No similar jobs found.</p>';
-            return;
-        }
-        
-        container.innerHTML = jobs.map(job => `
-            <div class="similar-job-item">
-                <div class="similar-job-title">
-                    <a href="job-details.html?id=${job.id}" class="text-decoration-none">${job.title}</a>
-                </div>
-                <div class="similar-job-company">${job.company_name}</div>
-                <div class="similar-job-meta">
-                    <small class="text-muted">${this.formatRemoteType(job.remote_type)} • ${this.formatJobType(job.job_type)}</small>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    bindEvents() {
-        // Apply button
-        document.getElementById('applyBtn').addEventListener('click', () => {
-            this.showApplicationModal();
-        });
-
-        // Save job button
-        document.getElementById('saveJobBtn').addEventListener('click', () => {
-            this.toggleSaveJob();
-        });
-
-        // Submit application
-        document.getElementById('submitApplication').addEventListener('click', () => {
-            this.submitApplication();
-        });
-
-        // View company profile
-        document.getElementById('viewCompanyProfile').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = `company-profile.html?id=${this.jobData.company_id}`;
-        });
-    }
-
-    showApplicationModal() {
-        // Check if user is logged in
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        
-        if (!user.id) {
-            // Redirect to login
-            localStorage.setItem('redirectAfterLogin', window.location.href);
-            window.location.href = 'login.html';
-            return;
-        }
-
-        // Pre-fill form with user data
-        document.getElementById('applicantName').value = user.name || '';
-        document.getElementById('applicantEmail').value = user.email || '';
-        
-        // Show modal
-        const modal = new bootstrap.Modal(document.getElementById('applicationModal'));
-        modal.show();
-    }
-
-    async submitApplication() {
-        const form = document.getElementById('applicationForm');
-        const formData = new FormData();
-        
-        formData.append('job_id', this.jobId);
-        formData.append('name', document.getElementById('applicantName').value);
-        formData.append('email', document.getElementById('applicantEmail').value);
-        formData.append('cover_letter', document.getElementById('coverLetter').value);
-        
-        const resume = document.getElementById('resumeUpload').files[0];
-        if (resume) {
-            formData.append('resume', resume);
-        }
-
+    // Track application button clicks for analytics
+    async trackApplicationClick() {
         try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('/api/applications', {
+            await fetch(`/api/jobs/${this.jobId}/track-application`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: formData
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                // Close modal
-                const modal = bootstrap.Modal.getInstance(document.getElementById('applicationModal'));
-                modal.hide();
-                
-                // Show success message
-                this.showAlert('Application submitted successfully!', 'success');
-                
-                // Update apply button
-                document.getElementById('applyBtn').innerHTML = '<i class="fas fa-check me-2"></i>Applied';
-                document.getElementById('applyBtn').disabled = true;
-                document.getElementById('applyBtn').classList.remove('btn-primary');
-                document.getElementById('applyBtn').classList.add('btn-success');
-                
-            } else {
-                this.showAlert(data.message || 'Error submitting application', 'danger');
-            }
-        } catch (error) {
-            console.error('Error submitting application:', error);
-            this.showAlert('Network error. Please try again.', 'danger');
-        }
-    }
-
-    async toggleSaveJob() {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            localStorage.setItem('redirectAfterLogin', window.location.href);
-            window.location.href = 'login.html';
-            return;
-        }
-
-        try {
-            const response = await fetch('/api/saved-jobs', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ job_id: this.jobId })
-            });
-
-            const data = await response.json();
-            const saveBtn = document.getElementById('saveJobBtn');
-
-            if (response.ok) {
-                if (data.action === 'saved') {
-                    saveBtn.innerHTML = '<i class="fas fa-bookmark me-1"></i>Saved';
-                    saveBtn.classList.remove('btn-outline-primary');
-                    saveBtn.classList.add('btn-primary');
-                    this.showAlert('Job saved to your favorites!', 'success');
-                } else {
-                    saveBtn.innerHTML = '<i class="far fa-bookmark me-1"></i>Save';
-                    saveBtn.classList.remove('btn-primary');
-                    saveBtn.classList.add('btn-outline-primary');
-                    this.showAlert('Job removed from favorites', 'info');
+                    'Content-Type': 'application/json'
                 }
-            } else {
-                this.showAlert(data.message || 'Error saving job', 'danger');
-            }
+            });
         } catch (error) {
-            console.error('Error saving job:', error);
-            this.showAlert('Network error. Please try again.', 'danger');
+            console.log('Analytics tracking failed:', error);
         }
     }
 
-    showError() {
-        document.getElementById('loadingState').style.display = 'none';
-        document.getElementById('errorState').style.display = 'block';
+    // Show internal application form (fallback)
+    showInternalApplicationForm() {
+        alert(`Internal application form for: ${this.jobData.title}\n\nThis would normally show an application modal or redirect to an application page.`);
+        console.log('🎯 Internal application triggered for job:', this.jobData.title);
     }
 
-    showAlert(message, type) {
-        // Create alert element
-        const alertDiv = document.createElement('div');
-        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-        alertDiv.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-        
-        document.body.appendChild(alertDiv);
-        
-        // Auto remove after 5 seconds
-        setTimeout(() => {
-            if (alertDiv.parentNode) {
-                alertDiv.remove();
+    // Update element content or attribute
+    updateElement(id, value, attribute = 'textContent') {
+        const element = document.getElementById(id);
+        if (element && value !== null && value !== undefined) {
+            if (attribute === 'textContent') {
+                element.textContent = value;
+            } else if (attribute === 'innerHTML') {
+                element.innerHTML = value;
+            } else {
+                element.setAttribute(attribute, value);
             }
-        }, 5000);
+        }
     }
 
-    // Utility methods
+    // Format salary range
+    formatSalary(job) {
+        if (job.salary_min && job.salary_max) {
+            const currency = job.salary_currency || 'USD';
+            const symbol = currency === 'USD' ? '$' : currency;
+            return `${symbol}${this.formatNumber(job.salary_min)} - ${symbol}${this.formatNumber(job.salary_max)}`;
+        } else if (job.salary_min) {
+            const currency = job.salary_currency || 'USD';
+            const symbol = currency === 'USD' ? '$' : currency;
+            return `From ${symbol}${this.formatNumber(job.salary_min)}`;
+        } else {
+            return 'Salary not specified';
+        }
+    }
+
+    // Format numbers with commas
+    formatNumber(num) {
+        return new Intl.NumberFormat().format(num);
+    }
+
+    // Format job content (description, requirements, benefits)
+    formatContent(content) {
+        if (!content) return 'Not specified';
+        
+        // Convert line breaks to <br> tags and handle basic formatting
+        return content
+            .replace(/\n/g, '<br>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>');
+    }
+
+    // Format job type
     formatJobType(type) {
         const types = {
             'full-time': 'Full-time',
@@ -308,6 +290,7 @@ class JobDetails {
         return types[type] || type;
     }
 
+    // Format remote type
     formatRemoteType(type) {
         const types = {
             'remote': 'Remote',
@@ -317,6 +300,7 @@ class JobDetails {
         return types[type] || type;
     }
 
+    // Format experience level
     formatExperienceLevel(level) {
         const levels = {
             'entry': 'Entry Level',
@@ -327,37 +311,34 @@ class JobDetails {
         return levels[level] || level;
     }
 
-    formatSalary(amount) {
-        return new Intl.NumberFormat('en-US').format(amount);
-    }
-
-    formatDate(dateString) {
+    // Format time ago
+    formatTimeAgo(dateString) {
+        if (!dateString) return 'Unknown';
+        
         const date = new Date(dateString);
         const now = new Date();
-        const diffTime = Math.abs(now - date);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
         
-        if (diffDays === 1) return '1 day ago';
-        if (diffDays < 7) return `${diffDays} days ago`;
-        if (diffDays < 14) return '1 week ago';
-        if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-        if (diffDays < 60) return '1 month ago';
-        return `${Math.floor(diffDays / 30)} months ago`;
-    }
-
-    formatContent(content) {
-        if (!content) return '';
+        if (diffInHours < 1) return 'Less than an hour ago';
+        if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
         
-        // Convert line breaks to HTML
-        return content
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>')
-            .replace(/^/, '<p>')
-            .replace(/$/, '</p>');
+        const diffInDays = Math.floor(diffInHours / 24);
+        if (diffInDays < 7) return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+        
+        const diffInWeeks = Math.floor(diffInDays / 7);
+        if (diffInWeeks < 4) return `${diffInWeeks} week${diffInWeeks > 1 ? 's' : ''} ago`;
+        
+        return date.toLocaleDateString();
     }
 }
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new JobDetails();
+    // Small delay to allow components to load
+    setTimeout(() => {
+        new JobDetails();
+    }, 100);
 });
+
+// Export for global access
+window.JobDetails = JobDetails;

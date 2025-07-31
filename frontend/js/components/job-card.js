@@ -23,7 +23,7 @@ class JobCard {
         const jobData = this.processJobData(job);
 
         return `
-            <div class="${cardClasses}" data-job-id="${job.id}" onclick="JobCard.navigateToDetails(${job.id})">
+            <div class="${cardClasses}" data-job-id="${job.id}" data-job-card="true">
                 ${this.renderJobHeader(jobData)}
                 ${this.renderJobContent(jobData)}
             </div>
@@ -44,6 +44,47 @@ class JobCard {
 
         const jobCardsHTML = jobs.map(job => this.render(job)).join('');
         container.innerHTML = jobCardsHTML;
+        
+        // Set up event listeners for the job cards
+        this.setupEventListeners(container);
+    }
+
+    // Set up event listeners for job cards
+    setupEventListeners(container) {
+        // Main job card click handlers
+        const jobCards = container.querySelectorAll('[data-job-card="true"]');
+        jobCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                const jobId = card.getAttribute('data-job-id');
+                if (jobId) {
+                    JobCard.navigateToDetails(parseInt(jobId));
+                }
+            });
+        });
+
+        // Save job button handlers
+        const saveButtons = container.querySelectorAll('[data-save-btn="true"]');
+        saveButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const jobId = btn.getAttribute('data-save-job');
+                if (jobId) {
+                    JobCard.toggleSaveJob(parseInt(jobId), btn);
+                }
+            });
+        });
+
+        // View details button handlers
+        const detailsButtons = container.querySelectorAll('[data-details-btn="true"]');
+        detailsButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const jobId = btn.getAttribute('data-job-details');
+                if (jobId) {
+                    JobCard.navigateToDetails(parseInt(jobId));
+                }
+            });
+        });
     }
 
     // Process job data with defaults and formatting
@@ -174,14 +215,14 @@ class JobCard {
                 <div class="action-buttons">
                     ${this.options.showSaveButton ? `
                         <button class="btn btn-sm btn-outline-primary me-2" 
-                                onclick="event.stopPropagation(); JobCard.toggleSaveJob(${job.id}, this)">
+                                data-save-job="${job.id}" data-save-btn="true">
                             <i class="fas fa-bookmark"></i>
                         </button>
                     ` : ''}
                     
                     ${this.options.showApplyButton ? `
                         <button class="btn btn-sm btn-primary" 
-                                onclick="event.stopPropagation(); JobCard.navigateToDetails(${job.id})">
+                                data-job-details="${job.id}" data-details-btn="true">
                             View Details
                         </button>
                     ` : ''}

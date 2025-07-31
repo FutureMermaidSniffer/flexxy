@@ -70,6 +70,7 @@ CREATE TABLE jobs (
     salary_max DECIMAL(10,2),
     salary_currency VARCHAR(3) DEFAULT 'USD',
     benefits TEXT,
+    application_url VARCHAR(500),
     application_deadline DATE,
     is_active BOOLEAN DEFAULT TRUE,
     is_featured BOOLEAN DEFAULT FALSE,

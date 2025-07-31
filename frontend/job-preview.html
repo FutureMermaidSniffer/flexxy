@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Jo                                    <div class="job-header">
-                                        <div class="company-logo">
-                                            <img src="images/logo.png" alt="Creative Studio" class="company-img" onerror="this.src='images/logo.png'">
-                                        </div>
-                                    </div>ches - FlexJobs</title>
+    <title>Your Job Matches - FlexJobs</title>
     <link rel="icon" type="image/png" href="images/f.png">
     
     <!-- SEO Meta Tags -->
@@ -22,9 +18,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Header CSS -->
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+
+
 </head>
 
 <body class="job-preview-page">
+    <!-- Header -->
+    <div id="main-header-placeholder"></div>
+    
     <!-- Main Content -->
     <main>
         <!-- Header Section -->
@@ -718,5 +723,44 @@
         .job-card:nth-child(5) { animation-delay: 0.5s; }
         .job-card:nth-child(6) { animation-delay: 0.6s; }
     </style>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Component Loader -->
+    <script src="js/component-loader.js"></script>
+    
+    <!-- Job Card Component -->
+    <script src="js/components/job-card.js"></script>
+    
+    <!-- Page-specific Job Management -->
+    <script src="js/pages/job-preview-jobs.js"></script>
+    
+    <!-- Load Header and Footer -->
+    <script>
+        // Load header and footer components
+        async function loadComponents() {
+            try {
+                // Load header using ComponentLoader
+                await ComponentLoader.loadHeader();
+                
+                // Load footer (keeping the simple approach for footer)
+                const response = await fetch('components/main-footer/main-footer.html');
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById('footer-placeholder').innerHTML = html;
+                }
+            } catch (error) {
+                console.error('Error loading components:', error);
+            }
+        }
+        
+        // Load components when page is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadComponents);
+        } else {
+            loadComponents();
+        }
+    </script>
 </body>
 </html>
