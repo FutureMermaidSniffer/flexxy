@@ -2,8 +2,15 @@
  * Main Header Component
  * Provides a reusable header with logo, search bar, navigation, and mobile menu
  */
+if (typeof MainHeader === 'undefined') {
 class MainHeader {
     constructor(options = {}) {
+        // Prevent multiple instances if one already exists globally
+        if (window.mainHeaderInstance && window.mainHeaderInstance instanceof MainHeader) {
+            console.log('MainHeader instance already exists, returning existing instance');
+            return window.mainHeaderInstance;
+        }
+        
         this.options = {
             logoPath: 'images/FlexJobs_logo-1.png',
             searchPlaceholder: 'Search for agents...',
@@ -42,6 +49,15 @@ class MainHeader {
      */
     async loadHeader() {
         try {
+            // Check if header HTML is already loaded by ComponentLoader
+            const existingHeader = document.querySelector('.main-header');
+            if (existingHeader) {
+                console.log('Header HTML already loaded, using existing element');
+                this.headerElement = existingHeader;
+                this.bindExistingElements();
+                return;
+            }
+
             const response = await fetch('components/main-header/main-header.html');
             const html = await response.text();
             
@@ -60,49 +76,59 @@ class MainHeader {
                 }
             }
             
-            // Get references to elements
-            this.searchInput = this.headerElement.querySelector('.search-input');
-            this.locationInput = this.headerElement.querySelector('.location-input');
-            this.searchButton = this.headerElement.querySelector('.search-btn');
-            this.contentArea = this.headerElement.querySelector('.main-header__content');
-            this.hamburgerBtn = this.headerElement.querySelector('.main-header__hamburger');
-            this.mobileMenu = this.headerElement.querySelector('.main-header__mobile-menu');
-            this.mobileMenuOverlay = this.headerElement.querySelector('.mobile-menu-overlay');
-            
-            // Update logo path if needed
-            const logoImg = this.headerElement.querySelector('.main-header__logo');
-            if (logoImg && this.options.logoPath) {
-                logoImg.src = this.options.logoPath;
-            }
-            
-            // Update search placeholder
-            if (this.searchInput && this.options.searchPlaceholder) {
-                this.searchInput.placeholder = this.options.searchPlaceholder;
-            }
-            
-            // Update location placeholder
-            if (this.locationInput && this.options.locationPlaceholder) {
-                this.locationInput.placeholder = this.options.locationPlaceholder;
-            }
-            
-            // Hide search if not needed
-            if (!this.options.showSearch) {
-                const searchContainer = this.headerElement.querySelector('.main-header__search-container');
-                if (searchContainer) {
-                    searchContainer.style.display = 'none';
-                }
-            }
-            
-            // Initialize dropdowns after header is fully loaded
-            this.initializeDropdowns();
-            
-            // Dispatch event to notify that main header is ready
-            document.dispatchEvent(new CustomEvent('mainHeaderReady'));
+            this.bindExistingElements();
             
         } catch (error) {
             console.error('Error loading main header:', error);
             this.createFallbackHeader();
         }
+    }
+
+    /**
+     * Bind elements when header HTML already exists
+     */
+    bindExistingElements() {
+        // Get references to elements
+        this.searchInput = this.headerElement.querySelector('.search-input');
+        this.locationInput = this.headerElement.querySelector('.location-input');
+        this.searchButton = this.headerElement.querySelector('.search-btn');
+        this.contentArea = this.headerElement.querySelector('.main-header__content');
+        this.hamburgerBtn = this.headerElement.querySelector('.main-header__hamburger');
+        this.mobileMenu = this.headerElement.querySelector('.main-header__mobile-menu');
+        this.mobileMenuOverlay = this.headerElement.querySelector('.mobile-menu-overlay');
+        
+        // Update logo path if needed
+        const logoImg = this.headerElement.querySelector('.main-header__logo');
+        if (logoImg && this.options.logoPath) {
+            logoImg.src = this.options.logoPath;
+        }
+        
+        // Update search placeholder
+        if (this.searchInput && this.options.searchPlaceholder) {
+            this.searchInput.placeholder = this.options.searchPlaceholder;
+        }
+        
+        // Update location placeholder
+        if (this.locationInput && this.options.locationPlaceholder) {
+            this.locationInput.placeholder = this.options.locationPlaceholder;
+        }
+        
+        // Hide search if not needed
+        if (!this.options.showSearch) {
+            const searchContainer = this.headerElement.querySelector('.main-header__search-container');
+            if (searchContainer) {
+                searchContainer.style.display = 'none';
+            }
+        }
+        
+        // Initialize dropdowns after header is fully loaded
+        this.initializeDropdowns();
+        
+        // Initialize unified search functionality
+        this.initializeUnifiedSearch();
+        
+        // Dispatch event to notify that main header is ready
+        document.dispatchEvent(new CustomEvent('mainHeaderReady'));
     }
     
     /**
@@ -247,17 +273,8 @@ class MainHeader {
             }
         }
         
-        // Get references after creating fallback
-        this.searchInput = this.headerElement.querySelector('.search-input');
-        this.locationInput = this.headerElement.querySelector('.location-input');
-        this.searchButton = this.headerElement.querySelector('.search-btn');
-        this.contentArea = this.headerElement.querySelector('.main-header__content');
-        this.hamburgerBtn = this.headerElement.querySelector('.main-header__hamburger');
-        this.mobileMenu = this.headerElement.querySelector('.main-header__mobile-menu');
-        this.mobileMenuOverlay = this.headerElement.querySelector('.mobile-menu-overlay');
-        
-        // Initialize dropdowns for fallback header
-        this.initializeDropdowns();
+        // Use the same binding method for consistency
+        this.bindExistingElements();
         
         // Dispatch event to notify that main header is ready (fallback)
         document.dispatchEvent(new CustomEvent('mainHeaderReady'));
@@ -412,6 +429,24 @@ class MainHeader {
             });
         } else {
             console.warn('Account button or dropdown menu not found in header');
+        }
+    }
+    
+    /**
+     * Initialize unified search functionality
+     */
+    initializeUnifiedSearch() {
+        // Check if UnifiedSearch class is available
+        if (typeof window.UnifiedSearch !== 'undefined') {
+            try {
+                // Initialize unified search with the search inputs in the header
+                this.unifiedSearch = new UnifiedSearch();
+                console.log('Unified search initialized successfully');
+            } catch (error) {
+                console.error('Error initializing unified search:', error);
+            }
+        } else {
+            console.warn('UnifiedSearch class not available. Make sure unified-search.js is loaded.');
         }
     }
     
@@ -654,3 +689,4 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // Make available globally
 window.MainHeader = MainHeader;
+}

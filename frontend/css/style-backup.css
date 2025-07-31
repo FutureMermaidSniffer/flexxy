@@ -1,37 +1,33 @@
 /* Custom CSS for FlexJobs */
 
-/* Import Halcyon fonts */
+/* Import Montserrat fonts */
 @font-face {
-    font-family: 'Halcyon';
-    src: url('../fonts/Halcyon-Regular.woff2') format('woff2'),
-         url('../fonts/Halcyon-Regular.woff') format('woff');
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/Montserrat-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Halcyon';
-    src: url('../fonts/Halcyon-Medium.woff2') format('woff2'),
-         url('../fonts/Halcyon-Medium.woff') format('woff');
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/Montserrat-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Halcyon';
-    src: url('../fonts/Halcyon-SemiBold.woff2') format('woff2'),
-         url('../fonts/Halcyon-SemiBold.woff') format('woff');
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/Montserrat-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Halcyon';
-    src: url('../fonts/Halcyon-Bold.woff2') format('woff2'),
-         url('../fonts/Halcyon-Bold.woff') format('woff');
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -49,7 +45,7 @@
 
 /* Global Styles */
 body {
-    font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
@@ -1448,38 +1444,38 @@ img {
     }
 }
 body {
-    font-family: 'Halcyon', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
 }
 
-/* Typography with Halcyon font weights */
+/* Typography with Montserrat font weights */
 h1, .h1 {
-    font-family: 'Halcyon', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700; /* Bold */
 }
 
 h2, .h2 {
-    font-family: 'Halcyon', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600; /* SemiBold */
 }
 
 h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-    font-family: 'Halcyon', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500; /* Medium */
 }
 
 .btn {
-    font-family: 'Halcyon', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500; /* Medium */
 }
 
 .navbar-brand {
-    font-family: 'Halcyon', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600; /* SemiBold */
 }
 
 .lead {
-    font-family: 'Halcyon', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400; /* Regular */
 }
 

@@ -37,7 +37,8 @@ router.get('/', [
   query('experience_level').optional().isIn(['entry', 'mid', 'senior', 'executive']),
   query('category_id').optional().isInt({ min: 1 }),
   query('salary_min').optional().isNumeric(),
-  query('salary_max').optional().isNumeric()
+  query('salary_max').optional().isNumeric(),
+  query('is_featured').optional().isBoolean()
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -94,6 +95,16 @@ router.get('/', [
       params.push(req.query.salary_max);
     }
 
+    if (req.query.exclude) {
+      whereConditions.push('j.id != ?');
+      params.push(req.query.exclude);
+    }
+
+    if (req.query.is_featured !== undefined) {
+      whereConditions.push('j.is_featured = ?');
+      params.push(req.query.is_featured === 'true');
+    }
+
     const whereClause = whereConditions.join(' AND ');
 
     // Get total count for pagination
@@ -101,6 +112,7 @@ router.get('/', [
       SELECT COUNT(*) as total
       FROM jobs j
       LEFT JOIN companies c ON j.company_id = c.id
+      LEFT JOIN categories cat ON j.category_id = cat.id
       WHERE ${whereClause}
     `;
     const { query: countQuery, params: countParams } = convertQuery(countQueryTemplate, params);
@@ -111,8 +123,8 @@ router.get('/', [
     const jobsQueryTemplate = `
       SELECT 
         j.id, j.title, j.description, j.location, j.job_type, j.remote_type,
-        j.experience_level, j.salary_min, j.salary_max, j.salary_currency,
-        j.is_featured, j.views_count, j.applications_count, j.created_at,
+        j.experience_level, j.salary_min, j.salary_max, j.salary_currency, j.salary_type,
+        j.is_featured, j.views_count, j.applications_count, j.created_at, j.tags,
         c.name as company_name, c.logo as company_logo, c.location as company_location,
         cat.name as category_name, cat.icon as category_icon
       FROM jobs j

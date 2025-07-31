@@ -69,6 +69,15 @@ class AgentsManager {
         this.filters.search = urlParams.get('q') || '';
         this.filters.location = urlParams.get('location') || '';
         
+        // Check if there's a specific agent to show
+        const agentId = urlParams.get('agent');
+        if (agentId) {
+            // Auto-open the agent modal after page loads
+            setTimeout(() => {
+                this.showAgentModal(agentId);
+            }, 1000);
+        }
+        
         // Set search input values if they exist
         setTimeout(() => {
             if (window.mainHeader && window.mainHeader.searchInput && this.filters.search) {
@@ -98,12 +107,15 @@ class AgentsManager {
             const data = await response.json();
             
             if (response.ok) {
-                this.agents = data.data;
+                this.agents = data.agents || [];
+                this.pagination = data.pagination || {};
             } else {
+                this.agents = []; // Ensure agents is always an array
                 throw new Error(data.message || 'Failed to load agents');
             }
         } catch (error) {
             console.error('Error loading agents:', error);
+            this.agents = []; // Ensure agents is always an array
             this.showError('Error loading agents');
         } finally {
             this.showLoading(false);
@@ -165,11 +177,12 @@ class AgentsManager {
         if (this.filters.search) {
             const searchTerm = this.filters.search.toLowerCase();
             filtered = filtered.filter(agent => 
-                agent.name.toLowerCase().includes(searchTerm) ||
-                agent.specialties.some(specialty => 
+                (agent.agent_name && agent.agent_name.toLowerCase().includes(searchTerm)) ||
+                (agent.display_name && agent.display_name.toLowerCase().includes(searchTerm)) ||
+                (agent.specializations && agent.specializations.some && agent.specializations.some(specialty => 
                     specialty.toLowerCase().includes(searchTerm)
-                ) ||
-                agent.bio.toLowerCase().includes(searchTerm)
+                )) ||
+                (agent.bio && agent.bio.toLowerCase().includes(searchTerm))
             );
         }
 
@@ -177,14 +190,14 @@ class AgentsManager {
         if (this.filters.location) {
             const locationTerm = this.filters.location.toLowerCase();
             filtered = filtered.filter(agent => 
-                agent.location.toLowerCase().includes(locationTerm)
+                agent.location && agent.location.toLowerCase().includes(locationTerm)
             );
         }
 
         // Specialty filter
         if (this.filters.specialty) {
             filtered = filtered.filter(agent => 
-                agent.specialties.includes(this.filters.specialty)
+                agent.specializations && agent.specializations.includes && agent.specializations.includes(this.filters.specialty)
             );
         }
 
@@ -192,15 +205,13 @@ class AgentsManager {
         if (this.filters.rating) {
             const minRating = parseFloat(this.filters.rating);
             filtered = filtered.filter(agent => 
-                agent.average_rating >= minRating
+                agent.rating && agent.rating >= minRating
             );
         }
 
         // Verification filter
         if (this.filters.verification) {
-            if (this.filters.verification === 'verified') {
-                filtered = filtered.filter(agent => agent.is_verified);
-            } else if (this.filters.verification === 'featured') {
+            if (this.filters.verification === 'featured') {
                 filtered = filtered.filter(agent => agent.is_featured);
             }
         }
@@ -215,16 +226,13 @@ class AgentsManager {
     sortAgents(agents) {
         switch (this.filters.sortBy) {
             case 'rating':
-                agents.sort((a, b) => b.average_rating - a.average_rating);
-                break;
-            case 'experience':
-                agents.sort((a, b) => b.years_experience - a.years_experience);
+                agents.sort((a, b) => (b.rating || 0) - (a.rating || 0));
                 break;
             case 'reviews':
-                agents.sort((a, b) => b.total_reviews - a.total_reviews);
+                agents.sort((a, b) => (b.total_reviews || 0) - (a.total_reviews || 0));
                 break;
             case 'alphabetical':
-                agents.sort((a, b) => a.name.localeCompare(b.name));
+                agents.sort((a, b) => (a.display_name || a.agent_name || '').localeCompare(b.display_name || b.agent_name || ''));
                 break;
         }
     }
@@ -314,29 +322,29 @@ class AgentsManager {
 
     createGridCard(agent) {
         const badges = this.createBadges(agent);
-        const specialties = this.createSpecialtyTags(agent.specialties);
-        const rating = this.createRatingStars(agent.average_rating);
+        const specialties = this.createSpecialtyTags(agent.specializations);
+        const rating = this.createRatingStars(agent.rating);
 
         return `
             <div class="card agent-card h-100" onclick="agentsManager.showAgentModal(${agent.id})">
                 <div class="position-relative">
                     ${badges}
                     <div class="card-body text-center">
-                        <img src="${agent.profile_image || 'images/f.png'}" 
-                             alt="${agent.name}" class="agent-avatar mb-3" onerror="this.src='images/f.png'">
-                        <h5 class="card-title mb-2">${agent.name}</h5>
+                        <img src="${agent.avatar_url || 'images/f.png'}" 
+                             alt="${agent.display_name || agent.agent_name}" class="agent-avatar mb-3" onerror="this.src='images/f.png'">
+                        <h5 class="card-title mb-2">${agent.display_name || agent.agent_name}</h5>
                         <div class="agent-rating mb-2">
                             ${rating}
-                            <span class="text-muted ms-1">(${agent.total_reviews})</span>
+                            <span class="text-muted ms-1">(${agent.total_reviews || 0})</span>
                         </div>
-                        <p class="text-muted small mb-3">${agent.location}</p>
-                        <p class="card-text small mb-3">${this.truncateText(agent.bio, 100)}</p>
+                        <p class="text-muted small mb-3">${agent.location || 'Remote'}</p>
+                        <p class="card-text small mb-3">${this.truncateText(agent.bio || '', 100)}</p>
                         <div class="specialties mb-3">
                             ${specialties}
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-primary fw-bold">$${agent.hourly_rate}/hr</span>
-                            <small class="text-muted">${agent.years_experience} years exp.</small>
+                            <span class="text-muted small">Verified Agent</span>
+                            <small class="text-muted">${rating}</small>
                         </div>
                     </div>
                 </div>
@@ -346,27 +354,26 @@ class AgentsManager {
 
     createListCard(agent) {
         const badges = this.createBadges(agent);
-        const specialties = this.createSpecialtyTags(agent.specialties);
-        const rating = this.createRatingStars(agent.average_rating);
+        const specialties = this.createSpecialtyTags(agent.specializations);
+        const rating = this.createRatingStars(agent.rating);
 
         return `
             <div class="card agent-card agent-card-list" onclick="agentsManager.showAgentModal(${agent.id})">
                 <div class="position-relative">
                     ${badges}
-                    <img src="${agent.profile_image || 'images/f.png'}" 
-                         alt="${agent.name}" class="agent-avatar" onerror="this.src='images/f.png'">
+                    <img src="${agent.avatar_url || 'images/f.png'}" 
+                         alt="${agent.display_name || agent.agent_name}" class="agent-avatar" onerror="this.src='images/f.png'">
                     <div class="flex-grow-1">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h5 class="mb-0">${agent.name}</h5>
-                            <span class="text-primary fw-bold">$${agent.hourly_rate}/hr</span>
+                            <h5 class="mb-0">${agent.display_name || agent.agent_name}</h5>
+                            <span class="text-muted small">Verified Agent</span>
                         </div>
                         <div class="agent-rating mb-2">
                             ${rating}
-                            <span class="text-muted ms-1">(${agent.total_reviews})</span>
-                            <span class="text-muted ms-3">${agent.location}</span>
-                            <span class="text-muted ms-3">${agent.years_experience} years experience</span>
+                            <span class="text-muted ms-1">(${agent.total_reviews || 0})</span>
+                            <span class="text-muted ms-3">${agent.location || 'Remote'}</span>
                         </div>
-                        <p class="text-muted mb-2">${this.truncateText(agent.bio, 200)}</p>
+                        <p class="text-muted mb-2">${this.truncateText(agent.bio || '', 200)}</p>
                         <div class="specialties">
                             ${specialties}
                         </div>
@@ -380,21 +387,23 @@ class AgentsManager {
         let badges = '';
         if (agent.is_featured) {
             badges += '<span class="verification-badge featured-badge">Featured</span>';
-        } else if (agent.is_verified) {
-            badges += '<span class="verification-badge">Verified</span>';
         }
         return badges;
     }
 
     createSpecialtyTags(specialties) {
+        if (!specialties || !Array.isArray(specialties)) {
+            return '';
+        }
         return specialties.slice(0, 3).map(specialty => 
             `<span class="specialty-tag">${specialty}</span>`
         ).join('');
     }
 
     createRatingStars(rating) {
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 >= 0.5;
+        const numRating = parseFloat(rating) || 0;
+        const fullStars = Math.floor(numRating);
+        const hasHalfStar = numRating % 1 >= 0.5;
         let stars = '';
 
         for (let i = 0; i < 5; i++) {
@@ -407,7 +416,7 @@ class AgentsManager {
             }
         }
 
-        return `<span class="agent-rating">${stars} ${rating.toFixed(1)}</span>`;
+        return `<span class="agent-rating">${stars} ${numRating.toFixed(1)}</span>`;
     }
 
     renderPagination() {
@@ -525,16 +534,10 @@ class AgentsManager {
                         <div class="text-muted">(${agent.total_reviews} reviews)</div>
                     </div>
                     <p class="text-muted">${agent.location}</p>
-                    <div class="mb-3">
-                        <strong class="text-primary">$${agent.hourly_rate}/hour</strong>
-                    </div>
                 </div>
                 <div class="col-md-8">
                     <h5>About</h5>
                     <p>${agent.bio}</p>
-                    
-                    <h5>Experience</h5>
-                    <p>${agent.years_experience} years of professional experience</p>
                     
                     <h5>Specialties</h5>
                     <div class="mb-3">${specialties}</div>

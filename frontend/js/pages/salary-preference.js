@@ -47,11 +47,20 @@ class SalaryPreferencePage {
     init() {
         this.setupSlider();
         this.setupToggle();
+        this.setupBubbleDrag(); // Add bubble drag functionality
         this.setupNavigation();
+        this.setInitialSliderValue(); // Set slider to current value
         this.updateDisplay();
         this.updateSliderFill();
         this.updateBubble();
         this.restoreFromLocalStorage();
+    }
+
+    setInitialSliderValue() {
+        const slider = document.getElementById('salarySlider');
+        if (slider) {
+            slider.value = this.currentValue;
+        }
     }
 
     setupSlider() {
@@ -84,6 +93,110 @@ class SalaryPreferencePage {
                 }
             });
         });
+    }
+
+    setupBubbleDrag() {
+        const bubble = document.getElementById('salaryBubble');
+        const slider = document.getElementById('salarySlider');
+        const sliderWrapper = document.querySelector('.salary-slider-wrapper');
+        
+        if (!bubble || !slider || !sliderWrapper) return;
+        
+        let isDragging = false;
+        let startX = 0;
+        let startValue = this.currentValue;
+        
+        // Mouse events
+        bubble.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startValue = this.currentValue;
+            bubble.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            
+            const rect = sliderWrapper.getBoundingClientRect();
+            const sliderWidth = rect.width;
+            const deltaX = e.clientX - startX;
+            const deltaPercentage = (deltaX / sliderWidth) * 100;
+            
+            // Calculate new value
+            const range = slider.max - slider.min;
+            const deltaValue = (deltaPercentage / 100) * range;
+            const newValue = Math.max(slider.min, Math.min(slider.max, startValue + deltaValue));
+            
+            // Round to step
+            const step = parseInt(slider.step);
+            this.currentValue = Math.round(newValue / step) * step;
+            
+            // Update slider value
+            slider.value = this.currentValue;
+            
+            // Update UI
+            this.hasInteracted = true;
+            this.updateDisplay();
+            this.updateSliderFill();
+            this.updateBubble();
+            this.showSuccessMessage();
+        });
+        
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                bubble.style.cursor = 'grab';
+            }
+        });
+        
+        // Touch events for mobile
+        bubble.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            startValue = this.currentValue;
+            e.preventDefault();
+        });
+        
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            
+            const rect = sliderWrapper.getBoundingClientRect();
+            const sliderWidth = rect.width;
+            const deltaX = e.touches[0].clientX - startX;
+            const deltaPercentage = (deltaX / sliderWidth) * 100;
+            
+            // Calculate new value
+            const range = slider.max - slider.min;
+            const deltaValue = (deltaPercentage / 100) * range;
+            const newValue = Math.max(slider.min, Math.min(slider.max, startValue + deltaValue));
+            
+            // Round to step
+            const step = parseInt(slider.step);
+            this.currentValue = Math.round(newValue / step) * step;
+            
+            // Update slider value
+            slider.value = this.currentValue;
+            
+            // Update UI
+            this.hasInteracted = true;
+            this.updateDisplay();
+            this.updateSliderFill();
+            this.updateBubble();
+            this.showSuccessMessage();
+            
+            e.preventDefault();
+        });
+        
+        document.addEventListener('touchend', () => {
+            if (isDragging) {
+                isDragging = false;
+            }
+        });
+        
+        // Make bubble visually draggable
+        bubble.style.cursor = 'grab';
+        bubble.style.userSelect = 'none';
     }
 
     setupNavigation() {

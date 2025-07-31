@@ -7,6 +7,7 @@ const passport = require('passport');
 const path = require('path');
 require('dotenv').config();
 
+// Updated admin endpoints - fixed column issues
 const authRoutes = require('./backend/routes/auth');
 const jobRoutes = require('./backend/routes/jobs');
 const companyRoutes = require('./backend/routes/companies');
@@ -16,6 +17,7 @@ const agentRoutes = require('./backend/routes/agents');
 const subscriptionRoutes = require('./backend/routes/subscriptions');
 const paymentMethodRoutes = require('./backend/routes/payment-methods');
 const adminRoutes = require('./backend/routes/admin');
+const interactionRoutes = require('./backend/routes/interactions');
 const Error404Handler = require('./backend/middleware/404-handler');
 
 const app = express();
@@ -78,6 +80,7 @@ app.use('/api/agents', agentRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/payment-methods', paymentMethodRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/interactions', interactionRoutes);
 
 // Serve component files
 app.use('/components', express.static(path.join(__dirname, 'frontend/components')));
@@ -180,4 +183,5 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  // Agents page search functionality should now work properly
 });

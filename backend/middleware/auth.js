@@ -30,6 +30,35 @@ const authenticateToken = async (req, res, next) => {
   }
 };
 
+// Middleware to optionally verify JWT token (doesn't fail if no token)
+const optionalAuth = async (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+  if (!token) {
+    req.user = null;
+    return next();
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Get user from database to ensure they still exist and are active
+    const user = await getOne('SELECT id, email, user_type, is_active FROM users WHERE id = ?', [decoded.userId]);
+    
+    if (!user || !user.is_active) {
+      req.user = null;
+    } else {
+      req.user = user;
+    }
+    
+    next();
+  } catch (error) {
+    req.user = null;
+    next();
+  }
+};
+
 // Middleware to check if user is an employer
 const requireEmployer = (req, res, next) => {
   if (req.user.user_type !== 'employer' && req.user.user_type !== 'admin') {
@@ -61,6 +90,7 @@ const requireOwnershipOrAdmin = (userIdField = 'user_id') => {
 
 module.exports = {
   authenticateToken,
+  optionalAuth,
   requireEmployer,
   requireAdmin,
   requireOwnershipOrAdmin

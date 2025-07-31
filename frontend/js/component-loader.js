@@ -1,128 +1,190 @@
-// Component Loader - Handles loading of header and footer components
+/**
+ * Component Loader - Handles loading of reusable components
+ * Manages HTML/CSS/JS loading for header and footer components
+ */
+
 class ComponentLoader {
+    static loadedScripts = new Set();
+    static loadedComponents = new Set();
+
+    /**
+     * Load header component with HTML, CSS, and JS
+     */
     static async loadHeader() {
+        const componentPath = 'components/main-header';
+        const containerId = 'main-header-placeholder';
+        
         try {
-            const response = await fetch('components/main-header/main-header.html');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Check if already loaded
+            if (this.loadedComponents.has('main-header')) {
+                console.log('Header component already loaded');
+                return;
             }
+
+            // Load HTML
+            await this.loadHTML(`${componentPath}/main-header.html`, containerId);
             
-            const data = await response.text();
-            const headerPlaceholder = document.getElementById('main-header-placeholder');
-            if (headerPlaceholder) {
-                headerPlaceholder.innerHTML = data;
-            }
+            // Load CSS (if not already loaded)
+            await this.loadCSS(`${componentPath}/main-header.css`);
             
-            // Load header CSS
-            await ComponentLoader.loadCSS('components/main-header/main-header.css', 'Header CSS');
+            // Load JS (if not already loaded)
+            await this.loadJS(`${componentPath}/main-header.js`);
             
-            // Load header JavaScript
-            await ComponentLoader.loadJS('components/main-header/main-header.js', 'Header JS');
+            // Load unified search functionality
+            await this.loadJS('js/unified-search.js');
+            
+            // Initialize MainHeader component (prevent duplicates)
+            setTimeout(() => {
+                if (typeof MainHeader !== 'undefined' && !window.mainHeaderInstance) {
+                    window.mainHeaderInstance = new MainHeader();
+                    console.log('MainHeader instance created by ComponentLoader');
+                } else if (window.mainHeaderInstance) {
+                    console.log('MainHeader instance already exists, skipping creation');
+                }
+            }, 100);
+            
+            // Mark as loaded
+            this.loadedComponents.add('main-header');
+            
+            console.log('Header component loaded successfully');
             
         } catch (error) {
-            console.error('Error loading header:', error);
-            ComponentLoader.loadFallbackHeader();
+            console.error('Error loading header component:', error);
+            throw error;
         }
     }
 
+    /**
+     * Load footer component with HTML, CSS, and JS
+     */
     static async loadFooter() {
+        const componentPath = 'components/main-footer';
+        const containerId = 'footer-placeholder';
+        
         try {
-            const response = await fetch('components/main-footer/main-footer.html');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Check if already loaded
+            if (this.loadedComponents.has('main-footer')) {
+                console.log('Footer component already loaded');
+                return;
             }
+
+            // Load HTML
+            await this.loadHTML(`${componentPath}/main-footer.html`, containerId);
             
-            const data = await response.text();
-            const footerPlaceholder = document.getElementById('footer-placeholder');
-            if (footerPlaceholder) {
-                footerPlaceholder.innerHTML = data;
-            }
+            // Load CSS (if not already loaded)
+            await this.loadCSS(`${componentPath}/main-footer.css`);
+            
+            // Load JS (if not already loaded)
+            await this.loadJS(`${componentPath}/main-footer.js`);
+            
+            // Mark as loaded
+            this.loadedComponents.add('main-footer');
+            
+            console.log('Footer component loaded successfully');
             
         } catch (error) {
-            console.error('Error loading footer:', error);
-            ComponentLoader.loadFallbackFooter();
+            console.error('Error loading footer component:', error);
+            throw error;
         }
     }
 
-    static loadCSS(href, description = 'CSS') {
+    /**
+     * Load HTML content into a container
+     */
+    static async loadHTML(htmlPath, containerId) {
+        const response = await fetch(htmlPath);
+        if (!response.ok) {
+            throw new Error(`Failed to load HTML: ${htmlPath} (${response.status})`);
+        }
+        
+        const html = await response.text();
+        const container = document.getElementById(containerId);
+        
+        if (!container) {
+            throw new Error(`Container not found: ${containerId}`);
+        }
+        
+        container.innerHTML = html;
+    }
+
+    /**
+     * Load CSS file (avoid duplicates)
+     */
+    static async loadCSS(cssPath) {
+        // Check if CSS is already loaded
+        if (document.querySelector(`link[href="${cssPath}"]`)) {
+            return;
+        }
+
         return new Promise((resolve, reject) => {
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = href;
-            link.onload = function() {
-                console.log(`${description} loaded successfully`);
+            link.href = cssPath;
+            
+            link.onload = () => {
+                console.log(`CSS loaded: ${cssPath}`);
                 resolve();
             };
-            link.onerror = function() {
-                console.error(`Failed to load ${description}`);
-                reject(new Error(`Failed to load ${description}`));
+            
+            link.onerror = () => {
+                console.error(`Failed to load CSS: ${cssPath}`);
+                reject(new Error(`Failed to load CSS: ${cssPath}`));
             };
+            
             document.head.appendChild(link);
         });
     }
 
-    static loadJS(src, description = 'JavaScript') {
+    /**
+     * Load JavaScript file (avoid duplicates and redeclarations)
+     */
+    static async loadJS(jsPath) {
+        // Check if script is already loaded
+        if (this.loadedScripts.has(jsPath)) {
+            console.log(`Script already loaded: ${jsPath}`);
+            return;
+        }
+
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
-            script.src = src;
-            script.onload = function() {
-                console.log(`${description} loaded successfully`);
+            script.src = jsPath;
+            script.type = 'text/javascript';
+            
+            script.onload = () => {
+                console.log(`Script loaded: ${jsPath}`);
+                this.loadedScripts.add(jsPath);
                 resolve();
             };
-            script.onerror = function() {
-                console.error(`Failed to load ${description}`);
-                reject(new Error(`Failed to load ${description}`));
+            
+            script.onerror = () => {
+                console.error(`Failed to load script: ${jsPath}`);
+                reject(new Error(`Failed to load script: ${jsPath}`));
             };
-            document.body.appendChild(script);
+            
+            document.head.appendChild(script);
         });
     }
 
-    static loadFallbackHeader() {
-        const headerPlaceholder = document.getElementById('main-header-placeholder');
-        if (headerPlaceholder) {
-            headerPlaceholder.innerHTML = `
-                <header class="main-header" style="background: #fff; padding: 1rem 0; border-bottom: 1px solid #dee2e6;">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <img src="images/FlexJobs_logo-1.png" alt="FlexJobs" style="height: 40px;">
-                            </div>
-                            <div class="col text-end">
-                                <a href="index.html" class="btn btn-outline-primary btn-sm">Home</a>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-            `;
-        }
+    /**
+     * Check if a component is loaded
+     */
+    static isComponentLoaded(componentName) {
+        return this.loadedComponents.has(componentName);
     }
 
-    static loadFallbackFooter() {
-        const footerPlaceholder = document.getElementById('footer-placeholder');
-        if (footerPlaceholder) {
-            footerPlaceholder.innerHTML = `
-                <footer style="background: #f8f9fa; padding: 2rem 0; margin-top: 3rem; border-top: 1px solid #dee2e6;">
-                    <div class="container text-center">
-                        <p class="mb-0">&copy; 2025 FlexJobs. All rights reserved.</p>
-                    </div>
-                </footer>
-            `;
-        }
-    }
-
-    // Initialize component loading when DOM is ready
-    static init() {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                ComponentLoader.loadHeader();
-                ComponentLoader.loadFooter();
-            });
-        } else {
-            ComponentLoader.loadHeader();
-            ComponentLoader.loadFooter();
-        }
+    /**
+     * Reset loaded components (for testing/debugging)
+     */
+    static reset() {
+        this.loadedScripts.clear();
+        this.loadedComponents.clear();
     }
 }
 
-// Auto-initialize when script loads
-ComponentLoader.init();
+// Make ComponentLoader globally available
+window.ComponentLoader = ComponentLoader;
+
+// Also export for module systems if needed
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = ComponentLoader;
+}

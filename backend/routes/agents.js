@@ -19,6 +19,52 @@ function convertQuery(query, params) {
   return { query: convertedQuery, params: convertedParams };
 }
 
+// Get search suggestions for agents
+router.get('/search/suggestions', async (req, res) => {
+  try {
+    const { q: query, limit = 5 } = req.query;
+    
+    if (!query || query.trim().length < 2) {
+      return res.json({ suggestions: [] });
+    }
+    
+    const searchTerm = `%${query.trim()}%`;
+    const searchQuery = `
+      SELECT 
+        a.id,
+        a.agent_name,
+        a.display_name,
+        a.location,
+        a.rating,
+        a.specializations
+      FROM agents a
+      WHERE a.is_active = TRUE 
+        AND (
+          a.agent_name ILIKE $1 OR 
+          a.display_name ILIKE $1 OR
+          a.specializations ILIKE $1 OR
+          a.location ILIKE $1
+        )
+      ORDER BY 
+        CASE 
+          WHEN a.agent_name ILIKE $1 THEN 1
+          WHEN a.display_name ILIKE $1 THEN 2  
+          ELSE 3
+        END,
+        a.rating DESC
+      LIMIT $2
+    `;
+
+    const { query: convertedQuery, params: convertedParams } = convertQuery(searchQuery, [searchTerm, parseInt(limit)]);
+    const suggestions = await getMany(convertedQuery, convertedParams);
+
+    res.json({ suggestions });
+  } catch (error) {
+    console.error('Agent search suggestions error:', error);
+    res.status(500).json({ message: 'Server error while fetching agent suggestions' });
+  }
+});
+
 // Validation rules
 const createAgentValidation = [
   body('agent_name').trim().isLength({ min: 2, max: 255 }),
@@ -26,7 +72,6 @@ const createAgentValidation = [
   body('bio').optional().trim().isLength({ max: 2000 }),
   body('specializations').optional().isArray(),
   body('experience_years').optional().isInt({ min: 0, max: 50 }),
-  body('hourly_rate').optional().isFloat({ min: 0 }),
   body('languages').optional().isArray(),
   body('skills').optional().isArray(),
   body('location').optional().trim().isLength({ max: 255 }),
@@ -39,12 +84,10 @@ const updateAgentValidation = [
   body('bio').optional().trim().isLength({ max: 2000 }),
   body('specializations').optional().isArray(),
   body('experience_years').optional().isInt({ min: 0, max: 50 }),
-  body('hourly_rate').optional().isFloat({ min: 0 }),
   body('languages').optional().isArray(),
   body('skills').optional().isArray(),
   body('location').optional().trim().isLength({ max: 255 }),
-  body('timezone').optional().trim().isLength({ max: 50 }),
-  body('availability_status').optional().isIn(['available', 'busy', 'unavailable'])
+  body('timezone').optional().trim().isLength({ max: 50 })
 ];
 
 // Get all agents with filtering and search
@@ -92,25 +135,13 @@ router.get('/', async (req, res) => {
       queryParams.push(parseFloat(min_rating));
     }
 
-    // Filter by maximum hourly rate
-    if (max_rate) {
-      whereConditions.push('a.hourly_rate <= ?');
-      queryParams.push(parseFloat(max_rate));
-    }
-
-    // Filter by availability
-    if (availability) {
-      whereConditions.push('a.availability_status = ?');
-      queryParams.push(availability);
-    }
-
     // Filter by featured status
     if (featured === 'true') {
       whereConditions.push('a.is_featured = TRUE');
     }
 
     // Validate sort parameters
-    const validSortFields = ['rating', 'experience_years', 'hourly_rate', 'created_at', 'agent_name'];
+    const validSortFields = ['rating', 'experience_years', 'created_at', 'agent_name'];
     const validSortOrders = ['asc', 'desc'];
     const sortField = validSortFields.includes(sort_by) ? sort_by : 'rating';
     const sortDirection = validSortOrders.includes(sort_order.toLowerCase()) ? sort_order.toUpperCase() : 'DESC';
@@ -132,9 +163,9 @@ router.get('/', async (req, res) => {
     const agentsQuery = `
       SELECT 
         a.id, a.agent_name, a.display_name, a.bio, a.specializations,
-        a.experience_years, a.rating, a.total_reviews, a.hourly_rate, a.currency,
-        a.availability_status, a.languages, a.skills, a.location, a.timezone,
-        a.avatar_url, a.is_verified, a.is_featured, a.created_at,
+        a.rating, a.total_reviews, a.currency,
+        a.languages, a.skills, a.location, a.timezone,
+        a.avatar_url, a.is_featured, a.created_at,
         u.first_name, u.last_name, u.email
       FROM agents a
       JOIN users u ON a.user_id = u.id
@@ -182,8 +213,8 @@ router.get('/featured', async (req, res) => {
     const query = `
       SELECT 
         a.id, a.agent_name, a.display_name, a.bio, a.specializations,
-        a.experience_years, a.rating, a.total_reviews, a.hourly_rate, a.currency,
-        a.availability_status, a.avatar_url, a.is_verified, a.location
+        a.rating, a.total_reviews, a.currency,
+        a.avatar_url, a.location
       FROM agents a
       WHERE a.is_active = TRUE AND a.is_featured = TRUE
       ORDER BY a.rating DESC, a.total_reviews DESC
@@ -283,7 +314,6 @@ router.post('/', authenticateToken, createAgentValidation, async (req, res) => {
       bio,
       specializations = [],
       experience_years = 0,
-      hourly_rate,
       languages = [],
       skills = [],
       certifications = [],
@@ -300,7 +330,6 @@ router.post('/', authenticateToken, createAgentValidation, async (req, res) => {
       bio: bio || null,
       specializations: JSON.stringify(specializations),
       experience_years,
-      hourly_rate: hourly_rate || null,
       languages: JSON.stringify(languages),
       skills: JSON.stringify(skills),
       certifications: JSON.stringify(certifications),
@@ -346,8 +375,8 @@ router.put('/:id', authenticateToken, updateAgentValidation, async (req, res) =>
 
     const updateData = {};
     const allowedFields = [
-      'agent_name', 'display_name', 'bio', 'experience_years', 'hourly_rate',
-      'location', 'timezone', 'linkedin_url', 'portfolio_url', 'availability_status'
+      'agent_name', 'display_name', 'bio', 'experience_years',
+      'location', 'timezone', 'linkedin_url', 'portfolio_url'
     ];
 
     // Process regular fields
@@ -425,31 +454,6 @@ router.put('/:id/featured', authenticateToken, async (req, res) => {
     });
   } catch (error) {
     console.error('Update agent featured status error:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// Admin: Toggle agent verification status
-router.put('/:id/verify', authenticateToken, async (req, res) => {
-  try {
-    if (req.user.user_type !== 'admin') {
-      return res.status(403).json({ message: 'Admin access required' });
-    }
-
-    const agentId = req.params.id;
-    const { is_verified } = req.body;
-
-    if (typeof is_verified !== 'boolean') {
-      return res.status(400).json({ message: 'is_verified must be a boolean' });
-    }
-
-    await updateOne('agents', { is_verified }, 'id = ?', [agentId]);
-
-    res.json({ 
-      message: `Agent ${is_verified ? 'verified' : 'unverified'} successfully` 
-    });
-  } catch (error) {
-    console.error('Update agent verification status error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });

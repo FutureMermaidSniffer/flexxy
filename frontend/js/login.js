@@ -176,8 +176,13 @@ class LoginManager {
                 
                 // Redirect after a short delay
                 setTimeout(() => {
-                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
-                    window.location.href = redirectUrl;
+                    // Check if user is admin and redirect accordingly
+                    if (data.user && data.user.user_type === 'admin') {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
+                        window.location.href = redirectUrl;
+                    }
                 }, 1500);
             } else {
                 this.showNotification(data.message || 'Login failed. Please try again.', 'error');
@@ -255,8 +260,13 @@ class LoginManager {
                 
                 // Redirect after a short delay
                 setTimeout(() => {
-                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
-                    window.location.href = redirectUrl;
+                    // Check if user is admin and redirect accordingly
+                    if (data.user && data.user.user_type === 'admin') {
+                        window.location.href = 'admin-dashboard.html';
+                    } else {
+                        const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
+                        window.location.href = redirectUrl;
+                    }
                 }, 1500);
             } else {
                 this.showNotification(data.message || 'Apple Sign In failed. Please try again.', 'error');
@@ -308,9 +318,22 @@ class LoginUtils {
         const user = localStorage.getItem('flexjobs_user');
         
         if (token && user) {
-            // User is already logged in, redirect to dashboard
-            const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
-            window.location.href = redirectUrl;
+            try {
+                const userData = JSON.parse(user);
+                // Check if user is admin and redirect accordingly
+                if (userData.user_type === 'admin') {
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    // User is already logged in, redirect to dashboard
+                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
+                    window.location.href = redirectUrl;
+                }
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                // If there's an error parsing user data, clear storage and stay on login page
+                localStorage.removeItem('flexjobs_token');
+                localStorage.removeItem('flexjobs_user');
+            }
         }
     }
 
@@ -341,8 +364,13 @@ class LoginUtils {
                     
                     // Redirect after delay
                     setTimeout(() => {
-                        const redirectUrl = urlParams.get('redirect') || 'browse-jobs.html';
-                        window.location.href = redirectUrl;
+                        // Check if user is admin and redirect accordingly
+                        if (data.user && data.user.user_type === 'admin') {
+                            window.location.href = 'admin-dashboard.html';
+                        } else {
+                            const redirectUrl = urlParams.get('redirect') || 'browse-jobs.html';
+                            window.location.href = redirectUrl;
+                        }
                     }, 2000);
                 }
             })

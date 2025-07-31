@@ -23,6 +23,65 @@
 <body class="page-statistics">
     <!-- Main Content -->
     <main>
+        <!-- Loading Notifications -->
+        <div class="notification-container" id="notificationContainer">
+            <div class="loading-notification" id="loadingNotification">
+                <i class="fas fa-search me-2"></i>
+                <span id="notificationText">Searching the database for relevant jobs</span>
+            </div>
+        </div>
+
+        <!-- Job Card Popup -->
+        <div class="job-popup-overlay" id="jobPopupOverlay">
+            <div class="job-popup">
+                <div class="job-popup-header">
+                    <div class="company-logo">
+                        <img src="images/logo.png" alt="CDOT Database" class="company-img">
+                    </div>
+                    <button class="close-popup" id="closeJobPopup">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="job-popup-content">
+                    <h4 class="job-title">PEA Affiliate</h4>
+                    <p class="company-name">CDOT Database</p>
+                    <div class="job-details">
+                        <span class="job-type">
+                            <i class="fas fa-laptop me-1"></i>Hybrid
+                        </span>
+                        <span class="job-schedule">
+                            <i class="fas fa-clock me-1"></i>Full-time
+                        </span>
+                    </div>
+                    <p class="job-description">
+                        Exciting opportunity to work as a PEA Affiliate with CDOT Database. Work with us to help companies to drive digital marketing and achieve their goals. 
+                    </p>
+                    <div class="job-popup-footer">
+                        <button class="btn btn-primary apply-btn" id="applyJobBtn">
+                            <i class="fas fa-paper-plane me-2"></i>
+                            Apply Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agent Contact Notification -->
+        <div class="agent-notification" id="agentNotification">
+            <div class="agent-notification-content">
+                <div class="notification-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="notification-text">
+                    <h5>Registration Successful!</h5>
+                    <p>Our agent will contact you with more job details shortly.</p>
+                </div>
+                <button class="close-notification" id="closeAgentNotification">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
         <!-- Statistics Section -->
         <section class="statistics-section">
             <div class="container">
@@ -144,6 +203,284 @@
             font-size: 1rem;
             color: #6c757d;
             font-weight: 400;
+        }
+
+        /* Loading Notifications */
+        .notification-container {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .loading-notification {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 123, 255, 0.2);
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #007bff;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.15);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        .loading-notification.show {
+            display: flex;
+        }
+
+        .loading-notification i {
+            color: #007bff;
+            font-size: 0.9rem;
+        }
+
+        /* Job Popup */
+        .job-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .job-popup-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .job-popup {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideInUp 0.4s ease-out;
+        }
+
+        .job-popup-header {
+            padding: 1.5rem 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .job-popup .company-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .job-popup .company-img {
+            max-width: 35px;
+            max-height: 35px;
+            object-fit: contain;
+        }
+
+        .close-popup {
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .close-popup:hover {
+            background: #f8f9fa;
+            color: #495057;
+        }
+
+        .job-popup-content {
+            padding: 1rem 1.5rem 1.5rem;
+        }
+
+        .job-popup .job-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-popup .company-name {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .job-popup .job-details {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .job-popup .job-type,
+        .job-popup .job-schedule {
+            font-size: 0.85rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .job-popup .job-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .job-popup-footer {
+            text-align: center;
+        }
+
+        .apply-btn {
+            background: #ff6b35;
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            width: 100%;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+            background: linear-gradient(45deg, #e55a2e, #e67e22);
+        }
+
+        /* Agent Notification */
+        .agent-notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 3000;
+            display: none;
+        }
+
+        .agent-notification.show {
+            display: block;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        .agent-notification-content {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            max-width: 350px;
+            position: relative;
+        }
+
+        .notification-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-icon i {
+            font-size: 1.1rem;
+        }
+
+        .notification-text h5 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .notification-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .close-notification {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+
+        .close-notification:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animations */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         /* Logo */
@@ -286,6 +623,46 @@
                 padding: 1rem 2.5rem;
                 font-size: 1.2rem;
                 max-width: 350px;
+            }
+
+            .job-popup {
+                max-width: 450px;
+            }
+
+            .loading-notification {
+                font-size: 1rem;
+                padding: 1rem 2rem;
+            }
+        }
+
+        /* Mobile responsive for notifications */
+        @media (max-width: 767px) {
+            .notification-container {
+                top: 1rem;
+                left: 1rem;
+                right: 1rem;
+                transform: none;
+            }
+
+            .loading-notification {
+                font-size: 0.85rem;
+                padding: 0.65rem 1.25rem;
+            }
+
+            .agent-notification {
+                top: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .agent-notification-content {
+                max-width: none;
+            }
+
+            .job-popup {
+                margin: 1rem;
+                max-width: none;
+                width: calc(100% - 2rem);
             }
         }
 

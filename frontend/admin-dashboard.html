@@ -8,7 +8,10 @@
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <!--                                 <button class="btn btn-sm btn-outline-secondary" data-action="export-jobs">
+                                    <i class="fas fa-file-export"></i> Export
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" data-action="refresh-jobs"> Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -34,7 +37,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="index.html"><i class="fas fa-home me-2"></i>Main Site</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -101,7 +104,7 @@
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2">Dashboard Overview</h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="refreshDashboard()">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-action="refresh-dashboard">
                                 <i class="fas fa-refresh me-1"></i>
                                 Refresh
                             </button>
@@ -149,7 +152,7 @@
                         <div class="btn-toolbar mb-2 mb-md-0">
                             <div class="input-group me-2">
                                 <input type="text" class="form-control" id="userSearch" placeholder="Search users...">
-                                <button class="btn btn-outline-secondary" type="button" onclick="searchUsers()">
+                                <button class="btn btn-outline-secondary" type="button" data-action="search-users">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -159,7 +162,7 @@
                     <!-- Filters -->
                     <div class="row mb-3">
                         <div class="col-md-3">
-                            <select class="form-select" id="userTypeFilter" onchange="filterUsers()">
+                            <select class="form-select" id="userTypeFilter" data-action="filter-users">
                                 <option value="">All User Types</option>
                                 <option value="job_seeker">Job Seekers</option>
                                 <option value="employer">Employers</option>
@@ -167,7 +170,7 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="userStatusFilter" onchange="filterUsers()">
+                            <select class="form-select" id="userStatusFilter" data-action="filter-users">
                                 <option value="">All Statuses</option>
                                 <option value="true">Active</option>
                                 <option value="false">Inactive</option>
@@ -211,7 +214,7 @@
                         <div class="btn-toolbar mb-2 mb-md-0">
                             <div class="input-group me-2">
                                 <input type="text" class="form-control" id="agentSearch" placeholder="Search agents...">
-                                <button class="btn btn-outline-secondary" type="button" onclick="searchAgents()">
+                                <button class="btn btn-outline-secondary" type="button" data-action="search-agents">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -224,21 +227,21 @@
                     <!-- Agent Filters -->
                     <div class="row mb-3">
                         <div class="col-md-3">
-                            <select class="form-select" id="agentVerifiedFilter" onchange="filterAgents()">
+                            <select class="form-select" id="agentVerifiedFilter" data-action="filter-agents">
                                 <option value="">All Verification Status</option>
                                 <option value="true">Verified</option>
                                 <option value="false">Unverified</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="agentFeaturedFilter" onchange="filterAgents()">
+                            <select class="form-select" id="agentFeaturedFilter" data-action="filter-agents">
                                 <option value="">All Featured Status</option>
                                 <option value="true">Featured</option>
                                 <option value="false">Not Featured</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="agentStatusFilter" onchange="filterAgents()">
+                            <select class="form-select" id="agentStatusFilter" data-action="filter-agents">
                                 <option value="">All Statuses</option>
                                 <option value="true">Active</option>
                                 <option value="false">Inactive</option>
@@ -254,13 +257,19 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
+                                            <th>Avatar</th>
                                             <th>Name</th>
                                             <th>Display Name</th>
+                                            <th>Email</th>
+                                            <th>Location</th>
+                                            <th>Specializations</th>
+                                            <th>Experience</th>
                                             <th>Rating</th>
-                                            <th>Rate</th>
+                                            <th>Reviews</th>
                                             <th>Status</th>
                                             <th>Verified</th>
                                             <th>Featured</th>
+                                            <th>Created</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -277,12 +286,196 @@
                     </div>
                 </div>
 
-                <!-- Other sections (jobs, subscriptions, analytics) will be similar -->
+                <!-- Jobs Management Section -->
                 <div id="jobs-section" class="content-section" style="display: none;">
-                    <div class="pt-3 pb-2 mb-3 border-bottom">
+                    <div class="pt-3 pb-2 mb-3 border-bottom d-flex justify-content-between align-items-center">
                         <h1 class="h2">Job Management</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addJobModal">
+                            <i class="fas fa-plus me-2"></i>Add New Job
+                        </button>
                     </div>
-                    <p>Job management interface coming soon...</p>
+
+                    <!-- Job Statistics Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4 id="totalJobsCount">0</h4>
+                                            <p class="mb-0">Total Jobs</p>
+                                        </div>
+                                        <i class="fas fa-briefcase fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-success text-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4 id="activeJobsCount">0</h4>
+                                            <p class="mb-0">Active Jobs</p>
+                                        </div>
+                                        <i class="fas fa-play-circle fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4 id="pendingJobsCount">0</h4>
+                                            <p class="mb-0">Pending Jobs</p>
+                                        </div>
+                                        <i class="fas fa-clock fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-info text-white">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4 id="applicationsCount">0</h4>
+                                            <p class="mb-0">Applications</p>
+                                        </div>
+                                        <i class="fas fa-file-alt fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filters and Search -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="jobSearchInput" class="form-label">Search Jobs</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="jobSearchInput" placeholder="Search by title, company, or location...">
+                                        <button class="btn btn-outline-secondary" type="button" data-action="search-jobs">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="jobStatusFilter" class="form-label">Status</label>
+                                    <select class="form-select" id="jobStatusFilter" data-action="filter-jobs">
+                                        <option value="">All Status</option>
+                                        <option value="active">Active</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="closed">Closed</option>
+                                        <option value="draft">Draft</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="jobTypeFilter" class="form-label">Job Type</label>
+                                    <select class="form-select" id="jobTypeFilter" data-action="filter-jobs">
+                                        <option value="">All Types</option>
+                                        <option value="full_time">Full Time</option>
+                                        <option value="part_time">Part Time</option>
+                                        <option value="contract">Contract</option>
+                                        <option value="freelance">Freelance</option>
+                                        <option value="internship">Internship</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="locationTypeFilter" class="form-label">Location</label>
+                                    <select class="form-select" id="locationTypeFilter" data-action="filter-jobs">
+                                        <option value="">All Locations</option>
+                                        <option value="remote">Remote</option>
+                                        <option value="hybrid">Hybrid</option>
+                                        <option value="onsite">On-site</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="jobSortBy" class="form-label">Sort By</label>
+                                    <select class="form-select" id="jobSortBy" data-action="sort-jobs">
+                                        <option value="created_at">Newest First</option>
+                                        <option value="title">Title A-Z</option>
+                                        <option value="company_name">Company A-Z</option>
+                                        <option value="salary_max">Highest Salary</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Jobs Table -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Jobs List</h5>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-secondary" data-action="export-jobs">
+                                    <i class="fas fa-download me-1"></i>Export
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" data-action="refresh-jobs">
+                                    <i class="fas fa-sync me-1"></i>Refresh
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <input type="checkbox" id="selectAllJobs" data-action="toggle-select-all-jobs">
+                                            </th>
+                                            <th>Job Title</th>
+                                            <th>Company</th>
+                                            <th>Type</th>
+                                            <th>Location</th>
+                                            <th>Salary</th>
+                                            <th>Status</th>
+                                            <th>Created</th>
+                                            <th>Applications</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="jobsTableBody">
+                                        <!-- Jobs will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Pagination -->
+                            <nav aria-label="Jobs pagination" class="mt-3">
+                                <ul class="pagination justify-content-center" id="jobsPagination">
+                                    <!-- Pagination will be generated here -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Actions -->
+                    <div class="mt-3" id="bulkActionsBar" style="display: none;">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-3">
+                                    <span id="selectedJobsCount">0 jobs selected</span>
+                                    <button class="btn btn-sm btn-warning" data-action="bulk-jobs" data-action-type="pending">
+                                        Mark as Pending
+                                    </button>
+                                    <button class="btn btn-sm btn-success" data-action="bulk-jobs" data-action-type="active">
+                                        Activate
+                                    </button>
+                                    <button class="btn btn-sm btn-secondary" data-action="bulk-jobs" data-action-type="closed">
+                                        Close
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-action="bulk-delete-jobs">
+                                        Delete Selected
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="subscriptions-section" class="content-section" style="display: none;">
@@ -312,6 +505,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="addAgentForm">
+                        <!-- Basic Information -->
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -326,37 +520,655 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="agentEmail" class="form-label">Email *</label>
-                            <input type="email" class="form-control" id="agentEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="agentBio" class="form-label">Bio</label>
-                            <textarea class="form-control" id="agentBio" rows="3"></textarea>
-                        </div>
+                        
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="experienceYears" class="form-label">Experience (Years)</label>
-                                    <input type="number" class="form-control" id="experienceYears" min="0">
+                                    <label for="agentEmail" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="agentEmail" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="hourlyRate" class="form-label">Hourly Rate ($)</label>
-                                    <input type="number" class="form-control" id="hourlyRate" step="0.01" min="0">
+                                    <label for="agentLocation" class="form-label">Location</label>
+                                    <input type="text" class="form-control" id="agentLocation" placeholder="City, State/Country">
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="timezone" class="form-label">Timezone</label>
+                                    <select class="form-select" id="timezone">
+                                        <option value="">Select Timezone</option>
+                                        <option value="UTC-12">UTC-12 (Baker Island Time)</option>
+                                        <option value="UTC-11">UTC-11 (Hawaii Standard Time)</option>
+                                        <option value="UTC-10">UTC-10 (Hawaii-Aleutian Time)</option>
+                                        <option value="UTC-9">UTC-9 (Alaska Time)</option>
+                                        <option value="UTC-8">UTC-8 (Pacific Time)</option>
+                                        <option value="UTC-7">UTC-7 (Mountain Time)</option>
+                                        <option value="UTC-6">UTC-6 (Central Time)</option>
+                                        <option value="UTC-5" selected>UTC-5 (Eastern Time)</option>
+                                        <option value="UTC-4">UTC-4 (Atlantic Time)</option>
+                                        <option value="UTC-3">UTC-3 (Argentina Time)</option>
+                                        <option value="UTC-2">UTC-2 (South Georgia Time)</option>
+                                        <option value="UTC-1">UTC-1 (Azores Time)</option>
+                                        <option value="UTC+0">UTC+0 (Greenwich Mean Time)</option>
+                                        <option value="UTC+1">UTC+1 (Central European Time)</option>
+                                        <option value="UTC+2">UTC+2 (Eastern European Time)</option>
+                                        <option value="UTC+3">UTC+3 (Moscow Time)</option>
+                                        <option value="UTC+4">UTC+4 (Gulf Standard Time)</option>
+                                        <option value="UTC+5">UTC+5 (Pakistan Standard Time)</option>
+                                        <option value="UTC+6">UTC+6 (Bangladesh Time)</option>
+                                        <option value="UTC+7">UTC+7 (Indochina Time)</option>
+                                        <option value="UTC+8">UTC+8 (China Standard Time)</option>
+                                        <option value="UTC+9">UTC+9 (Japan Standard Time)</option>
+                                        <option value="UTC+10">UTC+10 (Australian Eastern Time)</option>
+                                        <option value="UTC+11">UTC+11 (Solomon Islands Time)</option>
+                                        <option value="UTC+12">UTC+12 (Fiji Time)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="avatarUrl" class="form-label">Avatar URL</label>
+                                    <input type="url" class="form-control" id="avatarUrl" placeholder="https://example.com/avatar.jpg">
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="mb-3">
-                            <label for="agentLocation" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="agentLocation">
+                            <label for="agentBio" class="form-label">Bio</label>
+                            <textarea class="form-control" id="agentBio" rows="3" placeholder="Brief description of the agent's background and expertise"></textarea>
+                        </div>
+                        
+                        <!-- Professional Information -->
+                        <h6 class="fw-bold mb-3 mt-4">Professional Information</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="experienceYears" class="form-label">Experience (Years)</label>
+                                    <input type="number" class="form-control" id="experienceYears" min="0" max="50" value="0">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="currency" class="form-label">Currency</label>
+                                    <select class="form-select" id="currency">
+                                        <option value="USD" selected>USD - US Dollar</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                        <option value="GBP">GBP - British Pound</option>
+                                        <option value="CAD">CAD - Canadian Dollar</option>
+                                        <option value="AUD">AUD - Australian Dollar</option>
+                                        <option value="JPY">JPY - Japanese Yen</option>
+                                        <option value="CHF">CHF - Swiss Franc</option>
+                                        <option value="CNY">CNY - Chinese Yuan</option>
+                                        <option value="INR">INR - Indian Rupee</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="agentStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="agentStatus">
+                                        <option value="active" selected>Active</option>
+                                        <option value="inactive">Inactive</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="suspended">Suspended</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="specializations" class="form-label">Specializations</label>
+                            <input type="text" class="form-control" id="specializations" placeholder="e.g., Technology, Healthcare, Finance, Marketing">
+                            <div class="form-text">Enter specializations separated by commas</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="skills" class="form-label">Skills</label>
+                            <input type="text" class="form-control" id="skills" placeholder="e.g., Recruiting, Sales, Client Relations, Communication">
+                            <div class="form-text">Enter skills separated by commas</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="languages" class="form-label">Languages</label>
+                            <input type="text" class="form-control" id="languages" placeholder="e.g., English, Spanish, French, German">
+                            <div class="form-text">Enter languages separated by commas</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="certifications" class="form-label">Certifications</label>
+                            <input type="text" class="form-control" id="certifications" placeholder="e.g., Certified Recruiter, PHR, SHRM-CP">
+                            <div class="form-text">Enter certifications separated by commas</div>
+                        </div>
+                        
+                        <!-- URLs and Links -->
+                        <h6 class="fw-bold mb-3 mt-4">Professional Links</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="linkedinUrl" class="form-label">LinkedIn URL</label>
+                                    <input type="url" class="form-control" id="linkedinUrl" placeholder="https://linkedin.com/in/agent-name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="portfolioUrl" class="form-label">Portfolio URL</label>
+                                    <input type="url" class="form-control" id="portfolioUrl" placeholder="https://agent-portfolio.com">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Checkboxes -->
+                        <h6 class="fw-bold mb-3 mt-4">Agent Settings</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="isActive" checked>
+                                    <label class="form-check-label" for="isActive">
+                                        Active Agent
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="isFeatured">
+                                    <label class="form-check-label" for="isFeatured">
+                                        Featured Agent
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="isVerified">
+                                    <label class="form-check-label" for="isVerified">
+                                        Verified Agent
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="createAgent()">Create Agent</button>
+                    <button type="button" class="btn btn-primary" data-action="create-agent">Create Agent</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Agent Modal -->
+    <div class="modal fade" id="editAgentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Agent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editAgentForm">
+                        <input type="hidden" id="editAgentId">
+                        <!-- Basic Information -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editAgentName" class="form-label">Agent Name *</label>
+                                    <input type="text" class="form-control" id="editAgentName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editDisplayName" class="form-label">Display Name *</label>
+                                    <input type="text" class="form-control" id="editDisplayName" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editAgentEmail" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="editAgentEmail" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editAgentLocation" class="form-label">Location</label>
+                                    <input type="text" class="form-control" id="editAgentLocation" placeholder="City, State/Country">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editTimezone" class="form-label">Timezone</label>
+                                    <select class="form-select" id="editTimezone">
+                                        <option value="">Select Timezone</option>
+                                        <option value="UTC-12">UTC-12 (Baker Island Time)</option>
+                                        <option value="UTC-11">UTC-11 (Hawaii Standard Time)</option>
+                                        <option value="UTC-10">UTC-10 (Hawaii-Aleutian Time)</option>
+                                        <option value="UTC-9">UTC-9 (Alaska Time)</option>
+                                        <option value="UTC-8">UTC-8 (Pacific Time)</option>
+                                        <option value="UTC-7">UTC-7 (Mountain Time)</option>
+                                        <option value="UTC-6">UTC-6 (Central Time)</option>
+                                        <option value="UTC-5">UTC-5 (Eastern Time)</option>
+                                        <option value="UTC-4">UTC-4 (Atlantic Time)</option>
+                                        <option value="UTC-3">UTC-3 (Argentina Time)</option>
+                                        <option value="UTC-2">UTC-2 (South Georgia Time)</option>
+                                        <option value="UTC-1">UTC-1 (Azores Time)</option>
+                                        <option value="UTC+0">UTC+0 (Greenwich Mean Time)</option>
+                                        <option value="UTC+1">UTC+1 (Central European Time)</option>
+                                        <option value="UTC+2">UTC+2 (Eastern European Time)</option>
+                                        <option value="UTC+3">UTC+3 (Moscow Time)</option>
+                                        <option value="UTC+4">UTC+4 (Gulf Standard Time)</option>
+                                        <option value="UTC+5">UTC+5 (Pakistan Standard Time)</option>
+                                        <option value="UTC+6">UTC+6 (Bangladesh Time)</option>
+                                        <option value="UTC+7">UTC+7 (Indochina Time)</option>
+                                        <option value="UTC+8">UTC+8 (China Standard Time)</option>
+                                        <option value="UTC+9">UTC+9 (Japan Standard Time)</option>
+                                        <option value="UTC+10">UTC+10 (Australian Eastern Time)</option>
+                                        <option value="UTC+11">UTC+11 (Solomon Islands Time)</option>
+                                        <option value="UTC+12">UTC+12 (Fiji Time)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editAvatarUrl" class="form-label">Avatar URL</label>
+                                    <input type="url" class="form-control" id="editAvatarUrl" placeholder="https://example.com/avatar.jpg">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editAgentBio" class="form-label">Bio</label>
+                            <textarea class="form-control" id="editAgentBio" rows="3" placeholder="Brief description of the agent's background and expertise"></textarea>
+                        </div>
+                        
+                        <!-- Professional Information -->
+                        <h6 class="fw-bold mb-3 mt-4">Professional Information</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="editExperienceYears" class="form-label">Experience (Years)</label>
+                                    <input type="number" class="form-control" id="editExperienceYears" min="0" max="50">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="editCurrency" class="form-label">Currency</label>
+                                    <select class="form-select" id="editCurrency">
+                                        <option value="USD">USD - US Dollar</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                        <option value="GBP">GBP - British Pound</option>
+                                        <option value="CAD">CAD - Canadian Dollar</option>
+                                        <option value="AUD">AUD - Australian Dollar</option>
+                                        <option value="JPY">JPY - Japanese Yen</option>
+                                        <option value="CHF">CHF - Swiss Franc</option>
+                                        <option value="CNY">CNY - Chinese Yuan</option>
+                                        <option value="INR">INR - Indian Rupee</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="editAgentStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="editAgentStatus">
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="suspended">Suspended</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editSpecializations" class="form-label">Specializations</label>
+                            <input type="text" class="form-control" id="editSpecializations" placeholder="e.g., Technology, Healthcare, Finance, Marketing">
+                            <div class="form-text">Enter specializations separated by commas</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editSkills" class="form-label">Skills</label>
+                            <input type="text" class="form-control" id="editSkills" placeholder="e.g., Recruiting, Sales, Client Relations, Communication">
+                            <div class="form-text">Enter skills separated by commas</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editLanguages" class="form-label">Languages</label>
+                            <input type="text" class="form-control" id="editLanguages" placeholder="e.g., English, Spanish, French, German">
+                            <div class="form-text">Enter languages separated by commas</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="editCertifications" class="form-label">Certifications</label>
+                            <input type="text" class="form-control" id="editCertifications" placeholder="e.g., Certified Recruiter, PHR, SHRM-CP">
+                            <div class="form-text">Enter certifications separated by commas</div>
+                        </div>
+                        
+                        <!-- URLs and Links -->
+                        <h6 class="fw-bold mb-3 mt-4">Professional Links</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editLinkedinUrl" class="form-label">LinkedIn URL</label>
+                                    <input type="url" class="form-control" id="editLinkedinUrl" placeholder="https://linkedin.com/in/agent-name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editPortfolioUrl" class="form-label">Portfolio URL</label>
+                                    <input type="url" class="form-control" id="editPortfolioUrl" placeholder="https://agent-portfolio.com">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Checkboxes -->
+                        <h6 class="fw-bold mb-3 mt-4">Agent Settings</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="editIsActive">
+                                    <label class="form-check-label" for="editIsActive">
+                                        Active Agent
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="editIsFeatured">
+                                    <label class="form-check-label" for="editIsFeatured">
+                                        Featured Agent
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="editIsVerified">
+                                    <label class="form-check-label" for="editIsVerified">
+                                        Verified Agent
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rating and Reviews (read-only) -->
+                        <h6 class="fw-bold mb-3 mt-4">Performance Metrics (Read-only)</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="editRating" class="form-label">Current Rating</label>
+                                    <input type="text" class="form-control" id="editRating" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="editTotalReviews" class="form-label">Total Reviews</label>
+                                    <input type="text" class="form-control" id="editTotalReviews" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="editCreatedAt" class="form-label">Joined Date</label>
+                                    <input type="text" class="form-control" id="editCreatedAt" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-action="update-agent">Update Agent</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Job Modal -->
+    <div class="modal fade" id="addJobModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Job</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addJobForm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="jobTitle" class="form-label">Job Title *</label>
+                                    <input type="text" class="form-control" id="jobTitle" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="jobStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="jobStatus">
+                                        <option value="draft">Draft</option>
+                                        <option value="pending">Pending Review</option>
+                                        <option value="active" selected>Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="companyName" class="form-label">Company Name *</label>
+                                    <input type="text" class="form-control" id="companyName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="jobLocation" class="form-label">Location *</label>
+                                    <input type="text" class="form-control" id="jobLocation" placeholder="e.g., New York, NY or Remote" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="jobType" class="form-label">Job Type *</label>
+                                    <select class="form-select" id="jobType" required>
+                                        <option value="">Select Type</option>
+                                        <option value="full_time">Full Time</option>
+                                        <option value="part_time">Part Time</option>
+                                        <option value="contract">Contract</option>
+                                        <option value="freelance">Freelance</option>
+                                        <option value="internship">Internship</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="locationType" class="form-label">Location Type *</label>
+                                    <select class="form-select" id="locationType" required>
+                                        <option value="">Select Location Type</option>
+                                        <option value="remote">Remote</option>
+                                        <option value="hybrid">Hybrid</option>
+                                        <option value="onsite">On-site</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="jobCategory" class="form-label">Category</label>
+                                    <select class="form-select" id="jobCategory">
+                                        <option value="">Select Category</option>
+                                        <option value="technology">Technology</option>
+                                        <option value="marketing">Marketing</option>
+                                        <option value="sales">Sales</option>
+                                        <option value="design">Design</option>
+                                        <option value="finance">Finance</option>
+                                        <option value="customer_service">Customer Service</option>
+                                        <option value="writing">Writing</option>
+                                        <option value="healthcare">Healthcare</option>
+                                        <option value="education">Education</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="salaryMin" class="form-label">Minimum Salary ($)</label>
+                                    <input type="number" class="form-control" id="salaryMin" min="0" step="1000">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="salaryMax" class="form-label">Maximum Salary ($)</label>
+                                    <input type="number" class="form-control" id="salaryMax" min="0" step="1000">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="salaryType" class="form-label">Salary Type</label>
+                                    <select class="form-select" id="salaryType">
+                                        <option value="yearly">Yearly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="hourly">Hourly</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jobDescription" class="form-label">Job Description *</label>
+                            <textarea class="form-control" id="jobDescription" rows="6" required placeholder="Provide a detailed description of the job, including responsibilities, requirements, and benefits..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jobRequirements" class="form-label">Requirements</label>
+                            <textarea class="form-control" id="jobRequirements" rows="4" placeholder="List the key requirements, skills, and qualifications needed for this position..."></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="experienceLevel" class="form-label">Experience Level</label>
+                                    <select class="form-select" id="experienceLevel">
+                                        <option value="">Not Specified</option>
+                                        <option value="entry">Entry Level (0-2 years)</option>
+                                        <option value="mid">Mid Level (3-5 years)</option>
+                                        <option value="senior">Senior Level (6+ years)</option>
+                                        <option value="executive">Executive Level</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="applicationDeadline" class="form-label">Application Deadline</label>
+                                    <input type="date" class="form-control" id="applicationDeadline">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="contactEmail" class="form-label">Contact Email</label>
+                                    <input type="email" class="form-control" id="contactEmail" placeholder="HR or hiring manager email">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="applicationUrl" class="form-label">Application URL</label>
+                                    <input type="url" class="form-control" id="applicationUrl" placeholder="External application link (optional)">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jobTags" class="form-label">Tags</label>
+                            <input type="text" class="form-control" id="jobTags" placeholder="Enter tags separated by commas (e.g., JavaScript, Remote, Flexible)">
+                            <div class="form-text">Add relevant tags to help job seekers find this position</div>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="isFeatured">
+                            <label class="form-check-label" for="isFeatured">
+                                Feature this job (will appear prominently in search results)
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-outline-primary" data-action="save-job-draft">Save as Draft</button>
+                    <button type="button" class="btn btn-primary" data-action="create-job">Create Job</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Job Modal -->
+    <div class="modal fade" id="editJobModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Job</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Same form as add job but with edit prefix -->
+                    <form id="editJobForm">
+                        <input type="hidden" id="editJobId">
+                        <!-- Job form fields (similar to add job) -->
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="editJobTitle" class="form-label">Job Title *</label>
+                                    <input type="text" class="form-control" id="editJobTitle" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="editJobStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="editJobStatus">
+                                        <option value="draft">Draft</option>
+                                        <option value="pending">Pending Review</option>
+                                        <option value="active">Active</option>
+                                        <option value="closed">Closed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add other fields as needed -->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-action="update-job">Update Job</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Details Modal -->
+    <div class="modal fade" id="jobDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jobDetailsTitle">Job Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="jobDetailsContent">
+                    <!-- Job details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-action="edit-job-from-details">Edit Job</button>
                 </div>
             </div>
         </div>

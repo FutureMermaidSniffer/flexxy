@@ -451,7 +451,8 @@ class JobSearchResultsPage {
     // Event handlers
     handleJobClick(jobId) {
         console.log('Job clicked:', jobId);
-        // Navigate to job details page or open modal
+        // Navigate to job details page
+        window.location.href = `job-details.html?id=${jobId}`;
     }
 
     handleSaveJob(jobId) {

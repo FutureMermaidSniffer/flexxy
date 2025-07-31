@@ -20,32 +20,28 @@
     <style>
         @font-face {
             font-family: 'Halcyon';
-            src: url('fonts/Halcyon-Regular.woff2') format('woff2'),
-                 url('fonts/Halcyon-Regular.woff') format('woff');
+            src: url('fonts/Fontspring-DEMO-halcyon-regular.otf') format('opentype');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Halcyon';
-            src: url('fonts/Halcyon-Medium.woff2') format('woff2'),
-                 url('fonts/Halcyon-Medium.woff') format('woff');
+            src: url('fonts/Fontspring-DEMO-halcyon-medium.otf') format('opentype');
             font-weight: 500;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Halcyon';
-            src: url('fonts/Halcyon-SemiBold.woff2') format('woff2'),
-                 url('fonts/Halcyon-SemiBold.woff') format('woff');
+            src: url('fonts/Fontspring-DEMO-halcyon-semibold.otf') format('opentype');
             font-weight: 600;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Halcyon';
-            src: url('fonts/Halcyon-Bold.woff2') format('woff2'),
-                 url('fonts/Halcyon-Bold.woff') format('woff');
+            src: url('fonts/Fontspring-DEMO-halcyon-bold.otf') format('opentype');
             font-weight: 700;
             font-style: normal;
             font-display: swap;
@@ -386,8 +382,29 @@
     <script src="js/pages/browse-jobs.js"></script>
     
     <script>
+        // Load Footer Component
+        async function loadFooterComponent() {
+            try {
+                const response = await fetch('components/main-footer/main-footer.html');
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById('main-footer-container').innerHTML = html;
+                    
+                    // Initialize footer functionality after loading
+                    if (typeof MainFooter !== 'undefined') {
+                        new MainFooter();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading footer component:', error);
+            }
+        }
+
         // Handle OAuth redirect tokens
         document.addEventListener('DOMContentLoaded', function() {
+            // Load footer component
+            loadFooterComponent();
+            
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get('token');
             const success = urlParams.get('success');

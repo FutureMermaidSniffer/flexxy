@@ -157,22 +157,9 @@ class Jobs {
         `;
     }
 
-    async showJobDetail(jobId) {
-        try {
-            const response = await fetch(`/api/jobs/${jobId}`);
-            const data = await response.json();
-
-            if (response.ok) {
-                this.renderJobDetail(data.job);
-                const modal = new bootstrap.Modal(document.getElementById('jobDetailModal'));
-                modal.show();
-            } else {
-                auth.showAlert('Error loading job details: ' + data.message, 'danger');
-            }
-        } catch (error) {
-            console.error('Error loading job detail:', error);
-            auth.showAlert('Network error. Please try again.', 'danger');
-        }
+    showJobDetail(jobId) {
+        // Navigate to the dedicated job details page
+        window.location.href = `job-details.html?id=${jobId}`;
     }
 
     renderJobDetail(job) {

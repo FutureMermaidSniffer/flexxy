@@ -4,36 +4,32 @@
    FONTS & CSS VARIABLES
 ======================================== */
 @font-face {
-    font-family: 'Halcyon';
-    src: url('../fonts/Halcyon-Regular.woff2') format('woff2'),
-         url('../fonts/Halcyon-Regular.woff') format('woff');
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/Montserrat-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Halcyon';
-    src: url('../fonts/Halcyon-Medium.woff2') format('woff2'),
-         url('../fonts/Halcyon-Medium.woff') format('woff');
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/Montserrat-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Halcyon';
-    src: url('../fonts/Halcyon-SemiBold.woff2') format('woff2'),
-         url('../fonts/Halcyon-SemiBold.woff') format('woff');
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/Montserrat-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Halcyon';
-    src: url('../fonts/Halcyon-Bold.woff2') format('woff2'),
-         url('../fonts/Halcyon-Bold.woff') format('woff');
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/Montserrat-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -49,7 +45,7 @@
     --dark-color: #343a40;
     
     /* Typography Variables */
-    --font-family-base: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-family-base: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     
     /* Spacing Variables */
     --border-radius-base: 12px;

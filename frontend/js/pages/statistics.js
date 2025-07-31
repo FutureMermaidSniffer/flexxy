@@ -3,25 +3,83 @@
 
 class StatisticsPage {
     constructor() {
-        this.loadingDuration = 3000; // 3 seconds loading
+        this.loadingDuration = 6000; // 6 seconds total (3 notifications × 2 seconds each)
+        this.notifications = [
+            { text: "Searching the database for relevant jobs", icon: "fas fa-search" },
+            { text: "Using AI to filter jobs", icon: "fas fa-robot" },
+            { text: "Pairing jobs...", icon: "fas fa-handshake" }
+        ];
+        this.currentNotificationIndex = 0;
         this.init();
     }
 
     init() {
-        // Start the loading sequence
+        // Start the loading sequence with notifications
         this.startLoadingSequence();
         
         // Setup CTA button
         this.setupCTAButton();
         
+        // Setup job popup
+        this.setupJobPopup();
+        
+        // Setup agent notification
+        this.setupAgentNotification();
+        
+        // Check if returning from registration
+        this.checkRegistrationReturn();
+        
         console.log('Statistics page initialized');
     }
 
     startLoadingSequence() {
-        // Show loading animation for 3 seconds
-        setTimeout(() => {
-            this.showStatistics();
-        }, this.loadingDuration);
+        // Show first notification immediately
+        this.showNotification(0);
+        
+        // Show remaining notifications every 2 seconds
+        const notificationInterval = setInterval(() => {
+            this.currentNotificationIndex++;
+            
+            if (this.currentNotificationIndex < this.notifications.length) {
+                this.showNotification(this.currentNotificationIndex);
+            } else {
+                clearInterval(notificationInterval);
+                // Hide notifications and show statistics
+                setTimeout(() => {
+                    this.hideNotifications();
+                    this.showStatistics();
+                }, 2000); // Show last notification for 2 seconds
+            }
+        }, 2000);
+    }
+
+    showNotification(index) {
+        const notificationContainer = document.getElementById('notificationContainer');
+        const notification = document.getElementById('loadingNotification');
+        const notificationText = document.getElementById('notificationText');
+        const notificationIcon = notification.querySelector('i');
+        
+        if (notification && notificationText && notificationIcon) {
+            // Hide current notification
+            notification.classList.remove('show');
+            
+            setTimeout(() => {
+                // Update content
+                const currentNotification = this.notifications[index];
+                notificationText.textContent = currentNotification.text;
+                notificationIcon.className = `${currentNotification.icon} me-2`;
+                
+                // Show new notification
+                notification.classList.add('show');
+            }, index === 0 ? 0 : 300); // No delay for first notification
+        }
+    }
+
+    hideNotifications() {
+        const notification = document.getElementById('loadingNotification');
+        if (notification) {
+            notification.classList.remove('show');
+        }
     }
 
     showStatistics() {
@@ -44,9 +102,112 @@ class StatisticsPage {
             // Animate numbers counting up
             this.animateNumbers();
             
+            // Show job popup after statistics are displayed
+            setTimeout(() => {
+                this.showJobPopup();
+            }, 2000);
+            
             // Track statistics view
             this.trackStatisticsView();
         }, 500);
+    }
+
+    showJobPopup() {
+        const jobPopup = document.getElementById('jobPopupOverlay');
+        if (jobPopup) {
+            jobPopup.classList.add('show');
+        }
+    }
+
+    hideJobPopup() {
+        const jobPopup = document.getElementById('jobPopupOverlay');
+        if (jobPopup) {
+            jobPopup.classList.remove('show');
+        }
+    }
+
+    setupJobPopup() {
+        const closePopupBtn = document.getElementById('closeJobPopup');
+        const applyJobBtn = document.getElementById('applyJobBtn');
+        const popupOverlay = document.getElementById('jobPopupOverlay');
+
+        // Close popup when clicking close button
+        if (closePopupBtn) {
+            closePopupBtn.addEventListener('click', () => {
+                this.hideJobPopup();
+            });
+        }
+
+        // Close popup when clicking overlay
+        if (popupOverlay) {
+            popupOverlay.addEventListener('click', (e) => {
+                if (e.target === popupOverlay) {
+                    this.hideJobPopup();
+                }
+            });
+        }
+
+        // Handle apply button click - redirect to registration
+        if (applyJobBtn) {
+            applyJobBtn.addEventListener('click', () => {
+                // Set flag to show agent notification after registration
+                localStorage.setItem('showAgentNotification', 'true');
+                localStorage.setItem('jobAppliedFor', 'PEA - CDOT Database');
+                
+                // Redirect to registration page
+                window.location.href = 'registration.html';
+            });
+        }
+
+        // Close popup with escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.hideJobPopup();
+            }
+        });
+    }
+
+    checkRegistrationReturn() {
+        // Check if user returned from registration
+        const showAgentNotification = localStorage.getItem('showAgentNotification');
+        if (showAgentNotification === 'true') {
+            // Clear the flag
+            localStorage.removeItem('showAgentNotification');
+            
+            // Show agent notification after a short delay
+            setTimeout(() => {
+                this.showAgentNotification();
+            }, 1000);
+        }
+    }
+
+    showAgentNotification() {
+        const agentNotification = document.getElementById('agentNotification');
+        if (agentNotification) {
+            agentNotification.classList.add('show');
+            
+            // Auto-hide after 8 seconds
+            setTimeout(() => {
+                this.hideAgentNotification();
+            }, 8000);
+        }
+    }
+
+    hideAgentNotification() {
+        const agentNotification = document.getElementById('agentNotification');
+        if (agentNotification) {
+            agentNotification.classList.remove('show');
+        }
+    }
+
+    setupAgentNotification() {
+        const closeNotificationBtn = document.getElementById('closeAgentNotification');
+        
+        if (closeNotificationBtn) {
+            closeNotificationBtn.addEventListener('click', () => {
+                this.hideAgentNotification();
+            });
+        }
     }
 
     animateNumbers() {
