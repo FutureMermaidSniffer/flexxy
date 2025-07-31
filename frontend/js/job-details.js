@@ -61,6 +61,18 @@ class JobDetails {
 
     // Load job details from API
     async loadJobDetails() {
+        // Double-check authentication as a failsafe
+        if (typeof window.auth !== 'undefined' && !window.auth.isAuthenticated()) {
+            console.log('🔒 Secondary auth check failed - redirecting to wizard');
+            
+            // Store the intended job ID
+            localStorage.setItem('intended_job_id', this.jobId.toString());
+            
+            // Redirect to sign-up wizard
+            window.location.href = 'why-remote.html';
+            return;
+        }
+        
         this.showLoading();
 
         try {

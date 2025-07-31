@@ -413,6 +413,20 @@ class JobCard {
             console.error('Job ID is required for navigation');
             return;
         }
+
+        // Check if user is authenticated
+        if (typeof Auth !== 'undefined' && Auth.isAuthenticated && !Auth.isAuthenticated()) {
+            console.log(`🔐 User not authenticated, redirecting to wizard for job ${jobId}`);
+            
+            // Store the intended job ID for after authentication
+            localStorage.setItem('intendedJobId', jobId.toString());
+            
+            // Redirect to wizard starting page
+            window.location.href = 'why-remote.html';
+            return;
+        }
+
+        // User is authenticated, proceed to job details
         window.location.href = `job-details.html?id=${jobId}`;
     }
 

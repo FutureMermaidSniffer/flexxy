@@ -401,34 +401,69 @@
         }
         
         // Check authentication and redirect if needed
-        function checkAuthentication() {
-            // Initialize auth
-            auth = new Auth();
-            
-            if (!auth.isAuthenticated()) {
-                // Store the intended job ID for after sign-up
-                const urlParams = new URLSearchParams(window.location.search);
-                const jobId = urlParams.get('id');
-                if (jobId) {
-                    localStorage.setItem('intended_job_id', jobId);
-                }
+        async function checkAuthentication() {
+            return new Promise((resolve) => {
+                // Initialize auth
+                auth = new Auth();
                 
-                // Redirect to sign-up wizard
-                window.location.href = 'why-remote.html';
-                return false;
-            }
-            
-            return true;
+                // Wait a moment for auth to initialize properly
+                setTimeout(() => {
+                    console.log('🔐 Checking authentication for job details page');
+                    console.log('Auth token:', auth.token);
+                    console.log('Auth user:', auth.user);
+                    console.log('Is authenticated:', auth.isAuthenticated());
+                    
+                    if (!auth.isAuthenticated()) {
+                        console.log('❌ User not authenticated, redirecting to wizard');
+                        
+                        // Store the intended job ID for after sign-up
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const jobId = urlParams.get('id');
+                        if (jobId) {
+                            localStorage.setItem('intended_job_id', jobId);
+                            console.log('💾 Stored intended job ID:', jobId);
+                        }
+                        
+                        // Show a brief message before redirect
+                        document.getElementById('loadingState').innerHTML = `
+                            <div class="text-center">
+                                <i class="fas fa-user-plus fa-4x text-primary mb-3"></i>
+                                <h4>Sign Up Required</h4>
+                                <p class="text-muted mb-4">Please complete our quick signup to view job details</p>
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Redirecting...</span>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Redirect to sign-up wizard after a brief delay
+                        setTimeout(() => {
+                            window.location.href = 'why-remote.html';
+                        }, 2000);
+                        
+                        resolve(false);
+                    } else {
+                        console.log('✅ User authenticated, allowing access');
+                        resolve(true);
+                    }
+                }, 500); // Give auth time to initialize
+            });
         }
         
         // Load components on page load
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 Initializing job details page');
+            
             // Check authentication first
-            if (checkAuthentication()) {
+            const isAuthenticated = await checkAuthentication();
+            
+            if (isAuthenticated) {
+                console.log('✅ Authentication passed, loading components');
                 loadSimpleComponents();
                 // Continue with normal job details loading
                 // The job-details.js script will handle the rest
             }
+            // If not authenticated, checkAuthentication handles the redirect
         });
     </script>
     <script src="js/job-details.js"></script>

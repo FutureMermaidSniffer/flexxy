@@ -265,22 +265,18 @@ class IndexJobsManager {
             cardWrapper.className = 'col-lg-4 col-md-6 mb-4';
             cardWrapper.innerHTML = jobCardHtml;
             
-            // Replace the modal trigger with actual job details navigation
-            const card = cardWrapper.querySelector('.card, .job-card');
+            // Add staggered animation
+            const card = cardWrapper.querySelector('.job-card, .card');
             if (card) {
-                // Remove modal trigger attributes
-                card.removeAttribute('data-bs-toggle');
-                card.removeAttribute('data-bs-target');
-                
-                // Add proper click handler
-                card.style.cursor = 'pointer';
-                card.addEventListener('click', () => {
-                    window.location.href = `job-details.html?id=${job.id}`;
-                });
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in-up');
             }
             
             this.container.appendChild(cardWrapper);
         });
+
+        // Set up event listeners for job card interactions (includes authentication)
+        this.jobCard.setupEventListeners(this.container);
     }
 
     // Refresh featured jobs
