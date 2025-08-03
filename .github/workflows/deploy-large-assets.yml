@@ -1,0 +1,85 @@
+name: Deploy Large Assets to Contabo
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_upload:
+        description: 'Force upload all assets (ignore cache)'
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    # Run weekly to sync assets
+    - cron: '0 2 * * 0'
+
+jobs:
+  upload-large-assets:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rsync imagemagick ffmpeg
+        
+    - name: Install Node.js dependencies
+      run: npm ci
+      
+    - name: Setup SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Download large assets from external storage
+      run: |
+        # If you have assets stored elsewhere (like Google Drive, AWS S3, etc.)
+        # Download them here. Example for wget:
+        # wget -O frontend/images/large-video.mp4 "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID"
+        
+        # Or use rclone for cloud storage
+        # rclone copy remote:path/to/assets frontend/images/
+        
+        echo "Add your large asset download commands here"
+        
+    - name: Process and upload assets
+      env:
+        SERVER_HOST: ${{ secrets.SERVER_HOST }}
+        SERVER_USER: ${{ secrets.SERVER_USER }}
+        SERVER_PORT: ${{ secrets.SERVER_PORT }}
+        SSH_KEY_PATH: ~/.ssh/id_rsa
+        ASSETS_BASE_URL: ${{ secrets.ASSETS_BASE_URL }}
+      run: |
+        node scripts/upload-large-assets.js
+        
+    - name: Update asset URLs in application
+      run: |
+        # Update the image config with the new asset URLs
+        sed -i "s|BASE_URL: 'https://.*'|BASE_URL: '${{ secrets.ASSETS_BASE_URL }}'|g" frontend/js/config/images.js
+        
+    - name: Commit updated asset manifest
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        if [ -f asset-manifest.json ]; then
+          git add asset-manifest.json
+          git add frontend/js/config/images.js
+          git commit -m "Update asset manifest and URLs [skip ci]" || exit 0
+          git push
+        fi
+        
+    - name: Notify completion
+      run: |
+        echo "🎉 Large assets have been uploaded to Contabo server!"
+        echo "Assets are now available at: ${{ secrets.ASSETS_BASE_URL }}"

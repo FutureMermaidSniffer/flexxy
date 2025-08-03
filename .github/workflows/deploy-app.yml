@@ -1,0 +1,103 @@
+name: Deploy Application
+
+on:
+  push:
+    branches: [ main, master ]
+    paths-ignore:
+      - 'frontend/images/**'
+      - '**.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests (if any)
+      run: npm test
+      continue-on-error: true
+      
+    - name: Create deployment package
+      run: |
+        # Remove large files and backup files from deployment
+        find . -name "*.backup" -delete
+        find . -path "./frontend/images/vids/*.mp4" -delete
+        find . -path "./frontend/images/*.jpg" -size +1M -delete
+        find . -path "./frontend/images/*.png" -size +1M -delete
+        
+        # Create deployment archive
+        tar -czf deployment.tar.gz \
+          --exclude='node_modules' \
+          --exclude='.git' \
+          --exclude='*.log' \
+          --exclude='frontend/images/vids' \
+          --exclude='frontend/images/*.jpg' \
+          --exclude='frontend/images/*.png' \
+          .
+        
+    - name: Deploy to server
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        source: "deployment.tar.gz"
+        target: "/tmp/"
+        
+    - name: Setup application on server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        script: |
+          # Create application directory
+          sudo mkdir -p /var/www/flexjobs
+          
+          # Extract and setup application
+          cd /var/www/flexjobs
+          sudo tar -xzf /tmp/deployment.tar.gz
+          sudo chown -R $USER:$USER /var/www/flexjobs
+          
+          # Install dependencies
+          npm install --production
+          
+          # Setup environment variables
+          if [ ! -f .env ]; then
+            sudo tee .env > /dev/null <<EOF
+          NODE_ENV=production
+          PORT=3000
+          ASSETS_BASE_URL=https://assets.yourdomain.com
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          EOF
+          fi
+          
+          # Restart application (assuming you're using PM2)
+          if command -v pm2 >/dev/null 2>&1; then
+            pm2 restart flexjobs || pm2 start server.js --name flexjobs
+          else
+            # Install PM2 if not available
+            sudo npm install -g pm2
+            pm2 start server.js --name flexjobs
+            pm2 startup
+            pm2 save
+          fi
+          
+          # Clean up
+          rm -f /tmp/deployment.tar.gz

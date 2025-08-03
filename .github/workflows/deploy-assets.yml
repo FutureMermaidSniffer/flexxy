@@ -1,0 +1,125 @@
+name: Deploy Assets to Server
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'frontend/images/**'
+      - 'frontend/css/**'
+      - 'frontend/js/**'
+      - 'frontend/fonts/**'
+  workflow_dispatch:
+
+jobs:
+  deploy-assets:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        npm install
+        # Install rsync if needed
+        sudo apt-get update
+        sudo apt-get install -y rsync
+        
+    - name: Compress large assets
+      run: |
+        # Create compressed versions of large files
+        find frontend/images -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" | while read file; do
+          if [ $(stat -f%z "$file" 2>/dev/null || stat -c%s "$file") -gt 1048576 ]; then
+            echo "Compressing $file"
+            # Create optimized version (requires imagemagick)
+            sudo apt-get install -y imagemagick
+            convert "$file" -quality 85 -strip "${file%.*}_optimized.${file##*.}"
+          fi
+        done
+        
+    - name: Deploy to server via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        script: |
+          # Create assets directory if it doesn't exist
+          mkdir -p /var/www/assets
+          
+    - name: Upload assets via rsync
+      uses: burnett01/rsync-deployments@7.0.1
+      with:
+        switches: -avzr --delete --exclude='*.backup' --exclude='node_modules'
+        path: frontend/
+        remote_path: /var/www/assets/
+        remote_host: ${{ secrets.SERVER_HOST }}
+        remote_user: ${{ secrets.SERVER_USER }}
+        remote_key: ${{ secrets.SERVER_SSH_KEY }}
+        remote_port: ${{ secrets.SERVER_PORT || 22 }}
+        
+    - name: Set correct permissions
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        script: |
+          # Set correct ownership and permissions
+          sudo chown -R www-data:www-data /var/www/assets
+          sudo chmod -R 755 /var/www/assets
+          
+          # Setup nginx configuration if needed
+          if [ ! -f /etc/nginx/sites-available/assets ]; then
+            sudo tee /etc/nginx/sites-available/assets > /dev/null <<EOF
+          server {
+              listen 80;
+              server_name assets.yourdomain.com;  # Replace with your subdomain
+              
+              root /var/www/assets;
+              index index.html;
+              
+              # Enable CORS for assets
+              location / {
+                  add_header Access-Control-Allow-Origin *;
+                  add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+                  add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+                  
+                  # Cache static assets
+                  location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg)$ {
+                      expires 1y;
+                      add_header Cache-Control "public, immutable";
+                      add_header Access-Control-Allow-Origin *;
+                  }
+                  
+                  try_files \$uri \$uri/ =404;
+              }
+              
+              # Gzip compression
+              gzip on;
+              gzip_vary on;
+              gzip_min_length 10240;
+              gzip_proxied expired no-cache no-store private must-revalidate auth;
+              gzip_types
+                  text/plain
+                  text/css
+                  text/xml
+                  text/javascript
+                  application/x-javascript
+                  application/xml+rss
+                  application/javascript
+                  image/svg+xml;
+          }
+          EOF
+            
+            # Enable the site
+            sudo ln -sf /etc/nginx/sites-available/assets /etc/nginx/sites-enabled/
+            sudo nginx -t && sudo systemctl reload nginx
+          fi

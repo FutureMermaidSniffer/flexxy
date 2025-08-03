@@ -64,3 +64,31 @@ build/
 
 # Linux specific
 *~
+
+# Large files that shouldn't be committed to GitHub
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wmv
+
+# Large images (over 1MB) - keep small versions
+frontend/images/**/*.jpg
+frontend/images/**/*.jpeg
+frontend/images/**/*.png
+frontend/images/**/*.gif
+!frontend/images/**/thumbnail_*
+!frontend/images/**/small_*
+!frontend/images/**/icon_*
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Asset optimization generated files
+*_optimized.*
+*_compressed.*
+
+# Deployment packages
+deployment.tar.gz
