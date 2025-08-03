@@ -10,7 +10,7 @@ const logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.json()
-  ),
+  ), 
   transports: [
     new winston.transports.File({ filename: 'logs/scraper.log' }),
     new winston.transports.Console({ format: winston.format.simple() })
