@@ -1,8 +1,8 @@
-/* Why Remote Page Styles */
+
 .page-why-remote {
     background: #f8f9fa;
     min-height: 100vh;
-    /* Font inherited from main stylesheet */
+    
 } Remote Page Styles */
 .page-why-remote {
     background: white;
@@ -11,7 +11,7 @@
 }
 
 .why-remote-container {
-    /* padding: rem 0; */
+    
     top: 0%;
     min-height: 100vh;
     display: flex;
@@ -84,7 +84,7 @@
     transition: all 0.3s ease;
     text-align: center;
     position: relative;
-    /* min-height: 150px; */
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -137,9 +137,9 @@
     padding: 0.25rem;
 }
 
-/* Work option descriptions - mobile only */
+
 .work-option-description {
-    display: none; /* Hidden by default */
+    display: none; 
     font-size: 0.9rem;
     color: #6c757d;
     line-height: 1.4;
@@ -149,7 +149,7 @@
     max-width: 250px;
 }
 
-/* Mobile utility class */
+
 .mobile-only {
     display: none;
 }
@@ -274,7 +274,7 @@
     box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
 }
 
-/* Progress Modal */
+
 .progress-modal {
     display: none;
     position: fixed;
@@ -309,25 +309,25 @@
     background: linear-gradient(90deg, #ff6b35, #e55a2b);
     border-radius: 3px;
     transition: width 0.3s ease;
-    width: 16.66%; /* 1 of 6 steps */
+    width: 16.66%; 
 }
 
 @media (max-width: 768px) {
     .next-button {
-        display: none; /* Hidden on mobile - using mobile footer instead */
+        display: none; 
     }
     
     .progress-modal {
-        display: none; /* Hidden on mobile - using mobile footer instead */
+        display: none; 
     }
     
-    /* Remove bottom padding since mobile footer handles it */
+    
     .why-remote-container {
         padding-bottom: 0;
     }
 }
 
-/* Icon styles */
+
 .icon-remote {
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23e3f2fd" stroke="%23007bff" stroke-width="2"/><path d="M30 45 Q50 25 70 45 Q50 65 30 45" fill="%23007bff"/><circle cx="35" cy="40" r="3" fill="white"/><circle cx="65" cy="40" r="3" fill="white"/><rect x="25" y="55" width="50" height="15" rx="5" fill="%23ff5722"/></svg>') no-repeat center;
     background-size: contain;
@@ -343,7 +343,7 @@
     background-size: contain;
 }
 
-/* Page-specific styles */
+
 .page-why-remote__option {
     transition: all 0.3s ease;
     cursor: pointer;
@@ -405,7 +405,7 @@
     transform: scale(1.1);
 }
 
-/* Animation classes */
+
 .animate-in {
     animation: fadeInUp 0.6s ease-out;
 }
@@ -421,7 +421,7 @@
     }
 }
 
-/* Custom button colors */
+
 .btn-purple {
     background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
     border: none;
@@ -433,10 +433,10 @@
     color: white;
 }
 
-/* Mobile responsiveness */
+
 @media (max-width: 768px) {
     .why-remote-container {
-        padding: 2rem 0 140px 0; /* Bottom padding for wizard footer */
+        padding: 2rem 0 140px 0; 
     }
 
     .page-title {
@@ -452,7 +452,7 @@
 
     .work-option {
         padding: 0.3rem;
-        /* min-height: 120px; */
+        
     }
 
     .work-option-icon {
@@ -465,7 +465,7 @@
         font-size: 1rem;
     }
 
-    /* Hide desktop next button */
+    
     .next-button {
         display: none !important;
     }
@@ -494,7 +494,7 @@
     }
 }
 
-/* Loading Animation */
+
 .loading-spinner {
     display: inline-block;
     width: 20px;
@@ -509,7 +509,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* Accessibility */
+
 .work-option:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);

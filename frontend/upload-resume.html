@@ -8,34 +8,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Your Resume - FlexJobs</title>
     
-    <!-- SEO Meta Tags -->
+    
     <meta name="description" content="Upload your resume to get matched with perfect remote job opportunities. Save time with automatic profile completion.">
     <meta name="keywords" content="resume upload, job application, remote jobs, cv upload, profile creation">
     <meta property="og:title" content="Upload Your Resume - FlexJobs">
     <meta property="og:description" content="Upload your resume and we'll help match you with the perfect remote job opportunities.">
     
-    <!-- Bootstrap CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
+    
     <link rel="stylesheet" href="css/style.css">
-    <!-- Component CSS -->
+    
     <link rel="stylesheet" href="css/components/header.css">
     <link rel="stylesheet" href="components/main-footer/main-footer.css">
-    <!-- Wizard Components CSS -->
+    
     <link rel="stylesheet" href="css/components/wizard-header.css">
     <link rel="stylesheet" href="css/components/wizard-footer.css">
-    <!-- Page-specific CSS -->
+    
     <link rel="stylesheet" href="css/pages/upload-resume.css">
 </head>
 <body class="page-upload-resume">
-    <!-- Wizard Header -->
+    
     <div id="wizard-header-container"></div>
 
-    <!-- Main Content -->
+    
     <main>
-        <!-- Progress Bar -->
+        
         <section class="page-upload__progress py-2 bg-white border-bottom">
             <div class="container">
                 <div class="row">
@@ -48,17 +48,15 @@
             </div>
         </section>
 
-        <!-- Main Upload Section -->
+        
         <section class="page-upload__main py-3" style="min-height: 60vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-7">
-                        <!-- FlexJobs Logo -->
-                        <!-- <div class="page-upload__brand text-center mb-4">
-                            <img src="images/f.png" alt="FlexJobs" class="title-image" style="height: 60px; max-width: 200px; object-fit: contain;">
-                        </div> -->
                         
-                        <!-- Main Title -->
+                        
+                        
+                        
                         <div class="text-center ">
                             <p class="page-upload__title fw-bold text-dark mb-2">
                                 Keep going, you're on the right track!
@@ -68,50 +66,40 @@
                             </p>
                         </div>
                         
-                        <!-- Upload Options -->
+                        
                         <div class="row mb-4 justify-content-center">
-                            <!-- Upload Option -->
+                            
                             <div class="col-md-5">
                                 <div class="page-upload__option-card card border-0 shadow-sm position-relative" id="uploadOption">
                                     <div class="card-body text-center">
-                                        <!-- Upload Icon -->
+                                        
                                         <div class="page-upload__icon-container mb-4">
                                             <div class="page-upload__icon-circle bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
                                                 <i class="fas fa-cloud-upload-alt fa-2x text-info"></i>
                                             </div>
                                         </div>
                                         
-                                        <!-- Title -->
+                                        
                                         <h3 class="page-upload__option-title text-dark mb-3">
                                             Yes, upload and go!
                                         </h3>
                                         
-                                        <!-- Description -->
+                                        
                                         <p class="page-upload__option-description text-muted mb-4">
                                             Save time and we'll quickly fill in the rest.
                                         </p>
                                         
-                                        <!-- File Types -->
+                                        
                                         <div class="page-upload__file-types mb-4">
                                             <small class="text-muted">
                                                 Files we can use: DOC, DOCX, PDF, RTF, TXT
                                             </small>
                                         </div>
                                         
-                                        <!-- Upload Area -->
-                                        <!-- <div class="page-upload__drop-zone border-2 border-dashed border-info rounded p-4 mb-3" id="dropZone">
-                                            <input type="file" class="d-none" id="resumeFile" accept=".doc,.docx,.pdf,.rtf,.txt">
-                                            <div class="page-upload__drop-content">
-                                                <i class="fas fa-file-upload fa-2x text-info mb-2"></i>
-                                                <p class="mb-1 fw-medium">Drop your resume here</p>
-                                                <p class="small text-muted mb-2">or</p>
-                                                <button class="btn btn-outline-info btn-sm" onclick="document.getElementById('resumeFile').click()">
-                                                    Browse Files
-                                                </button>
-                                            </div>
-                                        </div> -->
                                         
-                                        <!-- Upload Status -->
+                                        
+                                        
+                                        
                                         <div class="page-upload__status d-none" id="uploadStatus">
                                             <div class="alert alert-success mb-0">
                                                 <i class="fas fa-check-circle me-2"></i>
@@ -120,52 +108,39 @@
                                         </div>
                                     </div>
                                     
-                                    <!-- Selection Overlay -->
+                                    
                                     <div class="page-upload__selection-overlay position-absolute top-0 start-0 w-100 h-100 bg-info bg-opacity-10 rounded d-none align-items-center justify-content-center" id="uploadOverlay">
                                         <i class="fas fa-check-circle fa-3x text-info"></i>
                                     </div>
                                 </div>
                             </div>
                             
-                            <!-- Skip Option -->
+                            
                             <div class="col-md-5">
                                 <div class="page-upload__option-card card shadow-sm position-relative" id="skipOption">
                                     <div class="card-body text-center">
-                                        <!-- Skip Icon -->
+                                        
                                         <div class="page-upload__icon-container mb-4">
                                             <div class="page-upload__icon-circle bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
                                                 <i class="fas fa-edit fa-2x text-warning"></i>
                                             </div>
                                         </div>
                                         
-                                        <!-- Title -->
+                                        
                                         <h3 class="page-upload__option-title text-dark mb-3">
                                             No, skip the upload
                                         </h3>
                                         
-                                        <!-- Description -->
+                                        
                                         <p class="page-upload__option-description text-muted mb-4">
                                             I want to answer a few more questions.
                                         </p>
                                         
-                                        <!-- Benefits List -->
-                                        <!-- <div class="page-upload__benefits text-start">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <i class="fas fa-check text-success me-2"></i>
-                                                <small class="text-muted">Complete profile manually</small>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <i class="fas fa-check text-success me-2"></i>
-                                                <small class="text-muted">Add custom skills & experience</small>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <i class="fas fa-check text-success me-2"></i>
-                                                <small class="text-muted">Personalized job matching</small>
-                                            </div>
-                                        </div> -->
+                                        
+                                        
                                     </div>
                                     
-                                    <!-- Selection Overlay -->
+                                    
                                     <div class="page-upload__selection-overlay position-absolute top-0 start-0 w-100 h-100 bg-warning bg-opacity-10 rounded d-none align-items-center justify-content-center" id="skipOverlay">
                                         <i class="fas fa-check-circle fa-3x text-warning"></i>
                                     </div>
@@ -173,46 +148,35 @@
                             </div>
                         </div>
                         
-                        <!-- Navigation Buttons -->
-                        <!-- <div class="page-upload__navigation d-flex justify-content-between align-items-center">
-                            Back Button -->
-                            <!-- <button class="page-upload__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
-                                <i class="fas fa-arrow-left me-2"></i>
-                                Back
-                            </button> 
-                             -->
-                            <!-- Next Button -->
-                            <!-- <button class="page-upload__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
-                                    id="nextBtn"
-                                    disabled
-                                    style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
-                                Next
-                                <i class="fas fa-arrow-right ms-2"></i>
-                            </button> -->
+                        
+                        
+                            
+                            
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Benefits Section -->
+        
         
     </main>
 
-    <!-- Wizard Footer -->
+    
     <div id="wizard-footer-container"></div>
 
-    <!-- Bootstrap JS -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Component JS -->
+    
     <script src="js/components/component-loader.js"></script>
     <script src="js/components/header.js"></script>
     <script src="js/components/footer.js"></script>
-    <!-- Wizard Components JS -->
+    
     <script src="js/components/wizard-header.js"></script>
     <script src="js/components/wizard-footer.js"></script>
     
-    <!-- Page Scripts -->
+    
     <script src="js/pages/upload-resume.js"></script>
     
     <script>
@@ -227,7 +191,7 @@
         });
     </script>
     
-    <!-- Page-specific CSS -->
+    
     <style>
         /* Page-specific styles - Font inherited from main stylesheet */
 

@@ -1,10 +1,10 @@
-// Universal Job Card Component
-// Provides consistent job card rendering across all pages
+
+
 
 class JobCard {
     constructor(options = {}) {
         this.options = {
-            displayMode: 'grid', // 'grid', 'list', 'featured'
+            displayMode: 'grid', 
             showSaveButton: true,
             showApplyButton: true,
             showViewsCount: false,
@@ -13,7 +13,7 @@ class JobCard {
         };
     }
 
-    // Main method to render job card HTML
+    
     render(job) {
         if (!job || !job.id) {
             return this.renderError('Invalid job data');
@@ -30,7 +30,7 @@ class JobCard {
         `;
     }
 
-    // Render multiple job cards
+    
     renderMultiple(jobs, containerSelector) {
         if (!jobs || jobs.length === 0) {
             return this.renderEmptyState();
@@ -45,13 +45,13 @@ class JobCard {
         const jobCardsHTML = jobs.map(job => this.render(job)).join('');
         container.innerHTML = jobCardsHTML;
         
-        // Set up event listeners for the job cards
+        
         this.setupEventListeners(container);
     }
 
-    // Set up event listeners for job cards
+    
     setupEventListeners(container) {
-        // Main job card click handlers
+        
         const jobCards = container.querySelectorAll('[data-job-card="true"]');
         jobCards.forEach(card => {
             card.addEventListener('click', (e) => {
@@ -62,7 +62,7 @@ class JobCard {
             });
         });
 
-        // Save job button handlers
+        
         const saveButtons = container.querySelectorAll('[data-save-btn="true"]');
         saveButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -74,7 +74,7 @@ class JobCard {
             });
         });
 
-        // View details button handlers
+        
         const detailsButtons = container.querySelectorAll('[data-details-btn="true"]');
         detailsButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -87,7 +87,7 @@ class JobCard {
         });
     }
 
-    // Process job data with defaults and formatting
+    
     processJobData(job) {
         return {
             ...job,
@@ -102,29 +102,29 @@ class JobCard {
         };
     }
 
-    // Get CSS classes for job card based on display mode and job properties
+    
     getCardClasses(job) {
         const baseClasses = ['job-card'];
         
-        // Display mode classes
+        
         if (this.options.displayMode === 'list') {
             baseClasses.push('job-card-list');
         } else if (this.options.displayMode === 'featured') {
             baseClasses.push('job-card-featured');
         }
 
-        // Job property classes
+        
         if (job.is_featured) {
             baseClasses.push('job-card-featured-job');
         }
 
-        // Interactive classes
+        
         baseClasses.push('job-card-clickable');
 
         return baseClasses.join(' ');
     }
 
-    // Render job card header with logo and badges
+    
     renderJobHeader(job) {
         return `
             <div class="job-header">
@@ -139,7 +139,7 @@ class JobCard {
         `;
     }
 
-    // Render main job content
+    
     renderJobContent(job) {
         return `
             <div class="job-content">
@@ -170,7 +170,7 @@ class JobCard {
         `;
     }
 
-    // Render job metadata (location, type, schedule)
+    
     renderJobMetadata(job) {
         const metadata = [];
 
@@ -197,7 +197,7 @@ class JobCard {
         return metadata.join('');
     }
 
-    // Render action buttons if enabled
+    
     renderJobActions(job) {
         if (!this.options.showSaveButton && !this.options.showApplyButton && !this.options.showViewsCount) {
             return '';
@@ -231,7 +231,7 @@ class JobCard {
         `;
     }
 
-    // Generate badges based on job properties
+    
     generateBadges(job) {
         const badges = [];
 
@@ -239,7 +239,7 @@ class JobCard {
             badges.push({ type: 'featured', text: 'Featured' });
         }
 
-        // Check if job is new (posted within last 3 days)
+        
         const createdDate = new Date(job.created_at);
         const daysDiff = (new Date() - createdDate) / (1000 * 60 * 60 * 24);
         
@@ -247,7 +247,7 @@ class JobCard {
             badges.push({ type: 'new', text: 'New!' });
         }
 
-        // Add urgent badge for specific job types or if applications are low
+        
         if (job.job_type === 'contract' && (job.applications_count || 0) < 5) {
             badges.push({ type: 'urgent', text: 'Urgent' });
         }
@@ -255,7 +255,7 @@ class JobCard {
         return badges;
     }
 
-    // Format salary display
+    
     formatSalary(job) {
         if (!job.salary_min && !job.salary_max) {
             return 'Salary not disclosed';
@@ -264,7 +264,7 @@ class JobCard {
         const currency = job.salary_currency || 'USD';
         const currencySymbol = currency === 'USD' ? '$' : currency;
         
-        // Handle hourly rates
+        
         if (job.salary_type === 'hourly') {
             if (job.salary_min && job.salary_max) {
                 return `${currencySymbol}${this.formatNumber(job.salary_min)} - ${currencySymbol}${this.formatNumber(job.salary_max)}/hr`;
@@ -273,7 +273,7 @@ class JobCard {
             }
         }
 
-        // Handle yearly/monthly salaries
+        
         if (job.salary_min && job.salary_max) {
             return `${currencySymbol}${this.formatSalaryNumber(job.salary_min)} - ${currencySymbol}${this.formatSalaryNumber(job.salary_max)}`;
         } else if (job.salary_min) {
@@ -285,7 +285,7 @@ class JobCard {
         return 'Competitive salary';
     }
 
-    // Format large salary numbers (e.g., 85000 -> 85k)
+    
     formatSalaryNumber(amount) {
         const num = parseFloat(amount);
         if (num >= 1000) {
@@ -294,12 +294,12 @@ class JobCard {
         return this.formatNumber(num);
     }
 
-    // Format regular numbers with commas
+    
     formatNumber(amount) {
         return new Intl.NumberFormat('en-US').format(parseFloat(amount));
     }
 
-    // Format time ago display
+    
     formatTimeAgo(dateString) {
         if (!dateString) return 'Recently posted';
 
@@ -316,35 +316,35 @@ class JobCard {
         return `${Math.floor(diffDays / 30)} months ago`;
     }
 
-    // Format job description for preview
+    
     formatDescription(description) {
         if (!description) return 'No description available.';
         
-        // Strip HTML tags and limit length
+        
         const plainText = description.replace(/<[^>]*>/g, '');
         if (plainText.length <= 150) return plainText;
         
         return plainText.substring(0, 150) + '...';
     }
 
-    // Format skills/tags array
+    
     formatSkills(skillsData) {
         if (!skillsData) return [];
         
-        // Handle different formats: array, comma-separated string, or JSON
+        
         if (Array.isArray(skillsData)) {
-            return skillsData.slice(0, 4); // Limit to 4 skills for display
+            return skillsData.slice(0, 4); 
         }
         
         if (typeof skillsData === 'string') {
-            // Try to parse as JSON first
+            
             try {
                 const parsed = JSON.parse(skillsData);
                 if (Array.isArray(parsed)) {
                     return parsed.slice(0, 4);
                 }
             } catch (e) {
-                // If not JSON, treat as comma-separated
+                
                 return skillsData.split(',').map(s => s.trim()).slice(0, 4);
             }
         }
@@ -352,7 +352,7 @@ class JobCard {
         return [];
     }
 
-    // Format job type display
+    
     formatJobType(type) {
         const types = {
             'full-time': 'Full-time',
@@ -364,7 +364,7 @@ class JobCard {
         return types[type] || type;
     }
 
-    // Format remote type display
+    
     formatRemoteType(type) {
         const types = {
             'remote': 'Remote',
@@ -374,7 +374,7 @@ class JobCard {
         return types[type] || type;
     }
 
-    // Get appropriate icon for remote type
+    
     getRemoteIcon(type) {
         const icons = {
             'remote': 'laptop',
@@ -384,7 +384,7 @@ class JobCard {
         return icons[type] || 'briefcase';
     }
 
-    // Render empty state when no jobs available
+    
     renderEmptyState() {
         return `
             <div class="no-jobs-state text-center py-5">
@@ -395,7 +395,7 @@ class JobCard {
         `;
     }
 
-    // Render error state
+    
     renderError(message) {
         return `
             <div class="job-card job-card-error">
@@ -407,30 +407,30 @@ class JobCard {
         `;
     }
 
-    // Static method to navigate to job details
+    
     static navigateToDetails(jobId) {
         if (!jobId) {
             console.error('Job ID is required for navigation');
             return;
         }
 
-        // Check if user is authenticated
+        
         if (typeof Auth !== 'undefined' && Auth.isAuthenticated && !Auth.isAuthenticated()) {
             console.log(`🔐 User not authenticated, redirecting to wizard for job ${jobId}`);
             
-            // Store the intended job ID for after authentication
+            
             localStorage.setItem('intendedJobId', jobId.toString());
             
-            // Redirect to wizard starting page
+            
             window.location.href = 'why-remote.html';
             return;
         }
 
-        // User is authenticated, proceed to job details
+        
         window.location.href = `job-details.html?id=${jobId}`;
     }
 
-    // Static method to toggle save job
+    
     static async toggleSaveJob(jobId, buttonElement) {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -470,7 +470,7 @@ class JobCard {
         }
     }
 
-    // Static method to create loading state
+    
     static renderLoadingState(containerSelector) {
         const container = document.querySelector(containerSelector);
         if (container) {
@@ -486,10 +486,10 @@ class JobCard {
     }
 }
 
-// Export for use in other files
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = JobCard;
 }
 
-// Make available globally
+
 window.JobCard = JobCard;

@@ -6,32 +6,32 @@
     <title>Select Job Categories - FlexJobs</title>
     <link rel="icon" type="image/png" href="images/f.png">
     
-    <!-- SEO Meta Tags -->
+    
     <meta name="description" content="Select up to 5 job categories to find remote opportunities that match your interests and skills.">
     <meta name="keywords" content="job categories, remote jobs, career fields, job search, remote work categories">
     <meta property="og:title" content="Select Job Categories - FlexJobs">
     <meta property="og:description" content="Choose your preferred job categories to get better matched remote job opportunities.">
     
-    <!-- Bootstrap CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
+    
     <link rel="stylesheet" href="css/style.css">
-    <!-- Component CSS -->
+    
     <link rel="stylesheet" href="css/components/header.css">
     <link rel="stylesheet" href="components/main-footer/main-footer.css">
-    <!-- Wizard Components CSS -->
+    
     <link rel="stylesheet" href="css/components/wizard-header.css">
     <link rel="stylesheet" href="css/components/wizard-footer.css">
 </head>
 <body class="page-job-category">
-    <!-- Wizard Header -->
+    
     <div id="wizard-header-container"></div>
 
-    <!-- Main Content -->
+    
     <main>
-        <!-- Progress Bar -->
+        
         <section class="page-category__progress py-2 bg-white border-bottom">
             <div class="container">
                 <div class="row">
@@ -44,28 +44,28 @@
             </div>
         </section>
 
-        <!-- Main Category Selection Section -->
+        
         <section class="page-category__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-10 col-xl-8">
-                        <!-- Main Title -->
+                        
                         <div class="text-center mb-5">
                             <h1 class="page-category__title h2 fw-bold text-dark mb-3">
                                 Select up to 5 job categories.
                             </h1>
                         </div>
                         
-                        <!-- Selection Counter -->
+                        
                         <div class="page-category__counter text-center mb-4 d-none" id="selectionCounter">
                             <div class="alert alert-info border-0 rounded-3">
                                 <span id="selectedCount">0</span> of 5 categories selected
                             </div>
                         </div>
                         
-                        <!-- Category Grid -->
+                        
                         <div class="page-category__grid mb-4">
-                            <!-- First Row -->
+                            
                             <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
                                 <button class="page-category__btn btn btn-outline-secondary" data-category="Accounting & Finance">
                                     Accounting & Finance
@@ -89,7 +89,7 @@
                                 </button>
                             </div>
                             
-                            <!-- Second Row -->
+                            
                             <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
                                 <button class="page-category__btn btn btn-outline-secondary" data-category="Marketing">
                                     Marketing
@@ -114,9 +114,9 @@
                             </div>
                         </div>
                         
-                        <!-- Additional Categories (Hidden Initially) -->
+                        
                         <div class="page-category__additional d-none" id="additionalCategories">
-                            <!-- Third Row -->
+                            
                             <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
                                 <button class="page-category__btn btn btn-outline-secondary" data-category="Account Management">
                                     Account Management
@@ -140,7 +140,7 @@
                                 </button>
                             </div>
                             
-                            <!-- Fourth Row -->
+                            
                             <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
                                 <button class="page-category__btn btn btn-outline-secondary" data-category="Business Development">
                                     Business Development
@@ -164,7 +164,7 @@
                                 </button>
                             </div>
                             
-                            <!-- Fifth Row -->
+                            
                             <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
                                 <button class="page-category__btn btn btn-outline-secondary" data-category="Education & Training">
                                     Education & Training
@@ -184,7 +184,7 @@
                                 </button>
                             </div>
                             
-                            <!-- Sixth Row -->
+                            
                             <div class="page-category__row d-flex flex-wrap justify-content-center gap-3 mb-3">
                                 <button class="page-category__btn btn btn-outline-secondary" data-category="Event Planning">
                                     Event Planning
@@ -209,7 +209,7 @@
                             </div>
                         </div>
                         
-                        <!-- See More Button -->
+                        
                         <div class="text-center mb-5">
                             <button class="page-category__see-more btn btn-link text-info text-decoration-none fw-medium" id="seeMoreBtn">
                                 <span id="seeMoreText">See More</span>
@@ -217,7 +217,7 @@
                             </button>
                         </div>
                         
-                        <!-- Skip Option -->
+                        
                         <div class="page-category__skip-container text-center mb-5">
                             <button class="page-category__skip-btn btn btn-link text-muted text-decoration-none" id="skipBtn">
                                 <i class="fas fa-forward me-2"></i>
@@ -225,15 +225,15 @@
                             </button>
                         </div>
                         
-                        <!-- Navigation Buttons -->
+                        
                         <div class="page-category__navigation d-flex justify-content-between align-items-center">
-                            <!-- Back Button -->
+                            
                             <button class="page-category__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
                                 <i class="fas fa-arrow-left me-2"></i>
                                 Back
                             </button>
                             
-                            <!-- Next Button -->
+                            
                             <button class="page-category__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
                                     id="nextBtn"
                                     style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
@@ -246,7 +246,7 @@
             </div>
         </section>
 
-        <!-- Category Benefits Section -->
+        
         <section class="page-category__benefits py-5 bg-white">
             <div class="container">
                 <div class="row">
@@ -261,7 +261,7 @@
                 </div>
                 
                 <div class="row g-4">
-                    <!-- Benefit 1 -->
+                    
                     <div class="col-lg-4 col-md-6">
                         <div class="page-category__benefit text-center p-4">
                             <div class="page-category__benefit-icon mb-3">
@@ -274,7 +274,7 @@
                         </div>
                     </div>
                     
-                    <!-- Benefit 2 -->
+                    
                     <div class="col-lg-4 col-md-6">
                         <div class="page-category__benefit text-center p-4">
                             <div class="page-category__benefit-icon mb-3">
@@ -287,7 +287,7 @@
                         </div>
                     </div>
                     
-                    <!-- Benefit 3 -->
+                    
                     <div class="col-lg-4 col-md-6 mx-auto">
                         <div class="page-category__benefit text-center p-4">
                             <div class="page-category__benefit-icon mb-3">
@@ -304,20 +304,20 @@
         </section>
     </main>
 
-    <!-- Wizard Footer -->
+    
     <div id="wizard-footer-container"></div>
 
-    <!-- Bootstrap JS -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Component JS -->
+    
     <script src="js/components/component-loader.js"></script>
     <script src="js/components/header.js"></script>
     <script src="js/components/footer.js"></script>
-    <!-- Wizard Components JS -->
+    
     <script src="js/components/wizard-header.js"></script>
     <script src="js/components/wizard-footer.js"></script>
     
-    <!-- Page-specific JavaScript -->
+    
     <script>
         // Initialize wizard header and footer
         document.addEventListener('DOMContentLoaded', () => {
@@ -732,7 +732,7 @@
         window.jobCategoryPageInstance = jobCategoryPageInstance;
     </script>
     
-    <!-- Page-specific CSS -->
+    
     <style>
         /* Page-specific styles - Font inherited from main stylesheet */
 

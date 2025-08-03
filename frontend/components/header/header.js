@@ -1,7 +1,4 @@
-/**
- * FlexJobs Header Component JavaScript
- * Handles mobile/desktop navigation, search functionality, and responsive behavior
- */
+
 
 class FlexJobsHeader {
     constructor() {
@@ -17,32 +14,32 @@ class FlexJobsHeader {
         this.setActiveNavItem();
         this.handleResponsive();
         
-        // Initialize on load
+        
         document.addEventListener('DOMContentLoaded', () => {
             this.updateHeaderState();
         });
     }
     
     bindEvents() {
-        // Scroll handling for header behavior
+        
         window.addEventListener('scroll', this.handleScroll.bind(this));
         
-        // Resize handling for responsive behavior
+        
         window.addEventListener('resize', this.handleResize.bind(this));
         
-        // Mobile search toggle
+        
         const mobileSearchToggle = document.querySelector('.mobile-header__search-toggle');
         if (mobileSearchToggle) {
             mobileSearchToggle.addEventListener('click', this.toggleMobileSearch.bind(this));
         }
         
-        // Mobile menu toggle
+        
         const mobileMenuToggle = document.querySelector('.mobile-header__menu-toggle');
         if (mobileMenuToggle) {
             mobileMenuToggle.addEventListener('click', this.toggleMobileMenu.bind(this));
         }
         
-        // Search form submission
+        
         const searchForms = document.querySelectorAll('.pc-search-form, .mobile-search-bar .input-group');
         searchForms.forEach(form => {
             const submitBtn = form.querySelector('.pc-search-btn, .mobile-search-btn');
@@ -50,7 +47,7 @@ class FlexJobsHeader {
                 submitBtn.addEventListener('click', this.handleSearch.bind(this));
             }
             
-            // Enter key handling
+            
             const inputs = form.querySelectorAll('input[type="text"]');
             inputs.forEach(input => {
                 input.addEventListener('keypress', (e) => {
@@ -61,28 +58,28 @@ class FlexJobsHeader {
             });
         });
         
-        // Advanced search toggle
+        
         const advancedSearchBtn = document.querySelector('.pc-header__advanced-search');
         if (advancedSearchBtn) {
             advancedSearchBtn.addEventListener('click', this.toggleAdvancedSearch.bind(this));
         }
         
-        // Navigation item clicks
+        
         const navItems = document.querySelectorAll('.pc-nav-item, .mobile-nav-menu__item');
         navItems.forEach(item => {
             item.addEventListener('click', this.handleNavigation.bind(this));
         });
         
-        // Filter chip interactions (mobile)
+        
         const filterChips = document.querySelectorAll('.mobile-filter-chip');
         filterChips.forEach(chip => {
             chip.addEventListener('click', this.handleFilterClick.bind(this));
         });
         
-        // Close mobile menu when clicking outside
+        
         document.addEventListener('click', this.handleOutsideClick.bind(this));
         
-        // Keyboard shortcuts
+        
         document.addEventListener('keydown', this.handleKeyboardShortcuts.bind(this));
     }
     
@@ -136,13 +133,13 @@ class FlexJobsHeader {
         const menuCollapse = document.querySelector('#mobileNavMenu');
         
         if (searchCollapse) {
-            // Close menu if open
+            
             if (menuCollapse && menuCollapse.classList.contains('show')) {
                 const menuToggle = new bootstrap.Collapse(menuCollapse);
                 menuToggle.hide();
             }
             
-            // Toggle search
+            
             const searchToggle = new bootstrap.Collapse(searchCollapse);
             if (searchCollapse.classList.contains('show')) {
                 searchToggle.hide();
@@ -151,7 +148,7 @@ class FlexJobsHeader {
                 searchToggle.show();
                 this.searchActive = true;
                 
-                // Focus search input after animation
+                
                 setTimeout(() => {
                     const searchInput = searchCollapse.querySelector('input[type="text"]');
                     if (searchInput) searchInput.focus();
@@ -166,14 +163,14 @@ class FlexJobsHeader {
         const searchCollapse = document.querySelector('#mobileSearch');
         
         if (menuCollapse) {
-            // Close search if open
+            
             if (searchCollapse && searchCollapse.classList.contains('show')) {
                 const searchToggle = new bootstrap.Collapse(searchCollapse);
                 searchToggle.hide();
                 this.searchActive = false;
             }
             
-            // Toggle menu
+            
             const menuToggle = new bootstrap.Collapse(menuCollapse);
             if (menuCollapse.classList.contains('show')) {
                 menuToggle.hide();
@@ -207,15 +204,15 @@ class FlexJobsHeader {
         const searchData = {};
         
         if (this.isMobile) {
-            // Mobile search - single input
+            
             searchData.query = inputs[0]?.value.trim() || '';
         } else {
-            // Desktop search - multiple inputs
+            
             searchData.query = inputs[0]?.value.trim() || '';
             searchData.location = inputs[1]?.value.trim() || '';
         }
         
-        // Get active filters
+        
         const activeFilters = document.querySelectorAll('.mobile-filter-chip.active');
         searchData.filters = Array.from(activeFilters).map(chip => chip.textContent.trim());
         
@@ -225,11 +222,11 @@ class FlexJobsHeader {
     performSearch(searchData) {
         console.log('Performing search:', searchData);
         
-        // Add loading state
+        
         const searchBtns = document.querySelectorAll('.pc-search-btn, .mobile-search-btn');
         searchBtns.forEach(btn => btn.classList.add('loading'));
         
-        // Build search URL
+        
         const params = new URLSearchParams();
         if (searchData.query) params.append('q', searchData.query);
         if (searchData.location) params.append('location', searchData.location);
@@ -237,7 +234,7 @@ class FlexJobsHeader {
         
         const searchUrl = `/remote-jobs?${params.toString()}`;
         
-        // Simulate search delay (replace with actual API call)
+        
         setTimeout(() => {
             window.location.href = searchUrl;
         }, 500);
@@ -245,17 +242,17 @@ class FlexJobsHeader {
     
     toggleAdvancedSearch(e) {
         e.preventDefault();
-        // TODO: Implement advanced search modal or dropdown
+        
         console.log('Advanced search clicked');
     }
     
     handleNavigation(e) {
-        // Let normal navigation work, but add analytics/tracking here if needed
+        
         const href = e.target.href;
         if (href) {
             console.log('Navigation to:', href);
             
-            // Close mobile menu if open
+            
             if (this.isMobile) {
                 this.closeMobileMenus();
             }
@@ -266,18 +263,18 @@ class FlexJobsHeader {
         e.preventDefault();
         const chip = e.target;
         
-        // Toggle active state
+        
         if (chip.classList.contains('active')) {
             if (chip.textContent.trim() !== 'All') {
                 chip.classList.remove('active');
             }
         } else {
-            // If selecting non-"All" filter, remove "All" active state
+            
             if (chip.textContent.trim() !== 'All') {
                 const allChip = document.querySelector('.mobile-filter-chip[href="#"]:first-child');
                 if (allChip) allChip.classList.remove('active');
             } else {
-                // If selecting "All", remove all other active states
+                
                 document.querySelectorAll('.mobile-filter-chip.active').forEach(activeChip => {
                     activeChip.classList.remove('active');
                 });
@@ -285,26 +282,26 @@ class FlexJobsHeader {
             chip.classList.add('active');
         }
         
-        // Update search results if on search page
+        
         if (window.location.pathname === '/remote-jobs') {
             this.updateSearchResults();
         }
     }
     
     updateSearchResults() {
-        // TODO: Implement real-time filter updates
+        
         console.log('Updating search results based on filters');
     }
     
     handleOutsideClick(e) {
-        // Close mobile menus when clicking outside
+        
         if (this.isMobile && !e.target.closest('.mobile-header')) {
             this.closeMobileMenus();
         }
     }
     
     handleKeyboardShortcuts(e) {
-        // Search shortcut (/)
+        
         if (e.key === '/' && !e.target.matches('input, textarea')) {
             e.preventDefault();
             
@@ -317,7 +314,7 @@ class FlexJobsHeader {
             }
         }
         
-        // Escape to close mobile menus
+        
         if (e.key === 'Escape' && this.isMobile) {
             this.closeMobileMenus();
         }
@@ -339,7 +336,7 @@ class FlexJobsHeader {
         });
     }
     
-    // Public methods for external use
+    
     showSecondaryNav(content) {
         const secondaryNav = document.querySelector('#secondaryNav');
         if (secondaryNav) {
@@ -369,12 +366,12 @@ class FlexJobsHeader {
     }
 }
 
-// Initialize header when DOM is ready
+
 document.addEventListener('DOMContentLoaded', () => {
     window.flexJobsHeader = new FlexJobsHeader();
 });
 
-// Export for module systems
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = FlexJobsHeader;
 }

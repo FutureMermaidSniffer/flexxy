@@ -1,6 +1,6 @@
-// Education Level Page JavaScript
 
-// Page-specific functionality
+
+
 class EducationLevelPage {
     constructor() {
         this.selectedEducation = null;
@@ -26,18 +26,18 @@ class EducationLevelPage {
     }
 
     selectEducation(education, optionElement) {
-        // Clear previous selections
+        
         this.clearSelections();
         
         this.selectedEducation = education;
         
-        // Update UI - add selected class
+        
         optionElement.classList.add('selected');
         
-        // Show success message
+        
         this.showSuccessMessage();
         
-        // Enable wizard footer
+        
         this.enableWizardFooter();
         
         this.storeEducationPreference();
@@ -73,14 +73,14 @@ class EducationLevelPage {
     goNext() {
         if (!this.selectedEducation) return;
         
-        // Navigate to next step (benefits)
+        
         setTimeout(() => {
             window.location.href = 'benefits.html';
         }, 500);
     }
 
     setupNavigation() {
-        // Navigation handled by wizard footer
+        
     }
 
     storeEducationPreference() {
@@ -111,7 +111,7 @@ class EducationLevelPage {
     }
 
     trackEducationSelection(education) {
-        // Analytics tracking
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', 'education_selected', {
                 education_level: education,
@@ -122,7 +122,7 @@ class EducationLevelPage {
         console.log('Education selected:', education);
     }
 
-    // Public methods for external access
+    
     getEducationPreference() {
         return {
             education: this.selectedEducation
@@ -137,13 +137,13 @@ class EducationLevelPage {
     }
 }
 
-// Initialize page when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize page first
+    
     const educationLevelPageInstance = new EducationLevelPage();
     window.educationLevelPageInstance = educationLevelPageInstance;
     
-    // Initialize wizard header and footer
+    
     if (typeof WizardHeader !== 'undefined') {
         window.wizardHeader = new WizardHeader({
             isFirstPage: false
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (typeof WizardFooter !== 'undefined') {
         window.wizardFooter = new WizardFooter(2, 6, 'Next');
-        // Override the handleNext method
+        
         window.wizardFooter.handleNext = () => {
             if (window.educationLevelPageInstance) {
                 window.educationLevelPageInstance.handleNext();
@@ -161,10 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Load components
+
 if (typeof loadComponents === 'function') {
     loadComponents();
 }
 
-// Export class for external access
+
 window.EducationLevelPage = EducationLevelPage;

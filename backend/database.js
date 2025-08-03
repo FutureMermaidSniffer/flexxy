@@ -7,15 +7,19 @@ const dbConfig = {
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_NAME || 'flexjobs_db',
-  max: 10, // Maximum number of clients in the pool
-  idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
-  connectionTimeoutMillis: 2000, // Return an error after 2 seconds if connection could not be established
+  max: 10, 
+  idleTimeoutMillis: 30000, 
+  connectionTimeoutMillis: 2000,
+  // Add SSL for production
+  ssl: process.env.NODE_ENV === 'production' ? {
+    rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false'
+  } : false, 
 };
 
-// Create connection pool
+
 const pool = new Pool(dbConfig);
 
-// Test database connection
+
 async function testConnection() {
   try {
     const client = await pool.connect();
@@ -27,17 +31,17 @@ async function testConnection() {
   }
 }
 
-// Helper function to convert MySQL-style placeholders to PostgreSQL
+
 function convertQuery(query, params) {
   let index = 1;
   const convertedQuery = query.replace(/\?/g, () => `$${index++}`);
   return { query: convertedQuery, params };
 }
 
-// Execute query helper function
+
 async function executeQuery(query, params = []) {
   try {
-    // Convert MySQL-style ? placeholders to PostgreSQL $1, $2, etc.
+    
     const { query: convertedQuery, params: convertedParams } = convertQuery(query, params);
     const result = await pool.query(convertedQuery, convertedParams);
     return result.rows;
@@ -47,18 +51,18 @@ async function executeQuery(query, params = []) {
   }
 }
 
-// Get single record helper
+
 async function getOne(query, params = []) {
   const results = await executeQuery(query, params);
   return results[0] || null;
 }
 
-// Get multiple records helper
+
 async function getMany(query, params = []) {
   return await executeQuery(query, params);
 }
 
-// Insert record helper
+
 async function insertOne(table, data) {
   const keys = Object.keys(data);
   const values = Object.values(data);
@@ -69,7 +73,7 @@ async function insertOne(table, data) {
   return result.rows[0].id;
 }
 
-// Update record helper
+
 async function updateOne(table, data, whereClause, whereParams = []) {
   const keys = Object.keys(data);
   const values = Object.values(data);
@@ -85,7 +89,7 @@ async function updateOne(table, data, whereClause, whereParams = []) {
   return result.rowCount;
 }
 
-// Delete record helper
+
 async function deleteOne(table, whereClause, whereParams = []) {
   const whereClauseWithParams = whereClause.replace(/\?/g, (match, offset) => {
     const paramIndex = whereClause.substring(0, offset).split('?').length;
@@ -96,7 +100,7 @@ async function deleteOne(table, whereClause, whereParams = []) {
   return result.rowCount;
 }
 
-// Initialize database connection
+
 testConnection();
 
 module.exports = {

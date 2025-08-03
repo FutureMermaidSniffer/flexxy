@@ -1,4 +1,4 @@
-// Jobs functionality
+
 class Jobs {
     constructor() {
         this.currentPage = 1;
@@ -18,7 +18,7 @@ class Jobs {
         const jobListings = document.getElementById('jobListings');
         if (!jobListings) return;
 
-        // Show loading
+        
         jobListings.innerHTML = this.getLoadingHTML();
 
         try {
@@ -158,7 +158,7 @@ class Jobs {
     }
 
     showJobDetail(jobId) {
-        // Navigate to the dedicated job details page
+        
         window.location.href = `job-details.html?id=${jobId}`;
     }
 
@@ -314,13 +314,13 @@ class Jobs {
         try {
             let response;
             if (isCurrentlySaved) {
-                // Unsave job
+                
                 response = await fetch(`/api/applications/save-job/${jobId}`, {
                     method: 'DELETE',
                     headers: auth.getAuthHeaders()
                 });
             } else {
-                // Save job
+                
                 response = await fetch('/api/applications/save-job', {
                     method: 'POST',
                     headers: auth.getAuthHeaders(),
@@ -331,7 +331,7 @@ class Jobs {
             const data = await response.json();
 
             if (response.ok) {
-                // Toggle heart icon
+                
                 if (isCurrentlySaved) {
                     icon.classList.remove('fas');
                     icon.classList.add('far');
@@ -361,7 +361,7 @@ class Jobs {
             return;
         }
 
-        // For now, just show a simple prompt for cover letter
+        
         const coverLetter = prompt('Enter a cover letter (optional):');
 
         try {
@@ -378,7 +378,7 @@ class Jobs {
 
             if (response.ok) {
                 auth.showAlert('Application submitted successfully!', 'success');
-                // Close the job detail modal
+                
                 const modal = bootstrap.Modal.getInstance(document.getElementById('jobDetailModal'));
                 modal.hide();
             } else {
@@ -396,7 +396,7 @@ class Jobs {
             const data = await response.json();
 
             if (response.ok) {
-                // Could populate a categories dropdown if needed
+                
                 this.categories = data.categories;
             }
         } catch (error) {
@@ -415,7 +415,7 @@ class Jobs {
 
         let paginationHTML = '<ul class="pagination">';
 
-        // Previous button
+        
         if (pagination.hasPrev) {
             paginationHTML += `
                 <li class="page-item">
@@ -426,7 +426,7 @@ class Jobs {
             `;
         }
 
-        // Page numbers
+        
         const startPage = Math.max(1, pagination.page - 2);
         const endPage = Math.min(pagination.totalPages, pagination.page + 2);
 
@@ -460,7 +460,7 @@ class Jobs {
             `;
         }
 
-        // Next button
+        
         if (pagination.hasNext) {
             paginationHTML += `
                 <li class="page-item">
@@ -475,7 +475,7 @@ class Jobs {
         paginationContainer.innerHTML = paginationHTML;
     }
 
-    // Utility methods
+    
     getLoadingHTML() {
         return `
             <div class="col-12 text-center py-5">
@@ -559,7 +559,7 @@ class Jobs {
     }
 }
 
-// Search functionality
+
 function searchJobs() {
     const filters = {
         search: document.getElementById('searchKeyword').value,
@@ -569,7 +569,7 @@ function searchJobs() {
         location: document.getElementById('location').value
     };
 
-    // Remove empty filters
+    
     Object.keys(filters).forEach(key => {
         if (!filters[key]) delete filters[key];
     });
@@ -577,7 +577,7 @@ function searchJobs() {
     jobs.loadJobs(1, filters);
 }
 
-// Initialize jobs when DOM is loaded
+
 let jobs;
 document.addEventListener('DOMContentLoaded', () => {
     jobs = new Jobs();

@@ -1,8 +1,6 @@
-/* FlexJobs - Optimized CSS (Reduced from 3343 lines to ~800 lines) */
 
-/* ========================================
-   FONTS & CSS VARIABLES
-======================================== */
+
+
 @font-face {
     font-family: 'Montserrat';
     src: url('../fonts/Montserrat/Montserrat-Regular.ttf') format('truetype');
@@ -44,29 +42,27 @@
     --light-color: #f8f9fa;
     --dark-color: #343a40;
     
-    /* Typography Variables */
+    
     --font-family-base: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     
-    /* Spacing Variables */
+    
     --border-radius-base: 12px;
     --border-radius-pill: 20px;
     
-    /* Responsive Typography Scale */
+    
     --hero-text-mobile: 1.75rem;
     --hero-text-tablet: 2.5rem;
     --hero-text-desktop: 3rem;
     --hero-text-xl: 3.5rem;
 }
 
-/* ========================================
-   BASE STYLES
-======================================== */
+
 body {
     font-family: var(--font-family-base);
     overflow-x: hidden;
 }
 
-/* Utility Classes */
+
 .mobile-only {
     display: block;
 }
@@ -85,9 +81,7 @@ body {
     }
 }
 
-/* ========================================
-   RESPONSIVE TYPOGRAPHY
-======================================== */
+
 .hero-text {
     font-size: var(--hero-text-mobile);
     line-height: 1.2;
@@ -99,7 +93,7 @@ body {
     opacity: 0.8;
 }
 
-/* Responsive Typography Scale */
+
 @media (min-width: 768px) {
     .hero-text {
         font-size: var(--hero-text-tablet);
@@ -130,9 +124,7 @@ body {
     }
 }
 
-/* ========================================
-   BUTTONS (CONSOLIDATED)
-======================================== */
+
 .btn-primary {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
@@ -167,9 +159,7 @@ body {
     color: white;
 }
 
-/* ========================================
-   NAVIGATION (UNIFIED MOBILE/DESKTOP)
-======================================== */
+
 .navbar-brand img {
     height: 32px;
     transition: all 0.3s ease;
@@ -181,7 +171,7 @@ body {
     }
 }
 
-/* Mobile Header Styles */
+
 .mobile-header {
     background: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -248,7 +238,7 @@ body {
     color: white;
 }
 
-/* Desktop Header Styles */
+
 .pc-header {
     background: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -291,9 +281,7 @@ body {
     white-space: nowrap;
 }
 
-/* ========================================
-   JOB CARDS (CONSOLIDATED)
-======================================== */
+
 .job-card {
     border: 1px solid #e9ecef;
     border-radius: var(--border-radius-base);
@@ -361,7 +349,7 @@ body {
     font-size: 0.85rem;
 }
 
-/* Responsive Job Cards */
+
 @media (min-width: 768px) {
     .job-card .card-body {
         padding: 2rem;
@@ -372,9 +360,7 @@ body {
     }
 }
 
-/* ========================================
-   SEARCH & FILTERS
-======================================== */
+
 .search-container {
     background: linear-gradient(135deg, var(--primary-color), #0052a3);
     padding: 2rem 0;
@@ -439,9 +425,7 @@ body {
     accent-color: var(--primary-color);
 }
 
-/* ========================================
-   FORMS & MODALS
-======================================== */
+
 .form-control {
     border-radius: 8px;
     border: 1px solid #dee2e6;
@@ -475,9 +459,7 @@ body {
     padding: 1.5rem;
 }
 
-/* ========================================
-   WIZARD STYLES
-======================================== */
+
 .wizard-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -533,7 +515,7 @@ body {
     }
 }
 
-/* Work Option Cards */
+
 .work-option {
     border: 2px solid #e9ecef;
     border-radius: var(--border-radius-base);
@@ -567,7 +549,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* Salary Slider */
+
 .salary-slider {
     margin: 2rem 0;
 }
@@ -610,7 +592,7 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Location Options */
+
 .location-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -644,9 +626,7 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* ========================================
-   RESPONSIVE UTILITIES
-======================================== */
+
 @media (max-width: 576px) {
     .search-form {
         padding: 1rem 0.5rem;
@@ -667,9 +647,7 @@ body {
     }
 }
 
-/* ========================================
-   ANIMATIONS & TRANSITIONS
-======================================== */
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -701,7 +679,7 @@ body {
     animation: pulse 2s infinite;
 }
 
-/* Loading States */
+
 .loading {
     position: relative;
     overflow: hidden;
@@ -727,9 +705,7 @@ body {
     }
 }
 
-/* ========================================
-   PRINT STYLES
-======================================== */
+
 @media print {
     .mobile-header,
     .pc-header,

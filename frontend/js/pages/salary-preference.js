@@ -1,33 +1,30 @@
-/**
- * Salary Preference Page JavaScript
- * Handles salary slider, annual/hourly toggle, and wizard navigation
- */
 
-// Initialize wizard header and footer
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize wizard header (step 3 - show back button)
+    
     if (typeof WizardHeader !== 'undefined') {
         window.wizardHeader = new WizardHeader({
             isFirstPage: false
         });
     }
     
-    // Initialize wizard footer
+    
     if (typeof WizardFooter !== 'undefined') {
         window.wizardFooter = new WizardFooter(3, 6, 'Next');
-        // Override the handleNext method
+        
         window.wizardFooter.handleNext = () => {
             window.salaryPreferencePageInstance.handleNext();
         };
-        // Override the handleBack method
+        
         window.wizardFooter.handleBack = () => {
             window.salaryPreferencePageInstance.handleBack();
         };
-        // Enable by default since salary preference isn't required
+        
         window.wizardFooter.enableNextButton();
     }
     
-    // Initialize page functionality
+    
     window.salaryPreferencePageInstance = new SalaryPreferencePage();
 });
 
@@ -35,7 +32,7 @@ class SalaryPreferencePage {
     constructor() {
         this.currentValue = 65000;
         this.salaryType = 'annually';
-        this.previousSalaryType = 'annually'; // Track previous type for proper conversion
+        this.previousSalaryType = 'annually'; 
         this.hasInteracted = false;
         this.ranges = {
             annually: { min: 0, max: 200000, step: 1000 },
@@ -48,9 +45,9 @@ class SalaryPreferencePage {
     init() {
         this.setupSlider();
         this.setupToggle();
-        this.setupBubbleDrag(); // Add bubble drag functionality
+        this.setupBubbleDrag(); 
         this.setupNavigation();
-        this.setInitialSliderValue(); // Set slider to current value
+        this.setInitialSliderValue(); 
         this.updateDisplay();
         this.updateSliderFill();
         this.updateBubble();
@@ -85,7 +82,7 @@ class SalaryPreferencePage {
         toggles.forEach(toggle => {
             toggle.addEventListener('change', (e) => {
                 if (e.target.checked) {
-                    // Store the previous type before changing
+                    
                     this.previousSalaryType = this.salaryType;
                     this.salaryType = e.target.value;
                     this.updateSliderRange();
@@ -109,7 +106,7 @@ class SalaryPreferencePage {
         let startX = 0;
         let startValue = this.currentValue;
         
-        // Mouse events
+        
         bubble.addEventListener('mousedown', (e) => {
             isDragging = true;
             startX = e.clientX;
@@ -126,19 +123,19 @@ class SalaryPreferencePage {
             const deltaX = e.clientX - startX;
             const deltaPercentage = (deltaX / sliderWidth) * 100;
             
-            // Calculate new value
+            
             const range = slider.max - slider.min;
             const deltaValue = (deltaPercentage / 100) * range;
             const newValue = Math.max(slider.min, Math.min(slider.max, startValue + deltaValue));
             
-            // Round to step
+            
             const step = parseInt(slider.step);
             this.currentValue = Math.round(newValue / step) * step;
             
-            // Update slider value
+            
             slider.value = this.currentValue;
             
-            // Update UI
+            
             this.hasInteracted = true;
             this.updateDisplay();
             this.updateSliderFill();
@@ -153,7 +150,7 @@ class SalaryPreferencePage {
             }
         });
         
-        // Touch events for mobile
+        
         bubble.addEventListener('touchstart', (e) => {
             isDragging = true;
             startX = e.touches[0].clientX;
@@ -169,19 +166,19 @@ class SalaryPreferencePage {
             const deltaX = e.touches[0].clientX - startX;
             const deltaPercentage = (deltaX / sliderWidth) * 100;
             
-            // Calculate new value
+            
             const range = slider.max - slider.min;
             const deltaValue = (deltaPercentage / 100) * range;
             const newValue = Math.max(slider.min, Math.min(slider.max, startValue + deltaValue));
             
-            // Round to step
+            
             const step = parseInt(slider.step);
             this.currentValue = Math.round(newValue / step) * step;
             
-            // Update slider value
+            
             slider.value = this.currentValue;
             
-            // Update UI
+            
             this.hasInteracted = true;
             this.updateDisplay();
             this.updateSliderFill();
@@ -197,7 +194,7 @@ class SalaryPreferencePage {
             }
         });
         
-        // Make bubble visually draggable
+        
         bubble.style.cursor = 'grab';
         bubble.style.userSelect = 'none';
     }
@@ -229,30 +226,30 @@ class SalaryPreferencePage {
         
         const range = this.ranges[this.salaryType];
         
-        // Only convert if the salary type actually changed
+        
         if (this.previousSalaryType !== this.salaryType) {
             if (this.salaryType === 'hourly' && this.previousSalaryType === 'annually') {
-                // Convert annual to hourly (assuming 2080 work hours per year)
+                
                 this.currentValue = Math.round(this.currentValue / 2080);
             } else if (this.salaryType === 'annually' && this.previousSalaryType === 'hourly') {
-                // Convert hourly to annual
+                
                 this.currentValue = Math.round(this.currentValue * 2080);
             }
             
-            // Update the previous type tracker
+            
             this.previousSalaryType = this.salaryType;
         }
         
-        // Ensure the value is within the valid range
+        
         this.currentValue = Math.max(range.min, Math.min(range.max, this.currentValue));
         
-        // Update slider attributes
+        
         slider.min = range.min;
         slider.max = range.max;
         slider.step = range.step;
         slider.value = this.currentValue;
         
-        // Update labels
+        
         if (minLabel) {
             minLabel.textContent = this.salaryType === 'hourly' ? '$0' : '$0';
         }
@@ -289,13 +286,13 @@ class SalaryPreferencePage {
         
         if (!slider || !bubble || !bubbleAmount || !bubbleFrequency) return;
         
-        // Calculate position as percentage
+        
         const percentage = ((this.currentValue - slider.min) / (slider.max - slider.min)) * 100;
         
-        // Position the bubble
+        
         bubble.style.left = `${percentage}%`;
         
-        // Update bubble content
+        
         const formattedValue = this.formatCurrency(this.currentValue);
         const frequency = this.salaryType === 'hourly' ? 'per hour' : 'per year';
         
@@ -314,7 +311,7 @@ class SalaryPreferencePage {
     }
 
     showSuccessMessage() {
-        // Show brief success indicator
+        
         const card = document.querySelector('.salary-amount-box');
         if (card) {
             card.style.transform = 'scale(1.02)';
@@ -325,23 +322,23 @@ class SalaryPreferencePage {
     }
 
     handleNext() {
-        // Store preference
+        
         this.saveToLocalStorage();
         
-        // Navigate to next step
+        
         window.location.href = 'where-remote.html';
     }
 
     handleBack() {
-        // Navigate to previous step (work type page)
+        
         window.location.href = 'work-type.html';
     }
 
     skip() {
-        // Clear any saved preference
+        
         localStorage.removeItem('salaryPreference');
         
-        // Navigate to next step
+        
         window.location.href = 'where-remote.html';
     }
 
@@ -365,7 +362,7 @@ class SalaryPreferencePage {
                 this.salaryType = preference.type || this.salaryType;
                 this.hasInteracted = preference.hasInteracted || false;
                 
-                // Update UI
+                
                 const typeRadio = document.getElementById(this.salaryType);
                 if (typeRadio) {
                     typeRadio.checked = true;
@@ -381,7 +378,7 @@ class SalaryPreferencePage {
         }
     }
 
-    // Public methods for external access
+    
     getSalaryPreference() {
         return {
             value: this.currentValue,
@@ -395,7 +392,7 @@ class SalaryPreferencePage {
         this.salaryType = type;
         this.hasInteracted = true;
         
-        // Update UI
+        
         const typeRadio = document.getElementById(type);
         if (typeRadio) {
             typeRadio.checked = true;

@@ -1,4 +1,4 @@
-// FAQ Page JavaScript
+
 class FAQManager {
     constructor() {
         this.searchInput = null;
@@ -7,16 +7,16 @@ class FAQManager {
     }
 
     init() {
-        // Initialize search functionality
+        
         this.setupSearch();
         
-        // Collect all FAQ items for searching
+        
         this.collectFAQItems();
         
-        // Setup analytics tracking
+        
         this.setupAnalytics();
         
-        // Setup chat functionality
+        
         this.setupChat();
     }
 
@@ -24,12 +24,12 @@ class FAQManager {
         this.searchInput = document.getElementById('faqSearch');
         if (!this.searchInput) return;
 
-        // Add search functionality
+        
         this.searchInput.addEventListener('input', (e) => {
             this.handleSearch(e.target.value);
         });
 
-        // Handle enter key
+        
         this.searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -39,7 +39,7 @@ class FAQManager {
     }
 
     collectFAQItems() {
-        // Collect all FAQ items for search functionality
+        
         const accordionItems = document.querySelectorAll('.accordion-item');
         
         this.faqItems = Array.from(accordionItems).map(item => {
@@ -65,7 +65,7 @@ class FAQManager {
         query = query.toLowerCase();
         let hasResults = false;
 
-        // Filter FAQ items based on search query
+        
         this.faqItems.forEach(item => {
             const questionMatch = item.question.toLowerCase().includes(query);
             const answerMatch = item.answer.toLowerCase().includes(query);
@@ -79,23 +79,23 @@ class FAQManager {
             }
         });
 
-        // Show/hide tab panels based on results
+        
         this.updateTabVisibility(hasResults);
 
-        // Track search
+        
         this.trackEvent('faq_search', { query: query, results_found: hasResults });
     }
 
     highlightText(item, query) {
-        // Remove existing highlights
+        
         this.removeHighlights(item);
 
-        // Highlight question
+        
         const questionText = item.button.textContent;
         const highlightedQuestion = this.addHighlight(questionText, query);
         item.button.innerHTML = highlightedQuestion;
 
-        // Highlight answer
+        
         const answerText = item.collapse.querySelector('.accordion-body').textContent;
         const highlightedAnswer = this.addHighlight(answerText, query);
         item.collapse.querySelector('.accordion-body').innerHTML = highlightedAnswer;
@@ -107,7 +107,7 @@ class FAQManager {
     }
 
     removeHighlights(item) {
-        // Reset to original text content
+        
         const button = item.button;
         const body = item.collapse.querySelector('.accordion-body');
         
@@ -129,13 +129,13 @@ class FAQManager {
     }
 
     clearSearch() {
-        // Show all FAQ items
+        
         this.faqItems.forEach(item => {
             item.element.style.display = 'block';
             this.removeHighlights(item);
         });
 
-        // Show all tab panels
+        
         const tabPanes = document.querySelectorAll('.tab-pane');
         tabPanes.forEach(pane => {
             pane.style.display = 'block';
@@ -147,20 +147,20 @@ class FAQManager {
         const tabs = document.querySelectorAll('[data-bs-toggle="pill"]');
         
         if (!hasResults) {
-            // Show "no results" message
+            
             this.showNoResults();
             return;
         } else {
             this.hideNoResults();
         }
 
-        // Check each tab panel for visible items
+        
         tabPanes.forEach((pane, index) => {
             const visibleItems = pane.querySelectorAll('.accordion-item[style*="block"], .accordion-item:not([style*="none"])');
             const tab = tabs[index];
             
             if (visibleItems.length === 0) {
-                // Hide empty tab panels during search
+                
                 pane.style.display = 'none';
                 if (tab) {
                     tab.style.opacity = '0.5';
@@ -208,7 +208,7 @@ class FAQManager {
     }
 
     setupAnalytics() {
-        // Track accordion interactions
+        
         const accordionButtons = document.querySelectorAll('.accordion-button');
         accordionButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -217,7 +217,7 @@ class FAQManager {
             });
         });
 
-        // Track tab switching
+        
         const tabButtons = document.querySelectorAll('[data-bs-toggle="pill"]');
         tabButtons.forEach(button => {
             button.addEventListener('shown.bs.tab', (e) => {
@@ -237,28 +237,28 @@ class FAQManager {
     }
 
     startLiveChat() {
-        // In a real implementation, this would integrate with a chat service
-        // For now, we'll show a modal or redirect to support
+        
+        
         
         this.trackEvent('live_chat_initiated', { source: 'faq_page' });
         
-        // Show a modal or redirect to support page
+        
         alert('Live chat feature would be integrated here. For now, please use our contact form.');
         window.location.href = 'support.html';
     }
 
     trackEvent(eventName, data = {}) {
-        // Track user events for analytics
+        
         console.log('Event tracked:', eventName, data);
         
-        // In a real app, this would send to analytics service
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', eventName, data);
         }
     }
 }
 
-// Popular FAQ suggestions
+
 class FAQSuggestions {
     constructor() {
         this.popularQuestions = [
@@ -295,7 +295,7 @@ class FAQSuggestions {
 
         searchContainer.appendChild(suggestionsDiv);
 
-        // Add click handlers for suggestions
+        
         const suggestionTags = suggestionsDiv.querySelectorAll('.suggestion-tag');
         suggestionTags.forEach(tag => {
             tag.addEventListener('click', () => {
@@ -310,11 +310,11 @@ class FAQSuggestions {
         if (searchInput) {
             searchInput.value = question;
             
-            // Trigger search
+            
             const event = new Event('input', { bubbles: true });
             searchInput.dispatchEvent(event);
             
-            // Scroll to results
+            
             document.querySelector('.faq-content').scrollIntoView({ 
                 behavior: 'smooth',
                 block: 'start'
@@ -323,16 +323,16 @@ class FAQSuggestions {
     }
 }
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     const faqManager = new FAQManager();
     const faqSuggestions = new FAQSuggestions();
     
-    // Make faqManager available globally for clear search button
+    
     window.faqManager = faqManager;
 });
 
-// Export for use in other modules
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { FAQManager, FAQSuggestions };
 }

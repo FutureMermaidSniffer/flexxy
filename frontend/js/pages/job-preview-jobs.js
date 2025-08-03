@@ -1,5 +1,5 @@
-// Job Preview Page - Dynamic Job Management
-// Fetches and displays jobs for the job-preview.html page
+
+
 
 class JobPreviewManager {
     constructor() {
@@ -15,34 +15,34 @@ class JobPreviewManager {
         this.errorElement = null;
     }
 
-    // Initialize the job preview system
+    
     async init() {
         console.log('🚀 Initializing Job Preview Manager');
         
-        // Wait for DOM to be ready
+        
         if (document.readyState === 'loading') {
             await new Promise(resolve => {
                 document.addEventListener('DOMContentLoaded', resolve);
             });
         }
 
-        // Find the job cards container
+        
         this.container = document.querySelector('.job-cards-grid');
         if (!this.container) {
             console.error('❌ Job cards container (.job-cards-grid) not found');
             return;
         }
 
-        // Create loading and error elements
+        
         this.createStatusElements();
 
-        // Load jobs
+        
         await this.loadJobs();
     }
 
-    // Create loading and error status elements
+    
     createStatusElements() {
-        // Loading spinner
+        
         this.loadingElement = document.createElement('div');
         this.loadingElement.className = 'col-12 text-center py-5';
         this.loadingElement.innerHTML = `
@@ -52,7 +52,7 @@ class JobPreviewManager {
             <p class="mt-3 text-muted">Finding your perfect job matches...</p>
         `;
 
-        // Error state
+        
         this.errorElement = document.createElement('div');
         this.errorElement.className = 'col-12 text-center py-5';
         this.errorElement.innerHTML = `
@@ -67,13 +67,13 @@ class JobPreviewManager {
         `;
     }
 
-    // Show loading state
+    
     showLoading() {
         this.container.innerHTML = '';
         this.container.appendChild(this.loadingElement);
     }
 
-    // Show error state
+    
     showError(message = null) {
         if (message) {
             this.errorElement.querySelector('.alert').innerHTML = `
@@ -88,14 +88,14 @@ class JobPreviewManager {
         this.container.innerHTML = '';
         this.container.appendChild(this.errorElement);
         
-        // Add event listener for retry button
+        
         const retryBtn = this.errorElement.querySelector('#retry-preview-jobs-btn');
         if (retryBtn) {
             retryBtn.addEventListener('click', () => this.loadJobs());
         }
     }
 
-    // Show empty state
+    
     showEmptyState() {
         this.container.innerHTML = `
             <div class="col-12 text-center py-5">
@@ -108,13 +108,13 @@ class JobPreviewManager {
         `;
     }
 
-    // Load and display jobs
+    
     async loadJobs() {
         console.log('📋 Loading jobs for preview page');
         this.showLoading();
 
         try {
-            // Fetch jobs (limit 6 for preview page)
+            
             const response = await fetch('/api/jobs?limit=6&is_active=true', {
                 method: 'GET',
                 headers: {
@@ -135,10 +135,10 @@ class JobPreviewManager {
                 return;
             }
 
-            // Render job cards
+            
             this.renderJobs(data.jobs);
             
-            // Update job count display
+            
             this.updateJobCount(data.pagination?.total || data.jobs.length);
 
             console.log(`🎯 Successfully loaded ${data.jobs.length} jobs`);
@@ -149,19 +149,19 @@ class JobPreviewManager {
         }
     }
 
-    // Render jobs using the job card component
+    
     renderJobs(jobs) {
-        // Clear container
+        
         this.container.innerHTML = '';
 
-        // Create job cards
+        
         jobs.forEach((job, index) => {
             const jobCardHtml = this.jobCard.render(job);
             const cardWrapper = document.createElement('div');
             cardWrapper.className = 'col-lg-4 col-md-6 mb-4';
             cardWrapper.innerHTML = jobCardHtml;
             
-            // Add animation delay
+            
             const card = cardWrapper.querySelector('.job-card, .card');
             if (card) {
                 card.style.animationDelay = `${(index + 1) * 0.1}s`;
@@ -171,14 +171,14 @@ class JobPreviewManager {
         });
     }
 
-    // Update the job count display in the header
+    
     updateJobCount(count) {
         const countElement = document.querySelector('.match-count strong');
         if (countElement) {
             countElement.textContent = `${count} jobs`;
         }
 
-        // Also update any other count displays
+        
         const altCountElement = document.querySelector('.match-stats .match-count');
         if (altCountElement && count > 0) {
             altCountElement.innerHTML = `
@@ -188,7 +188,7 @@ class JobPreviewManager {
         }
     }
 
-    // Get a single random job for demonstrations/testing
+    
     async getRandomJob() {
         try {
             const response = await fetch('/api/jobs?limit=1&is_active=true');
@@ -201,16 +201,16 @@ class JobPreviewManager {
     }
 }
 
-// Global instance
+
 let jobPreviewManager;
 
-// Initialize when DOM is ready
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // Wait for JobCard component to be available
+    
     if (typeof JobCard === 'undefined') {
         console.log('⏳ Waiting for JobCard component...');
         
-        // Load job card component if not already loaded
+        
         const script = document.createElement('script');
         script.src = 'js/components/job-card.js';
         script.onload = async () => {
@@ -224,5 +224,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Export for global access
+
 window.jobPreviewManager = jobPreviewManager;

@@ -1,47 +1,47 @@
-// Authentication functionality
+
 class Auth {
     constructor() {
         this.token = localStorage.getItem('flexjobs_token');
         this.user = JSON.parse(localStorage.getItem('flexjobs_user') || 'null');
-        this.logoutHandlersSetup = false; // Track if logout handlers are already setup
+        this.logoutHandlersSetup = false; 
         this.init();
     }
 
     init() {
         this.updateNavbar();
-        this.setupLogoutHandlers(); // Set up logout handlers once
+        this.setupLogoutHandlers(); 
         this.setupEventListeners();
-        this.addAuthStyles(); // Add styles for auth links
+        this.addAuthStyles(); 
         
-        // Listen for main header ready event
+        
         document.addEventListener('mainHeaderReady', () => {
             this.updateNavbar();
         });
         
-        // Also check periodically if elements exist but navbar hasn't been updated
+        
         this.checkNavbarElements();
         
-        // Verify token if exists
+        
         if (this.token) {
             this.verifyToken();
         }
     }
 
     setupEventListeners() {
-        // Login form
+        
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', (e) => this.handleLogin(e));
         }
 
-        // Register form
+        
         const registerForm = document.getElementById('registerForm');
         if (registerForm) {
             registerForm.addEventListener('submit', (e) => this.handleRegister(e));
         }
     }
 
-    // Add styles for auth links
+    
     addAuthStyles() {
         if (!document.getElementById('authLinkStyles')) {
             const style = document.createElement('style');
@@ -84,16 +84,16 @@ class Auth {
                 this.setUser(data.user);
                 this.updateNavbar();
                 
-                // Close modal
+                
                 const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
                 modal.hide();
                 
-                // Reset form
+                
                 e.target.reset();
                 
                 this.showAlert('Login successful!', 'success');
                 
-                // Redirect to browse jobs page
+                
                 setTimeout(() => {
                     window.location.href = 'browse-jobs.html';
                 }, 1000);
@@ -142,16 +142,16 @@ class Auth {
                 this.setUser(data.user);
                 this.updateNavbar();
                 
-                // Close modal
+                
                 const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
                 modal.hide();
                 
-                // Reset form
+                
                 e.target.reset();
                 
                 this.showAlert('Registration successful! Welcome to FlexJobs!', 'success');
                 
-                // Redirect to browse jobs page
+                
                 setTimeout(() => {
                     window.location.href = 'browse-jobs.html';
                 }, 1000);
@@ -200,7 +200,7 @@ class Auth {
 
     async logout() {
         try {
-            // Call backend logout endpoint if token exists
+            
             if (this.token) {
                 await fetch('/api/auth/logout', {
                     method: 'POST',
@@ -212,24 +212,24 @@ class Auth {
             }
         } catch (error) {
             console.log('Logout endpoint error:', error);
-            // Continue with client-side logout even if server call fails
+            
         }
 
-        // Clear client-side data
+        
         this.token = null;
         this.user = null;
         localStorage.removeItem('flexjobs_token');
         localStorage.removeItem('flexjobs_user');
         
-        // Update navbar immediately
+        
         this.updateNavbar();
         
-        // Also check for navbar elements periodically in case they weren't loaded yet
+        
         this.checkNavbarElements();
         
         this.showAlert('You have been logged out', 'info');
         
-        // Redirect to browse jobs page
+        
         setTimeout(() => {
             window.location.href = 'browse-jobs.html';
         }, 1000);
@@ -246,7 +246,7 @@ class Auth {
         });
         
         if (this.user) {
-            // User is logged in - show account dropdown for desktop
+            
             if (desktopNavbarAuth) {
                 desktopNavbarAuth.innerHTML = `
                     <div class="dropdown">
@@ -265,7 +265,7 @@ class Auth {
                 `;
             }
 
-            // User is logged in - show account menu for mobile
+            
             if (mobileNavbarAuth) {
                 mobileNavbarAuth.innerHTML = `
                     <hr class="mobile-menu__divider">
@@ -294,7 +294,7 @@ class Auth {
                 `;
             }
         } else {
-            // User is logged out - show login/signup links for desktop
+            
             if (desktopNavbarAuth) {
                 desktopNavbarAuth.innerHTML = `
                     <div class="d-flex align-items-center gap-3">
@@ -304,7 +304,7 @@ class Auth {
                 `;
             }
 
-            // User is logged out - show login/signup links for mobile
+            
             if (mobileNavbarAuth) {
                 mobileNavbarAuth.innerHTML = `
                     <hr class="mobile-menu__divider">
@@ -324,10 +324,10 @@ class Auth {
             }
         }
 
-        // No need to re-initialize logout handlers here since they're set up once in init()
+        
     }
 
-    // Placeholder methods for dashboard features
+    
     showDashboard() {
         this.showAlert('Dashboard feature coming soon!', 'info');
     }
@@ -373,7 +373,7 @@ class Auth {
         
         document.body.appendChild(alertDiv);
         
-        // Auto remove after 5 seconds
+        
         setTimeout(() => {
             if (alertDiv.parentNode) {
                 alertDiv.remove();
@@ -381,7 +381,7 @@ class Auth {
         }, 5000);
     }
 
-    // Helper method to get authorization headers
+    
     getAuthHeaders() {
         return this.token ? {
             'Authorization': `Bearer ${this.token}`,
@@ -391,12 +391,12 @@ class Auth {
         };
     }
 
-    // Check if user is authenticated
+    
     isAuthenticated() {
         return !!this.token && !!this.user;
     }
 
-    // Check if user is a specific type
+    
     isJobSeeker() {
         return this.user && this.user.user_type === 'job_seeker';
     }
@@ -409,12 +409,12 @@ class Auth {
         return this.user && this.user.user_type === 'admin';
     }
 
-    // Setup logout event handlers
+    
     setupLogoutHandlers() {
-        // Only set up event listeners once
+        
         if (this.logoutHandlersSetup) return;
         
-        // Use event delegation to handle dynamically added logout buttons
+        
         document.addEventListener('click', (e) => {
             if (e.target.matches('.logout-btn') || e.target.matches('.logout-link')) {
                 e.preventDefault();
@@ -425,7 +425,7 @@ class Auth {
         this.logoutHandlersSetup = true;
     }
     
-    // Check if navbar elements exist and update if needed
+    
     checkNavbarElements() {
         const checkInterval = setInterval(() => {
             const desktopAuth = document.getElementById('navbarAuth');
@@ -437,15 +437,15 @@ class Auth {
             }
         }, 100);
         
-        // Stop checking after 5 seconds
+        
         setTimeout(() => clearInterval(checkInterval), 5000);
     }
 }
 
-// Initialize auth when DOM is loaded
+
 let auth;
 document.addEventListener('DOMContentLoaded', () => {
     auth = new Auth();
-    // Make auth globally available
+    
     window.auth = auth;
 });

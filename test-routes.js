@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 try {
-  // Test importing each route file one by one
+  
   console.log('Testing auth routes...');
   const authRoutes = require('./backend/routes/auth');
   console.log('Auth routes OK');

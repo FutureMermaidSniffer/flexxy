@@ -5,7 +5,7 @@ const { authenticateToken, optionalAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Subscribe to newsletter
+
 router.post('/newsletter/subscribe', [
   body('email').isEmail().normalizeEmail(),
   body('subscription_type').optional().isIn(['general', 'career_advice', 'job_alerts', 'tutorials']),
@@ -23,7 +23,7 @@ router.post('/newsletter/subscribe', [
     const { email, subscription_type = 'general', source_page = 'career-advice' } = req.body;
     const userId = req.user ? req.user.id : null;
 
-    // Check if already subscribed
+    
     const existingSubscription = await getOne(
       'SELECT id, is_active FROM newsletter_subscriptions WHERE email = ? AND subscription_type = ?',
       [email, subscription_type]
@@ -35,7 +35,7 @@ router.post('/newsletter/subscribe', [
           message: 'You are already subscribed to this newsletter' 
         });
       } else {
-        // Reactivate subscription
+        
         await updateOne(
           'newsletter_subscriptions',
           { 
@@ -55,7 +55,7 @@ router.post('/newsletter/subscribe', [
       }
     }
 
-    // Create new subscription
+    
     const subscriptionId = await insertOne('newsletter_subscriptions', {
       email,
       user_id: userId,
@@ -64,7 +64,7 @@ router.post('/newsletter/subscribe', [
       is_active: true
     });
 
-    // Track the interaction
+    
     await trackInteraction(req, {
       interaction_type: 'form_submit',
       page_name: source_page,
@@ -86,7 +86,7 @@ router.post('/newsletter/subscribe', [
   }
 });
 
-// Unsubscribe from newsletter
+
 router.post('/newsletter/unsubscribe', [
   body('email').isEmail().normalizeEmail(),
   body('subscription_type').optional().isIn(['general', 'career_advice', 'job_alerts', 'tutorials'])
@@ -131,7 +131,7 @@ router.post('/newsletter/unsubscribe', [
   }
 });
 
-// Track tutorial interaction
+
 router.post('/tutorial/track', [
   body('tutorial_name').isLength({ min: 1, max: 255 }),
   body('action_type').isIn(['view', 'play', 'pause', 'complete', 'share']),
@@ -177,7 +177,7 @@ router.post('/tutorial/track', [
   }
 });
 
-// Track general user interaction
+
 router.post('/interaction/track', [
   body('interaction_type').isIn(['page_view', 'tutorial_view', 'button_click', 'form_submit', 'download']),
   body('page_name').optional().isLength({ max: 100 }),
@@ -202,7 +202,7 @@ router.post('/interaction/track', [
   }
 });
 
-// Get user's newsletter subscriptions (authenticated route)
+
 router.get('/newsletter/my-subscriptions', authenticateToken, async (req, res) => {
   try {
     const subscriptions = await getMany(
@@ -218,7 +218,7 @@ router.get('/newsletter/my-subscriptions', authenticateToken, async (req, res) =
   }
 });
 
-// Helper function to track interactions
+
 async function trackInteraction(req, data) {
   const userId = req.user ? req.user.id : null;
   const sessionId = req.sessionID || req.headers['x-session-id'] || generateSessionId();
@@ -238,11 +238,11 @@ async function trackInteraction(req, data) {
     await insertOne('user_interactions', interactionData);
   } catch (error) {
     console.error('Error tracking interaction:', error);
-    // Don't throw error - tracking failures shouldn't break the main functionality
+    
   }
 }
 
-// Helper function to generate session ID
+
 function generateSessionId() {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }

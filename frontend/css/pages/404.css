@@ -1,4 +1,4 @@
-/* 404 Error Page Styles */
+
 .error-404 {
     min-height: 80vh;
     display: flex;
@@ -26,7 +26,7 @@
     color: white;
 }
 
-/* 404 Illustration */
+
 .error-404__illustration {
     margin-bottom: 3rem;
 }
@@ -75,7 +75,7 @@
     animation: spin 4s linear infinite;
 }
 
-/* Message */
+
 .error-404__message {
     margin-bottom: 3rem;
 }
@@ -96,7 +96,7 @@
     margin-right: auto;
 }
 
-/* Actions */
+
 .error-404__actions {
     margin-bottom: 4rem;
 }
@@ -180,7 +180,7 @@
     box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Links Section */
+
 .error-404__links {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -233,7 +233,7 @@
     transform: translateX(5px);
 }
 
-/* Support Section */
+
 .error-404__support {
     margin-bottom: 3rem;
 }
@@ -275,7 +275,7 @@
     box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
 }
 
-/* Recent Activity */
+
 .error-404__recent {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -320,7 +320,7 @@
     margin-top: 0.25rem;
 }
 
-/* Animations */
+
 @keyframes float {
     0%, 100% {
         transform: translateY(0);
@@ -348,7 +348,7 @@
     }
 }
 
-/* Responsive Design */
+
 @media (max-width: 991.98px) {
     .error-404 {
         padding: 3rem 0;
@@ -458,14 +458,14 @@
     }
 }
 
-/* Dark mode support */
+
 @media (prefers-color-scheme: dark) {
     .error-404 {
         background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
     }
 }
 
-/* High contrast mode */
+
 @media (prefers-contrast: high) {
     .error-404__btn-primary,
     .error-404__btn-secondary {
@@ -479,7 +479,7 @@
     }
 }
 
-/* Reduced motion */
+
 @media (prefers-reduced-motion: reduce) {
     .error-404__digit,
     .error-404__zero,
@@ -493,7 +493,7 @@
     }
 }
 
-/* Print styles */
+
 @media print {
     .error-404 {
         background: white;

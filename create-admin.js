@@ -1,14 +1,9 @@
-/**
- * Admin User Creation Script
- * Run this script on your production server to create admin users
- * 
- * Usage: node create-admin.js
- */
+
 
 const bcrypt = require('bcryptjs');
 const readline = require('readline');
 
-// Import your database connection
+
 const { getOne, insertOne } = require('./backend/database');
 
 const rl = readline.createInterface({
@@ -45,7 +40,7 @@ function askPassword(question) {
                 case '\u0003':
                     process.exit();
                     break;
-                case '\u007f': // Backspace
+                case '\u007f': 
                     if (password.length > 0) {
                         password = password.slice(0, -1);
                         process.stdout.write('\b \b');
@@ -65,19 +60,19 @@ async function createAdmin() {
         console.log('🔐 Admin User Creation Tool');
         console.log('============================\n');
 
-        // Get admin details
+        
         const firstName = await askQuestion('First Name: ');
         const lastName = await askQuestion('Last Name: ');
         const email = await askQuestion('Email: ');
         
-        // Validate email format
+        
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             console.log('❌ Invalid email format');
             process.exit(1);
         }
 
-        // Check if user already exists
+        
         const existingUser = await getOne('SELECT id FROM users WHERE email = ?', [email]);
         if (existingUser) {
             console.log('❌ User with this email already exists');
@@ -97,10 +92,10 @@ async function createAdmin() {
             process.exit(1);
         }
 
-        // Hash password
+        
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        // Create admin user
+        
         const adminData = {
             first_name: firstName,
             last_name: lastName,
@@ -131,7 +126,7 @@ async function createAdmin() {
     }
 }
 
-// Check if running directly
+
 if (require.main === module) {
     createAdmin();
 }

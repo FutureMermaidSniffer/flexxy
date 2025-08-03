@@ -1,8 +1,6 @@
-/* ==========================================================================
-   HEADER COMPONENT STYLES
-   ========================================================================== */
 
-/* Mobile Header Styles (< 992px) */
+
+
 .mobile-header {
     background: white;
     border-bottom: 1px solid #e9ecef;
@@ -15,7 +13,7 @@
 .mobile-header__logo {
     height: 65px;
     width: auto;
-    /* transition: height 0.3s ease; */
+    
 }
 
 .mobile-header__search-toggle {
@@ -66,7 +64,7 @@
     background: white;
 }
 
-/* Mobile Search Bar */
+
 .mobile-search-bar {
     padding: 1rem;
 }
@@ -119,7 +117,7 @@
     transform: translateY(-1px);
 }
 
-/* Mobile Navigation Menu */
+
 .mobile-nav-menu {
     padding: 0;
 }
@@ -157,7 +155,7 @@
     border-color: #e9ecef;
 }
 
-/* Desktop Header Styles (≥ 992px) */
+
 .pc-header {
     background: white;
     border-bottom: 1px solid #e9ecef;
@@ -239,7 +237,7 @@
     width: 80%;
 }
 
-/* Desktop Search Container */
+
 .pc-header__search-container {
     display: flex;
     flex-direction: column;
@@ -308,7 +306,7 @@
     background: rgba(8, 145, 178, 0.1);
 }
 
-/* Desktop Auth Container */
+
 .pc-header__auth-container {
     display: flex;
     align-items: center;
@@ -361,7 +359,7 @@
     box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
 }
 
-/* Secondary Navigation */
+
 .secondary-nav {
     background: #0891b2;
     padding: 0.5rem 0;
@@ -387,7 +385,7 @@
     border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 575px) {
     .mobile-header__signup-btn {
         font-size: 0.75rem;
@@ -426,7 +424,7 @@
     }
 }
 
-/* Animation Classes */
+
 .header-slide-down {
     animation: slideDown 0.3s ease-out;
 }
@@ -455,7 +453,7 @@
     }
 }
 
-/* Loading States */
+
 .pc-search-btn.loading {
     position: relative;
     color: transparent;

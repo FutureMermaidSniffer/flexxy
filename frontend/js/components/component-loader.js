@@ -1,7 +1,4 @@
-/**
- * Component Loader Utility
- * Dynamically loads header and footer components with error handling and fallbacks
- */
+
 
 class ComponentLoader {
     constructor() {
@@ -11,7 +8,7 @@ class ComponentLoader {
         this.retryAttempts = new Map();
         this.maxRetries = 3;
         
-        // Configuration
+        
         this.config = {
             basePath: '/components',
             timeout: 5000,
@@ -20,14 +17,12 @@ class ComponentLoader {
         };
     }
 
-    /**
-     * Load all components (header and footer)
-     */
+    
     async loadComponents() {
         console.log('🚀 Loading FlexJobs components...');
         
         try {
-            // Load components in parallel
+            
             const promises = [
                 this.loadComponent('header', 'header-container'),
                 this.loadComponent('footer', 'footer-container')
@@ -35,7 +30,7 @@ class ComponentLoader {
             
             const results = await Promise.allSettled(promises);
             
-            // Check results
+            
             const headerResult = results[0];
             const footerResult = results[1];
             
@@ -53,7 +48,7 @@ class ComponentLoader {
                 console.log('✅ Footer component loaded successfully');
             }
             
-            // Initialize components after loading
+            
             this.initializeComponents();
             
             return {
@@ -68,44 +63,42 @@ class ComponentLoader {
         }
     }
 
-    /**
-     * Load a specific component
-     */
+    
     async loadComponent(componentName, containerId) {
         const startTime = performance.now();
         
         try {
-            // Check if component is already loading
+            
             if (this.loadingStates.get(componentName)) {
                 console.log(`⏳ ${componentName} already loading, waiting...`);
                 return await this.loadingStates.get(componentName);
             }
             
-            // Check cache first
+            
             if (this.config.enableCache && this.cache.has(componentName)) {
                 console.log(`📦 Loading ${componentName} from cache`);
                 const cachedHTML = this.cache.get(componentName);
                 return this.injectComponent(componentName, containerId, cachedHTML);
             }
             
-            // Create loading promise
+            
             const loadingPromise = this.fetchComponent(componentName);
             this.loadingStates.set(componentName, loadingPromise);
             
             const html = await loadingPromise;
             
-            // Cache the HTML
+            
             if (this.config.enableCache) {
                 this.cache.set(componentName, html);
             }
             
-            // Inject into DOM
+            
             await this.injectComponent(componentName, containerId, html);
             
             const loadTime = performance.now() - startTime;
             console.log(`✅ ${componentName} loaded in ${loadTime.toFixed(2)}ms`);
             
-            // Clear loading state
+            
             this.loadingStates.delete(componentName);
             
             return true;
@@ -114,13 +107,13 @@ class ComponentLoader {
             console.error(`❌ Error loading ${componentName}:`, error);
             this.loadingStates.delete(componentName);
             
-            // Retry logic
+            
             const retryCount = this.retryAttempts.get(componentName) || 0;
             if (retryCount < this.maxRetries) {
                 console.log(`🔄 Retrying ${componentName} (attempt ${retryCount + 1}/${this.maxRetries})`);
                 this.retryAttempts.set(componentName, retryCount + 1);
                 
-                // Wait before retry
+                
                 await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
                 return this.loadComponent(componentName, containerId);
             }
@@ -129,15 +122,13 @@ class ComponentLoader {
         }
     }
 
-    /**
-     * Fetch component HTML from server
-     */
+    
     async fetchComponent(componentName) {
         const url = `${this.config.basePath}/${componentName}/${componentName}.html`;
         
         console.log(`🔗 Fetching ${componentName} from ${url}`);
         
-        // Create abort controller for timeout
+        
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
         
@@ -175,9 +166,7 @@ class ComponentLoader {
         }
     }
 
-    /**
-     * Inject component HTML into DOM
-     */
+    
     async injectComponent(componentName, containerId, html) {
         const container = document.getElementById(containerId);
         
@@ -185,22 +174,22 @@ class ComponentLoader {
             throw new Error(`Container element #${containerId} not found`);
         }
         
-        // Show loading state
+        
         container.innerHTML = this.createLoadingHTML(componentName);
         
-        // Small delay for smooth transition
+        
         await new Promise(resolve => setTimeout(resolve, 100));
         
-        // Inject the component
+        
         container.innerHTML = html;
         
-        // Add loaded class for CSS animations
+        
         container.classList.add('component-loaded');
         
-        // Store component reference
+        
         this.components.set(componentName, container);
         
-        // Dispatch custom event
+        
         window.dispatchEvent(new CustomEvent(`${componentName}Loaded`, {
             detail: { componentName, containerId, loadTime: Date.now() }
         }));
@@ -208,9 +197,7 @@ class ComponentLoader {
         return true;
     }
 
-    /**
-     * Create loading HTML
-     */
+    
     createLoadingHTML(componentName) {
         if (componentName === 'header') {
             return `
@@ -263,26 +250,24 @@ class ComponentLoader {
         `;
     }
 
-    /**
-     * Initialize components after loading
-     */
+    
     initializeComponents() {
         setTimeout(() => {
-            // Initialize header
+            
             if (window.headerInstance && typeof window.headerInstance.updateActiveNav === 'function') {
                 window.headerInstance.updateActiveNav();
                 console.log('🎯 Header component initialized');
             }
             
-            // Initialize footer
+            
             if (window.footerInstance) {
                 console.log('🎯 Footer component initialized');
             }
             
-            // Set active navigation based on current page
+            
             this.setActiveNavigationFromURL();
             
-            // Dispatch initialization complete event
+            
             window.dispatchEvent(new CustomEvent('componentsInitialized', {
                 detail: { timestamp: Date.now() }
             }));
@@ -290,9 +275,7 @@ class ComponentLoader {
         }, 100);
     }
 
-    /**
-     * Set active navigation based on current URL
-     */
+    
     setActiveNavigationFromURL() {
         const path = window.location.pathname;
         let activePage = '';
@@ -315,9 +298,7 @@ class ComponentLoader {
         }
     }
 
-    /**
-     * Create fallback components if loading fails
-     */
+    
     createFallbackComponents() {
         if (this.config.enableFallbacks) {
             this.createFallbackHeader();
@@ -325,9 +306,7 @@ class ComponentLoader {
         }
     }
 
-    /**
-     * Create fallback header
-     */
+    
     createFallbackHeader() {
         const container = document.getElementById('header-container');
         if (!container) return;
@@ -377,9 +356,7 @@ class ComponentLoader {
         container.classList.add('component-loaded', 'fallback-component');
     }
 
-    /**
-     * Create fallback footer
-     */
+    
     createFallbackFooter() {
         const container = document.getElementById('footer-container');
         if (!container) return;
@@ -462,17 +439,15 @@ class ComponentLoader {
         container.classList.add('component-loaded', 'fallback-component');
     }
 
-    /**
-     * Reload a specific component
-     */
+    
     async reloadComponent(componentName) {
         console.log(`🔄 Reloading ${componentName} component`);
         
-        // Clear cache
+        
         this.cache.delete(componentName);
         this.retryAttempts.delete(componentName);
         
-        // Determine container ID
+        
         const containerId = componentName === 'header' ? 'header-container' : 'footer-container';
         
         try {
@@ -485,9 +460,7 @@ class ComponentLoader {
         }
     }
 
-    /**
-     * Get component loading status
-     */
+    
     getComponentStatus(componentName) {
         return {
             loaded: this.components.has(componentName),
@@ -497,18 +470,14 @@ class ComponentLoader {
         };
     }
 
-    /**
-     * Clear all caches
-     */
+    
     clearCache() {
         this.cache.clear();
         this.retryAttempts.clear();
         console.log('🧹 Component cache cleared');
     }
 
-    /**
-     * Preload components (for performance)
-     */
+    
     async preloadComponents() {
         console.log('⚡ Preloading components...');
         
@@ -536,7 +505,7 @@ class ComponentLoader {
     }
 }
 
-// CSS for loading states and fallbacks
+
 const componentLoaderStyles = `
     .component-loading {
         min-height: 60px;
@@ -613,7 +582,7 @@ const componentLoaderStyles = `
     }
 `;
 
-// Inject CSS
+
 if (!document.querySelector('#component-loader-styles')) {
     const style = document.createElement('style');
     style.id = 'component-loader-styles';
@@ -621,15 +590,15 @@ if (!document.querySelector('#component-loader-styles')) {
     document.head.appendChild(style);
 }
 
-// Create global instance
+
 window.componentLoader = new ComponentLoader();
 
-// Global convenience function
+
 window.loadComponents = function() {
     return window.componentLoader.loadComponents();
 };
 
-// Preload components on page load for better performance
+
 if (document.readyState !== 'loading') {
     window.componentLoader.preloadComponents();
 } else {
@@ -638,7 +607,7 @@ if (document.readyState !== 'loading') {
     });
 }
 
-// Export for module systems
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = ComponentLoader;
 }

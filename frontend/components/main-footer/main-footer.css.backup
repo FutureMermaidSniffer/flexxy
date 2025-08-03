@@ -1,0 +1,271 @@
+/* Main Footer Component Styles */
+.main-footer {
+    background-color: #ffffff;
+    border-top: 1px solid #e9ecef;
+    padding: 3rem 0 0 0;
+    margin-top: auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Desktop Footer Content */
+.main-footer__content {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.main-footer__column {
+    padding-right: 1rem;
+}
+
+.main-footer__title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #004f6e;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.main-footer__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-footer__links li {
+    margin-bottom: 0.5rem;
+}
+
+.main-footer__link {
+    color: #004f6e;
+    text-decoration: none;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    transition: all 0.2s ease;
+}
+
+.main-footer__link:hover {
+    color: #004f6e;
+    text-decoration: underline;
+}
+
+/* Social Media Section */
+.main-footer__social-section {
+    margin-bottom: 2rem;
+}
+
+.main-footer__social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.main-footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: #004f6e;
+    border-radius: 4px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.main-footer__social-link:hover {
+    background-color: #003a52;
+    color: #fff;
+}
+
+.main-footer__social-link i {
+    font-size: 12px;
+}
+
+/* Reviews Section */
+.main-footer__reviews {
+    margin-bottom: 2rem;
+}
+
+.main-footer__review-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.main-footer__rating-text {
+    font-weight: 600;
+    color: #004f6e;
+    font-size: 0.7rem;
+}
+
+.main-footer__stars {
+    color: #ffc107;
+    display: flex;
+    gap: 2px;
+}
+
+.main-footer__stars i {
+    font-size: 12px;
+}
+
+.main-footer__rating-score {
+    font-size: 0.7rem;
+    color: #004f6e;
+}
+
+.main-footer__sitejabber {
+    margin-top: 0.5rem;
+}
+
+.main-footer__sitejabber-logo {
+    height: 16px;
+    opacity: 0.8;
+}
+
+/* Partner Sites */
+.main-footer__partner {
+    margin-bottom: 2rem;
+}
+
+.main-footer__partner-link {
+    color: #004f6e;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.7rem;
+    transition: all 0.2s ease;
+}
+
+.main-footer__partner-link:hover {
+    text-decoration: underline;
+    color: #004f6e;
+}
+
+.main-footer__partner-name {
+    color: #004f6e;
+}
+
+/* App Download Section */
+.main-footer__app {
+    margin-bottom: 1rem;
+}
+
+.main-footer__app-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.main-footer__app-button {
+    display: inline-block;
+}
+
+.main-footer__app-badge {
+    height: 32px;
+    width: auto;
+}
+
+/* Footer Bottom */
+.main-footer__bottom {
+    border-top: 1px solid #e9ecef;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    background-color: #f8f9fa;
+}
+
+.main-footer__disclaimer {
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.main-footer__disclaimer-text {
+    font-size: 0.6rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .main-footer {
+        padding: 2rem 0 0 0;
+    }
+    
+    .main-footer__content {
+        padding: 0 0.5rem;
+    }
+    
+    .main-footer__column {
+        margin-bottom: 2rem;
+        padding-right: 0;
+    }
+    
+    .main-footer__social-links {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: flex-start;
+    }
+    
+    .main-footer__app-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .main-footer__review-rating {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    /* Improve desktop layout */
+    .main-footer__app-buttons {
+        flex-direction: row;
+        gap: 0.25rem;
+    }
+    
+    .main-footer__app-badge {
+        height: 28px;
+    }
+    
+    .main-footer__social-links {
+        max-width: 200px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .main-footer {
+        display: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .main-footer {
+        border-top-width: 2px;
+    }
+    
+    .main-footer__link {
+        border-bottom: 1px solid transparent;
+    }
+    
+    .main-footer__link:hover {
+        border-bottom-color: currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .main-footer__link,
+    .main-footer__social-link {
+        transition: none;
+    }
+}

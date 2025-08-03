@@ -218,7 +218,7 @@ class DatabaseMigration {
     }
 
     async insertSampleCategories() {
-        // Check if categories already exist
+        
         const [existingCategories] = await this.connection.execute('SELECT COUNT(*) as count FROM categories');
         
         if (existingCategories[0].count > 0) {
@@ -249,7 +249,7 @@ class DatabaseMigration {
     }
 
     async createAdminUser() {
-        // Check if admin user already exists
+        
         const [existingAdmin] = await this.connection.execute(
             'SELECT id FROM users WHERE user_type = ? LIMIT 1',
             ['admin']
@@ -307,7 +307,7 @@ class DatabaseMigration {
 
     async getDatabaseInfo() {
         try {
-            // Get database info
+            
             const [dbInfo] = await this.connection.execute(`
                 SELECT 
                     SCHEMA_NAME as database_name,
@@ -317,7 +317,7 @@ class DatabaseMigration {
                 WHERE SCHEMA_NAME = ?
             `, [this.databaseName]);
 
-            // Get table info
+            
             const [tables] = await this.connection.execute(`
                 SELECT 
                     TABLE_NAME as table_name,
@@ -350,13 +350,13 @@ class DatabaseMigration {
         console.log('🚀 Starting FlexJobs database migration...\n');
         
         try {
-            // Connect to MySQL
+            
             await this.createConnection();
             
-            // Create database
+            
             await this.createDatabase();
             
-            // Create tables in order (respecting foreign key constraints)
+            
             console.log('\n📝 Creating tables...');
             await this.createUsersTable();
             await this.createCompaniesTable();
@@ -366,16 +366,16 @@ class DatabaseMigration {
             await this.createSavedJobsTable();
             await this.createJobSkillsTable();
             
-            // Create indexes
+            
             console.log('\n🔍 Creating indexes...');
             await this.createIndexes();
             
-            // Insert sample data
+            
             console.log('\n📊 Inserting sample data...');
             await this.insertSampleCategories();
             await this.createAdminUser();
             
-            // Show database info
+            
             console.log('\n📈 Database Information:');
             const dbInfo = await this.getDatabaseInfo();
             if (dbInfo) {
@@ -402,10 +402,10 @@ class DatabaseMigration {
     }
 }
 
-// Export for use in other scripts
+
 module.exports = DatabaseMigration;
 
-// Run migration if called directly
+
 if (require.main === module) {
     const migration = new DatabaseMigration();
     migration.runMigration()

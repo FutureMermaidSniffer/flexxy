@@ -5,12 +5,12 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Helper function to convert MySQL-style placeholders to PostgreSQL
+
 function convertQuery(query, params) {
   let convertedQuery = query;
   let convertedParams = [...params];
   
-  // If using PostgreSQL, convert ? placeholders to $1, $2, etc.
+  
   if (process.env.DB_TYPE === 'postgres') {
     let paramIndex = 1;
     convertedQuery = query.replace(/\?/g, () => `$${paramIndex++}`);
@@ -19,7 +19,7 @@ function convertQuery(query, params) {
   return { query: convertedQuery, params: convertedParams };
 }
 
-// Get all subscription plans
+
 router.get('/plans', async (req, res) => {
   try {
     const query = `
@@ -32,7 +32,7 @@ router.get('/plans', async (req, res) => {
 
     const plans = await getMany(query, []);
 
-    // Parse JSON features
+    
     const processedPlans = plans.map(plan => ({
       ...plan,
       features: plan.features ? JSON.parse(plan.features) : []
@@ -45,7 +45,7 @@ router.get('/plans', async (req, res) => {
   }
 });
 
-// Get user's current subscription
+
 router.get('/current', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -68,7 +68,7 @@ router.get('/current', authenticateToken, async (req, res) => {
     const subscription = await getOne(convertedQuery, convertedParams);
 
     if (!subscription) {
-      // Return free plan as default
+      
       const freePlan = await getOne(`
         SELECT id, name, description, price, currency, billing_period,
                features, max_job_applications, max_agent_consultations
@@ -85,7 +85,7 @@ router.get('/current', authenticateToken, async (req, res) => {
       });
     }
 
-    // Parse JSON features
+    
     const processedSubscription = {
       ...subscription,
       features: subscription.features ? JSON.parse(subscription.features) : []
@@ -98,7 +98,7 @@ router.get('/current', authenticateToken, async (req, res) => {
   }
 });
 
-// Get user's subscription history
+
 router.get('/history', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -119,7 +119,7 @@ router.get('/history', authenticateToken, async (req, res) => {
     const { query: convertedQuery, params: convertedParams } = convertQuery(query, [userId, parseInt(limit), offset]);
     const subscriptions = await getMany(convertedQuery, convertedParams);
 
-    // Get total count
+    
     const countQuery = `
       SELECT COUNT(*) as total 
       FROM user_subscriptions 
@@ -148,7 +148,7 @@ router.get('/history', authenticateToken, async (req, res) => {
   }
 });
 
-// Subscribe to a plan
+
 router.post('/subscribe', authenticateToken, [
   body('plan_id').isInt({ min: 1 }),
   body('payment_method').optional().trim().isLength({ min: 1, max: 50 })
@@ -162,13 +162,13 @@ router.post('/subscribe', authenticateToken, [
     const userId = req.user.id;
     const { plan_id, payment_method = 'manual' } = req.body;
 
-    // Check if plan exists
+    
     const plan = await getOne('SELECT * FROM subscription_plans WHERE id = ? AND is_active = TRUE', [plan_id]);
     if (!plan) {
       return res.status(404).json({ message: 'Subscription plan not found' });
     }
 
-    // Check if user already has an active subscription
+    
     const existingSubscription = await getOne(`
       SELECT id FROM user_subscriptions 
       WHERE user_id = ? AND status IN ('active', 'trial') AND expires_at > NOW()
@@ -178,7 +178,7 @@ router.post('/subscribe', authenticateToken, [
       return res.status(400).json({ message: 'User already has an active subscription' });
     }
 
-    // Calculate subscription period
+    
     const startsAt = new Date();
     const expiresAt = new Date();
     
@@ -188,11 +188,11 @@ router.post('/subscribe', authenticateToken, [
       expiresAt.setFullYear(expiresAt.getFullYear() + 1);
     }
 
-    // Create subscription
+    
     const subscriptionData = {
       user_id: userId,
       plan_id: plan_id,
-      status: plan.price > 0 ? 'active' : 'trial', // Free plans are trials
+      status: plan.price > 0 ? 'active' : 'trial', 
       starts_at: startsAt.toISOString().slice(0, 19).replace('T', ' '),
       expires_at: expiresAt.toISOString().slice(0, 19).replace('T', ' '),
       payment_method: payment_method
@@ -211,12 +211,12 @@ router.post('/subscribe', authenticateToken, [
   }
 });
 
-// Cancel subscription
+
 router.put('/cancel', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // Get active subscription
+    
     const subscription = await getOne(`
       SELECT id FROM user_subscriptions 
       WHERE user_id = ? AND status = 'active' AND expires_at > NOW()
@@ -227,7 +227,7 @@ router.put('/cancel', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'No active subscription found' });
     }
 
-    // Update subscription status
+    
     await updateOne('user_subscriptions', 
       { status: 'cancelled' }, 
       'id = ?', 
@@ -241,7 +241,7 @@ router.put('/cancel', authenticateToken, async (req, res) => {
   }
 });
 
-// Change subscription plan
+
 router.put('/change-plan', authenticateToken, [
   body('plan_id').isInt({ min: 1 })
 ], async (req, res) => {
@@ -254,13 +254,13 @@ router.put('/change-plan', authenticateToken, [
     const userId = req.user.id;
     const { plan_id } = req.body;
 
-    // Check if plan exists
+    
     const plan = await getOne('SELECT * FROM subscription_plans WHERE id = ? AND is_active = TRUE', [plan_id]);
     if (!plan) {
       return res.status(404).json({ message: 'Subscription plan not found' });
     }
 
-    // Get current active subscription
+    
     const currentSubscription = await getOne(`
       SELECT id, plan_id FROM user_subscriptions 
       WHERE user_id = ? AND status = 'active' AND expires_at > NOW()
@@ -275,14 +275,14 @@ router.put('/change-plan', authenticateToken, [
       return res.status(400).json({ message: 'You are already subscribed to this plan' });
     }
 
-    // Cancel current subscription
+    
     await updateOne('user_subscriptions', 
       { status: 'cancelled' }, 
       'id = ?', 
       [currentSubscription.id]
     );
 
-    // Create new subscription
+    
     const startsAt = new Date();
     const expiresAt = new Date();
     
@@ -314,12 +314,12 @@ router.put('/change-plan', authenticateToken, [
   }
 });
 
-// Check subscription limits
+
 router.get('/limits', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // Get current subscription or default to free plan
+    
     let subscription = await getOne(`
       SELECT 
         sp.max_job_applications, sp.max_agent_consultations, sp.name
@@ -333,7 +333,7 @@ router.get('/limits', authenticateToken, async (req, res) => {
     `, [userId]);
 
     if (!subscription) {
-      // Default to free plan limits
+      
       subscription = await getOne(`
         SELECT max_job_applications, max_agent_consultations, name
         FROM subscription_plans 
@@ -341,19 +341,19 @@ router.get('/limits', authenticateToken, async (req, res) => {
       `, []);
     }
 
-    // Get current usage
+    
     const currentMonth = new Date();
     currentMonth.setDate(1);
     currentMonth.setHours(0, 0, 0, 0);
 
-    // Count job applications this month
+    
     const applicationCount = await getOne(`
       SELECT COUNT(*) as count 
       FROM applications 
       WHERE user_id = ? AND applied_at >= ?
     `, [userId, currentMonth.toISOString().slice(0, 19).replace('T', ' ')]);
 
-    // Count agent consultations this month
+    
     const consultationCount = await getOne(`
       SELECT COUNT(*) as count 
       FROM agent_bookings 
@@ -383,7 +383,7 @@ router.get('/limits', authenticateToken, async (req, res) => {
   }
 });
 
-// Admin: Get all subscriptions
+
 router.get('/admin/all', authenticateToken, async (req, res) => {
   try {
     if (req.user.user_type !== 'admin') {
@@ -425,7 +425,7 @@ router.get('/admin/all', authenticateToken, async (req, res) => {
     const { query: convertedQuery, params: convertedParams } = convertQuery(query, queryParams);
     const subscriptions = await getMany(convertedQuery, convertedParams);
 
-    // Get total count
+    
     const countQuery = `
       SELECT COUNT(*) as total 
       FROM user_subscriptions us
@@ -433,7 +433,7 @@ router.get('/admin/all', authenticateToken, async (req, res) => {
       JOIN users u ON us.user_id = u.id
       ${whereClause}
     `;
-    const countParams = queryParams.slice(0, -2); // Remove limit and offset
+    const countParams = queryParams.slice(0, -2); 
     const { query: convertedCountQuery, params: convertedCountParams } = convertQuery(countQuery, countParams);
     const countResult = await getOne(convertedCountQuery, convertedCountParams);
     const total = countResult.total;
@@ -457,7 +457,7 @@ router.get('/admin/all', authenticateToken, async (req, res) => {
   }
 });
 
-// Admin: Create/Update subscription plans
+
 router.post('/admin/plans', authenticateToken, [
   body('name').trim().isLength({ min: 1, max: 100 }),
   body('description').optional().trim(),

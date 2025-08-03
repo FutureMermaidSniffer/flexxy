@@ -1,4 +1,4 @@
-// Account Page JavaScript
+
 class AccountManager {
     constructor() {
         this.currentUser = null;
@@ -6,25 +6,25 @@ class AccountManager {
     }
 
     init() {
-        // Load user data
+        
         this.loadUserData();
         
-        // Set up form handlers
+        
         this.setupFormHandlers();
         
-        // Set up tab navigation
+        
         this.setupTabNavigation();
         
-        // Load billing information
+        
         this.loadBillingInfo();
         
-        // Set up billing functionality
+        
         this.setupBillingFunctionality();
     }
 
     loadUserData() {
-        // In a real app, this would come from the backend
-        // For now, we'll use localStorage or mock data
+        
+        
         const userData = this.getUserData();
         
         if (userData) {
@@ -34,13 +34,13 @@ class AccountManager {
     }
 
     getUserData() {
-        // Try to get user data from localStorage
+        
         const storedUser = localStorage.getItem('currentUser');
         if (storedUser) {
             return JSON.parse(storedUser);
         }
         
-        // Return mock data if no stored user
+        
         return {
             firstName: 'John',
             lastName: 'Doe',
@@ -90,7 +90,7 @@ class AccountManager {
     }
 
     setupFormHandlers() {
-        // Contact form handler
+        
         const contactForm = document.getElementById('contactForm');
         if (contactForm) {
             contactForm.addEventListener('submit', (e) => {
@@ -99,7 +99,7 @@ class AccountManager {
             });
         }
 
-        // Email preferences form handler
+        
         const emailForm = document.getElementById('emailForm');
         if (emailForm) {
             emailForm.addEventListener('submit', (e) => {
@@ -108,7 +108,7 @@ class AccountManager {
             });
         }
 
-        // Password form handler
+        
         const passwordForm = document.getElementById('passwordForm');
         if (passwordForm) {
             passwordForm.addEventListener('submit', (e) => {
@@ -119,7 +119,7 @@ class AccountManager {
     }
 
     setupTabNavigation() {
-        // Handle tab switching
+        
         const tabButtons = document.querySelectorAll('[data-bs-toggle="pill"]');
         tabButtons.forEach(button => {
             button.addEventListener('shown.bs.tab', (e) => {
@@ -130,12 +130,12 @@ class AccountManager {
     }
 
     onTabSwitch(targetTab) {
-        // Track tab navigation
+        
         this.trackEvent('account_tab_view', {
             tab: targetTab.replace('#', '')
         });
 
-        // Load tab-specific data if needed
+        
         if (targetTab === '#billing-info') {
             this.loadBillingInfo();
         }
@@ -146,35 +146,35 @@ class AccountManager {
             const formData = new FormData(form);
             const updateData = Object.fromEntries(formData.entries());
 
-            // Show loading state
+            
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
             submitBtn.disabled = true;
 
-            // Simulate API call
+            
             await this.simulateApiCall();
 
-            // Update local storage
+            
             const currentUser = this.getUserData();
             const updatedUser = { ...currentUser, ...updateData };
             localStorage.setItem('currentUser', JSON.stringify(updatedUser));
 
-            // Show success message
+            
             this.showAlert('Contact information updated successfully!', 'success');
 
-            // Reset button
+            
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
 
-            // Track event
+            
             this.trackEvent('account_contact_updated');
 
         } catch (error) {
             console.error('Error updating contact info:', error);
             this.showAlert('Failed to update contact information. Please try again.', 'danger');
             
-            // Reset button
+            
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.innerHTML = '<i class="fas fa-save me-2"></i>Save Changes';
             submitBtn.disabled = false;
@@ -186,41 +186,41 @@ class AccountManager {
             const formData = new FormData(form);
             const preferences = {};
             
-            // Get all checkboxes
+            
             const checkboxes = form.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(checkbox => {
                 preferences[checkbox.name] = checkbox.checked;
             });
 
-            // Show loading state
+            
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
             submitBtn.disabled = true;
 
-            // Simulate API call
+            
             await this.simulateApiCall();
 
-            // Update local storage
+            
             const currentUser = this.getUserData();
             currentUser.emailPreferences = preferences;
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-            // Show success message
+            
             this.showAlert('Email preferences updated successfully!', 'success');
 
-            // Reset button
+            
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
 
-            // Track event
+            
             this.trackEvent('account_email_preferences_updated', { preferences });
 
         } catch (error) {
             console.error('Error updating email preferences:', error);
             this.showAlert('Failed to update email preferences. Please try again.', 'danger');
             
-            // Reset button
+            
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.innerHTML = '<i class="fas fa-save me-2"></i>Save Preferences';
             submitBtn.disabled = false;
@@ -234,7 +234,7 @@ class AccountManager {
             const newPassword = formData.get('newPassword');
             const confirmPassword = formData.get('confirmPassword');
 
-            // Validate passwords
+            
             if (newPassword !== confirmPassword) {
                 this.showAlert('New passwords do not match.', 'danger');
                 return;
@@ -245,33 +245,33 @@ class AccountManager {
                 return;
             }
 
-            // Show loading state
+            
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Updating...';
             submitBtn.disabled = true;
 
-            // Simulate API call
+            
             await this.simulateApiCall();
 
-            // Show success message
+            
             this.showAlert('Password updated successfully!', 'success');
 
-            // Clear form
+            
             form.reset();
 
-            // Reset button
+            
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
 
-            // Track event
+            
             this.trackEvent('account_password_updated');
 
         } catch (error) {
             console.error('Error updating password:', error);
             this.showAlert('Failed to update password. Please try again.', 'danger');
             
-            // Reset button
+            
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.innerHTML = '<i class="fas fa-shield-alt me-2"></i>Update Password';
             submitBtn.disabled = false;
@@ -279,17 +279,17 @@ class AccountManager {
     }
 
     validatePassword(password) {
-        // Password must be at least 8 characters and contain:
-        // - At least one uppercase letter
-        // - At least one lowercase letter
-        // - At least one number
-        // - At least one special character
+        
+        
+        
+        
+        
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return passwordRegex.test(password);
     }
 
     loadBillingInfo() {
-        // Load real billing information from the backend
+        
         this.loadSubscriptionInfo();
         this.loadPaymentMethods();
     }
@@ -337,7 +337,7 @@ class AccountManager {
     updateSubscriptionDisplay(subscription) {
         if (!subscription) return;
 
-        // Update the subscription card with real data
+        
         const subscriptionCard = document.querySelector('.subscription-card .card-body');
         if (subscriptionCard) {
             const statusBadge = subscription.status === 'active' ? 
@@ -364,7 +364,7 @@ class AccountManager {
                 </div>
             `;
             
-            // Add event listeners for the new buttons
+            
             this.setupBillingEventListeners();
         }
     }
@@ -400,7 +400,7 @@ class AccountManager {
             `;
         }
         
-        // Add event listeners for the new buttons
+        
         this.setupBillingEventListeners();
     }
 
@@ -416,21 +416,21 @@ class AccountManager {
     }
 
     setupBillingFunctionality() {
-        // Populate expiry year dropdown
+        
         this.populateExpiryYears();
         
-        // Set up card number formatting
+        
         this.setupCardNumberFormatting();
         
-        // Set up billing event listeners
+        
         this.setupBillingEventListeners();
     }
 
     setupBillingEventListeners() {
-        // Remove existing listeners to prevent duplicates
+        
         document.removeEventListener('click', this.handleBillingClick);
         
-        // Add event delegation for billing actions
+        
         this.handleBillingClick = (e) => {
             const action = e.target.dataset.action;
             
@@ -447,10 +447,10 @@ class AccountManager {
                 case 'add-payment-method':
                     e.preventDefault();
                     if (e.target.closest('#paymentMethodModal')) {
-                        // If we're in the modal, add the payment method
+                        
                         addPaymentMethod();
                     } else {
-                        // Otherwise, open the modal
+                        
                         openPaymentMethodModal();
                     }
                     break;
@@ -492,7 +492,7 @@ class AccountManager {
     }
 
     simulateApiCall() {
-        // Simulate network delay
+        
         return new Promise(resolve => {
             setTimeout(resolve, 1500);
         });
@@ -508,7 +508,7 @@ class AccountManager {
         const messageElement = document.getElementById('notificationMessage');
         const iconElement = document.getElementById('notificationIcon');
         
-        // Set default titles based on type
+        
         const defaultTitles = {
             success: 'Success',
             error: 'Error',
@@ -517,16 +517,16 @@ class AccountManager {
             info: 'Information'
         };
         
-        // Map danger to error for consistency
+        
         const normalizedType = type === 'danger' ? 'error' : type;
         
-        // Set title
+        
         titleElement.textContent = title || defaultTitles[normalizedType] || 'Notification';
         
-        // Set message
+        
         messageElement.textContent = message;
         
-        // Set icon and styling based on type
+        
         iconElement.className = `notification-icon ${normalizedType}`;
         
         const iconMap = {
@@ -538,13 +538,13 @@ class AccountManager {
         
         iconElement.querySelector('i').className = iconMap[normalizedType] || iconMap.info;
         
-        // Show the modal
+        
         const bsModal = new bootstrap.Modal(modal);
         bsModal.show();
     }
 
     showToast(message, type = 'info', duration = 5000) {
-        // Create toast container if it doesn't exist
+        
         let toastContainer = document.getElementById('toast-container');
         if (!toastContainer) {
             toastContainer = document.createElement('div');
@@ -554,7 +554,7 @@ class AccountManager {
             document.body.appendChild(toastContainer);
         }
 
-        // Create toast element
+        
         const toastId = 'toast-' + Date.now();
         const iconMap = {
             success: 'fas fa-check-circle text-success',
@@ -588,7 +588,7 @@ class AccountManager {
             </div>
         `;
 
-        // Add custom styling to match the site
+        
         toast.style.cssText = `
             font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -598,7 +598,7 @@ class AccountManager {
 
         toastContainer.appendChild(toast);
 
-        // Initialize and show the toast
+        
         const bsToast = new bootstrap.Toast(toast, {
             autohide: true,
             delay: duration
@@ -606,30 +606,30 @@ class AccountManager {
         
         bsToast.show();
 
-        // Remove the toast element after it's hidden
+        
         toast.addEventListener('hidden.bs.toast', () => {
             toast.remove();
         });
     }
 
     trackEvent(eventName, data = {}) {
-        // Track user events for analytics
+        
         console.log('Event tracked:', eventName, data);
         
-        // In a real app, this would send to analytics service
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', eventName, data);
         }
     }
 }
 
-// Initialize account manager when DOM is loaded
+
 let accountManager;
 document.addEventListener('DOMContentLoaded', () => {
     accountManager = new AccountManager();
 });
 
-// Global functions for modal operations
+
 async function openSubscriptionModal() {
     const modal = new bootstrap.Modal(document.getElementById('subscriptionModal'));
     const content = document.getElementById('subscriptionModalContent');
@@ -726,14 +726,14 @@ async function addPaymentMethod() {
     const form = document.getElementById('paymentMethodForm');
     const formData = new FormData(form);
     
-    // Basic validation
+    
     const cardNumber = formData.get('cardNumber').replace(/\s/g, '');
     if (cardNumber.length < 13 || cardNumber.length > 19) {
         accountManager.showAlert('Please enter a valid card number', 'danger');
         return;
     }
     
-    // Detect card brand
+    
     const cardBrand = detectCardBrand(cardNumber);
     
     const paymentMethodData = {
@@ -905,7 +905,7 @@ function detectCardBrand(cardNumber) {
     return 'unknown';
 }
 
-// Export for use in other modules
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = AccountManager;
 }

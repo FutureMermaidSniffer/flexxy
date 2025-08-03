@@ -1,6 +1,6 @@
-/* Custom CSS for FlexJobs */
 
-/* Import Montserrat fonts */
+
+
 @font-face {
     font-family: 'Montserrat';
     src: url('../fonts/Montserrat/Montserrat-Regular.ttf') format('truetype');
@@ -43,25 +43,25 @@
     --dark-color: #343a40;
 }
 
-/* Global Styles */
+
 body {
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-x: hidden; 
 }
 
-/* Mobile-First Base Styles (320px and up) */
+
 .container {
     max-width: 100%;
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Navigation Mobile Styles */
+
 .navbar-brand img {
-    height: 32px; /* Smaller logo on mobile */
+    height: 32px; 
 }
 
-/* Hero Text - Responsive Typography */
+
 .hero-text {
     font-size: 1.75rem;
     line-height: 1.2;
@@ -71,7 +71,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* Job Cards Mobile Styles */
+
 .job-card {
     margin-bottom: 1rem;
     border-radius: 12px;
@@ -86,7 +86,7 @@ body {
     line-height: 1.3;
 }
 
-/* Search Bar Mobile Styles */
+
 .mobile-search-bar {
     padding: 0.75rem 1rem;
     background: #f8f9fa;
@@ -107,19 +107,19 @@ body {
     justify-content: center;
 }
 
-/* Company Logos Mobile Styles */
+
 .company-logo {
     height: 24px;
     max-width: 80px;
 }
 
-/* Testimonial Mobile Styles */
+
 .testimonial-card {
     border-radius: 16px;
     margin-bottom: 1rem;
 }
 
-/* Category Cards Mobile Styles */
+
 .category-card {
     border-radius: 12px;
     text-align: center;
@@ -130,7 +130,7 @@ body {
     font-size: 2rem !important;
 }
 
-/* Small Mobile Phones (360px and up) */
+
 @media (min-width: 360px) {
     .hero-text {
         font-size: 2rem;
@@ -141,7 +141,7 @@ body {
     }
 }
 
-/* Large Mobile Phones (414px and up) */
+
 @media (min-width: 414px) {
     .hero-text {
         font-size: 2.25rem;
@@ -160,7 +160,7 @@ body {
     }
 }
 
-/* Tablets (768px and up) */
+
 @media (min-width: 768px) {
     .container {
         max-width: 720px;
@@ -190,7 +190,7 @@ body {
     }
 }
 
-/* Desktop Small (992px and up) */
+
 @media (min-width: 992px) {
     .container {
         max-width: 960px;
@@ -199,25 +199,25 @@ body {
     }
     
     .navbar-brand img {
-        height: 40px; /* Full size logo on desktop */
+        height: 40px; 
     }
     
-    /* Desktop Header Specific Styles */
+    
     .d-lg-none {
-        display: none !important; /* Hide mobile hamburger menu on desktop */
+        display: none !important; 
     }
     
     header .d-flex.gap-2 {
-        gap: 1rem !important; /* Better spacing for desktop */
+        gap: 1rem !important; 
     }
     
     header .btn {
-        padding: 0.5rem 1rem; /* Standard button padding for desktop */
-        margin: 0; /* Reset any mobile margins */
+        padding: 0.5rem 1rem; 
+        margin: 0; 
     }
     
     header .btn-primary {
-        padding: 0.5rem 1.5rem; /* Slightly larger primary buttons on desktop */
+        padding: 0.5rem 1.5rem; 
     }
     
     .hero-text {
@@ -251,7 +251,7 @@ body {
         font-size: 2.5rem !important;
     }
     
-    /* Enhanced Desktop-specific hover effects */
+    
     .job-card:hover {
         transform: translateY(-4px);
         box-shadow: 0 12px 40px rgba(0,0,0,0.15);
@@ -265,7 +265,7 @@ body {
         transition: all 0.4s ease;
     }
     
-    /* Desktop navigation enhancements */
+    
     .secondary-nav {
         padding: 0.75rem 0;
     }
@@ -282,7 +282,7 @@ body {
     }
 }
 
-/* Desktop Large (1200px and up) */
+
 @media (min-width: 1200px) {
     .container {
         max-width: 1140px;
@@ -310,7 +310,7 @@ body {
         max-width: 160px;
     }
     
-    /* Enhanced desktop spacing */
+    
     .featured-jobs {
         padding: 6rem 0;
     }
@@ -332,7 +332,7 @@ body {
     }
 }
 
-/* Extra Large Desktop (1400px and up) */
+
 @media (min-width: 1400px) {
     .container {
         max-width: 1320px;
@@ -347,7 +347,7 @@ body {
         font-size: 1.5rem;
     }
     
-    /* Ultra-wide desktop optimizations */
+    
     .job-card .card-body {
         padding: 3.5rem;
     }
@@ -361,18 +361,18 @@ body {
     }
 }
 
-/* Enhanced Mobile-First Responsive Utilities */
+
 .mobile-only { display: block !important; }
 .tablet-only { display: none !important; }
 .desktop-only { display: none !important; }
 
-/* Mobile-specific display utilities */
+
 .mobile-flex { display: flex !important; }
 .mobile-grid { display: grid !important; }
 .mobile-inline { display: inline !important; }
 .mobile-inline-block { display: inline-block !important; }
 
-/* PC-specific display utilities */
+
 .pc-flex { display: none !important; }
 .pc-grid { display: none !important; }
 .pc-block { display: none !important; }
@@ -394,20 +394,20 @@ body {
     .tablet-only { display: none !important; }
     .desktop-only { display: block !important; }
     
-    /* Enable PC-specific displays */
+    
     .pc-flex { display: flex !important; }
     .pc-grid { display: grid !important; }
     .pc-block { display: block !important; }
     .pc-inline-flex { display: inline-flex !important; }
     
-    /* Hide mobile displays */
+    
     .mobile-flex { display: none !important; }
     .mobile-grid { display: none !important; }
     .mobile-inline { display: none !important; }
     .mobile-inline-block { display: none !important; }
 }
 
-/* Enhanced Mobile-First Flex Utilities */
+
 .mobile-flex-column { flex-direction: column !important; }
 .mobile-flex-row { flex-direction: row !important; }
 .mobile-flex-wrap { flex-wrap: wrap !important; }
@@ -420,7 +420,7 @@ body {
 .tablet-flex-row { flex-direction: column !important; }
 .desktop-flex-row { flex-direction: column !important; }
 
-/* PC-specific flex utilities */
+
 .pc-flex-column { flex-direction: column !important; }
 .pc-flex-row { flex-direction: row !important; }
 .pc-flex-wrap { flex-wrap: wrap !important; }
@@ -439,7 +439,7 @@ body {
 @media (min-width: 992px) {
     .desktop-flex-row { flex-direction: row !important; }
     
-    /* Override mobile flex with PC-specific on desktop */
+    
     .pc-flex-column { flex-direction: column !important; }
     .pc-flex-row { flex-direction: row !important; }
     .pc-flex-wrap { flex-wrap: wrap !important; }
@@ -452,20 +452,20 @@ body {
     .pc-align-end { align-items: flex-end !important; }
 }
 
-/* Enhanced Mobile-First Text Utilities */
+
 .mobile-text-center { text-align: center !important; }
 .mobile-text-left { text-align: left !important; }
 .mobile-text-right { text-align: right !important; }
 .tablet-text-start { text-align: center !important; }
 .desktop-text-start { text-align: center !important; }
 
-/* PC-specific text utilities */
+
 .pc-text-center { text-align: center !important; }
 .pc-text-left { text-align: left !important; }
 .pc-text-right { text-align: right !important; }
 .pc-text-justify { text-align: justify !important; }
 
-/* Device-specific spacing utilities */
+
 .mobile-p-1 { padding: 0.25rem !important; }
 .mobile-p-2 { padding: 0.5rem !important; }
 .mobile-p-3 { padding: 1rem !important; }
@@ -482,7 +482,7 @@ body {
 .pc-m-4 { margin: 1.5rem !important; }
 .pc-m-5 { margin: 3rem !important; }
 
-/* Device-specific interaction utilities */
+
 .mobile-touch-friendly {
     min-height: 44px !important;
     min-width: 44px !important;
@@ -505,7 +505,7 @@ body {
 @media (min-width: 992px) {
     .desktop-text-start { text-align: start !important; }
     
-    /* Enable PC-specific utilities on desktop */
+    
     .pc-text-center { text-align: center !important; }
     .pc-text-left { text-align: left !important; }
     .pc-text-right { text-align: right !important; }
@@ -520,7 +520,7 @@ body {
     .pc-m-4 { margin: 1.5rem !important; }
     .pc-m-5 { margin: 3rem !important; }
     
-    /* Hide mobile touch-friendly sizing on PC */
+    
     .mobile-touch-friendly {
         min-height: auto !important;
         min-width: auto !important;
@@ -528,13 +528,13 @@ body {
     }
 }
 
-/* Prevent horizontal scrolling */
+
 html, body {
     overflow-x: hidden;
     max-width: 100%;
 }
 
-/* Responsive container system */
+
 .container {
     max-width: 100%;
     padding-left: 15px;
@@ -571,7 +571,7 @@ html, body {
     }
 }
 
-/* Ensure rows don't overflow */
+
 .row {
     margin-left: 0;
     margin-right: 0;
@@ -582,19 +582,19 @@ html, body {
     padding-right: calc(var(--bs-gutter-x) * 0.5);
 }
 
-/* Responsive text */
+
 .display-4 {
     font-size: clamp(2rem, 5vw, 3.5rem);
     line-height: 1.2;
 }
 
-/* Ensure images don't overflow */
+
 img {
     max-width: 100%;
     height: auto;
 }
 
-/* Fix input groups */
+
 .input-group {
     flex-wrap: nowrap;
 }
@@ -604,7 +604,7 @@ img {
     flex: 1 1 auto;
 }
 
-/* Responsive navigation */
+
 .navbar-nav {
     flex-wrap: wrap;
 }
@@ -614,7 +614,7 @@ img {
     font-size: 0.9rem;
 }
 
-/* Mobile-specific styles */
+
 @media (max-width: 767px) {
     .display-4 {
         font-size: 1.8rem;
@@ -629,13 +629,13 @@ img {
         height: 35px;
     }
     
-    /* Mobile Header Specific Styles */
+    
     header .d-flex.gap-2 {
-        gap: 0.5rem !important; /* Tighter spacing on mobile */
+        gap: 0.5rem !important; 
     }
     
     header .btn {
-        padding: 0.375rem 0.75rem; /* Smaller buttons on mobile */
+        padding: 0.375rem 0.75rem; 
         font-size: 0.875rem;
     }
     
@@ -644,7 +644,7 @@ img {
         font-size: 0.75rem;
     }
     
-    /* Ensure hamburger menu is visible on mobile */
+    
     .d-lg-none {
         display: block !important;
     }
@@ -657,24 +657,24 @@ img {
         font-size: 0.9rem !important;
     }
     
-    /* Mobile hero grid */
+    
     .mobile-hero-grid {
         max-width: 280px;
         margin: 0 auto;
     }
     
-    /* Ensure mobile search is properly sized */
+    
     .mobile-search-container {
         padding: 0.75rem 0;
     }
     
-    /* Mobile button full width */
+    
     .w-100 {
         width: 100% !important;
     }
 }
 
-/* Tablet adjustments */
+
 @media (max-width: 991px) and (min-width: 768px) {
     .display-4 {
         font-size: 2.2rem;
@@ -685,7 +685,7 @@ img {
     }
 }
 
-/* Mobile search styling */
+
 .mobile-search-container input {
     border: 1px solid #dee2e6;
     font-size: 0.9rem;
@@ -697,7 +697,7 @@ img {
     justify-content: center;
 }
 
-/* Fix button groups */
+
 .d-flex.gap-3 {
     flex-wrap: wrap;
     gap: 0.75rem !important;
@@ -717,7 +717,7 @@ img {
     }
 }
 
-/* Mobile-First Search Bar Styles */
+
 .mobile-search-bar {
     padding: 0.75rem 1rem;
     background: #f8f9fa;
@@ -740,7 +740,7 @@ img {
     justify-content: center;
 }
 
-/* Hero Section Responsive Styles */
+
 .hero-section {
     background: linear-gradient(135deg, #0891b2 0%, #0066cc 100%);
     padding: 3rem 0;
@@ -748,7 +748,7 @@ img {
     overflow: hidden;
 }
 
-/* Desktop hero enhancements */
+
 @media (min-width: 992px) {
     .hero-section {
         padding: 5rem 0;
@@ -774,7 +774,7 @@ img {
     }
 }
 
-/* Mobile Hero Images */
+
 .mobile-hero-images .hero-image-card {
     background: white;
     border-radius: 16px;
@@ -793,7 +793,7 @@ img {
     height: auto;
 }
 
-/* Tablet and Desktop Hero Floating Badges */
+
 .hero-floating-badge {
     position: absolute;
     padding: 12px 20px;
@@ -826,7 +826,7 @@ img {
     animation-delay: 3s;
 }
 
-/* Desktop hero image enhancements */
+
 @media (min-width: 992px) {
     .hero-floating-badge {
         padding: 16px 24px;
@@ -844,7 +844,7 @@ img {
     }
 }
 
-/* Navigation Responsive Styles */
+
 .navbar-brand img,
 .navbar-logo {
     transition: height 0.3s ease;
@@ -872,7 +872,7 @@ img {
     color: rgba(255,255,255,0.8);
 }
 
-/* Desktop Search Bar in Navigation */
+
 .desktop-search-group {
     max-width: 500px;
 }
@@ -897,7 +897,7 @@ img {
     white-space: nowrap;
 }
 
-/* Tablet Search Bar Styles */
+
 .tablet-search-input-left {
     border-radius: 25px 0 0 25px !important;
 }
@@ -906,7 +906,7 @@ img {
     border-radius: 0 25px 25px 0 !important;
 }
 
-/* Mobile Navigation Improvements */
+
 .mobile-nav-menu {
     background: white;
     border-top: 1px solid #dee2e6;
@@ -923,7 +923,7 @@ img {
     color: #0891b2;
 }
 
-/* Company Logos Section */
+
 .company-logos {
     padding: 3rem 0;
     background: #f8f9fa;
@@ -963,7 +963,7 @@ img {
     }
 }
 
-/* Featured Jobs Section */
+
 .featured-jobs {
     padding: 4rem 0;
     background: white;
@@ -1041,7 +1041,7 @@ img {
     width: 16px;
 }
 
-/* Desktop job card enhancements */
+
 @media (min-width: 992px) {
     .featured-jobs h2 {
         font-size: 2.5rem;
@@ -1073,7 +1073,7 @@ img {
         margin-top: 1.25rem;
     }
     
-    /* Enhanced hover effects for desktop */
+    
     .job-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 20px 60px rgba(0,0,0,0.15);
@@ -1085,7 +1085,7 @@ img {
     }
 }
 
-/* Testimonials Section */
+
 .testimonials-section {
     padding: 4rem 0;
     background: #f8f9fa;
@@ -1132,7 +1132,7 @@ img {
     font-size: 0.9rem;
 }
 
-/* Features Section */
+
 .features-section {
     padding: 4rem 0;
 }
@@ -1178,7 +1178,7 @@ img {
     line-height: 1.6;
 }
 
-/* Job Search Form Section */
+
 .job-search-form {
     background: #f8f9fa;
     border-radius: 16px;
@@ -1212,7 +1212,7 @@ img {
     font-weight: 600;
 }
 
-/* Categories Section */
+
 .categories-section {
     padding: 4rem 0;
 }
@@ -1253,7 +1253,7 @@ img {
     color: #6c757d;
 }
 
-/* CTA Section */
+
 .cta-section {
     padding: 4rem 0;
     background: #0891b2;
@@ -1285,7 +1285,7 @@ img {
     border-radius: 8px;
 }
 
-/* Footer */
+
 .footer {
     background: #212529;
     color: #adb5bd;
@@ -1328,7 +1328,7 @@ img {
     color: white;
 }
 
-/* Modal Improvements */
+
 .modal-content {
     border-radius: 12px;
     border: none;
@@ -1348,7 +1348,7 @@ img {
     font-weight: 600;
 }
 
-/* Form Improvements */
+
 .form-control,
 .form-select {
     border-radius: 8px;
@@ -1382,7 +1382,7 @@ img {
     color: #212529;
 }
 
-/* Primary Button - Consolidated Styles */
+
 .btn-primary {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
@@ -1394,7 +1394,7 @@ img {
     border-color: #0056b3;
 }
 
-/* Responsive Improvements */
+
 @media (max-width: 575px) {
     .hero-text {
         font-size: 1.5rem;
@@ -1448,38 +1448,38 @@ body {
     line-height: 1.6;
 }
 
-/* Typography with Montserrat font weights */
+
 h1, .h1 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 700; /* Bold */
+    font-weight: 700; 
 }
 
 h2, .h2 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 600; /* SemiBold */
+    font-weight: 600; 
 }
 
 h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 500; /* Medium */
+    font-weight: 500; 
 }
 
 .btn {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 500; /* Medium */
+    font-weight: 500; 
 }
 
 .navbar-brand {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 600; /* SemiBold */
+    font-weight: 600; 
 }
 
 .lead {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 400; /* Regular */
+    font-weight: 400; 
 }
 
-/* Mobile Header Styles */
+
 .mobile-header {
     border-bottom: 1px solid #ddd;
     background-color: #fff;
@@ -1504,7 +1504,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     margin: 0;
 }
 
-/* Remote page mobile logo specific styling */
+
 .remote-page-mobile-logo {
     width: 105px !important;
     height: auto !important;
@@ -1512,12 +1512,12 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     margin: 0 !important;
 }
 
-/* Remote page desktop logo specific styling */
+
 .remote-page-desktop-logo {
     height: 52px !important;
 }
 
-/* Main page logo specific styling */
+
 .main-page-logo {
     height: 120px !important;
 }
@@ -1526,7 +1526,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     border-bottom: 1px solid #ddd;
 }
 
-/* Hero Section */
+
 .hero-section {
     background: transparent;
     min-height: 400px;
@@ -1547,7 +1547,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     background: linear-gradient(135deg, #0066cc 0%, #004c99 100%);
 }
 
-/* Secondary search styling */
+
 .secondary-search {
     border-bottom: 1px solid #ddd;
 }
@@ -1565,7 +1565,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     color: white;
 }
 
-/* Mobile Responsive */
+
 @media (max-width: 768px) {
     .hero-section {
         min-height: 350px;
@@ -1637,7 +1637,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     max-width: 100%;
     height: auto;
     border-radius: 20px;
-    /* box-shadow: 0 20px 40px rgba(0,0,0,0.1); */
+    
 }
 
 .floating-badge {
@@ -1650,7 +1650,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     50% { transform: translateY(-10px); }
 }
 
-/* Feature Cards */
+
 .feature-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(0,0,0,0.1);
@@ -1670,13 +1670,13 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     transform: scale(1.1);
 }
 
-/* Rating Badge */
+
 .rating-badge {
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Job Cards */
+
 .job-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(0,0,0,0.1);
@@ -1721,7 +1721,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     object-fit: cover;
 }
 
-/* Company Carousel Styling */
+
 .company-carousel {
     overflow: hidden;
 }
@@ -1751,7 +1751,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     100% { transform: translateX(-50%); }
 }
 
-/* Work Type Cards */
+
 .work-type-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
@@ -1770,14 +1770,14 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     transform: scale(1.1);
 }
 
-/* Search Filters */
+
 .search-filters {
     background: white;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* Trust Section */
+
 .trust-content {
     padding: 2rem 0;
 }
@@ -1802,19 +1802,19 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     background: rgba(0,0,0,0.05);
 }
 
-/* Stats Section */
+
 .stats-section {
     padding: 2rem;
 }
 
-/* Form Styles */
+
 .form-control:focus,
 .form-select:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
 }
 
-/* Button styles moved to consolidated section above */
+
 
 .btn-warning {
     background-color: var(--secondary-color);
@@ -1831,7 +1831,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 .log-in:hover {
     text-decoration: underline;
 }
-/* Modal Styles */
+
 .modal-content {
     border-radius: 15px;
     border: none;
@@ -1847,7 +1847,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     padding: 1.5rem;
 }
 
-/* Loading States */
+
 .loading {
     opacity: 0.7;
     pointer-events: none;
@@ -1858,7 +1858,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     height: 1rem;
 }
 
-/* Pagination */
+
 .pagination .page-link {
     color: var(--primary-color);
     border-color: rgba(0,0,0,0.1);
@@ -1874,7 +1874,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     background-color: rgba(0, 102, 204, 0.1);
 }
 
-/* Badge Styles */
+
 .badge-remote {
     background-color: var(--success-color) !important;
 }
@@ -1909,12 +1909,12 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     background-color: #fd7e14 !important;
 }
 
-/* Alert Styles */
+
 .alert {
     border-radius: 10px;
 }
 
-/* Navigation Active States */
+
 .nav-link:hover {
     color: var(--primary-color) !important;
 }
@@ -1924,7 +1924,7 @@ h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     font-weight: 600;
 }
 
-/* Footer */
+
 footer {
     background-color: var(--dark-color) !important;
 }
@@ -1933,7 +1933,7 @@ footer a:hover {
     color: var(--primary-color) !important;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
     .hero-section {
         min-height: 400px;
@@ -1979,7 +1979,7 @@ footer a:hover {
         max-width: 95%;
     }
 
-    /* Mobile header specific overrides */
+    
     .mobile-header .container-fluid {
         padding: 0 0.75rem;
     }
@@ -1992,12 +1992,12 @@ footer a:hover {
         padding: 0 0.25rem;
     }
 
-    /* Reduce logo size to half on mobile */
+    
     .navbar-brand img {
         height: 20px !important;
     }
 
-    /* Reduce button sizes and align with logo */
+    
     .header-container .btn {
         padding: 0.5rem 1rem !important;
         margin: 0 0.25rem !important;
@@ -2038,7 +2038,7 @@ footer a:hover {
         margin-top: 2rem;
     }
     
-    /* Tighter mobile layout */
+    
     .py-5 {
         padding-top: 2rem !important;
         padding-bottom: 2rem !important;
@@ -2050,7 +2050,7 @@ footer a:hover {
     }
 }
 
-/* Job Detail Styles */
+
 .job-detail-header {
     border-bottom: 1px solid rgba(0,0,0,0.1);
     padding-bottom: 1rem;
@@ -2083,7 +2083,7 @@ footer a:hover {
     color: var(--danger-color);
 }
 
-/* Company Card Styles */
+
 .company-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(0,0,0,0.1);
@@ -2106,7 +2106,7 @@ footer a:hover {
     background: var(--light-color);
 }
 
-/* Dashboard Styles */
+
 .dashboard-card {
     border: none;
     border-radius: 15px;
@@ -2128,7 +2128,7 @@ footer a:hover {
     font-size: 1.5rem;
 }
 
-/* Saved Jobs and Applications */
+
 .application-status {
     font-weight: 600;
     text-transform: uppercase;
@@ -2141,7 +2141,7 @@ footer a:hover {
 .status-hired { color: var(--success-color); }
 .status-rejected { color: var(--danger-color); }
 
-/* Animation Classes */
+
 .fade-in {
     animation: fadeIn 0.5s ease-in;
 }
@@ -2160,7 +2160,7 @@ footer a:hover {
     to { transform: translateX(0); }
 }
 
-/* Utility Classes */
+
 .text-truncate-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -2189,7 +2189,7 @@ footer a:hover {
     background: linear-gradient(135deg, var(--secondary-color) 0%, #e0a800 100%);
 }
 
-/* Scrollbar Styling */
+
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -2207,9 +2207,9 @@ footer a:hover {
     background: rgba(0, 102, 204, 0.5);
 }
 
-/* Desktop Professional Enhancements */
+
 @media (min-width: 992px) {
-    /* Enhanced button styling for desktop */
+    
     .btn-primary {
         background: linear-gradient(135deg, #0891b2 0%, var(--primary-color) 100%);
         border: none;
@@ -2264,7 +2264,7 @@ footer a:hover {
         box-shadow: 0 8px 25px rgba(8, 145, 178, 0.3);
     }
     
-    /* Enhanced form controls for desktop */
+    
     .form-control, .form-select {
         border-radius: 15px;
         border: 2px solid #e9ecef;
@@ -2280,7 +2280,7 @@ footer a:hover {
         transform: translateY(-1px);
     }
     
-    /* Enhanced navigation styling */
+    
     .navbar {
         padding: 1rem 0;
         backdrop-filter: blur(10px);
@@ -2302,13 +2302,13 @@ footer a:hover {
         transform: translateY(-1px);
     }
     
-    /* Section padding enhancements */
+    
     .section-padding {
         padding: 6rem 0;
     }
 }
 
-/* Desktop Large Enhancements (1200px+) */
+
 @media (min-width: 1200px) {
     .section-padding {
         padding: 8rem 0;
@@ -2325,7 +2325,7 @@ footer a:hover {
     }
 }
 
-/* Desktop Extra Large Enhancements (1400px+) */
+
 @media (min-width: 1400px) {
     .section-padding {
         padding: 10rem 0;
@@ -2336,11 +2336,9 @@ footer a:hover {
     }
 }
 
-/* ========================================
-   DEVICE-SPECIFIC UI/UX PATTERNS
-   ======================================== */
 
-/* Mobile-First Navigation Patterns */
+
+
 .mobile-nav {
     position: fixed;
     bottom: 0;
@@ -2374,7 +2372,7 @@ footer a:hover {
     margin-bottom: 0.25rem;
 }
 
-/* PC-specific Navigation */
+
 .pc-nav {
     background: white;
     box-shadow: 0 2px 20px rgba(0,0,0,0.08);
@@ -2418,7 +2416,7 @@ footer a:hover {
     width: 80%;
 }
 
-/* Mobile-First Card Layouts */
+
 .mobile-card {
     border: none;
     border-radius: 12px;
@@ -2445,7 +2443,7 @@ footer a:hover {
     border-top: 1px solid #f1f3f4;
 }
 
-/* PC-specific Card Layouts */
+
 .pc-card {
     border: 1px solid #e9ecef;
     border-radius: 16px;
@@ -2493,7 +2491,7 @@ footer a:hover {
     border-top: 1px solid #e9ecef;
 }
 
-/* Mobile-First Form Patterns */
+
 .mobile-form {
     padding: 1rem;
 }
@@ -2525,7 +2523,7 @@ footer a:hover {
     letter-spacing: 0.5px;
 }
 
-/* PC-specific Form Patterns */
+
 .pc-form {
     padding: 2rem;
     background: white;
@@ -2579,7 +2577,7 @@ footer a:hover {
     box-shadow: 0 8px 25px rgba(8, 145, 178, 0.4);
 }
 
-/* Mobile-First Search Patterns */
+
 .mobile-search {
     position: sticky;
     top: 0;
@@ -2637,7 +2635,7 @@ footer a:hover {
     color: white;
 }
 
-/* PC-specific Search Patterns */
+
 .pc-search {
     background: white;
     border-radius: 16px;
@@ -2720,7 +2718,7 @@ footer a:hover {
     border-color: #0891b2;
 }
 
-/* Mobile-First Job Listing Patterns */
+
 .mobile-job-list {
     padding: 0 1rem;
 }
@@ -2798,7 +2796,7 @@ footer a:hover {
     color: #495057;
 }
 
-/* PC-specific Job Listing Patterns */
+
 .pc-job-list {
     display: grid;
     gap: 1.5rem;
@@ -2971,7 +2969,7 @@ footer a:hover {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Hide/Show device-specific components */
+
 @media (max-width: 991px) {
     .pc-nav,
     .pc-card,
@@ -2989,7 +2987,7 @@ footer a:hover {
     .mobile-job-list,
     .mobile-job-item { display: none !important; }
     
-    /* Ensure PC components are shown */
+    
     .pc-nav { display: block !important; }
     .pc-card { display: block !important; }
     .pc-form { display: block !important; }
@@ -2998,11 +2996,9 @@ footer a:hover {
     .pc-job-item { display: block !important; }
 }
 
-/* ==========================================================================
-   PAGE-SPECIFIC STYLES
-   ========================================================================== */
 
-/* Why Remote Page Styles */
+
+
 .page-why-remote {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -3207,7 +3203,7 @@ footer a:hover {
     border-color: #ff6b35;
 }
 
-/* Custom button styles */
+
 .btn-purple {
     background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
     border: none;
@@ -3222,7 +3218,7 @@ footer a:hover {
     box-shadow: 0 8px 25px rgba(156, 39, 176, 0.3);
 }
 
-/* Animation classes */
+
 .animate-in {
     animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -3238,7 +3234,7 @@ footer a:hover {
     }
 }
 
-/* Mobile-specific styles */
+
 @media (max-width: 768px) {
     .page-why-remote__title {
         font-size: 1.75rem;
@@ -3297,7 +3293,7 @@ footer a:hover {
     }
 }
 
-/* Dark mode support (optional) */
+
 @media (prefers-color-scheme: dark) {
     .page-why-remote__option {
         background: #2c3e50;
@@ -3313,7 +3309,7 @@ footer a:hover {
     }
 }
 
-/* Print styles */
+
 @media print {
     .page-why-remote__next-btn,
     .page-why-remote__option-overlay {
@@ -3326,7 +3322,7 @@ footer a:hover {
     }
 }
 
-/* High contrast mode support */
+
 @media (prefers-contrast: high) {
     .page-why-remote__option {
         border: 3px solid #000;

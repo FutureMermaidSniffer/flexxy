@@ -1,7 +1,4 @@
-/**
- * Main Footer Component JavaScript
- * Handles mobile accordion functionality and interactive features
- */
+
 
 class MainFooter {
     constructor() {
@@ -14,9 +11,7 @@ class MainFooter {
         this.initNewsletterForm();
     }
 
-    /**
-     * Initialize mobile accordion functionality
-     */
+    
     initMobileAccordion() {
         const accordionHeaders = document.querySelectorAll('.main-footer__mobile-header');
         
@@ -31,16 +26,16 @@ class MainFooter {
                 if (collapse) {
                     const isExpanded = header.getAttribute('aria-expanded') === 'true';
                     
-                    // Close all other accordions
+                    
                     this.closeAllAccordions(header);
                     
                     if (!isExpanded) {
-                        // Open this accordion
+                        
                         collapse.classList.add('show');
                         header.setAttribute('aria-expanded', 'true');
                         chevron.style.transform = 'rotate(180deg)';
                     } else {
-                        // Close this accordion
+                        
                         collapse.classList.remove('show');
                         header.setAttribute('aria-expanded', 'false');
                         chevron.style.transform = 'rotate(0deg)';
@@ -50,9 +45,7 @@ class MainFooter {
         });
     }
 
-    /**
-     * Close all accordion sections except the current one
-     */
+    
     closeAllAccordions(currentHeader) {
         const allHeaders = document.querySelectorAll('.main-footer__mobile-header');
         
@@ -71,11 +64,9 @@ class MainFooter {
         });
     }
 
-    /**
-     * Initialize back to top functionality
-     */
+    
     initBackToTop() {
-        // Create back to top button if it doesn't exist
+        
         let backToTopBtn = document.getElementById('backToTop');
         
         if (!backToTopBtn) {
@@ -87,7 +78,7 @@ class MainFooter {
             document.body.appendChild(backToTopBtn);
         }
 
-        // Show/hide button based on scroll position
+        
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 backToTopBtn.classList.add('visible');
@@ -96,7 +87,7 @@ class MainFooter {
             }
         });
 
-        // Smooth scroll to top when clicked
+        
         backToTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
@@ -105,9 +96,7 @@ class MainFooter {
         });
     }
 
-    /**
-     * Initialize newsletter form functionality
-     */
+    
     initNewsletterForm() {
         const forms = document.querySelectorAll('.main-footer__newsletter-form, .pc-footer__newsletter-form');
         
@@ -119,9 +108,7 @@ class MainFooter {
         });
     }
 
-    /**
-     * Handle newsletter form submission
-     */
+    
     handleNewsletterSubmit(form) {
         const emailInput = form.querySelector('input[type="email"]');
         const submitBtn = form.querySelector('button[type="submit"]');
@@ -137,14 +124,14 @@ class MainFooter {
             return;
         }
 
-        // Show loading state
+        
         const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Subscribing...';
         submitBtn.disabled = true;
 
-        // Simulate API call
+        
         setTimeout(() => {
-            // Reset form
+            
             emailInput.value = '';
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
@@ -153,23 +140,19 @@ class MainFooter {
         }, 1500);
     }
 
-    /**
-     * Validate email format
-     */
+    
     isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
 
-    /**
-     * Show feedback message
-     */
+    
     showMessage(message, type) {
-        // Remove existing messages
+        
         const existingMessages = document.querySelectorAll('.footer-message');
         existingMessages.forEach(msg => msg.remove());
 
-        // Create new message
+        
         const messageDiv = document.createElement('div');
         messageDiv.className = `footer-message alert ${type === 'success' ? 'alert-success' : 'alert-danger'}`;
         messageDiv.style.cssText = `
@@ -186,30 +169,26 @@ class MainFooter {
 
         document.body.appendChild(messageDiv);
 
-        // Auto-remove after 5 seconds
+        
         setTimeout(() => {
             messageDiv.remove();
         }, 5000);
     }
 
-    /**
-     * Track social media clicks
-     */
+    
     trackSocialClick(platform) {
-        // Analytics tracking would go here
+        
         console.log(`Social media click: ${platform}`);
     }
 
-    /**
-     * Track app download clicks
-     */
+    
     trackAppDownload(store) {
-        // Analytics tracking would go here
+        
         console.log(`App download click: ${store}`);
     }
 }
 
-// CSS for back to top button
+
 const backToTopStyles = `
     .back-to-top {
         position: fixed;
@@ -254,29 +233,29 @@ const backToTopStyles = `
     }
 `;
 
-// Inject styles
+
 const styleSheet = document.createElement('style');
 styleSheet.textContent = backToTopStyles;
 document.head.appendChild(styleSheet);
 
-// Initialize main footer when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     new MainFooter();
 });
 
-// Add event listeners for tracking
+
 document.addEventListener('click', (e) => {
     const target = e.target.closest('a');
     if (!target) return;
 
-    // Track social media clicks
+    
     if (target.classList.contains('main-footer__social-link') || 
         target.classList.contains('main-footer__mobile-social-link')) {
         const platform = target.querySelector('i').className.match(/fa-(\w+)/)?.[1] || 'unknown';
         console.log(`Social media click: ${platform}`);
     }
 
-    // Track app download clicks
+    
     if (target.classList.contains('main-footer__app-button') || 
         target.classList.contains('main-footer__mobile-app-button')) {
         const store = target.querySelector('img').alt.toLowerCase().includes('app store') ? 'ios' : 'android';
@@ -284,7 +263,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Export for use in other modules
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = MainFooter;
 }

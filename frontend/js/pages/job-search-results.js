@@ -1,5 +1,5 @@
-// Job Search Results Page JavaScript
-// Handles job search, filtering, and results display
+
+
 
 class JobSearchResultsPage {
     constructor() {
@@ -14,19 +14,19 @@ class JobSearchResultsPage {
     }
 
     init() {
-        // Load user preferences
+        
         this.loadUserPreferences();
         
-        // Setup search functionality
+        
         this.setupSearch();
         
-        // Setup filters
+        
         this.setupFilters();
         
-        // Setup sorting
+        
         this.setupSorting();
         
-        // Load initial jobs
+        
         this.loadJobs();
         
         console.log('Job search results page initialized');
@@ -34,7 +34,7 @@ class JobSearchResultsPage {
 
     loadUserPreferences() {
         try {
-            // Get user data from registration
+            
             const userData = localStorage.getItem('flexjobs_user_data');
             if (userData) {
                 const parsed = JSON.parse(userData);
@@ -52,15 +52,15 @@ class JobSearchResultsPage {
         const searchBtn = document.getElementById('searchBtn');
         const locationSelect = document.getElementById('locationSelect');
         
-        // Set initial search based on user preferences
+        
         if (this.userPreferences.jobTitles && this.userPreferences.jobTitles.jobTitles) {
             const jobTitles = this.userPreferences.jobTitles.jobTitles;
             if (jobTitles.length > 0) {
-                searchInput.value = jobTitles[0]; // Use first selected job title
+                searchInput.value = jobTitles[0]; 
             }
         }
         
-        // Search functionality
+        
         const performSearch = () => {
             const query = searchInput.value.trim();
             const location = locationSelect.value;
@@ -79,13 +79,13 @@ class JobSearchResultsPage {
     }
 
     setupFilters() {
-        // Filter pills
+        
         const filterPills = document.querySelectorAll('.filter-pill');
         filterPills.forEach(pill => {
             pill.addEventListener('click', () => {
-                // Remove active from all pills
+                
                 filterPills.forEach(p => p.classList.remove('active'));
-                // Add active to clicked pill
+                
                 pill.classList.add('active');
                 
                 const filter = pill.getAttribute('data-filter');
@@ -93,7 +93,7 @@ class JobSearchResultsPage {
             });
         });
         
-        // Sidebar filters
+        
         const filterCheckboxes = document.querySelectorAll('.filter-option input');
         filterCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', () => {
@@ -114,7 +114,7 @@ class JobSearchResultsPage {
         this.showLoading();
         
         try {
-            // Simulate API call to load jobs
+            
             const jobs = await this.fetchJobs();
             this.jobs = jobs;
             this.filteredJobs = [...jobs];
@@ -131,7 +131,7 @@ class JobSearchResultsPage {
     }
 
     async fetchJobs() {
-        // Fetch real jobs from API
+        
         try {
             const response = await fetch('/api/jobs?limit=50&is_active=true', {
                 method: 'GET',
@@ -147,7 +147,7 @@ class JobSearchResultsPage {
             const data = await response.json();
             console.log('✅ Real jobs data received:', data);
 
-            // Transform API response to match expected format
+            
             return data.jobs.map(job => ({
                 id: job.id,
                 title: job.title,
@@ -161,19 +161,19 @@ class JobSearchResultsPage {
                 postedDate: this.formatDate(job.created_at),
                 isRemote: job.remote_type === 'remote',
                 isSaved: false,
-                // Keep original data for job details navigation
+                
                 originalJob: job
             }));
 
         } catch (error) {
             console.error('❌ Error fetching real jobs:', error);
-            // Fallback to mock data if API fails
+            
             console.log('🔄 Falling back to mock data');
             return this.generateMockJobs();
         }
     }
 
-    // Helper methods for data transformation
+    
     formatSalary(min, max, currency = 'USD') {
         if (!min && !max) return 'Competitive';
         if (!max) return `$${parseInt(min).toLocaleString()}+`;
@@ -205,24 +205,24 @@ class JobSearchResultsPage {
     extractTags(job) {
         const tags = [];
         
-        // Add job type and remote type
+        
         if (job.remote_type === 'remote') tags.push('Remote');
         if (job.remote_type === 'hybrid') tags.push('Hybrid');
         if (job.job_type === 'full-time') tags.push('Full-time');
         
-        // Add category
+        
         if (job.category_name) tags.push(job.category_name);
         
-        // Add experience level
+        
         if (job.experience_level) tags.push(this.formatExperienceLevel(job.experience_level));
         
-        // Parse tags from job.tags field if available
+        
         if (job.tags && typeof job.tags === 'string') {
             const jobTags = job.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
             tags.push(...jobTags);
         }
         
-        return tags.slice(0, 6); // Limit to 6 tags
+        return tags.slice(0, 6); 
     }
 
     formatDate(dateString) {
@@ -353,7 +353,7 @@ class JobSearchResultsPage {
                 filtered = filtered.filter(job => job.type === 'Part-time' || job.type === 'Freelance');
                 break;
             default:
-                // 'all' - no filtering
+                
                 break;
         }
         
@@ -411,7 +411,7 @@ class JobSearchResultsPage {
                 sorted.sort((a, b) => a.company.localeCompare(b.company));
                 break;
             default:
-                // 'relevance' - keep current order
+                
                 break;
         }
         
@@ -420,7 +420,7 @@ class JobSearchResultsPage {
     }
 
     extractSalary(salaryString) {
-        // Extract numeric value from salary string for sorting
+        
         const numbers = salaryString.match(/\d+/g);
         return numbers ? parseInt(numbers[numbers.length - 1]) : 0;
     }
@@ -446,7 +446,7 @@ class JobSearchResultsPage {
         const jobsHTML = jobsToShow.map(job => this.createJobCard(job)).join('');
         jobListings.innerHTML = jobsHTML;
         
-        // Show/hide load more button
+        
         const loadMoreContainer = document.getElementById('loadMoreContainer');
         if (endIndex < this.filteredJobs.length) {
             loadMoreContainer.style.display = 'block';
@@ -509,7 +509,7 @@ class JobSearchResultsPage {
 
     setupLoadMore() {
         const loadMoreBtn = document.getElementById('loadMoreBtn');
-        loadMoreBtn.replaceWith(loadMoreBtn.cloneNode(true)); // Remove existing listeners
+        loadMoreBtn.replaceWith(loadMoreBtn.cloneNode(true)); 
         
         document.getElementById('loadMoreBtn').addEventListener('click', () => {
             this.currentPage++;
@@ -545,7 +545,7 @@ class JobSearchResultsPage {
         `;
         jobListings.style.display = 'block';
         
-        // Add event listener for retry button
+        
         setTimeout(() => {
             const retryBtn = document.getElementById('retry-job-search-btn');
             if (retryBtn) {
@@ -554,10 +554,10 @@ class JobSearchResultsPage {
         }, 100);
     }
 
-    // Event handlers
+    
     handleJobClick(jobId) {
         console.log('Job clicked:', jobId);
-        // Navigate to job details page
+        
         window.location.href = `job-details.html?id=${jobId}`;
     }
 
@@ -567,7 +567,7 @@ class JobSearchResultsPage {
             job.isSaved = !job.isSaved;
             this.renderJobs();
             
-            // Save to localStorage
+            
             this.saveUserActivity('job_saved', jobId);
         }
     }
@@ -575,7 +575,7 @@ class JobSearchResultsPage {
     handleApplyJob(jobId) {
         console.log('Apply to job:', jobId);
         this.saveUserActivity('job_applied', jobId);
-        // Navigate to application page or open modal
+        
     }
 
     saveUserActivity(action, jobId) {
@@ -595,11 +595,11 @@ class JobSearchResultsPage {
     }
 }
 
-// Initialize page when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     window.jobSearchResultsPage = new JobSearchResultsPage();
     
-    // Setup event delegation for job cards
+    
     document.addEventListener('click', (e) => {
         const jobCard = e.target.closest('.job-card');
         const saveBtn = e.target.closest('.save-job-btn');
@@ -620,10 +620,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Load header and footer components
+
 if (typeof loadComponents === 'function') {
     loadComponents();
 }
 
-// Export for external access
+
 window.JobSearchResultsPage = JobSearchResultsPage;

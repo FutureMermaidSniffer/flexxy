@@ -1,7 +1,7 @@
-// What Job Page JavaScript
-// Page-specific functionality for the job title selection page
 
-// Page-specific functionality
+
+
+
 class WhatJobPage {
     constructor() {
         this.selectedJobs = new Set();
@@ -27,8 +27,8 @@ class WhatJobPage {
         this.setupSkipButton();
         this.restoreFromLocalStorage();
         
-        // Enable next button since job selection is optional
-        // Ensure both desktop and mobile buttons are enabled
+        
+        
         this.enableNextButton();
     }
 
@@ -54,7 +54,7 @@ class WhatJobPage {
         });
         
         jobInput.addEventListener('blur', () => {
-            // Delay hiding to allow clicking on suggestions
+            
             setTimeout(() => {
                 this.hideJobSuggestions();
             }, 200);
@@ -67,7 +67,7 @@ class WhatJobPage {
             }
         });
         
-        // Handle Enter key and comma separation
+        
         jobInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ',') {
                 e.preventDefault();
@@ -105,7 +105,7 @@ class WhatJobPage {
                 </div>
             `;
             
-            // Add event listeners to suggestion buttons
+            
             const suggestionButtons = suggestionsContainer.querySelectorAll('[data-job-title]');
             suggestionButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
@@ -134,7 +134,7 @@ class WhatJobPage {
             this.storeJobPreference();
             this.trackJobSelection(jobTitle);
             
-            // Clear input if adding from input field
+            
             const jobInput = document.getElementById('jobTitleInput');
             if (document.activeElement === jobInput) {
                 jobInput.value = '';
@@ -159,18 +159,18 @@ class WhatJobPage {
                 const icon = btn.querySelector('.page-job__btn-icon');
                 
                 if (this.selectedJobs.has(jobTitle)) {
-                    // Remove job title
+                    
                     this.removeJobTitle(jobTitle);
                     
-                    // Change back to plus icon and remove selected styling
+                    
                     icon.classList.remove('fa-check');
                     icon.classList.add('fa-plus');
                     btn.classList.remove('selected');
                 } else {
-                    // Add job title
+                    
                     this.addJobTitle(jobTitle);
                     
-                    // Change to check icon and add selected styling
+                    
                     icon.classList.remove('fa-plus');
                     icon.classList.add('fa-check');
                     btn.classList.add('selected');
@@ -189,25 +189,25 @@ class WhatJobPage {
     }
 
     updateSelectedDisplay() {
-        // Only update button states, no display area needed
-        // Always keep next button enabled (job selection is optional)
+        
+        
         this.enableNextButton();
     }
 
     skipJobSelection() {
-        // Clear any selected jobs
+        
         this.selectedJobs.clear();
         this.updateSelectedDisplay();
         
-        // Track skip action
+        
         this.trackSkipAction();
         
-        // Go to next step
+        
         this.goNext();
     }
 
     goBack() {
-        // Add loading animation
+        
         const backBtn = document.getElementById('backBtn');
         if (backBtn) {
             const originalText = backBtn.innerHTML;
@@ -215,31 +215,31 @@ class WhatJobPage {
             backBtn.disabled = true;
         }
         
-        // Navigate back to where-remote page
+        
         setTimeout(() => {
             window.location.href = 'where-remote.html';
         }, 300);
     }
 
     goNext() {
-        // Capture any text in the input field before proceeding
+        
         const jobInput = document.getElementById('jobTitleInput');
         if (jobInput && jobInput.value.trim()) {
             const inputValue = jobInput.value.trim();
             this.addJobTitle(inputValue);
         }
         
-        // Store job preference
+        
         this.storeJobPreference();
         
-        // Add loading animation
+        
         const nextBtn = document.getElementById('nextBtn');
         if (nextBtn) {
             nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
             nextBtn.disabled = true;
         }
         
-        // Navigate to next step (relevant experience page)
+        
         setTimeout(() => {
             window.location.href = 'relevant-experience.html';
         }, 500);
@@ -282,12 +282,12 @@ class WhatJobPage {
             const icon = btn.querySelector('.page-job__btn-icon');
             
             if (this.selectedJobs.has(jobTitle)) {
-                // Change to check icon and add selected styling
+                
                 icon.classList.remove('fa-plus');
                 icon.classList.add('fa-check');
                 btn.classList.add('selected');
             } else {
-                // Change to plus icon and remove selected styling
+                
                 icon.classList.remove('fa-check');
                 icon.classList.add('fa-plus');
                 btn.classList.remove('selected');
@@ -296,7 +296,7 @@ class WhatJobPage {
     }
 
     trackJobSelection(jobTitle) {
-        // Analytics tracking
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', 'job_title_selected', {
                 job_title: jobTitle,
@@ -309,7 +309,7 @@ class WhatJobPage {
     }
 
     trackSkipAction() {
-        // Analytics tracking
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', 'job_selection_skipped', {
                 page: 'what-job'
@@ -319,7 +319,7 @@ class WhatJobPage {
         console.log('Job selection skipped');
     }
 
-    // Public methods for external access
+    
     getJobPreference() {
         return {
             jobTitles: Array.from(this.selectedJobs)
@@ -331,7 +331,7 @@ class WhatJobPage {
         this.updateSelectedDisplay();
     }
 
-    // Wizard footer navigation handlers
+    
     handleNext() {
         this.goNext();
     }
@@ -341,20 +341,20 @@ class WhatJobPage {
     }
 }
 
-// Initialize page when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize wizard header (step 4 - show back button)
+    
     if (typeof WizardHeader !== 'undefined') {
         window.wizardHeader = new WizardHeader({
             isFirstPage: false
         });
     }
     
-    // Initialize wizard footer
+    
     if (typeof WizardFooter !== 'undefined') {
         window.wizardFooter = new WizardFooter(4, 6, 'Next');
         
-        // Override navigation handlers for both desktop and mobile
+        
         window.wizardFooter.handleNext = () => {
             if (window.whatJobPageInstance) {
                 window.whatJobPageInstance.handleNext();
@@ -367,27 +367,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         
-        // Enable next button since job selection is optional
+        
         setTimeout(() => {
             window.wizardFooter.enableNextButton();
         }, 200);
     }
     
-    // Initialize page functionality
+    
     window.whatJobPageInstance = new WhatJobPage();
 });
 
-// Load header and footer components
+
 if (typeof loadComponents === 'function') {
     loadComponents();
 }
 
-// Set active navigation when components are loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     if (window.headerInstance) {
         window.headerInstance.setActiveNav('remote-jobs');
     }
 });
 
-// Export for external access
+
 window.WhatJobPage = WhatJobPage;

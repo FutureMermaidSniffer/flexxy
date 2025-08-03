@@ -1,5 +1,5 @@
-// Index Page - Featured Jobs Management
-// Fetches and displays featured jobs for the homepage
+
+
 
 class IndexJobsManager {
     constructor() {
@@ -15,18 +15,18 @@ class IndexJobsManager {
         this.errorElement = null;
     }
 
-    // Initialize the featured jobs system
+    
     async init() {
         console.log('🚀 Initializing Index Jobs Manager');
         
-        // Wait for DOM to be ready
+        
         if (document.readyState === 'loading') {
             await new Promise(resolve => {
                 document.addEventListener('DOMContentLoaded', resolve);
             });
         }
 
-        // Find the existing HTML elements
+        
         this.container = document.querySelector('#featured-jobs');
         this.loadingElement = document.querySelector('#featured-jobs-loading');
         
@@ -42,16 +42,16 @@ class IndexJobsManager {
 
         console.log('✅ Featured jobs elements found');
 
-        // Create error element for dynamic use
+        
         this.createErrorElement();
 
-        // Load featured jobs
+        
         await this.loadFeaturedJobs();
     }
 
-    // Create error status element
+    
     createErrorElement() {
-        // Error state
+        
         this.errorElement = document.createElement('div');
         this.errorElement.className = 'col-12 text-center py-4';
         this.errorElement.innerHTML = `
@@ -66,16 +66,16 @@ class IndexJobsManager {
         `;
     }
 
-    // Set up event listeners for static elements
+    
     setupEventListeners() {
-        // Add listener for the basic retry button
+        
         const retryBtn = this.errorElement.querySelector('#retry-featured-btn');
         if (retryBtn) {
             retryBtn.addEventListener('click', () => this.loadFeaturedJobs());
         }
     }
 
-    // Show loading state
+    
     showLoading() {
         console.log('⏳ Showing loading state for featured jobs');
         if (this.loadingElement) {
@@ -87,21 +87,21 @@ class IndexJobsManager {
         }
     }
 
-    // Hide loading state
+    
     hideLoading() {
         console.log('✅ Hiding loading state for featured jobs');
         if (this.loadingElement) {
             this.loadingElement.style.display = 'none';
         }
         if (this.container) {
-            this.container.style.display = 'flex'; // Use flex to enable Bootstrap grid
+            this.container.style.display = 'flex'; 
         }
     }
 
-    // Show error state
+    
     showError(message = null) {
         console.log('❌ Showing error state for featured jobs');
-        // Hide loading
+        
         if (this.loadingElement) {
             this.loadingElement.style.display = 'none';
         }
@@ -116,7 +116,7 @@ class IndexJobsManager {
                 </button>
             `;
             
-            // Add event listener for retry button
+            
             setTimeout(() => {
                 const retryBtn = this.errorElement.querySelector('#retry-featured-error-btn');
                 if (retryBtn) {
@@ -132,7 +132,7 @@ class IndexJobsManager {
         }
     }
 
-    // Show empty state
+    
     showEmptyState() {
         console.log('📭 Showing empty state for featured jobs');
         this.hideLoading();
@@ -151,13 +151,13 @@ class IndexJobsManager {
         }
     }
 
-    // Load and display featured jobs
+    
     async loadFeaturedJobs() {
         console.log('⭐ Loading featured jobs for homepage');
         this.showLoading();
 
         try {
-            // First try to fetch featured jobs
+            
             const featuredResponse = await fetch('/api/jobs?is_featured=true&limit=6&is_active=true', {
                 method: 'GET',
                 headers: {
@@ -174,13 +174,13 @@ class IndexJobsManager {
 
             let jobsToShow = [];
             
-            // If we have featured jobs, use them
+            
             if (featuredData.jobs && featuredData.jobs.length > 0) {
                 jobsToShow = featuredData.jobs;
                 console.log(`🎯 Found ${jobsToShow.length} featured jobs`);
             }
 
-            // If we need more jobs to reach 6, fetch regular jobs
+            
             if (jobsToShow.length < 6) {
                 console.log(`🔄 Need ${6 - jobsToShow.length} more jobs, fetching regular jobs`);
                 const regularResponse = await fetch(`/api/jobs?limit=${6 - jobsToShow.length}&is_active=true`, {
@@ -193,10 +193,10 @@ class IndexJobsManager {
                 if (regularResponse.ok) {
                     const regularData = await regularResponse.json();
                     if (regularData.jobs && regularData.jobs.length > 0) {
-                        // Filter out any jobs that are already in our featured list
+                        
                         const featuredIds = jobsToShow.map(job => job.id);
                         const newJobs = regularData.jobs.filter(job => !featuredIds.includes(job.id));
-                        jobsToShow = [...jobsToShow, ...newJobs].slice(0, 6); // Ensure max 6 jobs
+                        jobsToShow = [...jobsToShow, ...newJobs].slice(0, 6); 
                         console.log(`📋 Added ${newJobs.length} regular jobs`);
                     }
                 }
@@ -207,7 +207,7 @@ class IndexJobsManager {
                 return;
             }
 
-            // Render all jobs
+            
             this.renderJobs(jobsToShow);
             console.log(`🎯 Successfully loaded ${jobsToShow.length} jobs for homepage`);
 
@@ -217,7 +217,7 @@ class IndexJobsManager {
         }
     }
 
-    // Fallback: Load regular jobs if no featured jobs available
+    
     async loadRegularJobs() {
         try {
             const response = await fetch('/api/jobs?limit=6&is_active=true', {
@@ -238,7 +238,7 @@ class IndexJobsManager {
                 return;
             }
 
-            // Render regular jobs (ensure we get up to 6)
+            
             this.renderJobs(data.jobs);
             console.log(`📋 Loaded ${data.jobs.length} regular jobs as fallback`);
 
@@ -248,28 +248,28 @@ class IndexJobsManager {
         }
     }
 
-    // Render jobs using the job card component
+    
     renderJobs(jobs) {
         console.log(`🎨 Rendering ${jobs.length} featured jobs`);
         
-        // Hide loading and show container
+        
         this.hideLoading();
         
-        // Clear container
+        
         this.container.innerHTML = '';
         
-        // Ensure the container has proper Bootstrap row classes
+        
         this.container.className = 'row g-4 mb-4';
         this.container.style.display = 'flex';
 
-        // Create job cards
+        
         jobs.forEach((job, index) => {
             const jobCardHtml = this.jobCard.render(job);
             const cardWrapper = document.createElement('div');
             cardWrapper.className = 'col-lg-4 col-md-6 col-sm-12 mb-4';
             cardWrapper.innerHTML = jobCardHtml;
             
-            // Add staggered animation
+            
             const card = cardWrapper.querySelector('.job-card, .card');
             if (card) {
                 card.style.animationDelay = `${index * 0.1}s`;
@@ -279,26 +279,26 @@ class IndexJobsManager {
             this.container.appendChild(cardWrapper);
         });
 
-        // Set up event listeners for job card interactions (includes authentication)
+        
         this.jobCard.setupEventListeners(this.container);
     }
 
-    // Refresh featured jobs
+    
     async refresh() {
         await this.loadFeaturedJobs();
     }
 }
 
-// Global instance
+
 let indexJobsManager;
 
-// Initialize when DOM is ready
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // Wait for JobCard component to be available
+    
     if (typeof JobCard === 'undefined') {
         console.log('⏳ Waiting for JobCard component...');
         
-        // Try to find and load job card component
+        
         const existingScript = document.querySelector('script[src*="job-card.js"]');
         if (!existingScript) {
             const script = document.createElement('script');
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
             document.head.appendChild(script);
         } else {
-            // Component should be loaded, wait a bit and try again
+            
             setTimeout(async () => {
                 indexJobsManager = new IndexJobsManager();
                 await indexJobsManager.init();
@@ -321,5 +321,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Export for global access
+
 window.indexJobsManager = indexJobsManager;

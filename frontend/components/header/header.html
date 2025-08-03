@@ -1,25 +1,25 @@
-<!-- FlexJobs Header Component -->
-<!-- This component includes both mobile and desktop navigation patterns -->
 
-<!-- Mobile Header (< 992px) -->
+
+
+
 <header class="mobile-header mobile-only">
     <div class="container-fluid">
         <div class="row align-items-center">
-            <!-- Logo -->
+            
             <div class="col-4">
                 <a href="/" class="navbar-brand">
                     <img src="../images/FlexJobs_logo-1.png" alt="FlexJobs" class="mobile-header__logo">
                 </a>
             </div>
             
-            <!-- Mobile Search Toggle -->
+            
             <div class="col-4 text-center">
                 <button class="btn btn-link mobile-header__search-toggle" data-bs-toggle="collapse" data-bs-target="#mobileSearch">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
             
-            <!-- Mobile Menu & Auth -->
+            
             <div class="col-4 text-end">
                 <div class="d-flex justify-content-end align-items-center gap-2">
                     <button class="btn btn-sm btn-warning mobile-header__signup-btn" data-bs-toggle="modal" data-bs-target="#authModal">
@@ -32,7 +32,7 @@
             </div>
         </div>
         
-        <!-- Mobile Search Bar (Collapsible) -->
+        
         <div class="collapse mobile-header__search-collapse" id="mobileSearch">
             <div class="mobile-search-bar">
                 <div class="input-group">
@@ -51,7 +51,7 @@
             </div>
         </div>
         
-        <!-- Mobile Navigation Menu (Collapsible) -->
+        
         <div class="collapse mobile-header__nav-collapse" id="mobileNavMenu">
             <nav class="mobile-nav-menu">
                 <a href="/remote-jobs" class="nav-link mobile-nav-menu__item">
@@ -81,16 +81,16 @@
     </div>
 </header>
 
-<!-- Desktop Header (≥ 992px) -->
+
 <header class="pc-header desktop-only">
     <div class="container">
         <nav class="navbar navbar-expand-lg pc-header__navbar">
-            <!-- Logo -->
+            
             <a class="navbar-brand pc-header__brand" href="/">
                 <img src="../images/FlexJobs_logo-1.png" alt="FlexJobs" class="pc-header__logo">
             </a>
             
-            <!-- Main Navigation -->
+            
             <div class="navbar-collapse pc-header__nav-container">
                 <ul class="navbar-nav pc-header__nav-menu">
                     <li class="nav-item">
@@ -110,7 +110,7 @@
                     </li>
                 </ul>
                 
-                <!-- Desktop Search Bar -->
+                
                 <div class="pc-header__search-container">
                     <div class="input-group pc-search-form">
                         <input type="text" class="form-control pc-search-input" placeholder="Job title, keyword...">
@@ -124,7 +124,7 @@
                     </button>
                 </div>
                 
-                <!-- Desktop Auth & Employer Links -->
+                
                 <div class="pc-header__auth-container">
                     <a href="#" class="pc-header__employer-link">For Employers</a>
                     <button class="btn btn-outline-primary pc-header__login-btn" data-bs-toggle="modal" data-bs-target="#authModal">
@@ -139,7 +139,7 @@
     </div>
 </header>
 
-<!-- Secondary Navigation (Optional - for breadcrumbs, filters, etc.) -->
+
 <div class="secondary-nav mobile-only" id="secondaryNav" style="display: none;">
     <div class="container">
         <div class="d-flex align-items-center justify-content-between py-2">

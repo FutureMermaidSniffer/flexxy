@@ -16,7 +16,7 @@ async function runJobManagementMigration() {
   try {
     console.log('🔄 Starting job management fields migration...');
     
-    // Check if application_url column already exists
+    
     const checkColumn = await client.query(`
       SELECT column_name 
       FROM information_schema.columns 
@@ -29,7 +29,7 @@ async function runJobManagementMigration() {
       return;
     }
     
-    // Read and execute the migration file
+    
     const fs = require('fs');
     const path = require('path');
     const migrationSQL = fs.readFileSync(
@@ -46,7 +46,7 @@ async function runJobManagementMigration() {
     console.log('   - salary_type (VARCHAR(20)) - Salary type (yearly, monthly, hourly)');
     console.log('   - tags (TEXT) - Comma-separated tags for categorization');
     
-    // Verify the migration
+    
     const tableInfo = await client.query(`
       SELECT column_name, data_type, is_nullable, column_default
       FROM information_schema.columns 
@@ -69,7 +69,7 @@ async function runJobManagementMigration() {
   }
 }
 
-// Run the migration
+
 if (require.main === module) {
   runJobManagementMigration().catch(console.error);
 }

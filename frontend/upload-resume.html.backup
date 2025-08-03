@@ -1,0 +1,417 @@
+<!DOCTYP    <meta name="description" content="Upload your resume to get matched with perfect job opportunities. Save time with automatic profile completion.">
+    <meta name="keywords" content="resume upload, job application, flexible jobs, cv upload, profile creation">
+    <meta property="og:title" content="Upload your resume - FlexJobs">
+    <meta property="og:description" content="Upload your resume and we'll help match you with the perfect job opportunities.">ml>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your Resume - FlexJobs</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Upload your resume to get matched with perfect remote job opportunities. Save time with automatic profile completion.">
+    <meta name="keywords" content="resume upload, job application, remote jobs, cv upload, profile creation">
+    <meta property="og:title" content="Upload Your Resume - FlexJobs">
+    <meta property="og:description" content="Upload your resume and we'll help match you with the perfect remote job opportunities.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <!-- Wizard Components CSS -->
+    <link rel="stylesheet" href="css/components/wizard-header.css">
+    <link rel="stylesheet" href="css/components/wizard-footer.css">
+    <!-- Page-specific CSS -->
+    <link rel="stylesheet" href="css/pages/upload-resume.css">
+</head>
+<body class="page-upload-resume">
+    <!-- Wizard Header -->
+    <div id="wizard-header-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Progress Bar -->
+        <section class="page-upload__progress py-2 bg-white border-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Upload Section -->
+        <section class="page-upload__main py-3" style="min-height: 60vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <!-- FlexJobs Logo -->
+                        <!-- <div class="page-upload__brand text-center mb-4">
+                            <img src="images/f.png" alt="FlexJobs" class="title-image" style="height: 60px; max-width: 200px; object-fit: contain;">
+                        </div> -->
+                        
+                        <!-- Main Title -->
+                        <div class="text-center ">
+                            <p class="page-upload__title fw-bold text-dark mb-2">
+                                Keep going, you're on the right track!
+                            </p>
+                            <p class="page-upload__subtitle text-muted mb-0">
+                                Tell us a little more about you so we can match you with your perfect job.
+                            </p>
+                        </div>
+                        
+                        <!-- Upload Options -->
+                        <div class="row mb-4 justify-content-center">
+                            <!-- Upload Option -->
+                            <div class="col-md-5">
+                                <div class="page-upload__option-card card border-0 shadow-sm position-relative" id="uploadOption">
+                                    <div class="card-body text-center">
+                                        <!-- Upload Icon -->
+                                        <div class="page-upload__icon-container mb-4">
+                                            <div class="page-upload__icon-circle bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                                <i class="fas fa-cloud-upload-alt fa-2x text-info"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Title -->
+                                        <h3 class="page-upload__option-title text-dark mb-3">
+                                            Yes, upload and go!
+                                        </h3>
+                                        
+                                        <!-- Description -->
+                                        <p class="page-upload__option-description text-muted mb-4">
+                                            Save time and we'll quickly fill in the rest.
+                                        </p>
+                                        
+                                        <!-- File Types -->
+                                        <div class="page-upload__file-types mb-4">
+                                            <small class="text-muted">
+                                                Files we can use: DOC, DOCX, PDF, RTF, TXT
+                                            </small>
+                                        </div>
+                                        
+                                        <!-- Upload Area -->
+                                        <!-- <div class="page-upload__drop-zone border-2 border-dashed border-info rounded p-4 mb-3" id="dropZone">
+                                            <input type="file" class="d-none" id="resumeFile" accept=".doc,.docx,.pdf,.rtf,.txt">
+                                            <div class="page-upload__drop-content">
+                                                <i class="fas fa-file-upload fa-2x text-info mb-2"></i>
+                                                <p class="mb-1 fw-medium">Drop your resume here</p>
+                                                <p class="small text-muted mb-2">or</p>
+                                                <button class="btn btn-outline-info btn-sm" onclick="document.getElementById('resumeFile').click()">
+                                                    Browse Files
+                                                </button>
+                                            </div>
+                                        </div> -->
+                                        
+                                        <!-- Upload Status -->
+                                        <div class="page-upload__status d-none" id="uploadStatus">
+                                            <div class="alert alert-success mb-0">
+                                                <i class="fas fa-check-circle me-2"></i>
+                                                <span id="uploadedFileName">Resume uploaded successfully!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Selection Overlay -->
+                                    <div class="page-upload__selection-overlay position-absolute top-0 start-0 w-100 h-100 bg-info bg-opacity-10 rounded d-none align-items-center justify-content-center" id="uploadOverlay">
+                                        <i class="fas fa-check-circle fa-3x text-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Skip Option -->
+                            <div class="col-md-5">
+                                <div class="page-upload__option-card card shadow-sm position-relative" id="skipOption">
+                                    <div class="card-body text-center">
+                                        <!-- Skip Icon -->
+                                        <div class="page-upload__icon-container mb-4">
+                                            <div class="page-upload__icon-circle bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                                <i class="fas fa-edit fa-2x text-warning"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Title -->
+                                        <h3 class="page-upload__option-title text-dark mb-3">
+                                            No, skip the upload
+                                        </h3>
+                                        
+                                        <!-- Description -->
+                                        <p class="page-upload__option-description text-muted mb-4">
+                                            I want to answer a few more questions.
+                                        </p>
+                                        
+                                        <!-- Benefits List -->
+                                        <!-- <div class="page-upload__benefits text-start">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check text-success me-2"></i>
+                                                <small class="text-muted">Complete profile manually</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check text-success me-2"></i>
+                                                <small class="text-muted">Add custom skills & experience</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-check text-success me-2"></i>
+                                                <small class="text-muted">Personalized job matching</small>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    
+                                    <!-- Selection Overlay -->
+                                    <div class="page-upload__selection-overlay position-absolute top-0 start-0 w-100 h-100 bg-warning bg-opacity-10 rounded d-none align-items-center justify-content-center" id="skipOverlay">
+                                        <i class="fas fa-check-circle fa-3x text-warning"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <!-- <div class="page-upload__navigation d-flex justify-content-between align-items-center">
+                            Back Button -->
+                            <!-- <button class="page-upload__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Back
+                            </button> 
+                             -->
+                            <!-- Next Button -->
+                            <!-- <button class="page-upload__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
+                                    id="nextBtn"
+                                    disabled
+                                    style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
+                                Next
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        
+    </main>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Component JS -->
+    <script src="js/components/component-loader.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/footer.js"></script>
+    <!-- Wizard Components JS -->
+    <script src="js/components/wizard-header.js"></script>
+    <script src="js/components/wizard-footer.js"></script>
+    
+    <!-- Page Scripts -->
+    <script src="js/pages/upload-resume.js"></script>
+    
+    <script>
+        // Load header and footer components
+        loadComponents();
+        
+        // Set active navigation when components are loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.headerInstance) {
+                window.headerInstance.setActiveNav('remote-jobs');
+            }
+        });
+    </script>
+    
+    <!-- Page-specific CSS -->
+    <style>
+        /* Page-specific styles - Font inherited from main stylesheet */
+
+        .page-upload__logo {
+            transition: all 0.3s ease;
+        }
+
+        .page-upload__logo:hover {
+            transform: scale(1.05);
+        }
+
+        .page-upload__title {
+            color: #2c3e50;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-upload__subtitle {
+            color: #6c757d;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .page-upload__option-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            overflow: hidden;
+            transform: scale(0.8);
+            margin: 0 auto;
+        }
+
+        .page-upload__option-card:hover {
+            transform: translateY(-8px) scale(0.8);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        /* Reduce spacing in the main container */
+        .page-upload__main .container {
+            max-width: 900px;
+        }
+
+        /* Adjust navigation spacing */
+        .page-upload__navigation {
+            margin-top: 1rem;
+        }
+
+        .page-upload__icon-circle {
+            transition: all 0.3s ease;
+        }
+
+        .page-upload__option-card:hover .page-upload__icon-circle {
+            transform: scale(1.1);
+        }
+
+        .page-upload__drop-zone {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-upload__drop-zone:hover {
+            background-color: rgba(13, 202, 240, 0.05) !important;
+            border-color: #0dcaf0 !important;
+        }
+
+        .page-upload__selection-overlay {
+            transition: all 0.4s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .page-upload__back-btn {
+            transition: all 0.3s ease;
+            border-width: 2px;
+        }
+
+        .page-upload__back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+        }
+
+        .page-upload__next-btn {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-upload__next-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .page-upload__next-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .page-upload__next-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+        }
+
+        .page-upload__next-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-upload__benefit {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .page-upload__benefit:hover {
+            background: rgba(13, 202, 240, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .page-upload__benefit-icon {
+            transition: all 0.3s ease;
+        }
+
+        .page-upload__benefit:hover .page-upload__benefit-icon {
+            transform: scale(1.1);
+        }
+
+        /* File upload animations */
+        .page-upload__drop-content {
+            transition: all 0.3s ease;
+        }
+
+        .page-upload__drop-zone:hover .page-upload__drop-content {
+            transform: scale(1.05);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            /* .page-upload__main {
+                padding: 2rem 0 !important;
+            } */
+            
+            /* .page-upload__option-card .card-body {
+                padding: 2rem !important;
+            }
+             */
+            .page-upload__navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .page-upload__navigation .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-upload__title {
+                font-size: 1.5rem !important;
+            }
+            
+            .page-upload__subtitle {
+                font-size: 1rem !important;
+            }
+            
+            .page-upload__option-card .card-body {
+                padding: 1.5rem !important;
+            }
+            
+            .page-upload__icon-circle {
+                width: 60px !important;
+                height: 60px !important;
+            }
+            
+            .page-upload__icon-circle i {
+                font-size: 1.5rem !important;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// Wizard Header Component
+
 class WizardHeader {
     constructor(options = {}) {
         this.isFirstPage = options.isFirstPage || false;
@@ -16,7 +16,7 @@ class WizardHeader {
 
         const headerClass = this.isFirstPage ? 'wizard-header wizard-header--first-page' : 'wizard-header';
         
-        // Detect mobile device
+        
         const isMobile = window.innerWidth <= 768;
         const logoSrc = isMobile ? 'images/images.png' : 'images/FlexJobs_logo-1.png';
         
@@ -52,7 +52,7 @@ class WizardHeader {
                     if (this.onBackClick) {
                         this.onBackClick();
                     } else if (this.backUrl) {
-                        // Add loading state
+                        
                         backBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
                         backBtn.disabled = true;
                         
@@ -94,7 +94,7 @@ class WizardHeader {
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                // Re-render with appropriate logo when window size changes
+                
                 const logoImg = document.querySelector('.wizard-header__logo');
                 if (logoImg) {
                     const isMobile = window.innerWidth <= 768;
@@ -106,5 +106,5 @@ class WizardHeader {
     }
 }
 
-// Export for global use
+
 window.WizardHeader = WizardHeader;

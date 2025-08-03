@@ -5,12 +5,12 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Helper function to convert MySQL-style placeholders to PostgreSQL
+
 function convertQuery(query, params) {
   let convertedQuery = query;
   let convertedParams = [...params];
   
-  // If using PostgreSQL, convert ? placeholders to $1, $2, etc.
+  
   if (process.env.DB_TYPE === 'postgres') {
     let paramIndex = 1;
     convertedQuery = query.replace(/\?/g, () => `$${paramIndex++}`);
@@ -19,7 +19,7 @@ function convertQuery(query, params) {
   return { query: convertedQuery, params: convertedParams };
 }
 
-// Get search suggestions for agents
+
 router.get('/search/suggestions', async (req, res) => {
   try {
     const { q: query, limit = 5 } = req.query;
@@ -65,7 +65,7 @@ router.get('/search/suggestions', async (req, res) => {
   }
 });
 
-// Validation rules
+
 const createAgentValidation = [
   body('agent_name').trim().isLength({ min: 2, max: 255 }),
   body('display_name').trim().isLength({ min: 2, max: 255 }),
@@ -90,7 +90,7 @@ const updateAgentValidation = [
   body('timezone').optional().trim().isLength({ max: 50 })
 ];
 
-// Get all agents with filtering and search
+
 router.get('/', async (req, res) => {
   try {
     const {
@@ -110,7 +110,7 @@ router.get('/', async (req, res) => {
     let whereConditions = ['a.is_active = TRUE'];
     let queryParams = [];
 
-    // Search functionality
+    
     if (search) {
       whereConditions.push(`(
         a.agent_name LIKE ? OR 
@@ -123,24 +123,24 @@ router.get('/', async (req, res) => {
       queryParams.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
     }
 
-    // Filter by specialization
+    
     if (specialization) {
       whereConditions.push('a.specializations LIKE ?');
       queryParams.push(`%"${specialization}"%`);
     }
 
-    // Filter by minimum rating
+    
     if (min_rating) {
       whereConditions.push('a.rating >= ?');
       queryParams.push(parseFloat(min_rating));
     }
 
-    // Filter by featured status
+    
     if (featured === 'true') {
       whereConditions.push('a.is_featured = TRUE');
     }
 
-    // Validate sort parameters
+    
     const validSortFields = ['rating', 'experience_years', 'created_at', 'agent_name'];
     const validSortOrders = ['asc', 'desc'];
     const sortField = validSortFields.includes(sort_by) ? sort_by : 'rating';
@@ -148,7 +148,7 @@ router.get('/', async (req, res) => {
 
     const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : '';
 
-    // Get total count for pagination
+    
     const countQuery = `
       SELECT COUNT(*) as total 
       FROM agents a 
@@ -159,7 +159,7 @@ router.get('/', async (req, res) => {
     const countResult = await getOne(convertedCountQuery, convertedCountParams);
     const total = countResult.total;
 
-    // Get agents
+    
     const agentsQuery = `
       SELECT 
         a.id, a.agent_name, a.display_name, a.bio, a.specializations,
@@ -178,7 +178,7 @@ router.get('/', async (req, res) => {
     const { query: convertedAgentsQuery, params: convertedAgentsParams } = convertQuery(agentsQuery, queryParams);
     const agents = await getMany(convertedAgentsQuery, convertedAgentsParams);
 
-    // Parse JSON fields
+    
     const processedAgents = agents.map(agent => ({
       ...agent,
       specializations: agent.specializations ? JSON.parse(agent.specializations) : [],
@@ -205,7 +205,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get featured agents
+
 router.get('/featured', async (req, res) => {
   try {
     const { limit = 6 } = req.query;
@@ -224,7 +224,7 @@ router.get('/featured', async (req, res) => {
     const { query: convertedQuery, params: convertedParams } = convertQuery(query, [parseInt(limit)]);
     const agents = await getMany(convertedQuery, convertedParams);
 
-    // Parse JSON fields
+    
     const processedAgents = agents.map(agent => ({
       ...agent,
       specializations: agent.specializations ? JSON.parse(agent.specializations) : []
@@ -237,7 +237,7 @@ router.get('/featured', async (req, res) => {
   }
 });
 
-// Get agent by ID
+
 router.get('/:id', async (req, res) => {
   try {
     const agentId = req.params.id;
@@ -257,7 +257,7 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Agent not found' });
     }
 
-    // Parse JSON fields
+    
     const processedAgent = {
       ...agent,
       specializations: agent.specializations ? JSON.parse(agent.specializations) : [],
@@ -266,7 +266,7 @@ router.get('/:id', async (req, res) => {
       certifications: agent.certifications ? JSON.parse(agent.certifications) : []
     };
 
-    // Get recent reviews
+    
     const reviewsQuery = `
       SELECT 
         r.rating, r.review_text, r.created_at,
@@ -292,7 +292,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create agent profile (authenticated users only)
+
 router.post('/', authenticateToken, createAgentValidation, async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -302,7 +302,7 @@ router.post('/', authenticateToken, createAgentValidation, async (req, res) => {
 
     const userId = req.user.id;
 
-    // Check if user already has an agent profile
+    
     const existingAgent = await getOne('SELECT id FROM agents WHERE user_id = ?', [userId]);
     if (existingAgent) {
       return res.status(400).json({ message: 'User already has an agent profile' });
@@ -351,7 +351,7 @@ router.post('/', authenticateToken, createAgentValidation, async (req, res) => {
   }
 });
 
-// Update agent profile (agent owner or admin only)
+
 router.put('/:id', authenticateToken, updateAgentValidation, async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -362,13 +362,13 @@ router.put('/:id', authenticateToken, updateAgentValidation, async (req, res) =>
     const agentId = req.params.id;
     const userId = req.user.id;
 
-    // Check if agent exists and user has permission
+    
     const agent = await getOne('SELECT user_id FROM agents WHERE id = ?', [agentId]);
     if (!agent) {
       return res.status(404).json({ message: 'Agent not found' });
     }
 
-    // Only agent owner or admin can update
+    
     if (agent.user_id !== userId && req.user.user_type !== 'admin') {
       return res.status(403).json({ message: 'Access denied' });
     }
@@ -379,14 +379,14 @@ router.put('/:id', authenticateToken, updateAgentValidation, async (req, res) =>
       'location', 'timezone', 'linkedin_url', 'portfolio_url'
     ];
 
-    // Process regular fields
+    
     allowedFields.forEach(field => {
       if (req.body[field] !== undefined) {
         updateData[field] = req.body[field];
       }
     });
 
-    // Process array fields
+    
     const arrayFields = ['specializations', 'languages', 'skills', 'certifications'];
     arrayFields.forEach(field => {
       if (req.body[field] !== undefined && Array.isArray(req.body[field])) {
@@ -407,19 +407,19 @@ router.put('/:id', authenticateToken, updateAgentValidation, async (req, res) =>
   }
 });
 
-// Delete agent profile (agent owner or admin only)
+
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const agentId = req.params.id;
     const userId = req.user.id;
 
-    // Check if agent exists and user has permission
+    
     const agent = await getOne('SELECT user_id FROM agents WHERE id = ?', [agentId]);
     if (!agent) {
       return res.status(404).json({ message: 'Agent not found' });
     }
 
-    // Only agent owner or admin can delete
+    
     if (agent.user_id !== userId && req.user.user_type !== 'admin') {
       return res.status(403).json({ message: 'Access denied' });
     }
@@ -433,7 +433,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// Admin: Toggle agent featured status
+
 router.put('/:id/featured', authenticateToken, async (req, res) => {
   try {
     if (req.user.user_type !== 'admin') {

@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search Career Advice - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Get expert job search career advice and tips from FlexJobs to land your next flexible job.">
+    <meta name="keywords" content="career advice, job search tips, remote work advice, flexible jobs">
+    <meta property="og:title" content="Job Search Career Advice - FlexJobs">
+    <meta property="og:description" content="Expert career advice and job search tips for flexible work opportunities.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Halcyon Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-semibold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    <!-- Main Header Component CSS -->
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <!-- Main Footer Component CSS -->
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-career-advice">
+    <!-- Main Header Component will be injected here -->
+    <div id="main-header-container"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container" style="max-width: 1200px; width: 70%;">
+                <div class="row align-items-center" style="background-color: #c5dae6;">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="hero-content">
+                            <h1 class="hero-title">Job Search and Career Advice</h1>
+                            <p class="hero-description">
+                                We want to help you have a successful job search and, beyond that, a career 
+                                you love. Our Career Coaches and other expert team members answer 
+                                questions and provide practical advice on finding a job, exploring different 
+                                paths, and succeeding as a freelance worker.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="hero-image">
+                            <img src="images/careersearch.png" alt="Career advice illustration" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tutorials Section -->
+        <section class="tutorials-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-4">
+                        <h1 class="hero-title">Video Tutorials</h1>
+                        <p class="section-subtitle">Learn from expert career advice and job search strategies</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="tutorial-card">
+                            <div class="video-container">
+                                <video controls poster="images/vids/Flexjobs Review 2025 - Is Flexjobs Legit_ (Remote Jobs).png">
+                                    <source src="images/vids/Flexjobs Review 2025 - Is Flexjobs Legit_ (Remote Jobs).mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <div class="video-overlay">
+                                    <div class="video-duration">8:45</div>
+                                    <div class="play-button">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="video-thumbnail-content">
+                                        <div class="thumbnail-badge">REVIEW</div>
+                                        <div class="thumbnail-title">FlexJobs Review 2025</div>
+                                        <div class="thumbnail-subtitle">Is FlexJobs Legit?</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tutorial-content">
+                                <h4 class="tutorial-title">FlexJobs Review 2025 - Is FlexJobs Legit?</h4>
+                                <p class="tutorial-description">
+                                    Discover the truth about FlexJobs and learn how it can help you find legitimate remote work opportunities in 2025.
+                                </p>
+                                <div class="tutorial-meta">
+                                    <span class="duration"><i class="fas fa-clock"></i> 8:45</span>
+                                    <span class="category"><i class="fas fa-tag"></i> Platform Review</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="tutorial-card">
+                            <div class="video-container">
+                                <video controls poster="images/vids/FlexJobs_ The #1 remote job site to find remote, work-from-home, hybrid, and flexible jobs.png">
+                                    <source src="images/vids/FlexJobs_ The #1 remote job site to find remote, work-from-home, hybrid, and flexible jobs.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <div class="video-overlay">
+                                    <div class="video-duration">6:32</div>
+                                    <div class="play-button">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="video-thumbnail-content">
+                                        <div class="thumbnail-badge">#1 PLATFORM</div>
+                                        <div class="thumbnail-title">FlexJobs Platform</div>
+                                        <div class="thumbnail-subtitle">Complete Overview</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tutorial-content">
+                                <h4 class="tutorial-title">FlexJobs: The #1 Remote Job Site</h4>
+                                <p class="tutorial-description">
+                                    Learn why FlexJobs is the leading platform for finding remote, work-from-home, hybrid, and flexible job opportunities.
+                                </p>
+                                <div class="tutorial-meta">
+                                    <span class="duration"><i class="fas fa-clock"></i> 6:32</span>
+                                    <span class="category"><i class="fas fa-tag"></i> Platform Overview</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="tutorial-card">
+                            <div class="video-container">
+                                <video controls poster="images/vids/How Does FlexJobs Work to Find Remote Jobs_.png">
+                                    <source src="images/vids/How Does FlexJobs Work to Find Remote Jobs_.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <div class="video-overlay">
+                                    <div class="video-duration">7:18</div>
+                                    <div class="play-button">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="video-thumbnail-content">
+                                        <div class="thumbnail-badge">HOW-TO</div>
+                                        <div class="thumbnail-title">How FlexJobs Works</div>
+                                        <div class="thumbnail-subtitle">Step-by-Step Guide</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tutorial-content">
+                                <h4 class="tutorial-title">How Does FlexJobs Work?</h4>
+                                <p class="tutorial-description">
+                                    Step-by-step guide on how to effectively use FlexJobs to find and apply for remote jobs that match your skills.
+                                </p>
+                                <div class="tutorial-meta">
+                                    <span class="duration"><i class="fas fa-clock"></i> 7:18</span>
+                                    <span class="category"><i class="fas fa-tag"></i> How-To Guide</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center mt-4">
+                        <button type="button" class="btn btn-primary view-all-btn" data-bs-toggle="modal" data-bs-target="#newsletterModal">View All Tutorials</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Topics Grid Section -->
+        <section class="topics-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-2">
+                        <h1 class="hero-title">Browse by Selected Topic</h1>
+                        <p class="section-subtitle">Find career advice tailored to your needs</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="topic-card">
+                            <h4 class="topic-title">Job Search</h4>
+                            <p class="topic-description">Tips and strategies for finding your next opportunity</p>
+                            <a href="https://www.mselect.com/career-services/How-to-use-job-search-platforms-and-tools-to-find-your-next-job#:~:text=A%20job%20search%20platform%20is%20a%20website,company%20profiles%2C%20and%20sometimes%20even%20career%20advice." target="_blank" class="topic-link">View Articles</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="topic-card">
+                            <h4 class="topic-title">Flexible Work</h4>
+                            <p class="topic-description">Guidance for finding work balance</p>
+                            <a href="https://www.acas.org.uk/flexible-working#:~:text=Flexible%20working%20arrangements%20can%20be,and%20improving%20work%2Dlife%20balance." target="_blank" class="topic-link">View Articles</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="topic-card">
+                            <h4 class="topic-title">Resume & Cover Letters</h4>
+                            <p class="topic-description">Craft compelling applications that get noticed</p>
+                            <a href="https://www.indeed.com/career-advice/resumes-cover-letters" target="_blank" class="topic-link">View Articles</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="topic-card">
+                            <h4 class="topic-title">Interview Skills</h4>
+                            <p class="topic-description">Ace your interviews with expert advice</p>
+                            <a href="https://hbr.org/1964/01/strategies-of-effective-interviewing" target="_blank" class="topic-link">View Articles</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="topic-card">
+                            <h4 class="topic-title">Career Development</h4>
+                            <p class="topic-description">Advance your career and develop new skills</p>
+                            <a href="https://www.thecdi.net/about-us/career-development-and-the-cdi/what-is-career-development" target="_blank" class="topic-link">View Articles</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="topic-card">
+                            <h4 class="topic-title">Work-Life Balance</h4>
+                            <p class="topic-description">Maintain balance in your professional life</p>
+                            <a href="https://thehappinessindex.com/blog/importance-work-life-balance/" target="_blank" class="topic-link">View Articles</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="topic-card">
+                            <h4 class="topic-title">Networking</h4>
+                            <p class="topic-description">Build professional relationships that matter</p>
+                            <a href="https://www.investopedia.com/terms/n/networking.asp" target="_blank" class="topic-link">View Articles</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="topic-card">
+                            <h4 class="topic-title">Career Change</h4>
+                            <p class="topic-description">Navigate career transitions successfully</p>
+                            <a href="https://www.cnbc.com/2025/05/05/executive-coach-before-you-make-a-career-change-ask-yourself-10-questions.html" target="_blank" class="topic-link">View Articles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Featured Questions Section -->
+        <section class="featured-questions-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h2 class="section-title">Featured Questions</h2>
+                        <div class="questions-list">
+                            <div class="question-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h3 class="question-title">
+                                            <i class="fas fa-question-circle"></i>
+                                            How do I find legitimate flexible jobs?
+                                        </h3>
+                                        <p class="question-excerpt">
+                                            With the rise in flexible work, it's important to know how to identify legitimate opportunities
+                                            versus scams. Learn the key indicators of trustworthy flexible  job listings and where to find them.
+                                        </p>
+                                        <a href="https://www.indeed.com/career-advice/finding-a-job/legitimate-work-from-home-jobs-with-no-startup-fee" class="read-more-btn">Read Full Answer</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="question-image">
+                                            <img src="images/networking.jpg" alt="Flexible Jobs" class="img-fluid">
+                                            <div class="image-overlay">
+                                                <i class="fas fa-search"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="question-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h3 class="question-title">
+                                            <i class="fas fa-question-circle"></i>
+                                            What should I include in a work resume?
+                                        </h3>
+                                        <p class="question-excerpt">
+                                            Work resumes require special considerations. Discover how to highlight your work
+                                            skills, technology proficiency, and self-management abilities to stand out to employers.
+                                        </p>
+                                        <a href="https://www.forbes.com/sites/ashleystahl/2016/02/01/what-to-include-on-your-resume-and-what-you-can-ditch" target="_blank" class="read-more-btn">Read Full Answer</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="question-image">
+                                            <img src="images/career-change.jpeg" alt="Resume Writing" class="img-fluid">
+                                            <div class="image-overlay">
+                                                <i class="fas fa-file-alt"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h3 class="question-title">
+                                            <i class="fas fa-question-circle"></i>
+                                            How do I prepare for an interview?
+                                        </h3>
+                                        <p class="question-excerpt">
+                                            Interviews are now the norm. Learn how to set up your space, test your technology,
+                                            and present yourself professionally in video interviews.
+                                        </p>
+                                        <a href="https://www.thebalancecareers.com/how-to-prepare-for-a-job-interview-2061361" target="_blank" class="read-more-btn">Read Full Answer</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="question-image">
+                                            <img src="images/login.png" alt="Virtual Interview" class="img-fluid">
+                                            <div class="image-overlay">
+                                                <i class="fas fa-video"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h3 class="question-title">
+                                            <i class="fas fa-question-circle"></i>
+                                            What are the best practices for working from home?
+                                        </h3>
+                                        <p class="question-excerpt">
+                                            Working from home successfully requires discipline and strategy. Discover tips for creating
+                                            a productive workspace, managing distractions, and maintaining work-life balance.
+                                        </p>
+                                        <a href="https://hbr.org/2020/03/a-guide-to-managing-your-newly-remote-workers" target="_blank" class="read-more-btn">Read Full Answer</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="question-image">
+                                            <img src="images/jobsearch.webp" alt="Work From Home" class="img-fluid">
+                                            <div class="image-overlay">
+                                                <i class="fas fa-home"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h3 class="question-title">
+                                            <i class="fas fa-question-circle"></i>
+                                            How do I negotiate salary for positions?
+                                        </h3>
+                                        <p class="question-excerpt">
+                                            Salary negotiation for positions has unique considerations. Learn how to research
+                                            market rates, factor in location differences, and present your value proposition.
+                                        </p>
+                                        <a href="https://www.glassdoor.com/blog/guide/how-to-negotiate-your-salary" target="_blank" class="read-more-btn">Read Full Answer</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="question-image">
+                                            <img src="images/careersearch.png" alt="Salary Negotiation" class="img-fluid">
+                                            <div class="image-overlay">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h3 class="question-title">
+                                            <i class="fas fa-question-circle"></i>
+                                            What skills are most important for workers?
+                                        </h3>
+                                        <p class="question-excerpt">
+                                            Work requires specific skills beyond technical expertise. Explore the soft skills,
+                                            communication abilities, and self-management qualities that make workers successful.
+                                        </p>
+                                        <a href="https://www.linkedin.com/business/talent/blog/learning-and-development/skills-on-the-rise" target="_blank" class="read-more-btn">Read Full Answer</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="question-image">
+                                            <img src="images/flexible.jpeg" alt="Important Skills" class="img-fluid">
+                                            <div class="image-overlay">
+                                                <i class="fas fa-lightbulb"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="button" class="btn btn-primary view-all-btn" data-bs-toggle="modal" data-bs-target="#newsletterModal">View All Questions</button>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="col-lg-4">
+                        <div class="sidebar">
+                            <!-- Popular Articles -->
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title">Popular Articles</h3>
+                                <div class="sidebar-articles">
+                                    <div class="sidebar-article">
+                                        <a href="https://jobs.gartner.com/life-at-gartner/your-career/top-10-interview-tips-from-our-recruiters/" target="_blank" class="article-link">
+                                            <h4 class="article-title">10 Tips for Job Interviews</h4>
+                                        </a>
+                                        <span class="article-meta">January 15, 2024</span>
+                                    </div>
+                                    <div class="sidebar-article">
+                                        <a href="https://www.indeed.com/career-advice/resumes-cover-letters/how-to-write-a-cover-letter" target="_blank" class="article-link">
+                                            <h4 class="article-title">How to Write a Cover Letter for Work</h4>
+                                        </a>
+                                        <span class="article-meta">January 10, 2024</span>
+                                    </div>
+                                    <div class="sidebar-article">
+                                        <a href="https://www.officedepot.com/l/ideas-center/create-your-space/how-to-design-a-successful-home-office" target="_blank" class="article-link">
+                                            <h4 class="article-title">Setting Up Your Home Office for Success</h4>
+                                        </a>
+                                        <span class="article-meta">January 5, 2024</span>
+                                    </div>
+                                    <div class="sidebar-article">
+                                        <a href="https://www.indeed.com/career-advice/career-development/how-to-avoid-careless-mistakes-at-work" target="_blank" class="article-link">
+                                            <h4 class="article-title">Common Work Mistakes to Avoid</h4>
+                                        </a>
+                                        <span class="article-meta">December 28, 2023</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Career Resources -->
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title">Career Resources</h3>
+                                <div class="resource-links">
+                                    <a href="#" class="resource-link">
+                                        <i class="fas fa-download"></i>
+                                        Resume Templates
+                                    </a>
+                                    <a href="#" class="resource-link">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        Career Webinars
+                                    </a>
+                                    <a href="#" class="resource-link">
+                                        <i class="fas fa-book"></i>
+                                        Career Guides
+                                    </a>
+                                    <a href="#" class="resource-link">
+                                        <i class="fas fa-calculator"></i>
+                                        Salary Calculator
+                                    </a>
+                                    <a href="#" class="resource-link">
+                                        <i class="fas fa-chart-bar"></i>
+                                        Skills Assessment
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Newsletter Signup -->
+                            <div class="sidebar-section newsletter-section">
+                                <h3 class="sidebar-title">Stay Updated</h3>
+                                <p class="newsletter-description">
+                                    Get weekly career advice and job search tips delivered to your inbox.
+                                </p>
+                                <form class="newsletter-form">
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" placeholder="Enter your email" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Subscribe</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Popup Modal -->
+        <div class="modal fade" id="newsletterModal" tabindex="-1" aria-labelledby="newsletterModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content newsletter-popup">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="newsletter-icon mb-3">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="newsletter-title">Stay in the Loop</h3>
+                        <p class="newsletter-description">
+                            Get weekly career advice, job search tips, and exclusive content delivered straight to your inbox.
+                        </p>
+                        <form class="newsletter-form mt-4">
+                            <div class="mb-3">
+                                <input type="email" class="form-control newsletter-input" placeholder="Enter your email address" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary newsletter-btn w-100">Subscribe Now</button>
+                        </form>
+                        <p class="newsletter-disclaimer mt-3">
+                            No spam, unsubscribe at any time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Main Footer Component will be injected here -->
+    <div id="main-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Main Header Component JS -->
+    <script src="components/main-header/main-header.js"></script>
+    <!-- Main Footer Component JS -->
+    <script src="components/main-footer/main-footer.js"></script>
+    <!-- Career Advice Page JS -->
+    <script src="js/pages/career-advice.js"></script>
+    
+    <script>
+        // Load Footer Component
+        async function loadFooterComponent() {
+            try {
+                const response = await fetch('components/main-footer/main-footer.html');
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById('main-footer-container').innerHTML = html;
+                    
+                    // Initialize footer functionality after loading
+                    if (typeof MainFooter !== 'undefined') {
+                        new MainFooter();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading footer component:', error);
+            }
+        }
+
+        // Load footer on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFooterComponent();
+        });
+    </script>
+    
+    <!-- Newsletter and Interaction Functionality -->
+    <script>
+        // Newsletter subscription functionality
+        async function handleNewsletterSubmission(form, subscriptionType = 'general') {
+            const formData = new FormData(form);
+            const email = formData.get('email') || form.querySelector('input[type="email"]').value;
+            
+            if (!email) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/interactions/newsletter/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        subscription_type: subscriptionType,
+                        source_page: 'career-advice'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showNotification(result.message, 'success');
+                    form.reset();
+                    
+                    // Track successful subscription
+                    trackInteraction('form_submit', 'career-advice', 'newsletter_subscribe_success', {
+                        subscription_type: subscriptionType
+                    });
+                } else {
+                    showNotification(result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Newsletter subscription error:', error);
+                showNotification('An error occurred. Please try again later.', 'error');
+            }
+        }
+
+        // Track interaction function
+        async function trackInteraction(interactionType, pageName, elementName, metadata = {}) {
+            try {
+                await fetch('/api/interactions/interaction/track', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        interaction_type: interactionType,
+                        page_name: pageName,
+                        element_name: elementName,
+                        metadata: JSON.stringify(metadata)
+                    })
+                });
+            } catch (error) {
+                console.error('Tracking error:', error);
+                // Don't show error to user - tracking failures shouldn't interrupt UX
+            }
+        }
+
+        // Show notification function
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                    <span>${message}</span>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+
+            // Add notification to page
+            document.body.appendChild(notification);
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+
+            // Animate in
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+        }
+
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle newsletter form submissions
+            const newsletterForms = document.querySelectorAll('.newsletter-form');
+            newsletterForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const subscriptionType = this.dataset.subscriptionType || 'career_advice';
+                    handleNewsletterSubmission(this, subscriptionType);
+                });
+            });
+
+            // Handle "View All Tutorials" button
+            const viewAllButtons = document.querySelectorAll('.view-all-btn');
+            viewAllButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Track the interaction
+                    trackInteraction('button_click', 'career-advice', 'view_all_tutorials');
+                    
+                    // Update modal content to focus on tutorials instead of newsletter
+                    const modal = document.getElementById('newsletterModal');
+                    if (modal) {
+                        const modalTitle = modal.querySelector('.newsletter-title');
+                        const modalDescription = modal.querySelector('.newsletter-description');
+                        
+                        if (modalTitle) {
+                            modalTitle.textContent = 'Get More Career Tutorials';
+                        }
+                        if (modalDescription) {
+                            modalDescription.textContent = 'Subscribe to receive weekly career tutorials, job search tips, and exclusive video content delivered to your inbox.';
+                        }
+                        
+                        // Set subscription type to tutorials
+                        const form = modal.querySelector('.newsletter-form');
+                        if (form) {
+                            form.dataset.subscriptionType = 'tutorials';
+                        }
+                    }
+                });
+            });
+
+            // Track page view
+            trackInteraction('page_view', 'career-advice');
+
+            // Track tutorial video interactions
+            const videos = document.querySelectorAll('.video-container video');
+            videos.forEach((video, index) => {
+                const tutorialName = video.closest('.tutorial-card').querySelector('.tutorial-title').textContent;
+                
+                video.addEventListener('play', function() {
+                    trackTutorialInteraction(tutorialName, 'play');
+                });
+                
+                video.addEventListener('pause', function() {
+                    trackTutorialInteraction(tutorialName, 'pause', {
+                        watch_duration: Math.floor(video.currentTime),
+                        total_duration: Math.floor(video.duration)
+                    });
+                });
+                
+                video.addEventListener('ended', function() {
+                    trackTutorialInteraction(tutorialName, 'complete', {
+                        watch_duration: Math.floor(video.duration),
+                        total_duration: Math.floor(video.duration),
+                        completion_percentage: 100
+                    });
+                });
+            });
+        });
+
+        // Track tutorial interactions
+        async function trackTutorialInteraction(tutorialName, actionType, metadata = {}) {
+            try {
+                await fetch('/api/interactions/tutorial/track', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tutorial_name: tutorialName,
+                        action_type: actionType,
+                        watch_duration: metadata.watch_duration || 0,
+                        total_duration: metadata.total_duration || 0,
+                        completion_percentage: metadata.completion_percentage || 0
+                    })
+                });
+            } catch (error) {
+                console.error('Tutorial tracking error:', error);
+            }
+        }
+    </script>
+    
+    <!-- Video Player Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle video play/pause overlay
+            const videos = document.querySelectorAll('.video-container video');
+            
+            videos.forEach(video => {
+                const overlay = video.nextElementSibling; // Get the overlay element
+                
+                // Hide overlay when video starts playing
+                video.addEventListener('play', function() {
+                    overlay.style.opacity = '0';
+                    overlay.style.pointerEvents = 'none';
+                });
+                
+                // Show overlay when video is paused
+                video.addEventListener('pause', function() {
+                    overlay.style.opacity = '1';
+                    overlay.style.pointerEvents = 'none';
+                });
+                
+                // Show overlay when video ends
+                video.addEventListener('ended', function() {
+                    overlay.style.opacity = '1';
+                    overlay.style.pointerEvents = 'none';
+                });
+                
+                // Handle click on overlay to play video
+                overlay.addEventListener('click', function() {
+                    video.play();
+                });
+            });
+        });
+    </script>
+    
+    <style>
+        /* Page-specific styles */
+        .page-career-advice {
+            font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            /* background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); */
+            padding: 1rem 0 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #004f6e;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            font-size: 0.7rem;
+            color: #424242;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .hero-image {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Topics Section */
+        .topics-section {
+            padding: 0.5rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        .topic-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        .topic-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.75rem;
+        }
+
+        .topic-description {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .topic-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .topic-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Tutorials Section */
+        .tutorials-section {
+            padding: 3rem 0;
+            background: #f8f9fa;
+        }
+
+        .tutorial-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .video-container {
+            position: relative;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .video-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('images/FlexJobs_logo-1.png') center center no-repeat;
+            background-size: 60px;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            position: relative;
+            z-index: 2;
+            border-radius: 8px;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            cursor: pointer;
+            padding: 1rem;
+        }
+
+        .video-duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        .play-button {
+            margin-bottom: 1rem;
+        }
+
+        .play-button i {
+            color: white;
+            font-size: 3rem;
+            background: rgba(255,107,53,0.9);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+        }
+
+        .video-thumbnail-content {
+            text-align: center;
+            color: white;
+        }
+
+        .thumbnail-badge {
+            background: rgba(255,107,53,0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .thumbnail-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .thumbnail-subtitle {
+            font-size: 0.9rem;
+            font-weight: 400;
+            opacity: 0.9;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .tutorial-card:hover .video-overlay {
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .tutorial-card:hover .play-button i {
+            transform: scale(1.1);
+            background: rgba(255,107,53,1);
+            box-shadow: 0 6px 20px rgba(255,107,53,0.4);
+        }
+
+        .tutorial-card:hover .thumbnail-badge {
+            background: rgba(255,107,53,1);
+            transform: scale(1.05);
+        }
+
+        /* Video overlay responsive design */
+        @media (max-width: 768px) {
+            .play-button i {
+                font-size: 2.5rem;
+                width: 60px;
+                height: 60px;
+            }
+            
+            .thumbnail-title {
+                font-size: 1rem;
+            }
+            
+            .thumbnail-subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .thumbnail-badge {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.6rem;
+            }
+        }
+
+        .tutorial-content {
+            padding: 1.5rem;
+        }
+
+        .tutorial-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .tutorial-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tutorial-meta span {
+            font-size: 0.8rem;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .tutorial-meta i {
+            font-size: 0.75rem;
+            color: #007bff;
+        }
+
+        .duration {
+            background: #e3f2fd;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            color: #1976d2 !important;
+        }
+
+        .category {
+            background: #fff3e0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            color: #f57c00 !important;
+        }
+
+        /* Featured Questions Section */
+        .featured-questions-section {
+            padding: 3rem 0;
+            background: #f8f9fa;
+        }
+
+        .question-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .question-title i {
+            color: #007bff;
+            font-size: 0.9rem;
+        }
+
+        .question-excerpt {
+            font-size: 0.9rem;
+            color: #6c757d;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .read-more-btn {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .read-more-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Question Images */
+        .question-image {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .question-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .question-image .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 123, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .question-image .image-overlay i {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .question-card:hover .question-image .image-overlay {
+            opacity: 1;
+        }
+
+        .question-card:hover .question-image img {
+            transform: scale(1.05);
+        }
+
+        /* If image doesn't exist, show a placeholder */
+        .question-image img[src*="jpg"]:not([src]) {
+            display: none;
+        }
+
+        .question-image:has(img[src*="jpg"]:not([src])) {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+
+        .question-image:has(img[src*="jpg"]:not([src]))::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 123, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-article {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .sidebar-article:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-article .article-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #212529;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .sidebar-article .article-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .sidebar-article .article-link:hover {
+            text-decoration: none;
+        }
+
+        .sidebar-article .article-link:hover .article-title {
+            color: #007bff;
+        }
+
+        .sidebar-article .article-meta {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+        }
+
+        .resource-link:hover {
+            color: #0056b3;
+            text-decoration: none;
+        }
+
+        .newsletter-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .newsletter-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        /* Buttons */
+        .view-all-btn {
+            border-radius: 5px;
+            padding: 0.5rem 2rem;
+            font-weight: 500;
+            background-color: #ff6b35;
+            border-color: #ff6b35;
+        }
+
+        .view-all-btn:hover {
+            background-color: #e55a2b;
+            border-color: #e55a2b;
+        }
+
+        .btn-primary {
+            background-color: #ff6b35;
+            border-color: #ff6b35;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #e55a2b;
+            border-color: #e55a2b;
+        }
+
+        /* Newsletter Popup Styles */
+        .newsletter-popup {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .newsletter-popup .modal-header {
+            padding: 1rem 1rem 0 1rem;
+        }
+
+        .newsletter-popup .btn-close {
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .newsletter-popup .btn-close:hover {
+            opacity: 0.8;
+        }
+
+        .newsletter-popup .modal-body {
+            padding: 2rem 2.5rem 2.5rem 2.5rem;
+        }
+
+        .newsletter-icon {
+            width: 60px;
+            height: 60px;
+            background: #ff6b35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .newsletter-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-popup .newsletter-description {
+            font-size: 0.95rem;
+            color: #6c757d;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        .newsletter-input {
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.1);
+        }
+
+        .newsletter-btn {
+            background: #ff6b35;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+            background: #e55a2b;
+        }
+
+        .newsletter-disclaimer {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        /* Success/Error Notifications */
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            max-width: 400px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification-content {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-left: 4px solid;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .notification-success .notification-content {
+            border-left-color: #28a745;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+        }
+
+        .notification-success .notification-content i {
+            color: #28a745;
+        }
+
+        .notification-error .notification-content {
+            border-left-color: #dc3545;
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+        }
+
+        .notification-error .notification-content i {
+            color: #dc3545;
+        }
+
+        .notification-info .notification-content {
+            border-left-color: #007bff;
+            background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+        }
+
+        .notification-info .notification-content i {
+            color: #007bff;
+        }
+
+        .notification-content span {
+            flex: 1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #212529;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+        }
+
+        .notification-close:hover {
+            color: #495057;
+            background: rgba(0,0,0,0.1);
+        }
+
+        /* Mobile responsive for notifications */
+        @media (max-width: 767px) {
+            .notification {
+                top: 1rem;
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 767px) {
+            .hero-section {
+                padding: 2rem 0 3rem 0;
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .hero-image {
+                margin-top: 2rem;
+            }
+
+            .topics-section,
+            .tutorials-section,
+            .featured-questions-section,
+            .recent-articles-section {
+                padding: 2rem 0;
+            }
+
+            .topic-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .tutorial-content {
+                padding: 1rem;
+            }
+
+            .tutorial-title {
+                font-size: 1rem;
+            }
+
+            .tutorial-description {
+                font-size: 0.85rem;
+            }
+
+            .video-overlay i {
+                font-size: 2rem;
+                width: 60px;
+                height: 60px;
+            }
+
+            .question-card {
+                padding: 1.5rem;
+            }
+
+            .question-image {
+                height: 100px;
+                margin-top: 1rem;
+            }
+
+            .sidebar {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .hero-section {
+                padding: 4rem 0 5rem 0;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .topics-section,
+            .tutorials-section,
+            .featured-questions-section {
+                padding: 2rem 0;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .topic-title {
+                font-size: 1.25rem;
+            }
+
+            .tutorial-title {
+                font-size: 1.2rem;
+            }
+
+            .question-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .hero-section {
+                padding: 2rem 0 2rem 0;
+            }
+
+            .hero-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .sidebar {
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .topics-section,
+            .tutorials-section,
+            .featured-questions-section {
+                padding: 2rem 0;
+            }
+
+            .topic-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .tutorial-content {
+                padding: 1rem;
+            }
+
+            .tutorial-title {
+                font-size: 1rem;
+            }
+
+            .tutorial-description {
+                font-size: 0.85rem;
+            }
+
+            .video-overlay i {
+                font-size: 2rem;
+                width: 60px;
+                height: 60px;
+            }
+
+            .question-card {
+                padding: 1.5rem;
+            }
+
+            .sidebar {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Footer Integration Styles */
+        .page-career-advice {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .page-career-advice main {
+            flex: 1;
+        }
+
+        /* Ensure proper spacing before footer */
+        .page-career-advice #main-footer-container {
+            margin-top: 2rem;
+        }
+
+        /* Footer responsive adjustments for career advice page */
+        @media (max-width: 768px) {
+            .page-career-advice #main-footer-container {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Manage your FlexJobs account settings, profile information, and preferences.">
+    <meta name="keywords" content="account settings, profile management, FlexJobs account">
+    <meta property="og:title" content="Account Settings - FlexJobs">
+    <meta property="og:description" content="Update your profile and manage account preferences.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Footer CSS -->
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Halcyon:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="account-page">
+    <!-- Main Header Component -->
+    <div id="main-header-placeholder"></div>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Account Settings</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="account-main">
+        <div class="container">
+            <div class="row">
+                <!-- Page Header -->
+                <div class="col-12">
+                    <div class="page-header">
+                        <h1 class="page-title">Account Management</h1>
+                        <!-- <p class="page-subtitle">Manage your profile, preferences, and account settings</p> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Navigation Tabs - Horizontal -->
+                <div class="col-12 mb-4">
+                    <div class="account-tabs-container">
+                        <ul class="nav nav-pills nav-justified" id="account-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="contact-tab" data-bs-toggle="pill" data-bs-target="#contact-info" type="button" role="tab" aria-controls="contact-info" aria-selected="true">
+                                    <i class="fas fa-user me-2"></i>
+                                    Contact Info
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="email-tab" data-bs-toggle="pill" data-bs-target="#email-preferences" type="button" role="tab" aria-controls="email-preferences" aria-selected="false">
+                                    <i class="fas fa-envelope me-2"></i>
+                                    Email Preferences
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="password-tab" data-bs-toggle="pill" data-bs-target="#password-security" type="button" role="tab" aria-controls="password-security" aria-selected="false">
+                                    <i class="fas fa-lock me-2"></i>
+                                    Password
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="billing-tab" data-bs-toggle="pill" data-bs-target="#billing-info" type="button" role="tab" aria-controls="billing-info" aria-selected="false">
+                                    <i class="fas fa-credit-card me-2"></i>
+                                    Billing
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="faq-tab" data-bs-toggle="pill" data-bs-target="#faq-section" type="button" role="tab" aria-controls="faq-section" aria-selected="false">
+                                    <i class="fas fa-question-circle me-2"></i>
+                                    FAQ
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Tab Content Area -->
+                <div class="col-12">
+                    <div class="tab-content" id="account-tab-content">
+                        <!-- Contact Info Tab -->
+                        <div class="tab-pane fade show active" id="contact-info" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="account-section">
+                                <div class="section-header">
+                                    <h3 class="section-title">Contact Information</h3>
+                                    <p class="section-subtitle">Update your personal details and contact information</p>
+                                </div>
+
+                                <form class="account-form" id="contactForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter your first name" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="your.email@example.com" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="phone" class="form-label">Phone Number</label>
+                                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="(555) 123-4567">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="zipCode" class="form-label">Zip Code</label>
+                                            <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="12345">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="state" class="form-label">State</label>
+                                            <select class="form-select" id="state" name="state">
+                                                <option value="">Select State</option>
+                                                <option value="AL">Alabama</option>
+                                                <option value="AK">Alaska</option>
+                                                <option value="AZ">Arizona</option>
+                                                <!-- Add more states as needed -->
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
+                                            <select class="form-select" id="country" name="country" required>
+                                                <option value="">Select Country</option>
+                                                <option value="US" selected>United States</option>
+                                                <option value="CA">Canada</option>
+                                                <option value="UK">United Kingdom</option>
+                                                <!-- Add more countries as needed -->
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="timezone" class="form-label">Timezone</label>
+                                            <select class="form-select" id="timezone" name="timezone">
+                                                <option value="">Select Timezone</option>
+                                                <option value="EST">Eastern Time (EST)</option>
+                                                <option value="CST">Central Time (CST)</option>
+                                                <option value="MST">Mountain Time (MST)</option>
+                                                <option value="PST">Pacific Time (PST)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>
+                                            Save Changes
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary ms-2">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Email Preferences Tab -->
+                        <div class="tab-pane fade" id="email-preferences" role="tabpanel" aria-labelledby="email-tab">
+                            <div class="account-section">
+                                <div class="section-header">
+                                    <h3 class="section-title">Email Preferences</h3>
+                                    <p class="section-subtitle">Manage your email notifications and communication preferences</p>
+                                </div>
+
+                                <form class="account-form" id="emailForm">
+                                    <!-- Email Change Section -->
+                                    <div class="preferences-group">
+                                        <h5 class="preferences-title">Change Email Address</h5>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="newEmail" class="form-label">New Email Address</label>
+                                                <input type="email" class="form-control" id="newEmail" name="newEmail" placeholder="new.email@example.com">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="confirmEmail" class="form-label">Confirm New Email</label>
+                                                <input type="email" class="form-control" id="confirmEmail" name="confirmEmail" placeholder="new.email@example.com">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Job Alerts -->
+                                    <div class="preferences-group">
+                                        <h5 class="preferences-title">Job Alerts</h5>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="dailyAlerts" name="dailyAlerts" checked>
+                                            <label class="form-check-label" for="dailyAlerts">
+                                                Daily job alerts matching my criteria
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="weeklyDigest" name="weeklyDigest" checked>
+                                            <label class="form-check-label" for="weeklyDigest">
+                                                Weekly job digest with top matches
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="instantAlerts" name="instantAlerts">
+                                            <label class="form-check-label" for="instantAlerts">
+                                                Instant alerts for premium jobs
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Marketing Communications -->
+                                    <div class="preferences-group">
+                                        <h5 class="preferences-title">Marketing Communications</h5>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter" checked>
+                                            <label class="form-check-label" for="newsletter">
+                                                FlexJobs newsletter with career tips and insights
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="promotions" name="promotions">
+                                            <label class="form-check-label" for="promotions">
+                                                Special offers and promotions
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="events" name="events" checked>
+                                            <label class="form-check-label" for="events">
+                                                Event invitations and webinar notifications
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Account Notifications -->
+                                    <div class="preferences-group">
+                                        <h5 class="preferences-title">Account Notifications</h5>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="accountUpdates" name="accountUpdates" checked>
+                                            <label class="form-check-label" for="accountUpdates">
+                                                Important account updates and security alerts
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="applicationUpdates" name="applicationUpdates" checked>
+                                            <label class="form-check-label" for="applicationUpdates">
+                                                Application status updates
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>
+                                            Save Preferences
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Password & Security Tab -->
+                        <div class="tab-pane fade" id="password-security" role="tabpanel" aria-labelledby="password-tab">
+                            <div class="account-section">
+                                <div class="section-header">
+                                    <h3 class="section-title">Password & Security</h3>
+                                    <p class="section-subtitle">Update your password and manage security settings</p>
+                                </div>
+
+                                <form class="account-form" id="passwordForm">
+                                    <div class="mb-3">
+                                        <label for="currentPassword" class="form-label">Current Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Enter your current password" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="newPassword" class="form-label">New Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter new password" required>
+                                        <div class="form-text">
+                                            Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="confirmPassword" class="form-label">Confirm New Password <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" required>
+                                    </div>
+
+                                    <div class="security-options mt-4">
+                                        <h5 class="preferences-title">Security Options</h5>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="twoFactor" name="twoFactor">
+                                            <label class="form-check-label" for="twoFactor">
+                                                Enable two-factor authentication (Recommended)
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="loginAlerts" name="loginAlerts" checked>
+                                            <label class="form-check-label" for="loginAlerts">
+                                                Email me when someone logs into my account
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-shield-alt me-2"></i>
+                                            Update Password
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Billing Tab -->
+                        <div class="tab-pane fade" id="billing-info" role="tabpanel" aria-labelledby="billing-tab">
+                            <div class="account-section">
+                                <div class="section-header">
+                                    <h3 class="section-title">Billing & Subscription</h3>
+                                    <p class="section-subtitle">Manage your subscription and billing information</p>
+                                </div>
+
+                                <!-- Current Subscription -->
+                                <div class="subscription-card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h5 class="card-title text-primary">FlexJobs Premium</h5>
+                                                    <p class="card-text">Full access to all job listings and premium features</p>
+                                                    <div class="subscription-details">
+                                                        <p class="mb-1"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
+                                                        <p class="mb-1"><strong>Next billing date:</strong> August 15, 2025</p>
+                                                        <p class="mb-0"><strong>Amount:</strong> $14.95/month</p>
+                                                    </div>
+                                                </div>
+                                                <div class="subscription-actions">
+                                                    <button class="btn btn-outline-primary btn-sm mb-2" data-action="manage-subscription">Manage Subscription</button>
+                                                    <button class="btn btn-outline-danger btn-sm" data-action="cancel-subscription">Cancel Subscription</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Method -->
+                                <div class="payment-section mt-4">
+                                    <h5 class="section-subtitle">Payment Method</h5>
+                                    <div class="payment-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fab fa-cc-visa fa-2x text-primary me-3"></i>
+                                                        <div>
+                                                            <p class="mb-0"><strong>•••• •••• •••• 4532</strong></p>
+                                                            <small class="text-muted">Expires 12/2027</small>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <button class="btn btn-outline-secondary btn-sm" data-action="update-payment-method">Update</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Tab -->
+                        <div class="tab-pane fade" id="faq-section" role="tabpanel" aria-labelledby="faq-tab">
+                            <div class="account-section">
+                                <div class="section-header">
+                                    <h3 class="section-title">Frequently Asked Questions</h3>
+                                    <p class="section-subtitle">Find answers to common questions about your account</p>
+                                </div>
+
+                                <div class="faq-container">
+                                    <div class="accordion" id="faqAccordion">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="faq1">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                                    How do I cancel my subscription?
+                                                </button>
+                                            </h2>
+                                            <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="faq1" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    You can cancel your subscription at any time by going to the Billing tab in your account settings and clicking "Cancel Subscription". Your access will continue until the end of your current billing period.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="faq2">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                                    How do I update my payment method?
+                                                </button>
+                                            </h2>
+                                            <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    To update your payment method, go to the Billing tab and click "Update" next to your current payment method. You can add a new credit card or update your existing information.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="faq3">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                                    How do I change my email address?
+                                                </button>
+                                            </h2>
+                                            <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    You can update your email address in the Contact Info tab. Make sure to verify your new email address when prompted to ensure you continue receiving important account notifications.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="faq4">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                                    Why am I not receiving job alerts?
+                                                </button>
+                                            </h2>
+                                            <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faq4" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    Check your Email Preferences tab to ensure job alerts are enabled. Also check your spam folder and add FlexJobs to your email whitelist. If you're still not receiving alerts, contact our support team.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="support-contact mt-4">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Still need help?</h5>
+                                            <p class="card-text">Our support team is here to help you with any questions or issues.</p>
+                                            <a href="support.html" class="btn btn-primary">Contact Support</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Subscription Management Modal -->
+    <div class="modal fade" id="subscriptionModal" tabindex="-1" aria-labelledby="subscriptionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subscriptionModalLabel">Manage Subscription</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="subscriptionModalContent">
+                        <!-- Content will be populated dynamically -->
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveSubscriptionChanges">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Method Modal -->
+    <div class="modal fade" id="paymentMethodModal" tabindex="-1" aria-labelledby="paymentMethodModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentMethodModalLabel">Manage Payment Methods</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="paymentMethodsList">
+                        <!-- Existing payment methods will be listed here -->
+                    </div>
+                    
+                    <hr>
+                    
+                    <h6>Add New Payment Method</h6>
+                    <form id="paymentMethodForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="cardNumber" class="form-label">Card Number</label>
+                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="" maxlength="19" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cardholderName" class="form-label">Cardholder Name</label>
+                                <input type="text" class="form-control" id="cardholderName" name="cardholderName" placeholder="" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="expiryMonth" class="form-label">Expiry Month</label>
+                                <select class="form-select" id="expiryMonth" name="expiryMonth" required>
+                                    <option value="">Month</option>
+                                    <option value="1">01 - January</option>
+                                    <option value="2">02 - February</option>
+                                    <option value="3">03 - March</option>
+                                    <option value="4">04 - April</option>
+                                    <option value="5">05 - May</option>
+                                    <option value="6">06 - June</option>
+                                    <option value="7">07 - July</option>
+                                    <option value="8">08 - August</option>
+                                    <option value="9">09 - September</option>
+                                    <option value="10">10 - October</option>
+                                    <option value="11">11 - November</option>
+                                    <option value="12">12 - December</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="expiryYear" class="form-label">Expiry Year</label>
+                                <select class="form-select" id="expiryYear" name="expiryYear" required>
+                                    <option value="">Year</option>
+                                    <!-- Years will be populated by JavaScript -->
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv" name="cvv" placeholder="" maxlength="4" required>
+                            </div>
+                        </div>
+                        
+                        <h6 class="mt-4">Billing Address</h6>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="billingAddress1" class="form-label">Address Line 1</label>
+                                <input type="text" class="form-control" id="billingAddress1" name="billingAddress1" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="billingCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="billingCity" name="billingCity" placeholder="">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="billingState" class="form-label">State</label>
+                                <input type="text" class="form-control" id="billingState" name="billingState" placeholder="">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="billingZip" class="form-label">ZIP Code</label>
+                                <input type="text" class="form-control" id="billingZip" name="billingZip" placeholder="">
+                            </div>
+                        </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="setAsDefault" name="setAsDefault">
+                            <label class="form-check-label" for="setAsDefault">
+                                Set as default payment method
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-action="add-payment-method">Add Payment Method</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="d-flex align-items-center w-100">
+                        <div class="notification-icon me-3" id="notificationIcon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h5 class="modal-title mb-0" id="notificationModalLabel">Notification</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-2">
+                    <p id="notificationMessage" class="mb-0">Your message will appear here.</p>
+                </div>
+                <div class="modal-footer border-0 pt-2">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Manager (Bootstrap Alternative) -->
+    <script src="js/tab-manager.js"></script>
+    <!-- Component Loader -->
+    <script src="js/component-loader.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script src="js/account.js"></script>
+
+    <!-- Custom Account Page Styling -->
+    <style>
+        /* Apply Halcyon font family and reduced font sizes */
+        .account-page {
+            font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        /* Reduce font sizes by 20% - EXCEPT for header */
+        .account-page .breadcrumb-section,
+        .account-page .account-main,
+        .account-page .account-main * {
+            font-size: 0.8em;
+        }
+        
+        /* Ensure header maintains normal size */
+        .account-page .main-header,
+        .account-page .main-header * {
+            font-size: 1rem !important;
+        }
+        
+        /* Reduce input field heights by half */
+        .account-page .form-control,
+        .account-page .form-select {
+            height: calc(1.5em + 0.375rem + 2px); /* Half of default Bootstrap height */
+            padding: 0.1875rem 0.375rem; /* Half of default padding */
+            font-size: 0.8rem;
+        }
+        
+        /* Adjust labels */
+        .account-page .form-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Adjust buttons */
+        .account-page .btn {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+        }
+        
+        .account-page .btn-lg {
+            padding: 0.375rem 1rem;
+            font-size: 0.85rem;
+        }
+        
+        .account-page .btn-sm {
+            padding: 0.125rem 0.5rem;
+            font-size: 0.65rem;
+        }
+        
+        /* Adjust form sections */
+        .account-page .mb-3 {
+            margin-bottom: 0.75rem !important;
+        }
+        
+        /* Adjust card padding */
+        .account-page .account-section {
+            padding: 1rem;
+        }
+        
+        .account-page .card-body {
+            padding: 0.75rem;
+        }
+        
+        /* Adjust navigation pills - Horizontal Layout */
+        .account-page .account-tabs-container {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+
+        .account-page .nav-pills .nav-link {
+            padding: 0.5rem 0rem;
+            font-size: 0.75rem;
+            color: #495057 !important;
+            background-color: #f8f9fa !important;
+            border: 0px solid #dee2e6 !important;
+            border-radius: 0.375rem !important;
+            margin: 0 0.25rem;
+            transition: all 0.15s ease-in-out;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        
+        .account-page .nav-pills .nav-link:hover {
+            background-color: #e9ecef !important;
+            color: #0d6efd !important;
+            border-color: #0d6efd !important;
+        }
+        
+        .account-page .nav-pills .nav-link.active {
+            background-color: #ffffff !important;
+            color: #0d6efd !important;
+            border-color: #0d6efd !important;
+            text-decoration: underline;
+        }
+        
+        .account-page .nav-pills .nav-link i {
+            font-size: 0.8rem;
+            width: 16px;
+            text-align: center;
+        }
+        
+        /* Remove old sidebar styling */
+        .account-page .nav-pills {
+            gap: 0;
+        }
+        
+        /* Ensure tab content is visible */
+        .account-page .tab-content {
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+        
+        /* Breadcrumb styling */
+        .account-page .breadcrumb-section {
+            background-color: #f8f9fa;
+            padding: 0rem 0;
+            margin-bottom: 0rem;
+        }
+        
+        .account-page .breadcrumb {
+            margin-bottom: 0;
+            background-color: transparent;
+            font-size: 0.95rem;
+        }
+        
+        .account-page .breadcrumb-item a {
+            color: #0d6efd;
+            text-decoration: none;
+        }
+        
+        .account-page .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .account-page .breadcrumb-item.active {
+            color: #6c757d;
+        }
+        
+        /* Main layout styling */
+        .account-page {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .account-page .account-main {
+            padding: 1rem 0;
+        }
+        
+        .account-page .page-header {
+            background-color: #ffffff;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        
+        /* Override the global font size for specific elements that need to be larger */
+        .account-page .page-title {
+            font-size: 1.5rem !important;
+            font-weight: 600;
+            color: #004f6e !important;
+            margin-bottom: 0.5rem;
+        }
+        
+        .account-page .page-subtitle {
+            font-size: 1rem !important;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        /* Adjust section titles */
+        .account-page .section-title {
+            font-size: 1.2rem !important;
+            margin-bottom: 0.5rem;
+            color: #004f6e !important;
+            font-weight: 600;
+        }
+        
+        .account-page .section-subtitle {
+            font-size: 0.875rem !important;
+            margin-bottom: 1rem;
+            color: #6c757d !important;
+        }
+        
+        /* All heading elements color */
+        .account-page h1,
+        .account-page h2,
+        .account-page h3,
+        .account-page h4,
+        .account-page h5,
+        .account-page h6 {
+            color: #004f6e !important;
+        }
+        
+        /* Preferences titles */
+        .account-page .preferences-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #004f6e !important;
+        }
+        
+        /* Card titles */
+        .account-page .card-title {
+            color: #004f6e !important;
+        }
+        
+        /* Modal titles */
+        .account-page .modal-title {
+            color: #004f6e !important;
+        }
+        
+        /* Accordion button headings */
+        .account-page .accordion-button {
+            color: #004f6e !important;
+        }
+        
+        /* Section header styling */
+        .account-page .section-header {
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Adjust page header */
+        .account-page .page-title {
+            font-size: 1.5rem;
+        }
+        
+        .account-page .page-subtitle {
+            font-size: 0.8rem;
+        }
+        
+        /* Adjust form text and help text */
+        .account-page .form-text {
+            font-size: 0.65rem;
+        }
+        
+        /* Adjust table */
+        .account-page .table {
+            font-size: 0.7rem;
+        }
+        
+        .account-page .table th,
+        .account-page .table td {
+            padding: 0.375rem;
+        }
+        
+        /* Adjust accordion */
+        .account-page .accordion-button {
+            padding: 0.75rem 1rem;
+            font-size: 0.75rem;
+        }
+        
+        .account-page .accordion-body {
+            padding: 0.75rem 1rem;
+            font-size: 0.7rem;
+        }
+        
+        /* Adjust badges */
+        .account-page .badge {
+            font-size: 0.6rem;
+        }
+        
+        /* Adjust checkboxes and form checks */
+        .account-page .form-check {
+            margin-bottom: 0.75rem;
+        }
+        
+        .account-page .form-check-label {
+            font-size: 0.7rem;
+        }
+        
+        /* Toggle Switch Styling */
+        .account-page .form-check.form-switch {
+            padding-left: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .account-page .form-switch .form-check-input {
+            width: 2rem;
+            height: 1rem;
+            background-color: #dee2e6;
+            border: none;
+            border-radius: 2rem;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .account-page .form-switch .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        
+        .account-page .form-switch .form-check-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .account-page .form-switch .form-check-label {
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: #495057;
+        }
+        
+        /* Adjust preferences groups */
+        .account-page .preferences-group {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .account-page .form-control,
+            .account-page .form-select {
+                height: calc(1.25em + 0.5rem + 2px);
+                font-size: 0.75rem;
+            }
+            
+            .account-page .nav-pills .nav-link {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.65rem;
+                margin: 0 0.125rem;
+            }
+            
+            .account-page .nav-pills .nav-link i {
+                display: none; /* Hide icons on mobile to save space */
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .account-page .nav-pills {
+                flex-wrap: wrap;
+            }
+            
+            .account-page .nav-pills .nav-link {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.4rem;
+                margin: 0.1rem;
+                flex: 1 1 auto;
+                text-align: center;
+            }
+        }
+        
+        /* Toast Notification Styling */
+        .toast-container {
+            font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        }
+        
+        .toast {
+            font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            border: 1px solid rgba(0,0,0,0.1) !important;
+        }
+        
+        .toast-header {
+            font-family: 'Halcyon', sans-serif !important;
+            font-size: 0.85rem !important;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .toast-body {
+            font-family: 'Halcyon', sans-serif !important;
+            font-size: 0.8rem !important;
+            background-color: #ffffff;
+        }
+        
+        .toast-header strong {
+            font-weight: 600 !important;
+        }
+        
+        /* Mobile toast adjustments */
+        @media (max-width: 768px) {
+            .toast-container {
+                padding: 1rem !important;
+            }
+            
+            .toast {
+                max-width: 300px !important;
+            }
+            
+            .toast-header,
+            .toast-body {
+                font-size: 0.75rem !important;
+            }
+        }
+        
+        /* Notification Modal Styling */
+        #notificationModal .modal-content {
+            font-family: 'Halcyon', sans-serif !important;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            border-radius: 12px;
+        }
+        
+        #notificationModal .modal-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            padding: 1.25rem;
+        }
+        
+        #notificationModal .modal-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #004f6e !important;
+        }
+        
+        #notificationModal .modal-body {
+            padding: 1.25rem;
+            font-size: 0.95rem;
+            color: #495057;
+            line-height: 1.5;
+        }
+        
+        #notificationModal .modal-footer {
+            padding: 1rem 1.25rem;
+            background-color: #fff;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        
+        #notificationModal .btn {
+            font-family: 'Halcyon', sans-serif !important;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            min-width: 80px;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .notification-icon.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .notification-icon.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .notification-icon.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .notification-icon.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        /* Animation for notification modal */
+        #notificationModal.fade .modal-dialog {
+            transform: translate(0, -50px);
+            transition: transform 0.3s ease-out;
+        }
+        
+        #notificationModal.show .modal-dialog {
+            transform: translate(0, 0);
+        }
+        
+        /* Mobile notification adjustments */
+        @media (max-width: 576px) {
+            #notificationModal .modal-dialog {
+                margin: 1rem;
+            }
+            
+            #notificationModal .modal-header,
+            #notificationModal .modal-body,
+            #notificationModal .modal-footer {
+                padding: 1rem;
+            }
+            
+            #notificationModal .modal-title {
+                font-size: 1rem;
+            }
+            
+            #notificationModal .modal-body {
+                font-size: 0.9rem;
+            }
+            
+            .notification-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>

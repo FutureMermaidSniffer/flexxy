@@ -1,8 +1,8 @@
-/* Where Remote Page Styles */
+
 .page-where-remote {
     background: #f8f9fa;
     min-height: 100vh;
-    /* Font inherited from main stylesheet */
+    
 }re Remote Page Styles */
 .page-where-remote {
     background: white;
@@ -26,7 +26,7 @@
     font-weight: 600;
 }
 
-/* Location Search */
+
 .location-search-container {
     max-width: 500px;
     margin: 0 auto !important;
@@ -57,7 +57,7 @@
     z-index: 2;
 }
 
-/* Location Suggestions */
+
 .location-suggestions {
     position: absolute;
     top: 100%;
@@ -96,7 +96,7 @@
     color: #6c757d;
 }
 
-/* Location Options */
+
 .location-options-list {
     max-width: 500px;
     margin: 0 auto;
@@ -135,7 +135,7 @@
     font-weight: 400;
 }
 
-/* Selected Locations Display */
+
 .selected-locations {
     max-width: 500px;
     margin: 0 auto 2rem;
@@ -178,7 +178,7 @@
     margin-right: 0.25rem;
 }
 
-/* Skip Link */
+
 .skip-link {
     color: #6c757d;
     text-decoration: none;
@@ -191,7 +191,7 @@
     text-decoration: underline;
 }
 
-/* Next Button */
+
 .next-button {
     background: #0066cc;
     border: none;
@@ -216,10 +216,10 @@
     box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
 }
 
-/* Mobile Styles */
+
 @media (max-width: 768px) {
     .where-remote-container {
-        padding: 2rem 0 140px 0; /* Bottom padding for wizard footer */
+        padding: 2rem 0 140px 0; 
     }
 
     .where-remote-container h4 {
@@ -239,7 +239,7 @@
         margin: 0 1rem 2rem;
     }
 
-    /* Hide desktop next button */
+    
     .next-button {
         display: none !important;
     }
@@ -259,7 +259,7 @@
     }
 }
 
-/* Loading Animation */
+
 .loading-spinner {
     display: inline-block;
     width: 20px;
@@ -274,7 +274,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* Accessibility */
+
 .location-search-input:focus {
     outline: none;
 }
@@ -428,7 +428,7 @@
     transform: scale(1.1);
 }
 
-/* Mobile responsiveness */
+
 @media (max-width: 768px) {
     .page-location__main {
         padding: 2rem 0 !important;

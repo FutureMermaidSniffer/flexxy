@@ -1,8 +1,8 @@
-/* Salary Preference Page Styles */
+
 .page-salary-preference {
     background: #f8f9fa;
     min-height: 100vh;
-    /* Font inherited from main stylesheet */
+    
 }ary Preference Page Styles */
 .page-salary-preference {
     background: white;
@@ -26,7 +26,7 @@
     font-weight: 600;
 }
 
-/* Salary Display Card - Simplified */
+
 .salary-display-card {
     max-width: 400px;
     margin: 0 auto;
@@ -49,7 +49,7 @@
     transition: all 0.3s ease;
 }
 
-/* Salary Type Toggle - Simplified */
+
 .salary-type-toggle {
     margin-bottom: 3rem;
 }
@@ -80,7 +80,7 @@
     color: white;
 }
 
-/* Salary Slider - Simplified */
+
 .salary-slider-container {
     max-width: 500px;
     margin: 0 auto;
@@ -106,7 +106,7 @@
     background: #004f6d;
     border-radius: 3px;
     transition: width 0.3s ease;
-    width: 32.5%; /* Default 65k out of 200k */
+    width: 32.5%; 
 }
 
 .salary-slider {
@@ -172,18 +172,18 @@
     color: #495057;
 }
 
-/* Salary Bubble */
+
 .salary-bubble {
     position: absolute;
-    top: calc(2rem + 25px); /*Position below the slider dot */
-    left: 0%; /* Will be positioned by JavaScript */
+    top: calc(2rem + 25px); 
+    left: 0%; 
     transform: translateX(-50%);
     z-index: 10;
     transition: left 0.3s ease;
     cursor: grab;
     user-select: none;
-    visibility: visible; /* Ensure bubble is visible */
-    opacity: 1; /* Ensure bubble is visible */
+    visibility: visible; 
+    opacity: 1; 
 }
 
 .salary-bubble:active {
@@ -193,7 +193,7 @@
 .salary-bubble-content {
     background: #0066cc;
     color: white;
-    padding: 0.75rem 2rem 0.75rem 1rem; /* Extra right padding for drag indicator */
+    padding: 0.75rem 2rem 0.75rem 1rem; 
     border-radius: 8px;
     font-size: 0.9rem;
     font-weight: 600;
@@ -218,7 +218,7 @@
     box-shadow: 0 8px 20px rgba(0, 102, 204, 0.5);
 }
 
-/* Add grab icon indicator */
+
 .salary-bubble-content::before {
     content: "⋮⋮";
     position: absolute;
@@ -255,7 +255,7 @@
     border-bottom: 6px solid #0066cc;
 }
 
-/* Skip Link - Simplified */
+
 .skip-link {
     color: #6c757d;
     text-decoration: none;
@@ -268,7 +268,7 @@
     text-decoration: underline;
 }
 
-/* Success Message - Simplified */
+
 .success-message {
     background: #f8f9fa;
     border: 1px solid #dee2e6;
@@ -294,7 +294,7 @@
     color: #28a745;
 }
 
-/* Next Button - Simplified */
+
 .next-button {
     background: #004f6d;
     border: none;
@@ -319,7 +319,7 @@
     box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
 }
 
-/* Desktop Footer */
+
 .desktop-footer {
     position: fixed;
     bottom: 0;
@@ -420,10 +420,10 @@
     transform: none;
 }
 
-/* Mobile Styles */
+
 @media (max-width: 768px) {
     .salary-preference-container {
-        padding: 2rem 0 140px 0; /* Bottom padding for wizard footer */
+        padding: 2rem 0 140px 0; 
     }
 
     .salary-preference-container h4 {
@@ -445,7 +445,7 @@
     }
 
     .salary-slider-wrapper {
-        padding: 1.5rem 0 3rem 0; /* Extra bottom padding for bubble */
+        padding: 1.5rem 0 3rem 0; 
     }
 
     .salary-type-toggle .btn {
@@ -453,7 +453,7 @@
         font-size: 0.9rem;
     }
 
-    /* Hide desktop next button and footer */
+    
     .next-button {
         display: none !important;
     }
@@ -467,7 +467,7 @@
         padding: 0.75rem 1.5rem;
     }
 
-    /* Mobile bubble adjustments */
+    
     .salary-bubble-content {
         padding: 0.6rem 0.8rem;
         font-size: 0.8rem;
@@ -482,23 +482,23 @@
     }
 }
 
-/* Desktop Styles */
+
 @media (min-width: 769px) {
     .salary-preference-container {
-        padding-bottom: 120px; /* Bottom padding for desktop footer */
+        padding-bottom: 120px; 
     }
 
     .desktop-footer {
         display: block !important;
     }
 
-    /* Hide old next button on desktop */
+    
     .next-button {
         display: none !important;
     }
 }
 
-/* Loading Animation */
+
 .loading-spinner {
     display: inline-block;
     width: 20px;
@@ -513,7 +513,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* Accessibility */
+
 .salary-slider:focus {
     outline: none;
 }

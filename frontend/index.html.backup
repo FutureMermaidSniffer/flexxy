@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexJobs - Find Flexible Jobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Header CSS -->
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <!-- Footer CSS -->
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="main-header-placeholder"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section py-4 py-lg-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-12">
+                        <div class="text-black text-center text-lg-start">
+                            <h1 class="hero-text fw-bold mb-3">
+                                The <span style="color: #ff6b35;">#1</span> Job Site<br class="d-none d-lg-block"> to Find<br class="d-none d-lg-block">
+                                Remote Jobs. No Ads,<br class="d-none d-lg-block">
+                                Scams, or Junk
+                            </h1>
+                            <p class="hero-subtitle mb-4 opacity-90">
+                                Find legitimate work-from-home jobs with<br class="d-none d-lg-block">
+                                options for flexible hours and hybrid work.
+                            </p>
+                            <a href="why-remote.html" class="btn btn-warning btn-lg px-4 py-3 fw-semibold text-decoration-none">
+                                Find Your Next Remote Job!
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-12 mt-4 mt-lg-0">
+                        <div class="position-relative text-center">
+                            <img src="images/career-change.jpeg" alt="Professional woman working remotely" class="img-fluid">
+                            <!-- Floating badges -->
+                            <div class="hero-floating-badge badge-jobs d-none d-lg-block">
+                                100+ Jobs Available
+                            </div>
+                            <div class="hero-floating-badge badge-remote d-none d-lg-block">
+                                100% Remote Jobs
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        </section>
+
+        <!-- Company Logos Section -->
+        <section class="company-logos py-4">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="h4 fw-bold mb-4 text-muted" style="color: #004f6e !important;">Awesome Companies Hiring for Remote Jobs*</h2>
+                    <div class="row justify-content-center align-items-center g-3 g-md-4">
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/dropbox-1.svg" alt="Dropbox" class="img-fluid company-logo-small">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/netflix-3.svg" alt="Netflix" class="img-fluid company-logo-small">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/zillow-1.svg" alt="Zillow" class="img-fluid company-logo-small">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/doordash-1.svg" alt="DoorDash" class="img-fluid company-logo-small">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="images/logo.png" alt="CDOT" class="img-fluid company-logo-small">
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <img src="https://cdn.worldvectorlogo.com/logos/reddit-1.svg" alt="Reddit" class="img-fluid company-logo-small">
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">*Sample of companies that have posted remote jobs on FlexJobs</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Jobs Section -->
+        <section class="py-5 bg-white" id="featured-jobs-section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="h2 fw-bold" style="color: #004f6e;">Featuring <span class="text-decoration-underline" style="text-decoration-color: #ffa500 !important;">100k+</span> Flexible & Remote Jobs</h2>
+                </div>
+                
+                <!-- Loading State -->
+                <div id="featured-jobs-loading" class="row">
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading featured jobs...</span>
+                        </div>
+                        <p class="mt-3 text-muted">Loading top job opportunities...</p>
+                    </div>
+                </div>
+                
+                <!-- Featured Jobs Container -->
+                <div id="featured-jobs" class="row g-4 mb-4" style="display: none;">
+                    <!-- Dynamic job cards will be inserted here -->
+                </div>
+                
+                <div class="text-center">
+                    <a href="browse-jobs.html" class="btn btn-warning btn-lg px-5 py-3 fw-semibold text-decoration-none">
+                        Find Your Next Remote Job!
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- What Our Members Are Saying Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h3 class="h3 fw-bold" style="color: #004f6e;">What Our Members Are Saying</h3>
+                </div>
+                
+                <!-- Mobile Single Testimonial -->
+                <div class="d-lg-none">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4 text-center">
+                            <div class="mb-3">
+                                <img src="images/testimonials/michelle.jpg" alt="Sarah M." class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                <div class="text-warning mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <blockquote class="mb-3">
+                                    "FlexJobs helped me find a remote position that perfectly fits my skills and schedule. The quality of listings is unmatched!"
+                                </blockquote>
+                            </div>
+                            <footer class="blockquote-footer">
+                                <strong>Sarah M.</strong> <cite title="Source Title">Software Developer</cite>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Desktop Three Testimonials -->
+                <div class="d-none d-lg-block">
+                    <div class="row g-4">
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body p-4 text-center">
+                                    <div class="mb-3">
+                                        <img src="images/testimonials/michelle.jpg" alt="Sarah M." class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                        <div class="text-warning mb-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <blockquote class="mb-0">
+                                            "FlexJobs helped me find a remote position that perfectly fits my skills and schedule. The quality of listings is unmatched!"
+                                        </blockquote>
+                                    </div>
+                                    <footer class="blockquote-footer">
+                                        <strong>Sarah M.</strong> <cite title="Source Title">Software Developer</cite>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body p-4 text-center">
+                                    <div class="mb-3">
+                                        <img src="images/testimonials/Brandon.jpeg" alt="Michael R." class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                        <div class="text-warning mb-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <!-- <i class="fas fa-star"></i> -->
+                                        </div>
+                                        <blockquote class="mb-0">
+                                            "The advanced search filters saved me hours of time. I found my dream marketing role within two weeks of signing up."
+                                        </blockquote>
+                                    </div>
+                                    <footer class="blockquote-footer">
+                                        <strong>Michael R.</strong> <cite title="Source Title">Marketing Manager</cite>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-body p-4 text-center">
+                                    <div class="mb-3">
+                                        <img src="images/testimonials/erin.jpeg" alt="Jennifer L." class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                        <div class="text-warning mb-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <blockquote class="mb-0">
+                                            "No more scam job posts! Every application I sent through FlexJobs was to a legitimate company. Highly recommend!"
+                                        </blockquote>
+                                    </div>
+                                    <footer class="blockquote-footer">
+                                        <strong>Jennifer L.</strong> <cite title="Source Title">Project Manager</cite>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Section -->
+        <section class="py-5">
+            <div class="container">
+                <!-- Features Section -->
+                <div class="text-center mb-5">
+                    <h2 class="h2 fw-bold mb-4">How FlexJobs is <span class="text-decoration-underline" style="text-decoration-color: orange !important;">Different</span></h2>
+                </div>
+                
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <!-- Features List -->
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle text-info" style="font-size: 1.5rem; color: #004f6e !important;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-2" style="color: #004f6e;">Higher Quality Remote Job Listings</h5>
+                                    <p class="text-muted mb-0">
+                                        Only legit remote jobs. No ads, scams, or junk to sift through. Our team spends 200+ hours/day verifying every job.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle text-info" style="font-size: 1.5rem; color: #004f6e !important;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-2" style="color: #004f6e;">Unlimited Job Search Resources</h5>
+                                    <p class="text-muted mb-0">
+                                        Full access to all features including unlimited remote jobs, articles, skills tests, and webinars to help you with your remote job search.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-start mb-4">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle text-info" style="font-size: 1.5rem; color: #004f6e !important;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-2" style="color: #004f6e;">Save Time</h5>
+                                    <p class="text-muted mb-0">
+                                        Go straight from job listings to applications. No more hopping from one job board to the next to find work-from-home jobs.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <button class="btn btn-warning btn-lg px-4 py-3 fw-semibold" style="background-color: #ff5722; border-color: #ff5722;" data-bs-toggle="modal" data-bs-target="#progressModal">
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="text-center">
+                            <img src="images/different.png" alt="FlexJobs Difference" class="img-fluid" style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- As Seen On Section -->
+                <div class="bg-light rounded-4 p-5 mt-5">
+                    <div class="text-center">
+                        <h3 class="fw-bold mb-4" style="color: #004f6e;">As Seen On*</h3>
+                        <div class="row justify-content-center align-items-center g-4">
+                            <div class="col-6 col-md-2">
+                                <img src="images/Today_logo.svg.png" alt="Today Show" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <img src="images/wsj.jpg" alt="Wall Street Journal" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <img src="images/foxnews.png" alt="Fox News" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <img src="images/cnbc.png" alt="CNBC" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <img src="images/cnn.png" alt="CNN" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
+                            </div>
+                            <div class="col-6 col-md-2">
+                                <img src="images/usatoday.png" alt="USA Today" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-5 bg-white d-none">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="h2 fw-bold mb-3">Success Stories</h2>
+                    <p class="text-muted">See how FlexJobs has helped professionals find their perfect remote careers</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <div class="text-warning mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <blockquote class="mb-0">
+                                        "FlexJobs helped me find a remote position that perfectly fits my skills and schedule. The quality of listings is unmatched!"
+                                    </blockquote>
+                                </div>
+                                <footer class="blockquote-footer">
+                                    <strong>Sarah M.</strong> <cite title="Source Title">Software Developer</cite>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <div class="text-warning mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <blockquote class="mb-0">
+                                        "The advanced search filters saved me hours of time. I found my dream marketing role within two weeks of signing up."
+                                    </blockquote>
+                                </div>
+                                <footer class="blockquote-footer">
+                                    <strong>Michael R.</strong> <cite title="Source Title">Marketing Manager</cite>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <div class="text-warning mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <blockquote class="mb-0">
+                                        "No more scam job posts! Every application I sent through FlexJobs was to a legitimate company. Highly recommend!"
+                                    </blockquote>
+                                </div>
+                                <footer class="blockquote-footer">
+                                    <strong>Jennifer L.</strong> <cite title="Source Title">Project Manager</cite>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Search Section -->
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="h2 fw-bold" style="color: #555;">
+                        Featuring <span class="text-decoration-underline" style="text-decoration-color: #ff5722 !important;">161,001</span> Online Jobs From <span class="text-decoration-underline" style="text-decoration-color: #ff5722 !important;">10,630</span> Companies
+                    </h2>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-8">
+                        <div class="input-group input-group-lg">
+                            <input type="text" id="mainSearchInput" class="form-control" placeholder="Enter Keyword or Title to Find Remote Jobs" aria-label="Job search">
+                            <button class="btn btn-warning px-4" type="button" style="background-color: #ff5722; border-color: #ff5722;" onclick="performJobSearch()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Search Buttons -->
+                <div class="text-center mb-4">
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                        <button class="btn btn-outline-info btn-sm px-3 py-2" style="border-color: #17a2b8; color: #17a2b8;" data-bs-toggle="modal" data-bs-target="#progressModal">Work From Anywhere in US</button>
+                        <button class="btn btn-outline-info btn-sm px-3 py-2" style="border-color: #17a2b8; color: #17a2b8;" data-bs-toggle="modal" data-bs-target="#progressModal">Work From Anywhere in World</button>
+                        <button class="btn btn-outline-info btn-sm px-3 py-2" style="border-color: #17a2b8; color: #17a2b8;" data-bs-toggle="modal" data-bs-target="#progressModal">Explore Job Categories</button>
+                    </div>
+                </div>
+                
+                <!-- Job Category Pills -->
+                <div class="text-center">
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Accounting</span>
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Analyst</span>
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Bookkeeping</span>
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Call Center</span>
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Communications</span>
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Customer Service</span>
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Data Entry</span>
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Developer</span>
+                        <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 0.9rem;">Education</span>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <button class="btn btn-link text-info p-0" style="color: #17a2b8 !important;" data-bs-toggle="modal" data-bs-target="#progressModal">
+                            Show More Popular Job Searches <i class="fas fa-chevron-down ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <!-- <section class="py-5 bg-primary text-white">
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-lg-8">
+                        <h2 class="h2 fw-bold mb-3">Ready to Find Your Perfect Remote Job?</h2>
+                        <p class="fs-5 mb-4 opacity-90">Join thousands of professionals who've found success with FlexJobs</p>
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            <a href="/remote-jobs.html" class="btn btn-light btn-lg px-4">
+                                <i class="fas fa-search me-2"></i>Browse Jobs
+                            </a>
+                            <button type="button" class="btn btn-outline-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#signupModal">
+                                <i class="fas fa-user-plus me-2"></i>Sign Up Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+    </main>
+
+    <!-- Footer -->
+    <!-- <footer class="bg-dark text-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="d-flex align-items-center">
+                        <i class="fas fa-briefcase me-2"></i>FlexJobs
+                    </h5>
+                    <p class="text-muted">The #1 site for remote, part-time, freelance, and flexible jobs.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6>Job Seekers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Jobs</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Career Advice</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Resume Help</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Employers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">Post Jobs</a></li>
+                        <li><a href="#" class="text-decoration-none">Search Resumes</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2025 FlexJobs. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-muted me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-muted"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login to FlexJobs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="#" class="text-muted">Forgot your password?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign Up for FlexJobs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registerFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="registerFirstName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="registerLastName" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required minlength="6">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userType" class="form-label">I am a</label>
+                            <select class="form-select" id="userType" required>
+                                <option value="">Select...</option>
+                                <option value="job_seeker">Job Seeker</option>
+                                <option value="employer">Employer</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/mobile-first.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/jobs.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Scroll to job search section
+        function scrollToJobs() {
+            document.getElementById('jobSearch').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Perform job search
+        function performJobSearch() {
+            const mainSearchInput = document.getElementById('mainSearchInput');
+            let searchQuery = '';
+            
+            if (mainSearchInput && mainSearchInput.value.trim()) {
+                searchQuery = mainSearchInput.value.trim();
+            } else {
+                // Try legacy elements
+                const jobTitle = document.getElementById('jobTitle');
+                const jobLocation = document.getElementById('jobLocation');
+                
+                if (jobTitle && jobTitle.value.trim()) {
+                    searchQuery = jobTitle.value.trim();
+                }
+            }
+
+            // Redirect to browse-jobs page with search query
+            if (searchQuery) {
+                window.location.href = `browse-jobs.html?search=${encodeURIComponent(searchQuery)}`;
+            } else {
+                window.location.href = 'browse-jobs.html';
+            }
+        }
+
+        // Add hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add custom CSS for hover effects
+            const style = document.createElement('style');
+            style.textContent = `
+                .hover-shadow:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+                    transition: all 0.3s ease;
+                }
+                .hover-opacity-100:hover {
+                    opacity: 1 !important;
+                    filter: grayscale(0%) !important;
+                    transition: all 0.3s ease;
+                }
+                
+                /* Job Cards Dynamic Styling - Grid Layout for Index Page */
+                #featured-jobs {
+                    display: flex !important;
+                    flex-wrap: wrap;
+                }
+                
+                .job-card {
+                    background: #fff;
+                    border: 1px solid #e9ecef;
+                    border-radius: 10px;
+                    padding: 1.25rem;
+                    height: 100%;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    position: relative;
+                    overflow: hidden;
+                    margin-bottom: 1rem;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .job-card:hover {
+                    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+                    transform: translateY(-1px);
+                    border-color: #007bff;
+                }
+
+                /* Header with logo positioned top-right */
+                .job-card .job-header {
+                    position: relative;
+                    margin-bottom: 0.75rem;
+                    min-height: 45px;
+                }
+
+                .job-card .company-logo {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #f8f9fa;
+                    border-radius: 8px;
+                    border: 1px solid #e9ecef;
+                    flex-shrink: 0;
+                }
+
+                .job-card .company-img {
+                    width: 32px;
+                    height: 32px;
+                    object-fit: contain;
+                    border-radius: 4px;
+                }
+
+                /* Job badges */
+                .job-card .job-badge {
+                    display: inline-block;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 12px;
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    margin-right: 0.5rem;
+                }
+
+                .job-card .job-badge.new {
+                    background: #e8f5e8;
+                    color: #2d5a2d;
+                }
+
+                .job-card .job-badge.featured {
+                    background: #fff3cd;
+                    color: #856404;
+                }
+
+                /* Grid content layout */
+                .job-card .job-content {
+                    padding-right: 50px; /* Make room for logo */
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .job-card .job-title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    color: #212529;
+                    margin-bottom: 0.5rem;
+                    line-height: 1.3;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+                .job-card .company-name {
+                    font-size: 0.9rem;
+                    color: #6c757d;
+                    margin-bottom: 0.75rem;
+                    font-weight: 500;
+                }
+
+                /* Compact metadata */
+                .job-card .job-details {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.75rem;
+                    margin-bottom: 0.75rem;
+                    font-size: 0.8rem;
+                    color: #6c757d;
+                }
+
+                .job-card .job-details span {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                }
+
+                .job-card .job-details i {
+                    font-size: 0.75rem;
+                    color: #007bff;
+                    width: 12px;
+                }
+
+                /* Compact description */
+                .job-card .job-description {
+                    font-size: 0.85rem;
+                    color: #495057;
+                    line-height: 1.4;
+                    margin-bottom: 0.75rem;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                }
+
+                /* Compact tags */
+                .job-card .job-tags {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.25rem;
+                    margin-bottom: 0.75rem;
+                }
+
+                .job-card .job-tags .tag {
+                    background: #f0f7ff;
+                    color: #0056b3;
+                    padding: 0.2rem 0.4rem;
+                    border-radius: 10px;
+                    font-size: 0.7rem;
+                    font-weight: 500;
+                }
+
+                /* Compact footer */
+                .job-card .job-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 0.8rem;
+                    color: #6c757d;
+                    padding-top: 0.75rem;
+                    border-top: 1px solid #f1f3f4;
+                }
+
+                .job-card .salary {
+                    font-weight: 600;
+                    color: #28a745;
+                }
+
+                .job-card .posted-date {
+                    color: #9ca3af;
+                }
+
+                /* Hide action buttons in compact mode */
+                .job-card .job-actions {
+                    display: none;
+                }
+
+                /* Mobile responsiveness */
+                @media (max-width: 768px) {
+                    .job-card {
+                        padding: 1rem;
+                    }
+                    
+                    .job-card .company-logo {
+                        width: 36px;
+                        height: 36px;
+                    }
+                    
+                    .job-card .company-img {
+                        width: 28px;
+                        height: 28px;
+                    }
+                    
+                    .job-card .job-content {
+                        padding-right: 45px;
+                    }
+                }
+                
+                .py-6 {
+                    padding-top: 4rem !important;
+                    padding-bottom: 4rem !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Simple job search function
+            window.performJobSearch = function() {
+                const searchInput = document.getElementById('mainSearchInput');
+                if (searchInput && searchInput.value.trim()) {
+                    // Redirect to browse-jobs page with search query
+                    window.location.href = `browse-jobs.html?search=${encodeURIComponent(searchInput.value.trim())}`;
+                } else {
+                    window.location.href = 'browse-jobs.html';
+                }
+            };
+
+            // Add enter key support for search
+            const mainSearchInput = document.getElementById('mainSearchInput');
+            
+            if (mainSearchInput) {
+                mainSearchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performJobSearch();
+                    }
+                });
+            }
+
+            // Legacy support for jobTitle and jobLocation if they exist
+            const jobTitleInput = document.getElementById('jobTitle');
+            const jobLocationInput = document.getElementById('jobLocation');
+            
+            if (jobTitleInput) {
+                jobTitleInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performJobSearch();
+                    }
+                });
+            }
+
+            if (jobLocationInput) {
+                jobLocationInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performJobSearch();
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Component Loader -->
+    <script src="js/component-loader.js"></script>
+    
+    <!-- Image Configuration -->
+    <script src="js/config/images.js"></script>
+    
+    <!-- Image Loader Utility -->
+    <script src="js/utils/image-loader.js"></script>
+    
+    <!-- Job Card Component -->
+    <script src="js/components/job-card.js"></script>
+    
+    <!-- Page-specific Job Management -->
+    <script src="js/pages/index-jobs.js"></script>
+    
+    <!-- Load Header and Footer -->
+    <script>
+        // Load header and footer components
+        async function loadComponents() {
+            try {
+                // Load header using ComponentLoader
+                await ComponentLoader.loadHeader();
+                
+                // Load footer (keeping the simple approach for footer)
+                const response = await fetch('components/main-footer/main-footer.html');
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById('footer-placeholder').innerHTML = html;
+                }
+            } catch (error) {
+                console.error('Error loading components:', error);
+            }
+        }
+        
+        // Load components when page is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadComponents);
+        } else {
+            loadComponents();
+        }
+    </script>
+</body>
+</html>

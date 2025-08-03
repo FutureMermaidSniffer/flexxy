@@ -1,0 +1,82 @@
+/* ==========================================================================
+   CSS ARCHITECTURE GUIDE FOR FLEXJOBS
+   ==========================================================================
+   
+   This file outlines the recommended CSS structure for maintaining 
+   a scalable 5-page website with device-specific UI/UX patterns.
+   
+   CURRENT STRUCTURE:
+   - style.css (8000+ lines) - Monolithic approach
+   
+   RECOMMENDED MODULAR STRUCTURE:
+   - css/
+     ├── base/
+     │   ├── reset.css
+     │   ├── typography.css
+     │   ├── variables.css
+     │   └── mixins.css
+     ├── layout/
+     │   ├── grid.css
+     │   ├── header.css
+     │   ├── footer.css
+     │   └── navigation.css
+     ├── components/
+     │   ├── buttons.css
+     │   ├── forms.css
+     │   ├── cards.css
+     │   ├── modals.css
+     │   └── alerts.css
+     ├── pages/
+     │   ├── remote-jobs.css
+     │   ├── about.css
+     │   ├── job-search-career-advice.css
+     │   ├── events.css
+     │   └── blog.css
+     ├── utilities/
+     │   ├── responsive.css
+     │   ├── spacing.css
+     │   ├── display.css
+     │   └── device-specific.css
+     └── main.css (imports all modules)
+========================================================================== */
+
+/* 
+   NAMING CONVENTIONS:
+   
+   BEM Methodology:
+   .block__element--modifier
+   
+   Device-Specific Prefixes:
+   .mobile-*    - Mobile-only components
+   .tablet-*    - Tablet-only components
+   .desktop-*   - Desktop-only components
+   .pc-*        - PC-specific enhancements
+   
+   Page-Specific Prefixes:
+   .page-remote-jobs-*       # Remote jobs page specific
+   .page-about-*             # About page specific
+   .page-job-search-*        # Job search career advice specific
+   .page-events-*            # Events page specific
+   .page-blog-*              # Blog page specific
+*/
+
+/* 
+   MAINTENANCE WORKFLOW:
+   
+   1. Before adding new styles:
+      - Check existing components in components/ folder
+      - Check page-specific styles in pages/ folder
+      - Check utilities in utilities/ folder
+      - Search for similar patterns to avoid duplication
+   
+   2. When adding new styles:
+      - Identify if it's a component, utility, or page-specific
+      - Use appropriate naming convention
+      - Consider both mobile and desktop variants
+      - Document any complex calculations or browser-specific hacks
+   
+   3. Regular maintenance:
+      - Run CSS audits to find unused styles
+      - Consolidate similar patterns
+      - Update this guide when adding new patterns
+*/

@@ -1,27 +1,24 @@
-/**
- * Why Remote Page JavaScript
- * Handles work type selection and wizard navigation
- */
 
-// Initialize wizard header and footer
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize wizard header (first page - no back button)
+    
     if (typeof WizardHeader !== 'undefined') {
         window.wizardHeader = new WizardHeader({
             isFirstPage: true
         });
     }
     
-    // Initialize wizard footer
+    
     if (typeof WizardFooter !== 'undefined') {
         window.wizardFooter = new WizardFooter(1, 6, 'Next');
-        // Override the handleNext method
+        
         window.wizardFooter.handleNext = () => {
             window.whyRemotePageInstance.handleNext();
         };
     }
     
-    // Initialize page functionality
+    
     window.whyRemotePageInstance = new WhyRemotePage();
 });
 
@@ -46,7 +43,7 @@ class WhyRemotePage {
                 this.selectWorkType(workType, option);
             });
             
-            // Keyboard accessibility
+            
             option.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -58,24 +55,24 @@ class WhyRemotePage {
     }
 
     selectWorkType(workType, optionElement) {
-        // Clear previous selections
+        
         this.clearSelections();
         
-        // Set new selection
+        
         this.selectedWorkType = workType;
         optionElement.classList.add('selected');
         
-        // Show success message
+        
         this.showSuccessMessage();
         
-        // Show next button and enable footer
+        
         this.showNextButton();
         this.enableWizardFooter();
         
-        // Store preference
+        
         this.storeWorkTypePreference();
         
-        // Track selection
+        
         this.trackWorkTypeSelection(workType);
     }
 
@@ -125,7 +122,7 @@ class WhyRemotePage {
     goNext() {
         if (!this.selectedWorkType) return;
         
-        // Add loading animation
+        
         const nextBtn = document.getElementById('nextBtn');
         const mobileNextBtn = document.getElementById('mobileNextBtn');
         
@@ -137,7 +134,7 @@ class WhyRemotePage {
             mobileNextBtn.innerHTML = '<span class="loading-spinner"></span> Loading...';
         }
         
-        // Navigate to next step
+        
         setTimeout(() => {
             window.location.href = '/salary-preference';
         }, 500);
@@ -168,7 +165,7 @@ class WhyRemotePage {
     }
 
     trackWorkTypeSelection(workType) {
-        // Analytics tracking
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', 'work_type_selected', {
                 'work_type': workType,
@@ -179,7 +176,7 @@ class WhyRemotePage {
         console.log('Work type selected:', workType);
     }
 
-    // Public methods for external access
+    
     getWorkTypePreference() {
         return {
             workType: this.selectedWorkType

@@ -1,0 +1,155 @@
+<!-- Main Footer Component -->
+<footer class="main-footer">
+    <div class="container">
+        <!-- Footer Main Content -->
+        <div class="main-footer__content">
+            <div class="row">
+                <!-- Column 1: Find Remote Work From Home & Flexible Jobs -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="main-footer__column">
+                        <h6 class="main-footer__title">Find Remote Work From Home & Flexible Jobs</h6>
+                        <ul class="main-footer__links">
+                            <li><a href="browse-jobs.html?filter=new" class="main-footer__link">New Remote Jobs Hiring Now</a></li>
+                            <li><a href="browse-jobs.html?location=remote" class="main-footer__link">Remote Jobs Near Me</a></li>
+                            <li><a href="browse-jobs.html?type=part-time" class="main-footer__link">Part-Time Remote Jobs</a></li>
+                            <li><a href="browse-jobs.html?level=entry" class="main-footer__link">Entry Level Remote Jobs</a></li>
+                            <li><a href="browse-jobs.html?type=freelance" class="main-footer__link">Freelance Remote Jobs</a></li>
+                            <li><a href="job-category.html" class="main-footer__link">Browse Remote Jobs by Category</a></li>
+                            <li><a href="remote-jobs.html" class="main-footer__link">Browse Top Work From Home Jobs</a></li>
+                            <li><a href="browse-jobs.html?type=full-time" class="main-footer__link">Full-Time Remote Jobs</a></li>
+                            <li><a href="browse-jobs.html?type=temporary" class="main-footer__link">Temporary Remote Jobs</a></li>
+                            <li><a href="where-remote.html" class="main-footer__link">Work from Anywhere Jobs</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Column 2: About FlexJobs -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="main-footer__column">
+                        <h6 class="main-footer__title">About FlexJobs</h6>
+                        <ul class="main-footer__links">
+                            <li><a href="statistics.html" class="main-footer__link">FlexJobs Reviews</a></li>
+                            <li><a href="about.html" class="main-footer__link">How FlexJobs Works</a></li>
+                            <li><a href="blog.html" class="main-footer__link">Press & Awards</a></li>
+                            <li><a href="about.html#careers" class="main-footer__link">Careers at FlexJobs</a></li>
+                            <li><a href="#" class="main-footer__link">FlexJobs App</a></li>
+                            <li><a href="about.html#affiliate" class="main-footer__link">Affiliate Program</a></li>
+                            <li><a href="support.html" class="main-footer__link">Contact Us</a></li>
+                            <li><a href="faq.html#fraud" class="main-footer__link">Fraud Awareness</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Column 3: Job Search Resources -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="main-footer__column">
+                        <h6 class="main-footer__title">Job Search Resources</h6>
+                        <ul class="main-footer__links">
+                            <li><a href="browse-jobs.html?experience=no-experience" class="main-footer__link">Work from Home Jobs No Experience</a></li>
+                            <li><a href="career-advice.html" class="main-footer__link">How To Make Money Online</a></li>
+                            <li><a href="browse-jobs.html?schedule=weekend" class="main-footer__link">Weekend Jobs</a></li>
+                            <li><a href="browse-jobs.html?type=side-hustle" class="main-footer__link">Side Hustle Jobs from Home</a></li>
+                            <li><a href="salary-preference.html" class="main-footer__link">High Paying Remote Jobs</a></li>
+                            <li><a href="why-remote.html" class="main-footer__link">Best Remote Companies to Work For</a></li>
+                            <li><a href="career-advice.html" class="main-footer__link">Informational Guides</a></li>
+                            <li><a href="agents.html" class="main-footer__link">ExpertEasy: Auto Apply for Jobs</a></li>
+                            <li><a href="upload-resume.html" class="main-footer__link">Online Resume Builder</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Column 4: Follow Us & Reviews -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="main-footer__column">
+                        <!-- Social Media Section -->
+                        <!-- <div class="main-footer__social-section">
+                            <h6 class="main-footer__title">Follow Us on</h6>
+                            <div class="main-footer__social-links">
+                                <a href="https://facebook.com/flexjobs" class="main-footer__social-link" aria-label="Facebook" target="_blank">
+                                    <i class="fab fa-facebook"></i>
+                                </a>
+                                <a href="https://linkedin.com/company/flexjobs" class="main-footer__social-link" aria-label="LinkedIn" target="_blank">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="https://twitter.com/flexjobs" class="main-footer__social-link" aria-label="Twitter" target="_blank">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://youtube.com/flexjobs" class="main-footer__social-link" aria-label="YouTube" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a href="https://pinterest.com/flexjobs" class="main-footer__social-link" aria-label="Pinterest" target="_blank">
+                                    <i class="fab fa-pinterest"></i>
+                                </a>
+                                <a href="https://instagram.com/flexjobs" class="main-footer__social-link" aria-label="Instagram" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://tiktok.com/@flexjobs" class="main-footer__social-link" aria-label="TikTok" target="_blank">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                                <a href="https://reddit.com/r/flexjobs" class="main-footer__social-link" aria-label="Reddit" target="_blank">
+                                    <i class="fab fa-reddit"></i>
+                                </a>
+                                <a href="https://t.me/flexjobs" class="main-footer__social-link" aria-label="Telegram" target="_blank">
+                                    <i class="fab fa-telegram"></i>
+                                </a>
+                            </div>
+                        </div> -->
+
+                        <!-- Reviews Section -->
+                        <div class="main-footer__reviews">
+                            <h6 class="main-footer__title">Reviews of FlexJobs</h6>
+                            <div class="main-footer__review-rating">
+                                <span class="main-footer__rating-text">Excellent</span>
+                                <div class="main-footer__stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="main-footer__rating-score">4.6 out of 5</span>
+                            </div>
+                            <div class="main-footer__sitejabber">
+                                <img src="images/site-jabber.png" alt="Sitejabber" class="main-footer__sitejabber-logo">
+                            </div>
+                        </div>
+
+                        <!-- Partner Sites -->
+                        <div class="main-footer__partner">
+                            <h6 class="main-footer__title">Partner Sites</h6>
+                            <a href="https://remote.co" class="main-footer__partner-link" target="_blank">
+                                <span class="main-footer__partner-name">REMOTE.CO</span>
+                            </a>
+                        </div>
+
+                        <!-- App Download -->
+                        <!-- <div class="main-footer__app">
+                            <h6 class="main-footer__title">Get the FlexJobs App</h6>
+                            <div class="main-footer__app-buttons">
+                                <a href="https://apps.apple.com/app/flexjobs" class="main-footer__app-button" target="_blank">
+                                    <img src="images/apple-store.png" alt="Download on the App Store" class="main-footer__app-badge">
+                                </a>
+                                <a href="https://play.google.com/store/apps/details?id=com.flexjobs" class="main-footer__app-button" target="_blank">
+                                    <img src="images/google-play.png" alt="Get it on Google Play" class="main-footer__app-badge">
+                                </a>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="main-footer__bottom">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="main-footer__disclaimer">
+                        <p class="main-footer__disclaimer-text">
+                            The names and logos of the companies referred to above are all trademarks of their respective holders. Unless specifically stated otherwise, such references are not intended to imply any affiliation or association with FlexJobs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

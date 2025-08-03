@@ -4,30 +4,30 @@ const { body, validationResult } = require('express-validator');
 const { executeQuery } = require('../database');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
-// Apply auth middleware to all admin routes
+
 router.use(authenticateToken);
 router.use(requireAdmin);
 
-// Get dashboard statistics
+
 router.get('/stats', async (req, res) => {
     try {
-        // Get basic counts from existing tables
+        
         const queries = [
-            // Users count
+            
             'SELECT COUNT(*) as count FROM users',
-            // Jobs count  
+            
             'SELECT COUNT(*) as count FROM jobs',
-            // Companies count (if table exists)
+            
             'SELECT COUNT(*) as count FROM companies',
-            // Agents count
+            
             'SELECT COUNT(*) as count FROM agents',
-            // Applications count (if table exists)
+            
             'SELECT COUNT(*) as count FROM applications'
         ];
 
         const results = await Promise.allSettled(queries.map(query => executeQuery(query)));
         
-        // Extract counts, defaulting to 0 if query fails
+        
         const [usersResult, jobsResult, companiesResult, agentsResult, applicationsResult] = results;
         
         const stats = {
@@ -38,9 +38,9 @@ router.get('/stats', async (req, res) => {
             totalApplications: applicationsResult.status === 'fulfilled' && applicationsResult.value.length > 0 ? parseInt(applicationsResult.value[0].count) : 0
         };
 
-        // Get additional stats with better error handling
+        
         try {
-            // Active jobs (jobs posted in last 30 days)
+            
             const activeJobsQuery = `
                 SELECT COUNT(*) as count 
                 FROM jobs 
@@ -54,7 +54,7 @@ router.get('/stats', async (req, res) => {
         }
 
         try {
-            // New users this month
+            
             const newUsersQuery = `
                 SELECT COUNT(*) as count 
                 FROM users 
@@ -81,7 +81,7 @@ router.get('/stats', async (req, res) => {
     }
 });
 
-// Get all users with pagination
+
 router.get('/users', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -133,7 +133,7 @@ router.get('/users', async (req, res) => {
     }
 });
 
-// Get all jobs with pagination
+
 router.get('/jobs', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -187,7 +187,7 @@ router.get('/jobs', async (req, res) => {
     }
 });
 
-// Get all agents with pagination
+
 router.get('/agents', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -251,18 +251,18 @@ router.get('/agents', async (req, res) => {
     }
 });
 
-// Delete user
+
 router.delete('/users/:id', async (req, res) => {
     try {
         const userId = req.params.id;
 
-        // Check if user exists
+        
         const userResult = await executeQuery('SELECT id FROM users WHERE id = $1', [userId]);
         if (userResult.length === 0) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Delete user (this should cascade to related records if foreign keys are set up properly)
+        
         await executeQuery('DELETE FROM users WHERE id = $1', [userId]);
 
         res.json({ message: 'User deleted successfully' });
@@ -276,18 +276,18 @@ router.delete('/users/:id', async (req, res) => {
     }
 });
 
-// Delete job
+
 router.delete('/jobs/:id', async (req, res) => {
     try {
         const jobId = req.params.id;
 
-        // Check if job exists
+        
         const jobResult = await executeQuery('SELECT id FROM jobs WHERE id = $1', [jobId]);
         if (jobResult.length === 0) {
             return res.status(404).json({ message: 'Job not found' });
         }
 
-        // Delete job
+        
         await executeQuery('DELETE FROM jobs WHERE id = $1', [jobId]);
 
         res.json({ message: 'Job deleted successfully' });
@@ -301,14 +301,14 @@ router.delete('/jobs/:id', async (req, res) => {
     }
 });
 
-// Create new agent
+
 router.post('/agents', [
     body('agent_name').notEmpty().withMessage('Agent name is required'),
     body('display_name').notEmpty().withMessage('Display name is required'),
     body('email').isEmail().withMessage('Valid email is required'),
 ], async (req, res) => {
     try {
-        // Check validation results
+        
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -324,12 +324,12 @@ router.post('/agents', [
             is_active = true, is_featured = false, is_verified = false
         } = req.body;
 
-        // First create or find user
+        
         let userResult = await executeQuery('SELECT id FROM users WHERE email = $1', [email]);
         let userId;
 
         if (userResult.length === 0) {
-            // Create new user
+            
             const userQuery = `
                 INSERT INTO users (email, first_name, last_name, user_type, password_hash, is_active)
                 VALUES ($1, $2, $3, 'agent', 'temp_hash', true)
@@ -345,7 +345,7 @@ router.post('/agents', [
             userId = userResult[0].id;
         }
 
-        // Create agent record
+        
         const agentQuery = `
             INSERT INTO agents (
                 user_id, agent_name, display_name, bio, avatar_url,
@@ -377,7 +377,7 @@ router.post('/agents', [
     }
 });
 
-// Get single agent by ID
+
 router.get('/agents/:id', async (req, res) => {
     try {
         const agentId = req.params.id;
@@ -406,14 +406,14 @@ router.get('/agents/:id', async (req, res) => {
     }
 });
 
-// Update agent
+
 router.put('/agents/:id', [
     body('agent_name').notEmpty().withMessage('Agent name is required'),
     body('display_name').notEmpty().withMessage('Display name is required'),
     body('email').isEmail().withMessage('Valid email is required'),
 ], async (req, res) => {
     try {
-        // Check validation results
+        
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -429,7 +429,7 @@ router.put('/agents/:id', [
             certifications, linkedin_url, portfolio_url, is_active, is_featured
         } = req.body;
 
-        // Check if agent exists
+        
         const agentCheck = await executeQuery('SELECT user_id FROM agents WHERE id = $1', [agentId]);
         if (agentCheck.length === 0) {
             return res.status(404).json({ message: 'Agent not found' });
@@ -437,10 +437,10 @@ router.put('/agents/:id', [
 
         const userId = agentCheck[0].user_id;
 
-        // Update user email if changed
+        
         await executeQuery('UPDATE users SET email = $1 WHERE id = $2', [email, userId]);
 
-        // Update agent record
+        
         const updateQuery = `
             UPDATE agents SET
                 agent_name = $1, display_name = $2, bio = $3, avatar_url = $4,
@@ -469,18 +469,18 @@ router.put('/agents/:id', [
     }
 });
 
-// Delete agent
+
 router.delete('/agents/:id', async (req, res) => {
     try {
         const agentId = req.params.id;
 
-        // Check if agent exists
+        
         const agentResult = await executeQuery('SELECT id FROM agents WHERE id = $1', [agentId]);
         if (agentResult.length === 0) {
             return res.status(404).json({ message: 'Agent not found' });
         }
 
-        // Delete agent
+        
         await executeQuery('DELETE FROM agents WHERE id = $1', [agentId]);
 
         res.json({ message: 'Agent deleted successfully' });

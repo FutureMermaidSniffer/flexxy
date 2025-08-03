@@ -1,4 +1,4 @@
-// Wizard Footer Component
+
 class WizardFooter {
     constructor(currentStep = 1, totalSteps = 6, nextButtonText = 'Next') {
         this.currentStep = currentStep;
@@ -53,15 +53,15 @@ class WizardFooter {
             </div>
         `;
         
-        // Re-bind events after rendering
+        
         setTimeout(() => this.bindEvents(), 100);
     }
 
     bindEvents() {
-        // Bind mobile next button
+        
         const mobileNextBtn = document.getElementById('mobileNextBtn');
         if (mobileNextBtn) {
-            // Remove existing listeners to prevent duplicates
+            
             mobileNextBtn.removeEventListener('click', this.handleMobileClick);
             this.handleMobileClick = () => {
                 if (this.isEnabled) {
@@ -71,12 +71,12 @@ class WizardFooter {
             mobileNextBtn.addEventListener('click', this.handleMobileClick);
         }
 
-        // Bind desktop navigation buttons
+        
         const desktopNextBtn = document.getElementById('desktopNextBtn');
         const desktopBackBtn = document.getElementById('desktopBackBtn');
         
         if (desktopNextBtn) {
-            // Remove existing listeners to prevent duplicates
+            
             desktopNextBtn.removeEventListener('click', this.handleDesktopNextClick);
             this.handleDesktopNextClick = () => {
                 if (this.isEnabled) {
@@ -87,7 +87,7 @@ class WizardFooter {
         }
 
         if (desktopBackBtn) {
-            // Remove existing listeners to prevent duplicates
+            
             desktopBackBtn.removeEventListener('click', this.handleDesktopBackClick);
             this.handleDesktopBackClick = () => {
                 if (this.currentStep > 1) {
@@ -99,12 +99,12 @@ class WizardFooter {
     }
 
     handleNext() {
-        // This method should be overridden by each page
+        
         console.log('Next button clicked');
     }
 
     handleBack() {
-        // This method should be overridden by each page
+        
         console.log('Back button clicked');
     }
 
@@ -112,7 +112,7 @@ class WizardFooter {
         this.currentStep = currentStep;
         const progressPercentage = (this.currentStep / this.totalSteps) * 100;
         
-        // Update mobile progress
+        
         const mobileProgressText = document.querySelector('.wizard-mobile-footer__progress-text');
         const mobileProgressBar = document.querySelector('.wizard-mobile-footer__progress-bar');
         
@@ -124,13 +124,13 @@ class WizardFooter {
             mobileProgressBar.style.width = `${progressPercentage}%`;
         }
 
-        // Update desktop progress
+        
         const desktopProgressBar = document.querySelector('.wizard-footer__progress-bar');
         if (desktopProgressBar) {
             desktopProgressBar.style.width = `${progressPercentage}%`;
         }
 
-        // Update desktop back button state
+        
         const desktopBackBtn = document.getElementById('desktopBackBtn');
         if (desktopBackBtn) {
             if (this.currentStep <= 1) {
@@ -144,13 +144,13 @@ class WizardFooter {
     enableNextButton() {
         this.isEnabled = true;
         
-        // Enable mobile button
+        
         const mobileNextBtn = document.getElementById('mobileNextBtn');
         if (mobileNextBtn) {
             mobileNextBtn.classList.add('enabled');
         }
 
-        // Enable desktop button
+        
         const desktopNextBtn = document.getElementById('desktopNextBtn');
         if (desktopNextBtn) {
             desktopNextBtn.classList.add('enabled');
@@ -160,13 +160,13 @@ class WizardFooter {
     disableNextButton() {
         this.isEnabled = false;
         
-        // Disable mobile button
+        
         const mobileNextBtn = document.getElementById('mobileNextBtn');
         if (mobileNextBtn) {
             mobileNextBtn.classList.remove('enabled');
         }
 
-        // Disable desktop button
+        
         const desktopNextBtn = document.getElementById('desktopNextBtn');
         if (desktopNextBtn) {
             desktopNextBtn.classList.remove('enabled');
@@ -176,13 +176,13 @@ class WizardFooter {
     setNextButtonText(text) {
         this.nextButtonText = text;
         
-        // Update mobile button
+        
         const mobileNextBtn = document.getElementById('mobileNextBtn');
         if (mobileNextBtn) {
             mobileNextBtn.textContent = text;
         }
 
-        // Update desktop button
+        
         const desktopNextBtn = document.getElementById('desktopNextBtn');
         if (desktopNextBtn) {
             desktopNextBtn.textContent = text;
@@ -190,8 +190,8 @@ class WizardFooter {
     }
 }
 
-// Export for global use
+
 window.WizardFooter = WizardFooter;
 
-// Export for global use
+
 window.WizardFooter = WizardFooter;

@@ -1,33 +1,30 @@
-/**
- * Where Remote Page JavaScript
- * Handles location search, checkbox options, and wizard navigation
- */
 
-// Initialize wizard header and footer
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize wizard header (step 4 - show back button)
+    
     if (typeof WizardHeader !== 'undefined') {
         window.wizardHeader = new WizardHeader({
             isFirstPage: false
         });
     }
     
-    // Initialize wizard footer
+    
     if (typeof WizardFooter !== 'undefined') {
         window.wizardFooter = new WizardFooter(4, 6, 'Next');
-        // Override the handleNext method
+        
         window.wizardFooter.handleNext = () => {
             window.whereRemotePageInstance.handleNext();
         };
-        // Override the handleBack method
+        
         window.wizardFooter.handleBack = () => {
             window.whereRemotePageInstance.handleBack();
         };
-        // Enable by default since location preference isn't required
+        
         window.wizardFooter.enableNextButton();
     }
     
-    // Initialize page functionality
+    
     window.whereRemotePageInstance = new WhereRemotePage();
 });
 
@@ -78,7 +75,7 @@ class WhereRemotePage {
             });
             
             locationInput.addEventListener('blur', () => {
-                // Delay hiding to allow clicking on suggestions
+                
                 setTimeout(() => {
                     this.hideLocationSuggestions();
                 }, 200);
@@ -91,7 +88,7 @@ class WhereRemotePage {
                 }
             });
             
-            // Handle Enter key
+            
             locationInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -239,23 +236,23 @@ class WhereRemotePage {
     }
 
     handleNext() {
-        // Store preference
+        
         this.saveToLocalStorage();
         
-        // Navigate to next step
+        
         window.location.href = 'what-job.html';
     }
 
     handleBack() {
-        // Navigate to previous step
+        
         window.location.href = 'why-remote.html';
     }
 
     skip() {
-        // Clear any saved preference
+        
         localStorage.removeItem('locationPreference');
         
-        // Navigate to next step
+        
         window.location.href = 'what-job.html';
     }
 
@@ -302,7 +299,7 @@ class WhereRemotePage {
         }
     }
 
-    // Public methods for external access
+    
     getLocationPreference() {
         return {
             location: this.selectedLocation,
@@ -316,7 +313,7 @@ class WhereRemotePage {
         this.selectedOptions = new Set(options);
         this.hasInteracted = true;
         
-        // Update UI
+        
         const locationInput = document.getElementById('locationInput');
         if (locationInput && location) {
             locationInput.value = location;

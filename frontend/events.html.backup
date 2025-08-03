@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Events & Webinars - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Join FlexJobs career events and webinars to advance your job search and career development.">
+    <meta name="keywords" content="career events, job search webinars, career development, networking events">
+    <meta property="og:title" content="Career Events & Webinars - FlexJobs">
+    <meta property="og:description" content="Free career events and webinars to help you find flexible work opportunities.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Halcyon Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-semibold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    <!-- Main Header Component CSS -->
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <!-- Main Footer Component CSS -->
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-events">
+    <!-- Main Header Component will be injected here -->
+    <div id="main-header-container"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Event Filter Section -->
+        <section class="event-filter-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="filter-controls">
+                            <div class="filter-tabs">
+                                <button class="filter-tab active" data-filter="upcoming">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    Upcoming Events
+                                </button>
+                                <button class="filter-tab" data-filter="past">
+                                    <i class="fas fa-calendar-check"></i>
+                                    Past Events
+                                </button>
+                                <button class="filter-tab" data-filter="recordings">
+                                    <i class="fas fa-video"></i>
+                                    Recordings
+                                </button>
+                            </div>
+                            <div class="filter-options">
+                                <select class="form-select filter-select" id="categoryFilter">
+                                    <option value="">All Categories</option>
+                                    <option value="leadership">Leadership</option>
+                                    <option value="career-development">Career Development</option>
+                                    <option value="job-search">Job Search</option>
+                                    <option value="remote-work">Remote Work</option>
+                                    <option value="networking">Networking</option>
+                                    <option value="interview-skills">Interview Skills</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Event Section -->
+        <section class="featured-event-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="featured-event-card">
+                            <div class="row align-items-center">
+                                <div class="col-lg-8">
+                                    <div class="featured-content">
+                                        <div class="event-badge">Featured Event</div>
+                                        <h2 class="featured-title">How Artificial Intelligence will Redefine Leadership</h2>
+                                        <p class="featured-description">
+                                            Join Rasmus Hougaard and Jacqueline Carter, authors of "More Human," as they explore how AI has the power to transform leadership for the better. This HBR and CDOT Database webinar reveals how leaders can leverage AI to become more human, not less.
+                                        </p>
+                                        <div class="featured-details">
+                                            <div class="detail-item">
+                                                <i class="fas fa-calendar"></i>
+                                                <span>August 15, 2025</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <i class="fas fa-clock"></i>
+                                                <span>2:00 PM EST</span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <i class="fas fa-users"></i>
+                                                <span>2,847 registered</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="featured-action">
+                                        <div class="event-image">
+                                            <img src="images/hougaard_rasmus.jpg" alt="AI Leadership Event" class="img-fluid">
+                                            <div class="image-overlay">
+                                                <i class="fas fa-brain"></i>
+                                            </div>
+                                        </div>
+                                        <a href="https://hbr.org/webinar/2025/02/how-artificial-intelligence-will-redefine-leadership" target="_blank" class="btn btn-primary register-btn">
+                                            <i class="fas fa-ticket-alt"></i>
+                                            Register Free
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Grid Section -->
+        <section class="events-grid-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <h2 class="section-title" id="sectionTitle">Upcoming Events</h2>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Events -->
+                <div class="row events-container" id="upcomingEvents">
+                    <!-- Event Card 1 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="leadership">
+                        <div class="event-card">
+                            <div class="event-image-container">
+                                <img src="images/AI-Customer-Experience.webp" alt="Customer Experience with AI" class="event-image">
+                                <div class="event-category-badge">Leadership</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">22</div>
+                                    <div class="date-month">JUL</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">How Leaders Are Rethinking Customer Experience with AI</h3>
+                                <p class="event-description">
+                                    Forward-thinking brand strategists seize AI opportunities to create better, more personalized customer experiences.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>1:00 PM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <span>60 minutes</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Adam Brotman & Andy Sack, HBR</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://hbr.org/webinar/2025/07/how-leaders-are-rethinking-customer-experience-with-ai" target="_blank" class="btn btn-outline-primary register-btn">Register</a>
+                                <span class="attendee-count">1,847 registered</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 2 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="career-development">
+                        <div class="event-card">
+                            <div class="event-image-container">
+                                <img src="images/atd_coaching_conference.webp" alt="ATD Coaching Conference" class="event-image">
+                                <div class="event-category-badge">Career Development</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">20</div>
+                                    <div class="date-month">AUG</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">ATD Coaching Conference 2025</h3>
+                                <p class="event-description">
+                                    Develop the skills to launch, build, and scale coaching programs for organizations and individuals.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>9:00 AM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <span>2 days</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>ATD Professional Network</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://coachingconference.td.org/" target="_blank" class="btn btn-outline-primary register-btn">Register</a>
+                                <span class="attendee-count">892 registered</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 3 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="job-search">
+                        <div class="event-card">
+                            <div class="event-image-container">
+                                <img src="images/indeed-futureworks.jpg" alt="Indeed Job Market Event" class="event-image">
+                                <div class="event-category-badge">Job Search</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">25</div>
+                                    <div class="date-month">AUG</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Indeed FutureWorks: Job Market Insights</h3>
+                                <p class="event-description">
+                                    Discover the latest trends in the job market and learn strategies for finding your next opportunity.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>2:30 PM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <span>75 minutes</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Indeed Hiring Lab Team</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://www.indeedevents.com/job-seeker/" target="_blank" class="btn btn-outline-primary register-btn">Register</a>
+                                <span class="attendee-count">1,234 registered</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 4 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="remote-work">
+                        <div class="event-card">
+                            <div class="event-image-container">
+                                <img src="images/Strategic-plan-Remote-Teams.webp" alt="Strategic Fit Webinar" class="event-image">
+                                <div class="event-category-badge">Remote Work</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">02</div>
+                                    <div class="date-month">SEP</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Strategic Planning for Remote Teams</h3>
+                                <p class="event-description">
+                                    Learn how smart companies unlock the power of strategic fit in distributed work environments.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>4:00 PM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <span>90 minutes</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Darrell Rigby & Zach First, HBR</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://hbr.org/webinar/2025/06/how-smart-companies-unlock-the-power-of-strategic-fit" target="_blank" class="btn btn-outline-primary register-btn">Register</a>
+                                <span class="attendee-count">567 registered</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 5 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="networking">
+                        <div class="event-card">
+                            <div class="event-image-container">
+                                <img src="images/Building an Inclusive Workplace Culture.jpg" alt="ATD OrgDev Conference" class="event-image">
+                                <div class="event-category-badge">Networking</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">20</div>
+                                    <div class="date-month">OCT</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">ATD OrgDev: Building Inclusive Cultures</h3>
+                                <p class="event-description">
+                                    Learn from leading experts how to create a more inclusive culture, build talent retention, and create an engaged workforce.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>10:00 AM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <span>3 days</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>ATD Organization Development Network</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://orgdev.td.org/" target="_blank" class="btn btn-outline-primary register-btn">Register</a>
+                                <span class="attendee-count">723 registered</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 6 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="interview-skills">
+                        <div class="event-card">
+                            <div class="event-image-container">
+                                <img src="images/AI-Interview-Preparation.webp" alt="AI in Workplace" class="event-image">
+                                <div class="event-category-badge">Interview Skills</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">15</div>
+                                    <div class="date-month">NOV</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">AI Interview Preparation Workshop</h3>
+                                <p class="event-description">
+                                    Master interviewing in the age of AI. Learn how to present your human value alongside technical AI skills.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>11:00 AM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <span>2 hours</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Julian De Freitas, HBR Expert</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://hbr.org/webinar/2025/06/how-to-increase-ai-adoption-in-the-workplace" target="_blank" class="btn btn-outline-primary register-btn">Register</a>
+                                <span class="attendee-count">445 registered</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Past Events -->
+                <div class="row events-container" id="pastEvents" style="display: none;">
+                    <!-- Past Event Card 1 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="leadership">
+                        <div class="event-card past-event">
+                            <div class="event-image-container">
+                                <img src="images/hougaard_rasmus.jpg" alt="AI Leadership Past Event" class="event-image">
+                                <div class="event-category-badge">Leadership</div>
+                                <div class="past-event-overlay">COMPLETED</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">18</div>
+                                    <div class="date-month">FEB</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">How Artificial Intelligence Redefined Leadership</h3>
+                                <p class="event-description">
+                                    Explored how AI transforms leadership, featuring insights from "More Human" authors on leveraging AI for better leadership.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>2:00 PM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-users"></i>
+                                        <span>3,247 attended</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Rasmus Hougaard & Jacqueline Carter</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <button class="btn btn-outline-secondary disabled-btn" disabled>Event Completed</button>
+                                <span class="attendee-count">Highly Rated: 4.8/5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Past Event Card 2 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="remote-work">
+                        <div class="event-card past-event">
+                            <div class="event-image-container">
+                                <img src="images/Disruptive-Innovation.webp" alt="Disruptive Technologies" class="event-image">
+                                <div class="event-category-badge">Remote Work</div>
+                                <div class="past-event-overlay">COMPLETED</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">28</div>
+                                    <div class="date-month">JAN</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">How Disruptive Technologies Revolutionized Work</h3>
+                                <p class="event-description">
+                                    Examined how AI, Web3, and decentralized work models are opening unprecedented possibilities for the future of work.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>1:30 PM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-users"></i>
+                                        <span>2,156 attended</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Deborah Perry Piscione & Josh Drean</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <button class="btn btn-outline-secondary disabled-btn" disabled>Event Completed</button>
+                                <span class="attendee-count">Highly Rated: 4.6/5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Past Event Card 3 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="career-development">
+                        <div class="event-card past-event">
+                            <div class="event-image-container">
+                                <img src="images/finance-team-ai-revolution.jpeg" alt="Finance Teams AI" class="event-image">
+                                <div class="event-category-badge">Career Development</div>
+                                <div class="past-event-overlay">COMPLETED</div>
+                            </div>
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="date-day">25</div>
+                                    <div class="date-month">MAR</div>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">How Finance Teams Unlocked AI's Full Potential</h3>
+                                <p class="event-description">
+                                    Explored how finance professionals can bridge the gap between AI enthusiasm and tangible business results.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-clock"></i>
+                                        <span>3:00 PM EST</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-users"></i>
+                                        <span>1,892 attended</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Jason McDannold, Hoyoung Pak & Paula Walworth</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <button class="btn btn-outline-secondary disabled-btn" disabled>Event Completed</button>
+                                <span class="attendee-count">Highly Rated: 4.7/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recordings -->
+                <div class="row events-container" id="recordingsEvents" style="display: none;">
+                    <!-- Recording Card 1 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="leadership">
+                        <div class="event-card recording-event">
+                            <div class="event-image-container">
+                                <img src="images/thriving.jpeg" alt="Thriving in Turbulent Times" class="event-image">
+                                <div class="event-category-badge">Leadership</div>
+                                <div class="recording-overlay">
+                                    <i class="fas fa-play-circle"></i>
+                                    <span>RECORDING</span>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Thriving in Turbulent Times: A Three-Part Approach</h3>
+                                <p class="event-description">
+                                    Learn how to succeed in an era of volatility with insights from Bain & Company's Global Strategy practice experts.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-video"></i>
+                                        <span>60 min recording</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>Nov 11, 2024</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Dunigan O'Keeffe & Karen Harris</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://hbr.org/webinar/2024/10/thriving-in-turbulent-times-a-three-part-approach-for-success" target="_blank" class="btn btn-primary watch-btn">
+                                    <i class="fas fa-play"></i>
+                                    Watch Recording
+                                </a>
+                                <span class="attendee-count">15,743 views</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recording Card 2 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="remote-work">
+                        <div class="event-card recording-event">
+                            <div class="event-image-container">
+                                <img src="images/imagining.png" alt="Humans and Machines" class="event-image">
+                                <div class="event-category-badge">Remote Work</div>
+                                <div class="recording-overlay">
+                                    <i class="fas fa-play-circle"></i>
+                                    <span>RECORDING</span>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Imagining A Future Of Humans + Machines</h3>
+                                <p class="event-description">
+                                    Explore how companies can leverage AI to drive innovation and growth while maintaining human-centered approaches.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-video"></i>
+                                        <span>75 min recording</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>Oct 22, 2024</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Paul R. Daugherty & H. James Wilson</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://hbr.org/webinar/2024/10/imagining-a-future-of-humans-machines" target="_blank" class="btn btn-primary watch-btn">
+                                    <i class="fas fa-play"></i>
+                                    Watch Recording
+                                </a>
+                                <span class="attendee-count">12,456 views</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recording Card 3 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="career-development">
+                        <div class="event-card recording-event">
+                            <div class="event-image-container">
+                                <img src="images/scenario.jpeg" alt="Scenario Planning" class="event-image">
+                                <div class="event-category-badge">Career Development</div>
+                                <div class="recording-overlay">
+                                    <i class="fas fa-play-circle"></i>
+                                    <span>RECORDING</span>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">How CFOs Turn Scenario Planning into Competitive Edge</h3>
+                                <p class="event-description">
+                                    Discover how CFOs use scenario planning to strategically unlock new value-creation opportunities in risk management.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-video"></i>
+                                        <span>45 min recording</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>Apr 21, 2025</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Ben T. Smith, IV & Tawfik Jamjoum</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://hbr.org/webinar/2025/04/how-cfos-turn-scenario-planning-into-a-competitive-edge" target="_blank" class="btn btn-primary watch-btn">
+                                    <i class="fas fa-play"></i>
+                                    Watch Recording
+                                </a>
+                                <span class="attendee-count">8,923 views</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recording Card 4 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="job-search">
+                        <div class="event-card recording-event">
+                            <div class="event-image-container">
+                                <img src="images/option-for-remote-work.png" alt="AI Process Management" class="event-image">
+                                <div class="event-category-badge">Job Search</div>
+                                <div class="recording-overlay">
+                                    <i class="fas fa-play-circle"></i>
+                                    <span>RECORDING</span>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title">Maximizing ROI with AI-Driven Process Management</h3>
+                                <p class="event-description">
+                                    Learn how to rethink business processes for AI success and reverse failed AI initiatives to deliver promised value.
+                                </p>
+                                <div class="event-details">
+                                    <div class="event-time">
+                                        <i class="fas fa-video"></i>
+                                        <span>90 min recording</span>
+                                    </div>
+                                    <div class="event-duration">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>Apr 16, 2025</span>
+                                    </div>
+                                </div>
+                                <div class="event-speaker">
+                                    <i class="fas fa-user"></i>
+                                    <span>Thomas H. Davenport & Thomas C. Redman</span>
+                                </div>
+                            </div>
+                            <div class="event-footer">
+                                <a href="https://hbr.org/webinar/2025/04/maximizing-roi-with-ai-driven-process-management" target="_blank" class="btn btn-primary watch-btn">
+                                    <i class="fas fa-play"></i>
+                                    Watch Recording
+                                </a>
+                                <span class="attendee-count">6,578 views</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-outline-primary load-more-btn">
+                            <i class="fas fa-plus"></i>
+                            Load More Events
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="section-title">Never Miss an Event</h2>
+                        <p class="section-subtitle">
+                            Subscribe to our newsletter and get notified about upcoming career events and webinars.
+                        </p>
+                        <form class="newsletter-form">
+                            <div class="input-group">
+                                <input type="email" class="form-control" placeholder="Enter your email address" required>
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-bell"></i>
+                                    Subscribe
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Main Footer Component will be injected here -->
+    <div id="main-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Main Header Component JS -->
+    <script src="components/main-header/main-header.js"></script>
+    <!-- Main Footer Component JS -->
+    <script src="components/main-footer/main-footer.js"></script>
+    <!-- Events Page JS -->
+    <script src="js/pages/events.js"></script>
+    
+    <script>
+        // Load Footer Component
+        async function loadFooterComponent() {
+            try {
+                const response = await fetch('components/main-footer/main-footer.html');
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById('main-footer-container').innerHTML = html;
+                    
+                    // Initialize footer functionality after loading
+                    if (typeof MainFooter !== 'undefined') {
+                        new MainFooter();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading footer component:', error);
+            }
+        }
+
+        // Load footer on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFooterComponent();
+        });
+    </script>
+    
+    <style>
+        /* Page-specific styles */
+        .page-events {
+            font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Event Filter Section */
+        .event-filter-section {
+            padding: 2rem 0;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .filter-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-tab {
+            background: none;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            padding: 0.75rem 1.5rem;
+            color: #6c757d;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            border-color: #007bff;
+            color: #007bff;
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .filter-select {
+            min-width: 200px;
+            border-radius: 5px;
+            border: 2px solid #e9ecef;
+        }
+
+        /* Featured Event Section */
+        .featured-event-section {
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+
+        .featured-event-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .event-badge {
+            background: #ff6b35;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .featured-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .featured-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .featured-details {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .featured-action {
+            text-align: center;
+        }
+
+        .event-image {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .event-image:hover img {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 123, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .event-image:hover .image-overlay {
+            opacity: 1;
+        }
+
+        /* Event Image Containers */
+        .event-image-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 5px 5px 0 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            transition: transform 0.3s ease;
+        }
+
+        .event-image-container:hover {
+            transform: translateY(-2px);
+        }
+
+        .event-image-container .event-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            margin: 0;
+            font-size: 4rem;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .event-image-container .event-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0,123,255,0.1), rgba(255,107,53,0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .event-image-container:hover .event-image::before {
+            opacity: 1;
+        }
+
+        .event-image-container .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 0;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .event-image-container:hover .event-image img {
+            transform: scale(1.05);
+            filter: brightness(1.1) contrast(1.05);
+        }
+
+        .event-category-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 123, 255, 0.95);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .event-category-badge:hover {
+            background: rgba(0, 123, 255, 1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Past Events Styling */
+        .past-event {
+            opacity: 0.8;
+        }
+
+        .past-event-overlay {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(108, 117, 125, 0.95);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .past-event-overlay:hover {
+            background: rgba(108, 117, 125, 1);
+            transform: translateY(-1px);
+        }
+
+        .disabled-btn {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Recording Events Styling */
+        .recording-event .recording-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1.2rem 1.8rem;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .recording-event:hover .recording-overlay {
+            background: rgba(0, 0, 0, 0.95);
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .recording-overlay i {
+            font-size: 1.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .watch-btn {
+            background: #28a745;
+            border: none;
+            border-radius: 5px;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .watch-btn:hover {
+            background: #218838;
+        }
+
+        .featured-action .register-btn {
+            background: #ff6b35;
+            border: none;
+            border-radius: 5px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+
+        /* Events Grid Section */
+        .events-grid-section {
+            padding: 3rem 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 2rem;
+        }
+
+        .event-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .event-header {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .event-date {
+            text-align: center;
+        }
+
+        .date-day {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #007bff;
+            line-height: 1;
+        }
+
+        .date-month {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        .event-category {
+            background: #007bff;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .event-content {
+            padding: 1.5rem;
+        }
+
+        .event-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .event-description {
+            font-size: 0.95rem;
+            color: #6c757d;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-details {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-time,
+        .event-duration {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .event-speaker {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .event-footer {
+            padding: 1.5rem;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .event-footer .register-btn {
+            border-radius: 5px;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .attendee-count {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            padding: 3rem 0;
+            background: white;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-form .input-group {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form .form-control {
+            border-radius: 5px 0 0 5px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .newsletter-form .btn {
+            border-radius: 0 5px 5px 0;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .load-more-btn {
+            border-radius: 5px;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            .filter-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .filter-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .featured-details {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .featured-title {
+                font-size: 1.5rem;
+            }
+
+            /* Responsive Image Adjustments */
+            .event-image-container {
+                height: 180px;
+            }
+
+            .event-image {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+
+            .recording-overlay {
+                padding: 1rem 1.4rem !important;
+                font-size: 0.8rem !important;
+            }
+
+            .recording-overlay i {
+                font-size: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .filter-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .featured-event-card {
+                padding: 1.5rem;
+            }
+
+            .featured-title {
+                font-size: 1.3rem;
+            }
+
+            .featured-description {
+                font-size: 1rem;
+            }
+
+            .event-header {
+                padding: 1rem;
+            }
+
+            .event-content {
+                padding: 1rem;
+            }
+
+            .event-footer {
+                padding: 1rem;
+            }
+
+            .events-grid-section {
+                padding: 2rem 0;
+            }
+        }
+        
+        /* Notification Modal Styling */
+        #notificationModal .modal-content {
+            font-family: 'Halcyon', sans-serif !important;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            border-radius: 12px;
+        }
+        
+        #notificationModal .modal-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            padding: 1.25rem;
+        }
+        
+        #notificationModal .modal-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #004f6e !important;
+        }
+        
+        #notificationModal .modal-body {
+            padding: 1.25rem;
+            font-size: 0.95rem;
+            color: #495057;
+            line-height: 1.5;
+        }
+        
+        #notificationModal .modal-footer {
+            padding: 1rem 1.25rem;
+            background-color: #fff;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        
+        #notificationModal .btn {
+            font-family: 'Halcyon', sans-serif !important;
+            font-weight: 500;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            min-width: 80px;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .notification-icon.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .notification-icon.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .notification-icon.warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .notification-icon.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        /* Animation for notification modal */
+        #notificationModal.fade .modal-dialog {
+            transform: translate(0, -50px);
+            transition: transform 0.3s ease-out;
+        }
+        
+        #notificationModal.show .modal-dialog {
+            transform: translate(0, 0);
+        }
+        
+        /* Mobile notification adjustments */
+        @media (max-width: 576px) {
+            #notificationModal .modal-dialog {
+                margin: 1rem;
+            }
+            
+            #notificationModal .modal-header,
+            #notificationModal .modal-body,
+            #notificationModal .modal-footer {
+                padding: 1rem;
+            }
+            
+            #notificationModal .modal-title {
+                font-size: 1rem;
+            }
+            
+            #notificationModal .modal-body {
+                font-size: 0.9rem;
+            }
+            
+            .notification-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Footer Integration Styles */
+        .page-events {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .page-events main {
+            flex: 1;
+        }
+
+        /* Ensure proper spacing before footer */
+        .page-events #main-footer-container {
+            margin-top: 2rem;
+        }
+
+        /* Footer responsive adjustments for events page */
+        @media (max-width: 768px) {
+            .page-events #main-footer-container {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+
+    <!-- Notification Modal -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="d-flex align-items-center w-100">
+                        <div class="notification-icon me-3" id="notificationIcon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h5 class="modal-title mb-0" id="notificationModalLabel">Notification</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-2">
+                    <p id="notificationMessage" class="mb-0">Your message will appear here.</p>
+                </div>
+                <div class="modal-footer border-0 pt-2">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const sectionTitle = document.getElementById('sectionTitle');
+            const upcomingEvents = document.getElementById('upcomingEvents');
+            const pastEvents = document.getElementById('pastEvents');
+            const recordingsEvents = document.getElementById('recordingsEvents');
+
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Update active tab
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hide all event containers
+                    upcomingEvents.style.display = 'none';
+                    pastEvents.style.display = 'none';
+                    recordingsEvents.style.display = 'none';
+                    
+                    // Show selected container and update title
+                    switch(filter) {
+                        case 'upcoming':
+                            upcomingEvents.style.display = 'flex';
+                            sectionTitle.textContent = 'Upcoming Events';
+                            break;
+                        case 'past':
+                            pastEvents.style.display = 'flex';
+                            sectionTitle.textContent = 'Past Events';
+                            break;
+                        case 'recordings':
+                            recordingsEvents.style.display = 'flex';
+                            sectionTitle.textContent = 'Event Recordings';
+                            break;
+                    }
+                });
+            });
+
+            // Category filtering
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', function() {
+                    const selectedCategory = this.value;
+                    const activeContainer = document.querySelector('.events-container[style*="flex"]') || upcomingEvents;
+                    const eventCards = activeContainer.querySelectorAll('[data-category]');
+                    
+                    eventCards.forEach(card => {
+                        if (selectedCategory === '' || card.getAttribute('data-category') === selectedCategory) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Newsletter subscription
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const emailInput = this.querySelector('input[type="email"]');
+                    const email = emailInput.value;
+                    
+                    if (email) {
+                        showNotification('Thank you for subscribing! You will receive notifications about upcoming events.', 'success');
+                        emailInput.value = '';
+                    }
+                });
+            }
+
+            // Load more functionality
+            const loadMoreBtn = document.querySelector('.load-more-btn');
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', function() {
+                    showNotification('More events would be loaded here in a real application.', 'info');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

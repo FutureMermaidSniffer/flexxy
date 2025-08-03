@@ -13,13 +13,13 @@ async function populateAgentData() {
         const sqlFile = path.join(__dirname, 'database', 'sample_agents_data.sql');
         const sqlContent = fs.readFileSync(sqlFile, 'utf8');
         
-        // Remove comments and split into meaningful statements
+        
         const cleanedSql = sqlContent
             .split('\n')
             .filter(line => !line.trim().startsWith('--') && line.trim().length > 0)
             .join('\n');
         
-        // Split by semicolon but be smarter about it - only split on semicolons followed by newlines
+        
         const statements = cleanedSql
             .split(/;\s*\n/)
             .map(stmt => stmt.trim())
@@ -33,7 +33,7 @@ async function populateAgentData() {
                 await client.query(statement);
                 console.log(`✅ Statement ${i + 1}/${statements.length} executed successfully`);
             } catch (error) {
-                // Check if it's a duplicate entry error (which is okay)
+                
                 if (error.code === '23505' || error.message.includes('duplicate key')) {
                     console.log(`⚠️  Statement ${i + 1}/${statements.length} - Duplicate entry (skipping)`);
                 } else {
@@ -45,7 +45,7 @@ async function populateAgentData() {
         
         console.log('\n🎉 Sample agent data population completed!');
         
-        // Verify the data was inserted
+        
         console.log('\n📊 Verifying data...');
         const agentsResult = await client.query('SELECT COUNT(*) as count FROM agents');
         const usersResult = await client.query('SELECT COUNT(*) as count FROM users WHERE user_type = $1', ['agent']);
@@ -65,7 +65,7 @@ async function populateAgentData() {
     }
 }
 
-// Run the script
+
 if (require.main === module) {
     populateAgentData()
         .then(() => {

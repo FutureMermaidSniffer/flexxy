@@ -1,4 +1,4 @@
-// Test job details API
+
 const http = require('http');
 
 const options = {

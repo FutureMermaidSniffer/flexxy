@@ -1,4 +1,4 @@
-// Login Page JavaScript
+
 class LoginManager {
     constructor() {
         this.form = document.getElementById('loginForm');
@@ -9,7 +9,7 @@ class LoginManager {
         this.btnText = this.loginBtn?.querySelector('.btn-text');
         this.btnSpinner = this.loginBtn?.querySelector('.btn-spinner');
         
-        // Check if all required elements exist
+        
         if (!this.form || !this.passwordInput || !this.emailInput || !this.loginBtn) {
             console.error('Login form elements not found');
             return;
@@ -25,13 +25,13 @@ class LoginManager {
     }
 
     setupEventListeners() {
-        // Form submission
+        
         this.form.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleLogin();
         });
 
-        // Social login buttons
+        
         document.querySelectorAll('.social-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const provider = btn.textContent.includes('Google') ? 'google' : 'apple';
@@ -39,11 +39,11 @@ class LoginManager {
             });
         });
 
-        // Real-time validation
+        
         this.emailInput.addEventListener('blur', () => this.validateEmail());
         this.passwordInput.addEventListener('blur', () => this.validatePassword());
         
-        // Clear validation on input
+        
         this.emailInput.addEventListener('input', () => this.clearValidation(this.emailInput));
         this.passwordInput.addEventListener('input', () => this.clearValidation(this.passwordInput));
     }
@@ -60,7 +60,7 @@ class LoginManager {
     }
 
     setupFormValidation() {
-        // Bootstrap form validation
+        
         this.form.classList.add('needs-validation');
     }
 
@@ -137,7 +137,7 @@ class LoginManager {
     }
 
     async handleLogin() {
-        // Validate form
+        
         const isEmailValid = this.validateEmail();
         const isPasswordValid = this.validatePassword();
         
@@ -146,7 +146,7 @@ class LoginManager {
             return;
         }
 
-        // Show loading state
+        
         this.showLoadingState();
 
         try {
@@ -156,7 +156,7 @@ class LoginManager {
                 rememberMe: document.getElementById('rememberMe')?.checked || false
             };
 
-            // Make API call to login endpoint
+            
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
@@ -168,15 +168,15 @@ class LoginManager {
             const data = await response.json();
 
             if (response.ok) {
-                // Store authentication data using consistent naming
+                
                 localStorage.setItem('flexjobs_token', data.token);
                 localStorage.setItem('flexjobs_user', JSON.stringify(data.user));
                 
                 this.showNotification('Login successful! Redirecting...', 'success');
                 
-                // Redirect after a short delay
+                
                 setTimeout(() => {
-                    // Check if user is admin and redirect accordingly
+                    
                     if (data.user && data.user.user_type === 'admin') {
                         window.location.href = 'admin-dashboard.html';
                     } else {
@@ -198,10 +198,10 @@ class LoginManager {
     async handleSocialLogin(provider) {
         try {
             if (provider === 'google') {
-                // Redirect to Google OAuth
+                
                 window.location.href = '/api/auth/google';
             } else if (provider === 'apple') {
-                // For Apple, we'll use Sign In with Apple JS SDK
+                
                 this.initializeAppleSignIn();
             }
         } catch (error) {
@@ -211,10 +211,10 @@ class LoginManager {
     }
 
     initializeAppleSignIn() {
-        // Check if Apple Sign In is available
+        
         if (typeof AppleID !== 'undefined') {
             AppleID.auth.init({
-                clientId: 'your-apple-client-id', // Replace with your Apple client ID
+                clientId: 'your-apple-client-id', 
                 scope: 'name email',
                 redirectURI: window.location.origin + '/login',
                 state: 'apple-signin',
@@ -222,14 +222,14 @@ class LoginManager {
             });
 
             AppleID.auth.signIn().then((data) => {
-                // Handle Apple sign-in response
+                
                 this.handleAppleCallback(data);
             }).catch((error) => {
                 console.error('Apple Sign In error:', error);
                 this.showNotification('Apple Sign In failed. Please try again.', 'error');
             });
         } else {
-            // Fallback if Apple SDK is not loaded
+            
             this.showNotification('Apple Sign In is not available. Please try again later.', 'warning');
         }
     }
@@ -252,15 +252,15 @@ class LoginManager {
             const data = await response.json();
 
             if (response.ok) {
-                // Store authentication data
+                
                 localStorage.setItem('authToken', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 
                 this.showNotification('Apple Sign In successful! Redirecting...', 'success');
                 
-                // Redirect after a short delay
+                
                 setTimeout(() => {
-                    // Check if user is admin and redirect accordingly
+                    
                     if (data.user && data.user.user_type === 'admin') {
                         window.location.href = 'admin-dashboard.html';
                     } else {
@@ -285,7 +285,7 @@ class LoginManager {
         const title = document.getElementById('notificationModalLabel');
         const messageElement = document.getElementById('notificationMessage');
         
-        // Set icon and styling based on type
+        
         const iconMap = {
             success: 'fas fa-check-circle',
             error: 'fas fa-exclamation-triangle', 
@@ -305,13 +305,13 @@ class LoginManager {
         title.textContent = titleMap[type] || titleMap.info;
         messageElement.textContent = message;
         
-        // Show modal
+        
         const bsModal = new bootstrap.Modal(modal);
         bsModal.show();
     }
 }
 
-// Utility Functions
+
 class LoginUtils {
     static checkAuthState() {
         const token = localStorage.getItem('flexjobs_token');
@@ -320,17 +320,17 @@ class LoginUtils {
         if (token && user) {
             try {
                 const userData = JSON.parse(user);
-                // Check if user is admin and redirect accordingly
+                
                 if (userData.user_type === 'admin') {
                     window.location.href = 'admin-dashboard.html';
                 } else {
-                    // User is already logged in, redirect to dashboard
+                    
                     const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
                     window.location.href = redirectUrl;
                 }
             } catch (error) {
                 console.error('Error parsing user data:', error);
-                // If there's an error parsing user data, clear storage and stay on login page
+                
                 localStorage.removeItem('flexjobs_token');
                 localStorage.removeItem('flexjobs_user');
             }
@@ -344,10 +344,10 @@ class LoginUtils {
         const error = urlParams.get('error');
 
         if (token && success) {
-            // OAuth success - store token and redirect using consistent naming
+            
             localStorage.setItem('flexjobs_token', token);
             
-            // Fetch user data with the token
+            
             fetch('/api/auth/verify', {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -358,13 +358,13 @@ class LoginUtils {
                 if (data.valid) {
                     localStorage.setItem('flexjobs_user', JSON.stringify(data.user));
                     
-                    // Show success message
+                    
                     const loginManager = new LoginManager();
                     loginManager.showNotification('Login successful! Welcome back!', 'success');
                     
-                    // Redirect after delay
+                    
                     setTimeout(() => {
-                        // Check if user is admin and redirect accordingly
+                        
                         if (data.user && data.user.user_type === 'admin') {
                             window.location.href = 'admin-dashboard.html';
                         } else {
@@ -380,10 +380,10 @@ class LoginUtils {
                 loginManager.showNotification('Authentication verification failed. Please try again.', 'error');
             });
 
-            // Clean up URL
+            
             window.history.replaceState({}, document.title, window.location.pathname);
         } else if (error) {
-            // OAuth error
+            
             const loginManager = new LoginManager();
             const errorMessages = {
                 'google_auth_failed': 'Google authentication failed. Please try again.',
@@ -395,7 +395,7 @@ class LoginUtils {
             const message = errorMessages[error] || 'Authentication failed. Please try again.';
             loginManager.showNotification(message, 'error');
 
-            // Clean up URL
+            
             window.history.replaceState({}, document.title, window.location.pathname);
         }
     }
@@ -404,14 +404,14 @@ class LoginUtils {
         const rememberMeCheckbox = document.getElementById('rememberMe');
         const emailInput = document.getElementById('email');
         
-        // Load remembered email
+        
         const rememberedEmail = localStorage.getItem('rememberedEmail');
         if (rememberedEmail) {
             emailInput.value = rememberedEmail;
             rememberMeCheckbox.checked = true;
         }
         
-        // Save/remove email based on checkbox
+        
         rememberMeCheckbox.addEventListener('change', () => {
             if (rememberMeCheckbox.checked) {
                 localStorage.setItem('rememberedEmail', emailInput.value);
@@ -420,7 +420,7 @@ class LoginUtils {
             }
         });
         
-        // Update remembered email as user types
+        
         emailInput.addEventListener('input', () => {
             if (rememberMeCheckbox.checked) {
                 localStorage.setItem('rememberedEmail', emailInput.value);
@@ -428,35 +428,23 @@ class LoginUtils {
         });
     }
 
-    static setupForgotPassword() {
-        const forgotPasswordLink = document.querySelector('.forgot-password-link');
-        
-        forgotPasswordLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // In a real implementation, you would show a forgot password modal or redirect
-            const loginManager = new LoginManager();
-            loginManager.showNotification('Forgot password functionality will be implemented soon.', 'info');
-        });
-    }
 }
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Handle OAuth redirects first
+    
     LoginUtils.handleOAuthRedirect();
     
-    // Check if user is already logged in
+    
     LoginUtils.checkAuthState();
     
-    // Initialize login manager
+    
     const loginManager = new LoginManager();
     
-    // Setup additional utilities
-    LoginUtils.setupRememberMe();
-    LoginUtils.setupForgotPassword();
     
-    // Add smooth scrolling for any anchor links
+    LoginUtils.setupRememberMe();
+    
+    
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -471,6 +459,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Export for potential use by other modules
+
 window.LoginManager = LoginManager;
 window.LoginUtils = LoginUtils;

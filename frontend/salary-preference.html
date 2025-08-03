@@ -6,31 +6,31 @@
     <title>What is your minimum desired salary? - FlexJobs</title>
     <link rel="icon" type="image/png" href="images/f.png">
     
-    <!-- Bootstrap CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    
     <link rel="stylesheet" href="/css/style.css">
-    <!-- Wizard Components CSS -->
+    
     <link rel="stylesheet" href="css/components/wizard-header.css">
     <link rel="stylesheet" href="css/components/wizard-footer.css">
-    <!-- Page-specific CSS -->
+    
     <link rel="stylesheet" href="css/pages/salary-preference.css">
 </head>
 
 <body class="page-salary-preference">
-    <!-- Wizard Header -->
+    
     <div id="wizard-header-container"></div>
     
     <div class="salary-preference-container">
         <div class="container">
-            <!-- Main Title -->
+            
             <h4 class="mb-4 text-center">What is your minimum desired salary?</h4>
             
-            <!-- Salary Display Card -->
+            
             <div class="salary-display-card text-center mb-4">
                 <div class="salary-amount-display">
                     <div class="salary-amount-box" id="salaryDisplay">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             
-            <!-- Salary Type Toggle -->
+            
             <div class="salary-type-toggle text-center mb-4">
                 <div class="btn-group" role="group" aria-label="Salary type toggle">
                     <input type="radio" class="btn-check" name="salaryType" id="annually" value="annually" checked>
@@ -50,15 +50,15 @@
                 </div>
             </div>
             
-            <!-- Salary Slider -->
+            
             <div class="salary-slider-container mb-5">
                 <div class="salary-slider-wrapper">
-                    <!-- Slider Track -->
+                    
                     <div class="salary-slider-track">
                         <div class="salary-slider-fill" id="sliderFill"></div>
                     </div>
                     
-                    <!-- Slider Handle -->
+                    
                     <input type="range" 
                            class="salary-slider" 
                            id="salarySlider"
@@ -67,7 +67,7 @@
                            value="65000" 
                            step="1000">
                     
-                    <!-- Salary Bubble -->
+                    
                     <div class="salary-bubble" id="salaryBubble">
                         <div class="salary-bubble-content">
                             <span class="salary-bubble-amount" id="salaryBubbleAmount">$65,000</span>
@@ -76,43 +76,43 @@
                         <div class="salary-bubble-arrow"></div>
                     </div>
                     
-                    <!-- Slider Labels -->
+                    
                     <div class="salary-slider-labels">
-                        <!-- <span id="minLabel">$0</span> -->
+                        
                         <span class="slider-center-label ">Minimum desired salary</span>
-                        <!-- <span id="maxLabel">$200K+</span> -->
+                        
                     </div>
                 </div>
             </div>
             
-            <!-- Skip Option -->
+            
             <div class="text-center mb-4">
                 <a href="#" class="skip-link" id="skipLink">
                     Skip, I'm not sure yet
                 </a>
             </div>
             
-            <!-- Success Message -->
+            
             <div class="success-message" id="successMessage">
                 <i class="fas fa-check-circle"></i>Great! We'll find jobs matching your salary expectations.
             </div>
             
-            <!-- Desktop Next Button -->
+            
             <button class="next-button d-none d-md-block" id="nextBtn">
                 Next
             </button>
         </div>
     </div>
 
-    <!-- Wizard Footer -->
+    
     <div id="wizard-footer-container"></div>
 
-    <!-- Bootstrap JS -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Wizard Components JS -->
+    
     <script src="js/components/wizard-header.js"></script>
     <script src="js/components/wizard-footer.js"></script>
-    <!-- Page-specific JavaScript -->
+    
     <script src="js/pages/salary-preference.js"></script>
 </body>
 </html>

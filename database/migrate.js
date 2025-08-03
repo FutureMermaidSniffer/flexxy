@@ -1,20 +1,17 @@
 #!/usr/bin/env node
 
-/**
- * FlexJobs Database Migration Script for PostgreSQL
- * This script creates the database schema and populates initial data
- */
+
 
 const { Client } = require('pg');
 require('dotenv').config();
 
-// Database configuration
+
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 5432,
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || 'password',
-  database: 'postgres' // Connect to default database first
+  database: 'postgres' 
 };
 
 const targetDatabase = process.env.DB_NAME || 'flexjobs_db';
@@ -25,38 +22,38 @@ async function runMigration() {
   let client;
   
   try {
-    // Connect to PostgreSQL server
+    
     console.log('📡 Connecting to PostgreSQL server...');
     client = new Client(dbConfig);
     await client.connect();
     console.log('✅ Connected to PostgreSQL server\n');
 
-    // Create database if it doesn't exist
+    
     console.log(`🗄️  Creating database '${targetDatabase}'...`);
     try {
       await client.query(`CREATE DATABASE ${targetDatabase}`);
       console.log(`✅ Database '${targetDatabase}' created successfully`);
     } catch (error) {
-      if (error.code === '42P04') { // Database already exists
+      if (error.code === '42P04') { 
         console.log(`ℹ️  Database '${targetDatabase}' already exists`);
       } else {
         throw error;
       }
     }
 
-    // Close connection to default database
+    
     await client.end();
 
-    // Connect to the target database
+    
     console.log(`\n🔗 Connecting to database '${targetDatabase}'...`);
     client = new Client({ ...dbConfig, database: targetDatabase });
     await client.connect();
     console.log(`✅ Connected to '${targetDatabase}'\n`);
 
-    // Create tables
+    
     console.log('📋 Creating tables...');
     
-    // Users table
+    
     console.log('  • Creating users table...');
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
@@ -81,7 +78,7 @@ async function runMigration() {
       )
     `);
 
-    // Companies table
+    
     console.log('  • Creating companies table...');
     await client.query(`
       CREATE TABLE IF NOT EXISTS companies (
@@ -102,7 +99,7 @@ async function runMigration() {
       )
     `);
 
-    // Categories table
+    
     console.log('  • Creating categories table...');
     await client.query(`
       CREATE TABLE IF NOT EXISTS categories (
@@ -114,7 +111,7 @@ async function runMigration() {
       )
     `);
 
-    // Jobs table
+    
     console.log('  • Creating jobs table...');
     await client.query(`
       CREATE TABLE IF NOT EXISTS jobs (
@@ -147,7 +144,7 @@ async function runMigration() {
       )
     `);
 
-    // Applications table
+    
     console.log('  • Creating applications table...');
     await client.query(`
       CREATE TABLE IF NOT EXISTS applications (
@@ -166,7 +163,7 @@ async function runMigration() {
       )
     `);
 
-    // Saved Jobs table
+    
     console.log('  • Creating saved_jobs table...');
     await client.query(`
       CREATE TABLE IF NOT EXISTS saved_jobs (
@@ -180,7 +177,7 @@ async function runMigration() {
       )
     `);
 
-    // Job Skills table
+    
     console.log('  • Creating job_skills table...');
     await client.query(`
       CREATE TABLE IF NOT EXISTS job_skills (
@@ -194,7 +191,7 @@ async function runMigration() {
 
     console.log('✅ All tables created successfully\n');
 
-    // Create indexes
+    
     console.log('🔍 Creating indexes for better performance...');
     const indexes = [
       'CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)',
@@ -215,7 +212,7 @@ async function runMigration() {
     }
     console.log('✅ Indexes created successfully\n');
 
-    // Insert sample categories
+    
     console.log('📦 Inserting sample categories...');
     const categories = [
       ['Technology', 'Software development, IT, and tech-related jobs', 'fa-laptop-code'],
@@ -238,7 +235,7 @@ async function runMigration() {
     }
     console.log('✅ Sample categories inserted successfully\n');
 
-    // Create trigger function for updating timestamps
+    
     console.log('⚡ Creating timestamp update triggers...');
     await client.query(`
       CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -250,7 +247,7 @@ async function runMigration() {
       $$ language 'plpgsql'
     `);
 
-    // Create triggers for each table with updated_at column
+    
     const tablesWithUpdatedAt = ['users', 'companies', 'jobs', 'applications'];
     for (const table of tablesWithUpdatedAt) {
       await client.query(`
@@ -286,5 +283,5 @@ async function runMigration() {
   }
 }
 
-// Run the migration
+
 runMigration();

@@ -1,7 +1,7 @@
-// Enhanced Search Functionality for Main Header
-// Supports unified search across jobs and agents
 
-// Prevent redeclaring UnifiedSearch if it already exists
+
+
+
 if (typeof window.UnifiedSearch === 'undefined') {
 
 class UnifiedSearch {
@@ -9,7 +9,7 @@ class UnifiedSearch {
         this.searchInput = null;
         this.locationInput = null;
         this.searchButton = null;
-        this.searchType = 'all'; // 'all', 'jobs', 'agents'
+        this.searchType = 'all'; 
         this.resultsContainer = null;
         this.isSearching = false;
         
@@ -23,7 +23,7 @@ class UnifiedSearch {
     }
 
     bindSearchElements() {
-        // Find search elements in both desktop and mobile layouts
+        
         this.searchInput = document.querySelector('.search-input');
         this.locationInput = document.querySelector('.location-input');
         this.searchButton = document.querySelector('.search-btn');
@@ -37,13 +37,13 @@ class UnifiedSearch {
     setupEventListeners() {
         if (!this.searchInput || !this.searchButton) return;
 
-        // Search button click
+        
         this.searchButton.addEventListener('click', (e) => {
             e.preventDefault();
             this.performSearch();
         });
 
-        // Enter key in search input
+        
         this.searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -51,7 +51,7 @@ class UnifiedSearch {
             }
         });
 
-        // Real-time search suggestions (debounced)
+        
         this.searchInput.addEventListener('input', this.debounce((e) => {
             const query = e.target.value.trim();
             if (query.length >= 2) {
@@ -61,7 +61,7 @@ class UnifiedSearch {
             }
         }, 300));
 
-        // Close suggestions when clicking outside
+        
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.search-input-group')) {
                 this.hideSearchSuggestions();
@@ -75,7 +75,7 @@ class UnifiedSearch {
         const searchContainer = this.searchInput.closest('.main-header__search-bar');
         if (!searchContainer) return;
 
-        // Create search type toggle
+        
         const toggleContainer = document.createElement('div');
         toggleContainer.className = 'search-type-toggle';
         toggleContainer.innerHTML = `
@@ -91,10 +91,10 @@ class UnifiedSearch {
             </div>
         `;
 
-        // Insert the toggle inside the search bar as the last element
+        
         searchContainer.appendChild(toggleContainer);
 
-        // Add event listeners for search type change
+        
         toggleContainer.querySelectorAll('input[name="searchType"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
                 this.searchType = e.target.value;
@@ -145,11 +145,11 @@ class UnifiedSearch {
         if (location) searchParams.append('location', location);
         if (this.searchType !== 'all') searchParams.append('type', this.searchType);
 
-        // For now, redirect to a unified search results page
-        // Later this could be enhanced with AJAX results
+        
+        
         this.redirectToResults(searchParams);
         
-        return null; // Since we're redirecting
+        return null; 
     }
 
     redirectToResults(searchParams) {
@@ -175,12 +175,12 @@ class UnifiedSearch {
         if (this.isSearching) return;
 
         try {
-            // Create suggestions container if it doesn't exist
+            
             if (!this.resultsContainer) {
                 this.createSuggestionsContainer();
             }
 
-            // Fetch suggestions from API
+            
             const suggestions = await this.fetchSuggestions(query);
             this.renderSuggestions(suggestions);
             this.showSuggestionsContainer();
@@ -198,7 +198,7 @@ class UnifiedSearch {
 
         const promises = [];
 
-        // Fetch job suggestions if searching jobs or all
+        
         if (this.searchType === 'all' || this.searchType === 'jobs') {
             promises.push(
                 fetch(`/api/jobs/search/suggestions?${searchParams.toString()}`)
@@ -208,7 +208,7 @@ class UnifiedSearch {
             );
         }
 
-        // Fetch agent suggestions if searching agents or all
+        
         if (this.searchType === 'all' || this.searchType === 'agents') {
             promises.push(
                 fetch(`/api/agents/search/suggestions?${searchParams.toString()}`)
@@ -257,7 +257,7 @@ class UnifiedSearch {
                                 </div>
                             </div>`;
                     } else {
-                        // Create rating stars display
+                        
                         const rating = item.rating || 0;
                         const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
                         const specialties = item.specializations ? 
@@ -288,7 +288,7 @@ class UnifiedSearch {
         html += '</div>';
         this.resultsContainer.innerHTML = html;
 
-        // Add click handlers to suggestions
+        
         this.resultsContainer.querySelectorAll('.suggestion-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 const type = e.currentTarget.dataset.type;
@@ -302,11 +302,11 @@ class UnifiedSearch {
         if (type === 'job') {
             window.location.href = `job-preview.html?id=${id}`;
         } else if (type === 'agent') {
-            // Navigate to agents page and open the agent modal
+            
             window.location.href = `agents.html?agent=${id}`;
         }
         
-        // Hide suggestions after selection
+        
         this.hideSearchSuggestions();
     }
 
@@ -337,7 +337,7 @@ class UnifiedSearch {
     }
 
     showNotification(message, type) {
-        // Use existing notification system or create a simple alert
+        
         if (window.showNotification && typeof window.showNotification === 'function') {
             window.showNotification(message, type);
         } else {
@@ -358,7 +358,7 @@ class UnifiedSearch {
     }
 }
 
-// CSS for search suggestions (inject into page)
+
 const searchStyles = `
     .search-type-toggle {
         margin-bottom: 0.5rem;
@@ -427,24 +427,24 @@ const searchStyles = `
     }
 `;
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Inject CSS
+    
     const styleSheet = document.createElement('style');
     styleSheet.textContent = searchStyles;
     document.head.appendChild(styleSheet);
 
-    // Initialize unified search
+    
     const unifiedSearch = new UnifiedSearch();
     
-    // Make it globally accessible
+    
     window.UnifiedSearch = unifiedSearch;
 });
 
-// Make available globally and for CommonJS modules
+
 window.UnifiedSearch = UnifiedSearch;
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = UnifiedSearch;
 }
 
-} // End of if (typeof window.UnifiedSearch === 'undefined')
+} 

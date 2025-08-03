@@ -1,12 +1,12 @@
-// Main application functionality
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize tooltips
+    
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    // Add smooth scrolling for anchor links
+    
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add form validation feedback
+    
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
         form.addEventListener('submit', function(e) {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Handle search on Enter key
+    
     const searchInputs = ['searchKeyword', 'location'];
     searchInputs.forEach(inputId => {
         const input = document.getElementById(inputId);
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle filter changes
+    
     const filterSelects = ['jobType', 'remoteType', 'experienceLevel'];
     filterSelects.forEach(selectId => {
         const select = document.getElementById(selectId);
@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Load featured companies
+    
     loadFeaturedCompanies();
 });
 
-// Utility functions
+
 function scrollToJobs() {
     const jobsSection = document.getElementById('jobs');
     if (jobsSection) {
@@ -82,7 +82,7 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Load featured companies
+
 async function loadFeaturedCompanies() {
     try {
         const response = await fetch('/api/companies/featured/list');
@@ -106,7 +106,7 @@ async function loadFeaturedCompanies() {
     }
 }
 
-// Modal utilities
+
 function showModal(modalId) {
     const modal = new bootstrap.Modal(document.getElementById(modalId));
     modal.show();
@@ -119,7 +119,7 @@ function hideModal(modalId) {
     }
 }
 
-// Loading state utilities
+
 function setElementLoading(element, loading = true) {
     if (loading) {
         element.classList.add('loading');
@@ -143,7 +143,7 @@ function setElementLoading(element, loading = true) {
     }
 }
 
-// Error handling
+
 function handleError(error, context = '') {
     console.error(`Error ${context}:`, error);
     
@@ -154,7 +154,7 @@ function handleError(error, context = '') {
     }
 }
 
-// Format utilities
+
 function formatCurrency(amount, currency = 'USD') {
     return new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -187,7 +187,7 @@ function formatRelativeTime(date) {
     return `${Math.ceil(diffDays / 365)} years ago`;
 }
 
-// Text utilities
+
 function truncateText(text, maxLength = 100) {
     if (text.length <= maxLength) return text;
     return text.substr(0, maxLength).trim() + '...';
@@ -201,7 +201,7 @@ function kebabToCamel(str) {
     return str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 }
 
-// URL utilities
+
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
@@ -219,7 +219,7 @@ function removeQueryParam(param) {
     window.history.pushState({}, '', url);
 }
 
-// Debounce utility
+
 function debounce(func, wait, immediate) {
     let timeout;
     return function executedFunction(...args) {
@@ -234,7 +234,7 @@ function debounce(func, wait, immediate) {
     };
 }
 
-// Throttle utility
+
 function throttle(func, limit) {
     let inThrottle;
     return function(...args) {
@@ -246,7 +246,7 @@ function throttle(func, limit) {
     };
 }
 
-// Local storage utilities
+
 function setLocalStorage(key, value) {
     try {
         localStorage.setItem(key, JSON.stringify(value));
@@ -277,7 +277,7 @@ function removeLocalStorage(key) {
     }
 }
 
-// Animation utilities
+
 function fadeIn(element, duration = 300) {
     element.style.opacity = 0;
     element.style.display = 'block';
@@ -319,7 +319,7 @@ function fadeOut(element, duration = 300) {
     requestAnimationFrame(animate);
 }
 
-// Intersection Observer for animations
+
 function setupScrollAnimations() {
     const observerOptions = {
         threshold: 0.1,
@@ -335,13 +335,13 @@ function setupScrollAnimations() {
         });
     }, observerOptions);
 
-    // Observe elements with animation class
+    
     document.querySelectorAll('.animate-on-scroll').forEach(el => {
         observer.observe(el);
     });
 }
 
-// Copy to clipboard utility
+
 async function copyToClipboard(text) {
     try {
         await navigator.clipboard.writeText(text);
@@ -352,7 +352,7 @@ async function copyToClipboard(text) {
     }
 }
 
-// Share utility
+
 async function shareContent(data) {
     if (navigator.share) {
         try {
@@ -363,17 +363,17 @@ async function shareContent(data) {
             return false;
         }
     } else {
-        // Fallback to copying URL
+        
         return await copyToClipboard(data.url || window.location.href);
     }
 }
 
-// Initialize scroll animations when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     setupScrollAnimations();
 });
 
-// Add global error handler
+
 window.addEventListener('error', (event) => {
     console.error('Global error:', event.error);
 });
@@ -382,9 +382,9 @@ window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled promise rejection:', event.reason);
 });
 
-// Keyboard shortcuts
+
 document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + K for search focus
+    
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         const searchInput = document.getElementById('searchKeyword');
@@ -393,7 +393,7 @@ document.addEventListener('keydown', (e) => {
         }
     }
     
-    // Escape to close modals
+    
     if (e.key === 'Escape') {
         const openModals = document.querySelectorAll('.modal.show');
         openModals.forEach(modal => {

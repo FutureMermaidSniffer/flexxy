@@ -2,7 +2,7 @@ const mysql = require('mysql2/promise');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Database configuration
+
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -24,7 +24,7 @@ async function populateAgentData() {
         
         console.log('🚀 Executing SQL statements...');
         
-        // Split SQL into individual statements and execute them
+        
         const statements = sqlData
             .split(';')
             .map(stmt => stmt.trim())
@@ -43,7 +43,7 @@ async function populateAgentData() {
         
         console.log('🎉 Sample agent data populated successfully!');
         
-        // Verify the data was inserted
+        
         const [agents] = await connection.execute(`
             SELECT a.agent_name, a.display_name, a.location, a.rating, a.total_reviews, u.email
             FROM agents a
@@ -55,7 +55,7 @@ async function populateAgentData() {
         console.log('\n📊 Sample of inserted agents:');
         console.table(agents);
         
-        // Get total count
+        
         const [countResult] = await connection.execute('SELECT COUNT(*) as total FROM agents');
         console.log(`\n📈 Total agents in database: ${countResult[0].total}`);
         
@@ -70,7 +70,7 @@ async function populateAgentData() {
     }
 }
 
-// Run the script
+
 if (require.main === module) {
     populateAgentData();
 }

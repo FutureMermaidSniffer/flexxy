@@ -1,8 +1,8 @@
-/* Upload Resume Page Styles */
+
 .page-upload-resume {
     background: white;
     min-height: 100vh;
-    /* Font inherited from main stylesheet */
+    
 }
 
 .upload-resume-container {
@@ -29,7 +29,7 @@
     margin-bottom: 2rem;
 }
 
-/* Upload Options */
+
 .page-upload__option-card {
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
@@ -74,7 +74,7 @@
     margin-bottom: 1.5rem;
 }
 
-/* Upload Zone */
+
 .page-upload__drop-zone,
 .dynamic-upload-zone {
     transition: all 0.3s ease;
@@ -110,7 +110,7 @@
     transform: scale(1.05);
 }
 
-/* File Upload Success */
+
 .page-upload__status {
     animation: slideIn 0.3s ease-out;
 }
@@ -126,20 +126,20 @@
     }
 }
 
-/* Selection Overlay */
+
 .page-upload__selection-overlay {
     transition: all 0.4s ease;
     backdrop-filter: blur(2px);
     border-radius: 8px;
 }
 
-/* File Types */
+
 .page-upload__file-types {
     font-size: 0.85rem;
     color: #6c757d;
 }
 
-/* Benefits List */
+
 .page-upload__benefits {
     text-align: left;
 }
@@ -159,9 +159,9 @@
     font-size: 0.85rem;
 }
 
-/* Navigation Buttons */
+
 .page-upload__navigation {
-    display: none; /* Hidden when wizard footer is active */
+    display: none; 
 }
 
 .page-upload__back-btn {
@@ -209,12 +209,12 @@
     cursor: not-allowed;
 }
 
-/* Progress Bar */
+
 .page-upload__progress {
-    display: none; /* Hidden when wizard header is active */
+    display: none; 
 }
 
-/* Brand Logo */
+
 .page-upload__brand {
     margin-bottom: 2rem;
 }
@@ -227,10 +227,10 @@
     transform: scale(1.05);
 }
 
-/* Mobile Styles */
+
 @media (max-width: 768px) {
     .upload-resume-container {
-        padding: 2rem 0 140px 0; /* Bottom padding for wizard footer */
+        padding: 2rem 0 140px 0; 
     }
 
     .upload-resume-container h1 {
@@ -298,7 +298,7 @@
     }
 }
 
-/* Loading Animation */
+
 .loading-spinner {
     display: inline-block;
     width: 20px;
@@ -313,7 +313,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* Accessibility */
+
 .page-upload__option-card:focus-within {
     outline: 2px solid #0066cc;
     outline-offset: 2px;

@@ -21,11 +21,11 @@ async function testConnection() {
         const connection = await mysql.createConnection(config);
         console.log('✅ Successfully connected to MySQL server!');
         
-        // Test server version
+        
         const [version] = await connection.execute('SELECT VERSION() as version');
         console.log(`📊 MySQL Version: ${version[0].version}`);
         
-        // Test database listing permission
+        
         const [databases] = await connection.execute('SHOW DATABASES');
         console.log(`📁 Available databases: ${databases.length} found`);
         
@@ -61,7 +61,7 @@ async function testConnection() {
     }
 }
 
-// Run if called directly
+
 if (require.main === module) {
     testConnection();
 }

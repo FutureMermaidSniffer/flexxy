@@ -5,14 +5,14 @@ const { authenticateToken, requireEmployer } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Helper function to convert MySQL-style placeholders to PostgreSQL
+
 function convertQuery(query, params) {
   let index = 1;
   const convertedQuery = query.replace(/\?/g, () => `$${index++}`);
   return { query: convertedQuery, params };
 }
 
-// Validation rules
+
 const companyValidation = [
   body('name').trim().isLength({ min: 2, max: 255 }),
   body('description').optional().trim(),
@@ -23,7 +23,7 @@ const companyValidation = [
   body('founded_year').optional().isInt({ min: 1800, max: new Date().getFullYear() })
 ];
 
-// Get all companies with pagination
+
 router.get('/', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -39,12 +39,12 @@ router.get('/', async (req, res) => {
       params.push(searchTerm, searchTerm);
     }
 
-    // Get total count
+    
     const countQuery = `SELECT COUNT(*) as total FROM companies ${whereClause}`;
     const countResult = await getOne(countQuery, params);
     const total = countResult.total;
 
-    // Get companies
+    
     const companiesQuery = `
       SELECT 
         id, name, description, logo, industry, company_size, 
@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
     
     const companies = await getMany(companiesQuery, [...params, limit, offset]);
 
-    // Get job counts for each company
+    
     for (let company of companies) {
       const jobCount = await getOne(
         'SELECT COUNT(*) as count FROM jobs WHERE company_id = ? AND is_active = TRUE',
@@ -85,7 +85,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get single company by ID
+
 router.get('/:id', async (req, res) => {
   try {
     const companyId = req.params.id;
@@ -105,7 +105,7 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Company not found' });
     }
 
-    // Get company statistics
+    
     const stats = await getOne(`
       SELECT 
         COUNT(*) as total_jobs,
@@ -116,7 +116,7 @@ router.get('/:id', async (req, res) => {
       WHERE company_id = ?
     `, [companyId]);
 
-    // Get recent jobs
+    
     const recentJobs = await getMany(`
       SELECT 
         id, title, location, job_type, remote_type, 
@@ -140,7 +140,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create new company (employers only)
+
 router.post('/', authenticateToken, requireEmployer, companyValidation, async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -153,7 +153,7 @@ router.post('/', authenticateToken, requireEmployer, companyValidation, async (r
       location, founded_year
     } = req.body;
 
-    // Check if user already has a company
+    
     const existingCompany = await getOne('SELECT id FROM companies WHERE user_id = ?', [req.user.id]);
     if (existingCompany) {
       return res.status(400).json({ message: 'User already has a company registered' });
@@ -182,7 +182,7 @@ router.post('/', authenticateToken, requireEmployer, companyValidation, async (r
   }
 });
 
-// Update company (owner only)
+
 router.put('/:id', authenticateToken, requireEmployer, companyValidation, async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -192,7 +192,7 @@ router.put('/:id', authenticateToken, requireEmployer, companyValidation, async 
 
     const companyId = req.params.id;
 
-    // Verify company belongs to user (unless admin)
+    
     let company;
     if (req.user.user_type === 'admin') {
       company = await getOne('SELECT id FROM companies WHERE id = ?', [companyId]);
@@ -228,7 +228,7 @@ router.put('/:id', authenticateToken, requireEmployer, companyValidation, async 
   }
 });
 
-// Get user's company
+
 router.get('/user/my-company', authenticateToken, requireEmployer, async (req, res) => {
   try {
     const company = await getOne('SELECT * FROM companies WHERE user_id = ?', [req.user.id]);
@@ -237,7 +237,7 @@ router.get('/user/my-company', authenticateToken, requireEmployer, async (req, r
       return res.status(404).json({ message: 'No company found for this user' });
     }
 
-    // Get company statistics
+    
     const stats = await getOne(`
       SELECT 
         COUNT(*) as total_jobs,
@@ -259,7 +259,7 @@ router.get('/user/my-company', authenticateToken, requireEmployer, async (req, r
   }
 });
 
-// Get company jobs
+
 router.get('/:id/jobs', async (req, res) => {
   try {
     const companyId = req.params.id;
@@ -267,14 +267,14 @@ router.get('/:id/jobs', async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
 
-    // Get total count
+    
     const countResult = await getOne(
       'SELECT COUNT(*) as total FROM jobs WHERE company_id = ? AND is_active = TRUE',
       [companyId]
     );
     const total = countResult.total;
 
-    // Get jobs
+    
     const jobs = await getMany(`
       SELECT 
         j.id, j.title, j.location, j.job_type, j.remote_type,
@@ -307,7 +307,7 @@ router.get('/:id/jobs', async (req, res) => {
   }
 });
 
-// Get featured companies
+
 router.get('/featured/list', async (req, res) => {
   try {
     const companies = await getMany(`

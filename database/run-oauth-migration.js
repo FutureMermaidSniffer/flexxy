@@ -4,7 +4,7 @@ async function runOAuthMigration() {
   try {
     console.log('Starting OAuth migration...');
     
-    // Check and add google_id column
+    
     try {
       await executeQuery(`
         SELECT column_name 
@@ -18,7 +18,7 @@ async function runOAuthMigration() {
       console.log('✓ google_id column added');
     }
     
-    // Check and add apple_id column
+    
     try {
       const result = await executeQuery(`
         SELECT column_name 
@@ -38,7 +38,7 @@ async function runOAuthMigration() {
       console.log('✓ apple_id column added');
     }
     
-    // Check and add avatar_url column
+    
     try {
       const result = await executeQuery(`
         SELECT column_name 
@@ -58,7 +58,7 @@ async function runOAuthMigration() {
       console.log('✓ avatar_url column added');
     }
     
-    // Create indexes if they don't exist
+    
     try {
       await executeQuery('CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id)');
       console.log('✓ google_id index created/verified');
@@ -73,7 +73,7 @@ async function runOAuthMigration() {
       console.log('Apple ID index may already exist:', error.message);
     }
     
-    // Update existing users to have email_verified = true
+    
     try {
       const result = await executeQuery('UPDATE users SET email_verified = TRUE WHERE email_verified IS NULL');
       console.log(`✓ Updated ${result.length || 0} users with email_verified = TRUE`);

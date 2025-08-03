@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<meta name="description" content="Select the benefits that matter most to you to find jobs with the right compensation package.">
+    <meta name="keywords" content="job benefits, work benefits, compensation, work-life balance, health insurance">
+    <meta property="og:title" content="What benefits matter to you? - FlexJobs">
+    <meta property="og:description" content="Find jobs with benefits that align with your needs and priorities.">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What benefits are you looking for? - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Select the benefits that matter most to you to find remote jobs with the right compensation package.">
+    <meta name="keywords" content="job benefits, remote work benefits, compensation, work-life balance, health insurance">
+    <meta property="og:title" content="What benefits are you looking for? - FlexJobs">
+    <meta property="og:description" content="Find remote jobs with benefits that align with your needs and priorities.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <!-- Wizard Components CSS -->
+    <link rel="stylesheet" href="css/components/wizard-header.css">
+    <link rel="stylesheet" href="css/components/wizard-footer.css">
+</head>
+
+<body class="page-benefits">
+    <!-- Wizard Header -->
+    <div id="wizard-header-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Progress Bar -->
+        <section class="page-benefits__progress py-2 bg-white border-bottom d-none">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 83%" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Benefits Section -->
+        <section class="page-benefits__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <!-- Main Title -->
+                        <div class="text-center mb-5">
+                            <h1 class="page-benefits__title h2 fw-bold text-dark mb-3">
+                                What benefits are you looking for?
+                            </h1>
+                        </div>
+                        
+                        <!-- Popular Benefits -->
+                        <div class="page-benefits__popular mb-5">
+                            <h3 class="h6 text-muted mb-3 text-center">Popular benefits for flexible workers</h3>
+                            <div class="page-benefits__popular-grid d-flex flex-wrap justify-content-center gap-2">
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Health Insurance">
+                                    <span class="me-2">Health Insurance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Dental Insurance">
+                                    <span class="me-2">Dental Insurance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Vision Insurance">
+                                    <span class="me-2">Vision Insurance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="401(k) / Retirement Plan">
+                                    <span class="me-2">401(k) / Retirement Plan</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Paid Time Off">
+                                    <span class="me-2">Paid Time Off</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Flexible Schedule">
+                                    <span class="me-2">Flexible Schedule</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Professional Development">
+                                    <span class="me-2">Professional Development</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Work-Life Balance">
+                                    <span class="me-2">Work-Life Balance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Home Office Stipend">
+                                    <span class="me-2">Home Office Stipend</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-benefits__popular-btn d-flex align-items-center" data-benefit="Life Insurance">
+                                    <span class="me-2">Life Insurance</span>
+                                    <i class="fas fa-plus page-benefits__btn-icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Skip Option -->
+                        <div class="page-benefits__skip-container text-center mb-5">
+                            <button class="page-benefits__skip-btn btn btn-link text-info text-decoration-none fw-medium" id="skipBtn">
+                                <i class="fas fa-forward me-2"></i>
+                                Skip, benefits aren't important to me
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Component JS -->
+    <script src="js/components/component-loader.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/footer.js"></script>
+    <!-- Wizard Components JS -->
+    <script src="js/components/wizard-header.js"></script>
+    <script src="js/components/wizard-footer.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script src="js/pages/benefits.js"></script>
+    
+    <!-- Page-specific CSS -->
+    <style>
+        /* Page-specific styles - Font inherited from main stylesheet */
+
+        .page-benefits__logo {
+            transition: all 0.3s ease;
+        }
+
+        .page-benefits__logo:hover {
+            transform: scale(1.05);
+        }
+
+        .page-benefits__title {
+            color: #2c3e50;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-benefits__popular-btn {
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            border-width: 2px;
+            justify-content: space-between;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-benefits__popular-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #0dcaf0;
+            color: #0dcaf0;
+            background-color: white !important;
+        }
+
+        .page-benefits__popular-btn.selected {
+            border-color: #28a745 !important;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-benefits__popular-btn.selected:hover {
+            border-color: #28a745 !important;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-benefits__btn-icon {
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+
+        .page-benefits__popular-btn.selected .page-benefits__btn-icon {
+            color: #28a745 !important;
+        }
+
+        .page-benefits__skip-btn {
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .page-benefits__skip-btn:hover {
+            color: #0891b2 !important;
+            transform: translateY(-2px);
+        }
+
+        /* Badge animations */
+        .badge {
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 576px) {
+            .page-benefits__main {
+                padding: 1rem 0 140px !important; /* Reduced top/bottom padding for mobile wizard footer */
+                min-height: 70vh !important; /* Reduced min-height for mobile */
+            }
+            
+            .page-benefits__title {
+                font-size: 1.5rem !important;
+            }
+            
+            .page-benefits__popular-grid {
+                justify-content: center !important;
+                gap: 0.5rem !important;
+            }
+            
+            .page-benefits__popular-btn {
+                flex: 0 1 auto;
+                min-width: auto;
+                max-width: 45%;
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.6rem !important;
+                border-radius: 15px !important;
+            }
+            
+            .page-benefits__popular-btn span {
+                font-size: 0.75rem;
+            }
+            
+            .page-benefits__btn-icon {
+                font-size: 0.65rem !important;
+            }
+        }
+
+        @media (min-width: 577px) and (max-width: 768px) {
+            .page-benefits__main {
+                padding: 1.5rem 0 140px !important; /* Moderate padding for tablet */
+                min-height: 75vh !important;
+            }
+            
+            .page-benefits__popular-grid {
+                justify-content: stretch !important;
+            }
+            
+            .page-benefits__popular-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .page-benefits__main {
+                padding-bottom: 120px !important; /* Add bottom padding for desktop wizard footer */
+            }
+        }
+    </style>
+</body>
+</html>

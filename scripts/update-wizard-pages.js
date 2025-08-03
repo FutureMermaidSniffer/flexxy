@@ -1,4 +1,4 @@
-// Batch update script for wizard pages
+
 const pages = [
     { file: 'what-job.html', backUrl: '/where-remote' },
     { file: 'job-category.html', backUrl: '/what-job' },
@@ -16,7 +16,7 @@ pages.forEach(page => {
     try {
         let content = fs.readFileSync(filePath, 'utf8');
         
-        // Add wizard CSS
+        
         content = content.replace(
             /<!-- Custom CSS -->\s*<link rel="stylesheet" href="css\/style\.css">\s*<!-- Component CSS -->/,
             `<!-- Custom CSS -->
@@ -29,21 +29,21 @@ pages.forEach(page => {
     <link rel="stylesheet" href="css/components/wizard-footer.css">`
         );
         
-        // Replace header
+        
         content = content.replace(
             /<!-- Header Component -->\s*<div id="header-container"><\/div>/,
             `<!-- Wizard Header -->
     <div id="wizard-header-container"></div>`
         );
         
-        // Replace footer and add wizard components
+        
         content = content.replace(
             /<!-- Footer Component -->\s*<div id="footer-container"><\/div>\s*<!-- Bootstrap JS -->\s*<script[^>]*bootstrap[^<]*<\/script>\s*<!-- Component JS -->\s*<script[^>]*component-loader[^<]*<\/script>\s*<script[^>]*header[^<]*<\/script>\s*<script[^>]*footer[^<]*<\/script>\s*<!-- Page-specific JavaScript -->\s*<script>\s*\/\/ Load header and footer components\s*loadComponents\(\);/,
             `<!-- Wizard Footer -->
     <div id="wizard-footer-container"></div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https:
     <!-- Component JS -->
     <script src="js/components/component-loader.js"></script>
     <script src="js/components/header.js"></script>
@@ -54,19 +54,19 @@ pages.forEach(page => {
     
     <!-- Page-specific JavaScript -->
     <script>
-        // Initialize wizard header and footer
+        
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize wizard header with back button
+            
             window.wizardHeader = new WizardHeader({
                 isFirstPage: false,
                 backUrl: '${page.backUrl}'
             });
             
-            // Initialize wizard footer
+            
             window.wizardFooter = new WizardFooter();
         });
 
-        // Load header and footer components
+        
         loadComponents();`
         );
         

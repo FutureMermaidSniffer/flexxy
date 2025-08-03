@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-// Database connection
+
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -11,7 +11,7 @@ const pool = new Pool({
     port: process.env.DB_PORT,
 });
 
-// Helper function to insert data
+
 async function insertOne(table, data) {
     const keys = Object.keys(data);
     const values = Object.values(data);
@@ -22,13 +22,13 @@ async function insertOne(table, data) {
     return result.rows[0].id;
 }
 
-// Dummy companies data
+
 const companies = [
     {
         name: 'TechFlow Solutions',
         description: 'Leading technology consulting firm specializing in digital transformation and cloud solutions.',
-        website: 'https://techflow.com',
-        logo_url: 'https://via.placeholder.com/200x100/004f6e/ffffff?text=TechFlow',
+        website: 'https:
+        logo_url: 'https:
         industry: 'Technology',
         size: '201-500 employees',
         founded_year: 2015,
@@ -38,8 +38,8 @@ const companies = [
     {
         name: 'DataVision Analytics',
         description: 'Advanced data analytics and business intelligence solutions for enterprise clients.',
-        website: 'https://datavision.com',
-        logo_url: 'https://via.placeholder.com/200x100/0066cc/ffffff?text=DataVision',
+        website: 'https:
+        logo_url: 'https:
         industry: 'Data Analytics',
         size: '51-200 employees',
         founded_year: 2018,
@@ -49,8 +49,8 @@ const companies = [
     {
         name: 'Colorado Department of Transportation',
         description: 'State agency responsible for transportation infrastructure and services across Colorado.',
-        website: 'https://www.codot.gov',
-        logo_url: 'https://via.placeholder.com/200x100/003366/ffffff?text=CDOT',
+        website: 'https:
+        logo_url: 'https:
         industry: 'Government',
         size: '1000+ employees',
         founded_year: 1917,
@@ -60,8 +60,8 @@ const companies = [
     {
         name: 'CloudFirst Inc',
         description: 'Cloud infrastructure and DevOps solutions for modern applications.',
-        website: 'https://cloudfirst.com',
-        logo_url: 'https://via.placeholder.com/200x100/ff6b35/ffffff?text=CloudFirst',
+        website: 'https:
+        logo_url: 'https:
         industry: 'Cloud Computing',
         size: '11-50 employees',
         founded_year: 2020,
@@ -71,8 +71,8 @@ const companies = [
     {
         name: 'Marketing Dynamics',
         description: 'Full-service digital marketing agency helping brands grow their online presence.',
-        website: 'https://marketingdynamics.com',
-        logo_url: 'https://via.placeholder.com/200x100/28a745/ffffff?text=Marketing+Dynamics',
+        website: 'https:
+        logo_url: 'https:
         industry: 'Marketing',
         size: '11-50 employees',
         founded_year: 2019,
@@ -81,7 +81,7 @@ const companies = [
     }
 ];
 
-// Job categories
+
 const categories = [
     { name: 'Software Engineering', description: 'Software development and engineering roles' },
     { name: 'Data Science', description: 'Data analysis, machine learning, and analytics roles' },
@@ -91,9 +91,9 @@ const categories = [
     { name: 'Project Management', description: 'Project and program management roles' }
 ];
 
-// Dummy jobs data (6 real job links + 4 CDOT jobs)
+
 const jobs = [
-    // Real job links (scraped concepts)
+    
     {
         title: 'Senior Full Stack Developer - Remote',
         description: `We are seeking an experienced Full Stack Developer to join our growing team. You will be responsible for developing and maintaining web applications using modern technologies including React, Node.js, and cloud platforms.
@@ -122,7 +122,7 @@ Requirements:
         category_name: 'Software Engineering',
         skills: ['JavaScript', 'React', 'Node.js', 'AWS', 'PostgreSQL'],
         benefits: ['Health Insurance', 'Dental Insurance', '401k Match', 'Flexible PTO', 'Remote Work Stipend'],
-        application_url: 'https://boards.greenhouse.io/company/jobs/1234567',
+        application_url: 'https:
         is_featured: true,
         is_urgent: false
     },
@@ -154,7 +154,7 @@ Requirements:
         category_name: 'Data Science',
         skills: ['Python', 'R', 'SQL', 'TensorFlow', 'Machine Learning'],
         benefits: ['Health Insurance', 'Stock Options', 'Learning Budget', 'Gym Membership'],
-        application_url: 'https://apply.workable.com/datavision/j/ABC123/',
+        application_url: 'https:
         is_featured: true,
         is_urgent: true
     },
@@ -186,7 +186,7 @@ Requirements:
         category_name: 'Marketing',
         skills: ['Google Ads', 'Facebook Ads', 'SEO', 'Content Marketing', 'Analytics'],
         benefits: ['Health Insurance', 'Flexible Hours', 'Professional Development', 'Remote Work'],
-        application_url: 'https://jobs.lever.co/marketingdynamics/xyz789',
+        application_url: 'https:
         is_featured: false,
         is_urgent: false
     },
@@ -218,7 +218,7 @@ Requirements:
         category_name: 'DevOps',
         skills: ['Kubernetes', 'Docker', 'AWS', 'Terraform', 'Python'],
         benefits: ['Health Insurance', 'Stock Options', 'Flexible PTO', 'Tech Stipend'],
-        application_url: 'https://cloudfirst.bamboohr.com/jobs/view.php?id=456',
+        application_url: 'https:
         is_featured: true,
         is_urgent: false
     },
@@ -250,7 +250,7 @@ Requirements:
         category_name: 'Software Engineering',
         skills: ['React', 'JavaScript', 'Redux', 'CSS', 'Jest'],
         benefits: ['Health Insurance', 'Dental Insurance', 'Vision Insurance', 'Remote Work'],
-        application_url: 'https://techflow.recruitee.com/o/frontend-developer-react',
+        application_url: 'https:
         is_featured: false,
         is_urgent: true
     },
@@ -282,12 +282,12 @@ Requirements:
         category_name: 'Marketing',
         skills: ['Content Writing', 'SEO', 'WordPress', 'Social Media', 'Analytics'],
         benefits: ['Health Insurance', 'Flexible Hours', 'Professional Development'],
-        application_url: 'https://marketingdynamics.workday.com/job/content-specialist',
+        application_url: 'https:
         is_featured: false,
         is_urgent: false
     },
 
-    // CDOT Jobs (4 jobs)
+    
     {
         title: 'Transportation Engineer II',
         description: `The Colorado Department of Transportation is seeking a Transportation Engineer II to join our Engineering team in Denver. This position involves planning, designing, and overseeing transportation infrastructure projects.
@@ -316,7 +316,7 @@ Requirements:
         category_name: 'Transportation',
         skills: ['Civil Engineering', 'AutoCAD', 'Transportation Planning', 'Project Management'],
         benefits: ['State Health Plan', 'Pension', 'Paid Time Off', 'Professional Development'],
-        application_url: 'https://www.governmentjobs.com/careers/colorado/jobs/3456789',
+        application_url: 'https:
         is_featured: false,
         is_urgent: false
     },
@@ -348,7 +348,7 @@ Requirements:
         category_name: 'Transportation',
         skills: ['GIS', 'ArcGIS', 'SQL', 'Transportation Planning', 'Data Analysis'],
         benefits: ['State Health Plan', 'Pension', 'Flexible Schedule', 'Training Opportunities'],
-        application_url: 'https://www.governmentjobs.com/careers/colorado/jobs/3456790',
+        application_url: 'https:
         is_featured: false,
         is_urgent: true
     },
@@ -380,7 +380,7 @@ Requirements:
         category_name: 'Project Management',
         skills: ['Project Management', 'Construction Management', 'PMP', 'Budgeting', 'Quality Control'],
         benefits: ['State Health Plan', 'Pension', 'Paid Time Off', 'State Vehicle'],
-        application_url: 'https://www.governmentjobs.com/careers/colorado/jobs/3456791',
+        application_url: 'https:
         is_featured: true,
         is_urgent: false
     },
@@ -412,7 +412,7 @@ Requirements:
         category_name: 'Transportation',
         skills: ['Traffic Management', 'ITS Systems', 'Data Analysis', 'Incident Response'],
         benefits: ['State Health Plan', 'Pension', 'Shift Differential', 'Overtime Pay'],
-        application_url: 'https://www.governmentjobs.com/careers/colorado/jobs/3456792',
+        application_url: 'https:
         is_featured: false,
         is_urgent: false
     }
@@ -422,10 +422,10 @@ async function createDummyJobs() {
     console.log('🚀 Starting to create dummy jobs...');
     
     try {
-        // Start transaction
+        
         await pool.query('BEGIN');
 
-        // Create a dummy admin user if doesn't exist
+        
         const adminUser = await pool.query('SELECT id FROM users WHERE email = $1', ['admin@flexjobs.com']);
         let adminUserId;
         
@@ -442,7 +442,7 @@ async function createDummyJobs() {
             console.log('✅ Admin user already exists');
         }
 
-        // Insert categories
+        
         console.log('📂 Creating job categories...');
         const categoryIds = {};
         for (const category of categories) {
@@ -460,7 +460,7 @@ async function createDummyJobs() {
         }
         console.log('✅ Job categories created');
 
-        // Insert companies
+        
         console.log('🏢 Creating companies...');
         const companyIds = {};
         for (const company of companies) {
@@ -484,14 +484,14 @@ async function createDummyJobs() {
         }
         console.log('✅ Companies created');
 
-        // Insert jobs
+        
         console.log('💼 Creating jobs...');
         for (let i = 0; i < jobs.length; i++) {
             const job = jobs[i];
             const companyId = companyIds[job.company_name];
             const categoryId = categoryIds[job.category_name];
 
-            // Check if job already exists
+            
             const existingJob = await pool.query(
                 'SELECT id FROM jobs WHERE title = $1 AND company_id = $2',
                 [job.title, companyId]
@@ -520,11 +520,11 @@ async function createDummyJobs() {
             }
         }
 
-        // Commit transaction
+        
         await pool.query('COMMIT');
         console.log('🎉 All dummy jobs created successfully!');
         
-        // Display summary
+        
         const jobCount = await pool.query('SELECT COUNT(*) FROM jobs WHERE is_active = true');
         const companyCount = await pool.query('SELECT COUNT(*) FROM companies');
         const categoryCount = await pool.query('SELECT COUNT(*) FROM job_categories');
@@ -543,7 +543,7 @@ async function createDummyJobs() {
     }
 }
 
-// Run the script
+
 if (require.main === module) {
     createDummyJobs()
         .then(() => {

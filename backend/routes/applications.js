@@ -5,14 +5,14 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Helper function to convert MySQL-style placeholders to PostgreSQL
+
 function convertQuery(query, params) {
   let index = 1;
   const convertedQuery = query.replace(/\?/g, () => `$${index++}`);
   return { query: convertedQuery, params };
 }
 
-// Apply for a job
+
 router.post('/apply', authenticateToken, [
   body('job_id').isInt({ min: 1 }),
   body('cover_letter').optional().trim()
@@ -26,13 +26,13 @@ router.post('/apply', authenticateToken, [
     const { job_id, cover_letter } = req.body;
     const user_id = req.user.id;
 
-    // Check if job exists and is active
+    
     const job = await getOne('SELECT id, company_id FROM jobs WHERE id = ? AND is_active = TRUE', [job_id]);
     if (!job) {
       return res.status(404).json({ message: 'Job not found or no longer active' });
     }
 
-    // Check if user has already applied
+    
     const existingApplication = await getOne(
       'SELECT id FROM applications WHERE job_id = ? AND user_id = ?',
       [job_id, user_id]
@@ -42,7 +42,7 @@ router.post('/apply', authenticateToken, [
       return res.status(400).json({ message: 'You have already applied for this job' });
     }
 
-    // Create application
+    
     const applicationId = await insertOne('applications', {
       job_id,
       user_id,
@@ -50,7 +50,7 @@ router.post('/apply', authenticateToken, [
       status: 'pending'
     });
 
-    // Update job applications count
+    
     await executeQuery('UPDATE jobs SET applications_count = applications_count + 1 WHERE id = ?', [job_id]);
 
     res.status(201).json({
@@ -63,7 +63,7 @@ router.post('/apply', authenticateToken, [
   }
 });
 
-// Get applications for a job (employers only)
+
 router.get('/job/:jobId', authenticateToken, async (req, res) => {
   try {
     const jobId = req.params.jobId;
@@ -71,7 +71,7 @@ router.get('/job/:jobId', authenticateToken, async (req, res) => {
     const limit = parseInt(req.query.limit) || 20;
     const offset = (page - 1) * limit;
 
-    // Verify user owns the job or is admin
+    
     let job;
     if (req.user.user_type === 'admin') {
       job = await getOne('SELECT id, company_id FROM jobs WHERE id = ?', [jobId]);
@@ -88,7 +88,7 @@ router.get('/job/:jobId', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'Job not found or access denied' });
     }
 
-    // Get applications with user details
+    
     const applications = await getMany(`
       SELECT 
         a.id, a.status, a.cover_letter, a.applied_at, a.updated_at,
@@ -101,7 +101,7 @@ router.get('/job/:jobId', authenticateToken, async (req, res) => {
       LIMIT ? OFFSET ?
     `, [jobId, limit, offset]);
 
-    // Get total count
+    
     const countResult = await getOne(
       'SELECT COUNT(*) as total FROM applications WHERE job_id = ?',
       [jobId]
@@ -127,7 +127,7 @@ router.get('/job/:jobId', authenticateToken, async (req, res) => {
   }
 });
 
-// Update application status (employers only)
+
 router.put('/:id/status', authenticateToken, [
   body('status').isIn(['pending', 'reviewed', 'interviewed', 'hired', 'rejected']),
   body('notes').optional().trim()
@@ -141,7 +141,7 @@ router.put('/:id/status', authenticateToken, [
     const applicationId = req.params.id;
     const { status, notes } = req.body;
 
-    // Verify user owns the job or is admin
+    
     let application;
     if (req.user.user_type === 'admin') {
       application = await getOne('SELECT id, job_id FROM applications WHERE id = ?', [applicationId]);
@@ -159,7 +159,7 @@ router.put('/:id/status', authenticateToken, [
       return res.status(404).json({ message: 'Application not found or access denied' });
     }
 
-    // Update application
+    
     await updateOne('applications', {
       status,
       notes: notes || null
@@ -172,12 +172,12 @@ router.put('/:id/status', authenticateToken, [
   }
 });
 
-// Get single application details
+
 router.get('/:id', authenticateToken, async (req, res) => {
   try {
     const applicationId = req.params.id;
 
-    // Get application with job and user details
+    
     const application = await getOne(`
       SELECT 
         a.*,
@@ -199,7 +199,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'Application not found' });
     }
 
-    // Check access permissions
+    
     const isOwner = req.user.id === application.user_id;
     const isEmployer = req.user.user_type === 'employer' && await getOne(`
       SELECT c.id FROM companies c 
@@ -219,12 +219,12 @@ router.get('/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// Withdraw application (job seekers only)
+
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const applicationId = req.params.id;
 
-    // Verify application belongs to user
+    
     const application = await getOne(
       'SELECT id, job_id FROM applications WHERE id = ? AND user_id = ?',
       [applicationId, req.user.id]
@@ -234,10 +234,10 @@ router.delete('/:id', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'Application not found or access denied' });
     }
 
-    // Delete application
+    
     await deleteOne('applications', 'id = ?', [applicationId]);
 
-    // Update job applications count
+    
     await executeQuery('UPDATE jobs SET applications_count = applications_count - 1 WHERE id = ?', [application.job_id]);
 
     res.json({ message: 'Application withdrawn successfully' });
@@ -247,7 +247,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// Save a job
+
 router.post('/save-job', authenticateToken, [
   body('job_id').isInt({ min: 1 })
 ], async (req, res) => {
@@ -260,13 +260,13 @@ router.post('/save-job', authenticateToken, [
     const { job_id } = req.body;
     const user_id = req.user.id;
 
-    // Check if job exists
+    
     const job = await getOne('SELECT id FROM jobs WHERE id = ? AND is_active = TRUE', [job_id]);
     if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
 
-    // Check if already saved
+    
     const existingSave = await getOne(
       'SELECT id FROM saved_jobs WHERE job_id = ? AND user_id = ?',
       [job_id, user_id]
@@ -276,7 +276,7 @@ router.post('/save-job', authenticateToken, [
       return res.status(400).json({ message: 'Job already saved' });
     }
 
-    // Save job
+    
     await insertOne('saved_jobs', {
       job_id,
       user_id
@@ -289,13 +289,13 @@ router.post('/save-job', authenticateToken, [
   }
 });
 
-// Unsave a job
+
 router.delete('/save-job/:jobId', authenticateToken, async (req, res) => {
   try {
     const jobId = req.params.jobId;
     const userId = req.user.id;
 
-    // Delete saved job
+    
     const result = await deleteOne('saved_jobs', 'job_id = ? AND user_id = ?', [jobId, userId]);
 
     if (result.affectedRows === 0) {
@@ -309,7 +309,7 @@ router.delete('/save-job/:jobId', authenticateToken, async (req, res) => {
   }
 });
 
-// Check if job is saved by user
+
 router.get('/saved-status/:jobId', authenticateToken, async (req, res) => {
   try {
     const jobId = req.params.jobId;

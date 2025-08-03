@@ -1,16 +1,16 @@
-// Image Loader Utility
-// This script updates all images on a page to use hosted URLs
+
+
 
 class ImageLoader {
     constructor() {
         this.initialized = false;
     }
 
-    // Initialize image loading
+    
     init() {
         if (this.initialized) return;
         
-        // Wait for image config to be available
+        
         if (typeof window.ImageConfig === 'undefined') {
             console.warn('ImageConfig not loaded. Please include images.js before image-loader.js');
             return;
@@ -20,31 +20,31 @@ class ImageLoader {
         this.initialized = true;
     }
 
-    // Update all images on the current page
+    
     updateAllImages() {
         console.log('🖼️ Updating images to use hosted URLs...');
 
-        // Update specific images by their selectors
+        
         this.updateImagesBySources();
         
-        // Update favicons
+        
         this.updateFavicons();
         
         console.log('✅ Image URLs updated successfully');
     }
 
-    // Update images based on their current src attributes
+    
     updateImagesBySources() {
         const imageMap = {
-            // Hero images
+            
             'images/career-change.jpeg': window.ImageConfig.getImageUrl('hero', 'careerChange'),
             'images/different.png': window.ImageConfig.getImageUrl('hero', 'different'),
             
-            // Logos
+            
             'images/FlexJobs_logo-1.png': window.ImageConfig.getImageUrl('logos', 'flexjobs'),
             'images/logo.png': window.ImageConfig.getImageUrl('logos', 'cdot'),
             
-            // Media logos
+            
             'images/Today_logo.svg.png': window.ImageConfig.getImageUrl('media', 'today'),
             'images/wsj.jpg': window.ImageConfig.getImageUrl('media', 'wsj'),
             'images/foxnews.png': window.ImageConfig.getImageUrl('media', 'foxnews'),
@@ -52,13 +52,13 @@ class ImageLoader {
             'images/cnn.png': window.ImageConfig.getImageUrl('media', 'cnn'),
             'images/usatoday.png': window.ImageConfig.getImageUrl('media', 'usatoday'),
             
-            // Testimonials
+            
             'images/testimonials/michelle.jpg': window.ImageConfig.getImageUrl('testimonials', 'michelle'),
             'images/testimonials/Brandon.jpeg': window.ImageConfig.getImageUrl('testimonials', 'brandon'),
             'images/testimonials/erin.jpeg': window.ImageConfig.getImageUrl('testimonials', 'erin')
         };
 
-        // Update all img elements
+        
         document.querySelectorAll('img').forEach(img => {
             const currentSrc = img.getAttribute('src');
             if (currentSrc && imageMap[currentSrc]) {
@@ -68,7 +68,7 @@ class ImageLoader {
         });
     }
 
-    // Update favicon links
+    
     updateFavicons() {
         const faviconSelectors = [
             'link[rel="icon"]',
@@ -85,7 +85,7 @@ class ImageLoader {
         });
     }
 
-    // Method to update a specific image
+    
     updateImage(selector, category, imageName) {
         const element = document.querySelector(selector);
         if (element) {
@@ -95,7 +95,7 @@ class ImageLoader {
         }
     }
 
-    // Method to preload critical images
+    
     preloadImages(imageList = []) {
         const criticalImages = imageList.length > 0 ? imageList : [
             window.ImageConfig.getImageUrl('hero', 'careerChange'),
@@ -114,15 +114,15 @@ class ImageLoader {
     }
 }
 
-// Create global instance
+
 window.imageLoader = new ImageLoader();
 
-// Auto-initialize when DOM is ready
+
 document.addEventListener('DOMContentLoaded', () => {
     window.imageLoader.init();
 });
 
-// Also try to initialize immediately if DOM is already loaded
+
 if (document.readyState !== 'loading') {
     window.imageLoader.init();
 }

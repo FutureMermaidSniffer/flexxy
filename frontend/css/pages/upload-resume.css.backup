@@ -1,0 +1,325 @@
+/* Upload Resume Page Styles */
+.page-upload-resume {
+    background: white;
+    min-height: 100vh;
+    /* Font inherited from main stylesheet */
+}
+
+.upload-resume-container {
+    padding-top: 1.2rem;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+}
+
+.upload-resume-container h1 {
+    font-size: 1.8rem;
+    padding-bottom: 1rem;
+    padding-top: 0;
+    margin-top: 0;
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+}
+
+.upload-resume-container p {
+    font-size: 1rem;
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Upload Options */
+.page-upload__option-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.page-upload__option-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border-color: #e9ecef;
+}
+
+.page-upload__option-card.selected {
+    border-color: #0066cc;
+    background-color: #f0f8ff;
+}
+
+.page-upload__option-title{
+    font-size: 1rem;
+    font-weight: 200;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.page-upload__icon-circle {
+    transition: all 0.3s ease;
+}
+
+.page-upload__option-card:hover .page-upload__icon-circle {
+    transform: scale(1.1);
+}
+
+.page-upload__option-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.page-upload__option-description {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+/* Upload Zone */
+.page-upload__drop-zone,
+.dynamic-upload-zone {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #0066cc;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.page-upload__drop-zone:hover,
+.dynamic-upload-zone:hover {
+    background-color: rgba(0, 102, 204, 0.05);
+    border-color: #0052a3;
+}
+
+.page-upload__drop-zone.dragover,
+.dynamic-upload-zone.dragover {
+    background-color: rgba(0, 102, 204, 0.1);
+    border-color: #0052a3;
+    transform: scale(1.02);
+}
+
+.page-upload__drop-content {
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.page-upload__drop-zone:hover .page-upload__drop-content {
+    transform: scale(1.05);
+}
+
+/* File Upload Success */
+.page-upload__status {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Selection Overlay */
+.page-upload__selection-overlay {
+    transition: all 0.4s ease;
+    backdrop-filter: blur(2px);
+    border-radius: 8px;
+}
+
+/* File Types */
+.page-upload__file-types {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+/* Benefits List */
+.page-upload__benefits {
+    text-align: left;
+}
+
+.page-upload__benefits .d-flex {
+    margin-bottom: 0.75rem;
+}
+
+.page-upload__benefits i {
+    color: #28a745;
+    margin-right: 0.5rem;
+    width: 16px;
+}
+
+.page-upload__benefits small {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Navigation Buttons */
+.page-upload__navigation {
+    display: none; /* Hidden when wizard footer is active */
+}
+
+.page-upload__back-btn {
+    transition: all 0.3s ease;
+    border-width: 2px;
+}
+
+.page-upload__back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.page-upload__next-btn {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, black 0%, black 100%);
+    border: none;
+    border-radius: 50px;
+}
+
+.page-upload__next-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.page-upload__next-btn:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+.page-upload__next-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(255, 107, 53, 0.4);
+}
+
+.page-upload__next-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Progress Bar */
+.page-upload__progress {
+    display: none; /* Hidden when wizard header is active */
+}
+
+/* Brand Logo */
+.page-upload__brand {
+    margin-bottom: 2rem;
+}
+
+.title-image {
+    transition: all 0.3s ease;
+}
+
+.title-image:hover {
+    transform: scale(1.05);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .upload-resume-container {
+        padding: 2rem 0 140px 0; /* Bottom padding for wizard footer */
+    }
+
+    .upload-resume-container h1 {
+        font-size: 1.5rem;
+        padding: 0 1rem 1rem;
+    }
+
+    .upload-resume-container p {
+        font-size: 0.9rem;
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .page-upload__main {
+        padding: 2rem 0 !important;
+    }
+    
+    .page-upload__option-card .card-body {
+        padding: 2rem !important;
+    }
+    
+    .page-upload__navigation {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .page-upload__navigation .btn {
+        width: 100%;
+    }
+
+    .page-upload__drop-zone {
+        min-height: 100px;
+        padding: 1rem;
+    }
+
+    .page-upload__icon-circle {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
+    .page-upload__icon-circle i {
+        font-size: 1.5rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .upload-resume-container h1 {
+        font-size: 1.3rem !important;
+    }
+    
+    .upload-resume-container p {
+        font-size: 0.85rem !important;
+    }
+    
+    .page-upload__option-card .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    .page-upload__option-title {
+        font-size: 1.1rem !important;
+    }
+
+    .page-upload__option-description {
+        font-size: 0.85rem !important;
+    }
+}
+
+/* Loading Animation */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Accessibility */
+.page-upload__option-card:focus-within {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+.page-upload__drop-zone:focus-within {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}

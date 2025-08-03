@@ -5,12 +5,12 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Helper function to convert MySQL-style placeholders to PostgreSQL
+
 function convertQuery(query, params) {
   let convertedQuery = query;
   let convertedParams = [...params];
   
-  // If using PostgreSQL, convert ? placeholders to $1, $2, etc.
+  
   if (process.env.DB_TYPE === 'postgres') {
     let paramIndex = 1;
     convertedQuery = query.replace(/\?/g, () => `$${paramIndex++}`);
@@ -19,7 +19,7 @@ function convertQuery(query, params) {
   return { query: convertedQuery, params: convertedParams };
 }
 
-// Get user's payment methods
+
 router.get('/', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -44,7 +44,7 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-// Add new payment method
+
 router.post('/', authenticateToken, [
   body('payment_type').isIn(['credit_card', 'debit_card', 'paypal', 'bank_transfer']),
   body('card_brand').optional().trim().isLength({ min: 1, max: 20 }),
@@ -83,7 +83,7 @@ router.post('/', authenticateToken, [
       stripe_payment_method_id
     } = req.body;
 
-    // If setting as default, unset other default payment methods
+    
     if (is_default) {
       await updateOne('user_payment_methods', 
         { is_default: false }, 
@@ -122,7 +122,7 @@ router.post('/', authenticateToken, [
   }
 });
 
-// Update payment method
+
 router.put('/:id', authenticateToken, [
   body('cardholder_name').optional().trim().isLength({ min: 1, max: 255 }),
   body('expiry_month').optional().isInt({ min: 1, max: 12 }),
@@ -143,7 +143,7 @@ router.put('/:id', authenticateToken, [
     const userId = req.user.id;
     const paymentMethodId = req.params.id;
 
-    // Check if payment method belongs to user
+    
     const paymentMethod = await getOne(
       'SELECT id FROM user_payment_methods WHERE id = ? AND user_id = ?',
       [paymentMethodId, userId]
@@ -171,7 +171,7 @@ router.put('/:id', authenticateToken, [
       return res.status(400).json({ message: 'No valid fields to update' });
     }
 
-    // If setting as default, unset other default payment methods
+    
     if (updateData.is_default === true) {
       await updateOne('user_payment_methods', 
         { is_default: false }, 
@@ -189,13 +189,13 @@ router.put('/:id', authenticateToken, [
   }
 });
 
-// Delete payment method
+
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
     const paymentMethodId = req.params.id;
 
-    // Check if payment method belongs to user
+    
     const paymentMethod = await getOne(
       'SELECT id, is_default FROM user_payment_methods WHERE id = ? AND user_id = ?',
       [paymentMethodId, userId]
@@ -205,7 +205,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'Payment method not found' });
     }
 
-    // Check if this is used by active subscriptions
+    
     const activeSubscription = await getOne(`
       SELECT us.id FROM user_subscriptions us
       JOIN user_payment_methods upm ON us.payment_method = CONCAT(upm.card_brand, ' ****', upm.last_four_digits)
@@ -218,14 +218,14 @@ router.delete('/:id', authenticateToken, async (req, res) => {
       });
     }
 
-    // Soft delete by setting is_active = FALSE
+    
     await updateOne('user_payment_methods', 
       { is_active: false }, 
       'id = ?', 
       [paymentMethodId]
     );
 
-    // If this was the default payment method, set another one as default
+    
     if (paymentMethod.is_default) {
       const otherPaymentMethod = await getOne(`
         SELECT id FROM user_payment_methods 
@@ -249,13 +249,13 @@ router.delete('/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// Set default payment method
+
 router.put('/:id/set-default', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
     const paymentMethodId = req.params.id;
 
-    // Check if payment method belongs to user
+    
     const paymentMethod = await getOne(
       'SELECT id FROM user_payment_methods WHERE id = ? AND user_id = ? AND is_active = TRUE',
       [paymentMethodId, userId]
@@ -265,14 +265,14 @@ router.put('/:id/set-default', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'Payment method not found' });
     }
 
-    // Unset other default payment methods
+    
     await updateOne('user_payment_methods', 
       { is_default: false }, 
       'user_id = ? AND is_default = TRUE', 
       [userId]
     );
 
-    // Set this one as default
+    
     await updateOne('user_payment_methods', 
       { is_default: true }, 
       'id = ?', 
@@ -286,7 +286,7 @@ router.put('/:id/set-default', authenticateToken, async (req, res) => {
   }
 });
 
-// Get billing addresses
+
 router.get('/billing-addresses', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -306,7 +306,7 @@ router.get('/billing-addresses', authenticateToken, async (req, res) => {
   }
 });
 
-// Add billing address
+
 router.post('/billing-addresses', authenticateToken, [
   body('address_name').optional().trim().isLength({ max: 100 }),
   body('address_line1').trim().isLength({ min: 1, max: 255 }),
@@ -335,7 +335,7 @@ router.post('/billing-addresses', authenticateToken, [
       is_default = false
     } = req.body;
 
-    // If setting as default, unset other default addresses
+    
     if (is_default) {
       await updateOne('user_billing_addresses', 
         { is_default: false }, 

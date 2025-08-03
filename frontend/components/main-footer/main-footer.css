@@ -1,4 +1,4 @@
-/* Main Footer Component Styles */
+
 .main-footer {
     background-color: #ffffff;
     border-top: 1px solid #e9ecef;
@@ -7,7 +7,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Desktop Footer Content */
+
 .main-footer__content {
     margin-bottom: 2rem;
     padding: 0 1rem;
@@ -49,7 +49,7 @@
     text-decoration: underline;
 }
 
-/* Social Media Section */
+
 .main-footer__social-section {
     margin-bottom: 2rem;
 }
@@ -83,7 +83,7 @@
     font-size: 12px;
 }
 
-/* Reviews Section */
+
 .main-footer__reviews {
     margin-bottom: 2rem;
 }
@@ -126,7 +126,7 @@
     opacity: 0.8;
 }
 
-/* Partner Sites */
+
 .main-footer__partner {
     margin-bottom: 2rem;
 }
@@ -148,7 +148,7 @@
     color: #004f6e;
 }
 
-/* App Download Section */
+
 .main-footer__app {
     margin-bottom: 1rem;
 }
@@ -168,7 +168,7 @@
     width: auto;
 }
 
-/* Footer Bottom */
+
 .main-footer__bottom {
     border-top: 1px solid #e9ecef;
     padding: 1rem 0;
@@ -190,7 +190,7 @@
     margin: 0 auto;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 767.98px) {
     .main-footer {
         padding: 2rem 0 0 0;
@@ -225,7 +225,7 @@
 }
 
 @media (min-width: 768px) {
-    /* Improve desktop layout */
+    
     .main-footer__app-buttons {
         flex-direction: row;
         gap: 0.25rem;
@@ -240,14 +240,14 @@
     }
 }
 
-/* Print styles */
+
 @media print {
     .main-footer {
         display: none;
     }
 }
 
-/* High contrast mode support */
+
 @media (prefers-contrast: high) {
     .main-footer {
         border-top-width: 2px;
@@ -262,7 +262,7 @@
     }
 }
 
-/* Reduced motion support */
+
 @media (prefers-reduced-motion: reduce) {
     .main-footer__link,
     .main-footer__social-link {

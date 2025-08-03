@@ -1,13 +1,13 @@
-/* About Page Specific Styles */
 
-/* Page-specific styles */
+
+
 .page-about {
     font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: #f8f9fa;
     min-height: 100vh;
 }
 
-/* Hero Statistics Section */
+
 .hero-stats-section {
     padding: 3rem 0;
     background: white;
@@ -65,7 +65,7 @@
     object-fit: contain;
 }
 
-/* How It Works Section */
+
 .how-it-works-section {
     padding: 3rem 0;
     background: #f8f9fa;
@@ -118,7 +118,7 @@
     line-height: 1.6;
 }
 
-/* Benefits Section */
+
 .benefits-section {
     padding: 3rem 0;
     background: white;
@@ -167,7 +167,7 @@
     margin: 0;
 }
 
-/* Reviews Section */
+
 .reviews-section {
     padding: 3rem 0;
     background: #f8f9fa;
@@ -256,7 +256,7 @@
     text-decoration: underline;
 }
 
-/* Testimonials Carousel */
+
 .testimonials-carousel-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -279,7 +279,7 @@
     max-width: calc(50% - 1rem);
 }
 
-/* Carousel Navigation Buttons */
+
 .carousel-btn {
     position: absolute;
     top: 50%;
@@ -322,7 +322,7 @@
     background: #ccc;
 }
 
-/* Origin Story Section */
+
 .origin-story-section {
     padding: 3rem 0;
     background: white;
@@ -350,7 +350,7 @@
     opacity: 0.1;
 }
 
-/* Final CTA Section */
+
 .final-cta-section {
     padding: 3rem 0;
     background: #004f6d;
@@ -387,7 +387,7 @@
     text-decoration: none;
 }
 
-/* Wizard-style button for about page */
+
 .wizard-next-button {
     background: #ff6b35;
     border: none;
@@ -411,7 +411,7 @@
     text-decoration: none;
 }
 
-/* Responsive Design */
+
 @media (max-width: 767px) {
     .stat-content {
         flex-direction: row;
@@ -450,7 +450,7 @@
         height: 50px;
     }
     
-    /* Mobile Carousel Styles */
+    
     .testimonials-carousel-container {
         padding: 0 50px;
     }

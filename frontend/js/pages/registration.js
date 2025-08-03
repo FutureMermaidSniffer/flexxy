@@ -1,26 +1,26 @@
-// Registration Page JavaScript
-// Handles registration form and modal functionality
+
+
 
 class RegistrationPage {
     constructor() {
-        this.isModalOpen = true; // Modal opens automatically
+        this.isModalOpen = true; 
         this.init();
     }
 
     init() {
-        // Setup modal functionality
+        
         this.setupModal();
         
-        // Setup form functionality
+        
         this.setupRegistrationForm();
         
-        // Setup password toggle
+        
         this.setupPasswordToggle();
         
-        // Setup skip button
+        
         this.setupSkipButton();
         
-        // Show modal automatically
+        
         this.showModal();
         
         console.log('Registration page initialized');
@@ -30,14 +30,14 @@ class RegistrationPage {
         const closeBtn = document.getElementById('closeModal');
         const modalBackdrop = document.getElementById('modalBackdrop');
         
-        // Close modal on close button click
+        
         if (closeBtn) {
             closeBtn.addEventListener('click', () => {
                 this.closeModal();
             });
         }
         
-        // Close modal on backdrop click
+        
         if (modalBackdrop) {
             modalBackdrop.addEventListener('click', (e) => {
                 if (e.target === modalBackdrop) {
@@ -46,7 +46,7 @@ class RegistrationPage {
             });
         }
         
-        // Close modal on Escape key
+        
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isModalOpen) {
                 this.closeModal();
@@ -63,7 +63,7 @@ class RegistrationPage {
             });
         }
         
-        // Setup form validation
+        
         this.setupFormValidation();
     }
 
@@ -75,7 +75,7 @@ class RegistrationPage {
         const phoneInput = document.getElementById('phoneInput');
         const locationInput = document.getElementById('locationInput');
         
-        // Clear errors on input for all fields
+        
         if (firstNameInput) {
             firstNameInput.addEventListener('input', () => {
                 this.clearFieldError(firstNameInput);
@@ -143,16 +143,16 @@ class RegistrationPage {
     }
 
     handleSkipRegistration() {
-        // Track skip action
+        
         this.trackSkipRegistration();
         
-        // Add loading state to skip button
+        
         const skipBtn = document.getElementById('skipRegistration');
         const originalText = skipBtn.textContent;
         skipBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
         skipBtn.disabled = true;
         
-        // Close modal and redirect after short delay
+        
         setTimeout(() => {
             this.closeModal();
             window.location.href = 'browse-jobs.html';
@@ -165,10 +165,10 @@ class RegistrationPage {
             modal.style.display = 'flex';
             this.isModalOpen = true;
             
-            // Prevent body scroll
+            
             document.body.style.overflow = 'hidden';
             
-            // Focus on email input
+            
             setTimeout(() => {
                 const emailInput = document.getElementById('emailInput');
                 if (emailInput) {
@@ -184,7 +184,7 @@ class RegistrationPage {
             modal.style.display = 'none';
             this.isModalOpen = false;
             
-            // Restore body scroll
+            
             document.body.style.overflow = '';
         }
     }
@@ -215,13 +215,13 @@ class RegistrationPage {
     }
 
     showFieldError(input, message) {
-        // Remove existing error
+        
         this.clearFieldError(input);
         
-        // Add error styling
+        
         input.classList.add('is-invalid');
         
-        // Add error message
+        
         const errorDiv = document.createElement('div');
         errorDiv.className = 'invalid-feedback';
         errorDiv.textContent = message;
@@ -254,7 +254,7 @@ class RegistrationPage {
         const location = locationInput.value.trim();
         const userType = userTypeInput.value || 'job_seeker';
         
-        // Validate required inputs
+        
         let hasErrors = false;
         
         if (!firstName) {
@@ -277,7 +277,7 @@ class RegistrationPage {
             hasErrors = true;
         }
         
-        // Validate email and password format
+        
         const isEmailValid = this.validateEmail(emailInput);
         const isPasswordValid = this.validatePassword(passwordInput);
         
@@ -285,13 +285,13 @@ class RegistrationPage {
             return;
         }
         
-        // Show loading state
+        
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating your account...';
         submitBtn.disabled = true;
         
         try {
-            // Prepare registration data
+            
             const registrationData = {
                 first_name: firstName,
                 last_name: lastName,
@@ -302,19 +302,19 @@ class RegistrationPage {
                 location: location || null
             };
             
-            // Call registration API
+            
             await this.registerUser(registrationData);
             
-            // Store user data locally
+            
             this.storeUserData(registrationData);
             
-            // Track successful registration
+            
             this.trackRegistration(email);
             
-            // Show success message briefly
+            
             submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Account created!';
             
-            // Redirect to browse jobs page
+            
             setTimeout(() => {
                 window.location.href = 'browse-jobs.html';
             }, 1500);
@@ -322,7 +322,7 @@ class RegistrationPage {
         } catch (error) {
             console.error('Registration error:', error);
             
-            // Show error message
+            
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
             
@@ -331,7 +331,7 @@ class RegistrationPage {
     }
 
     async registerUser(registrationData) {
-        // Make actual API call to backend
+        
         const response = await fetch('/api/auth/register', {
             method: 'POST',
             headers: {
@@ -347,7 +347,7 @@ class RegistrationPage {
         
         const result = await response.json();
         
-        // Store token and user data if registration successful
+        
         if (result.token) {
             localStorage.setItem('flexjobs_token', result.token);
             localStorage.setItem('flexjobs_user', JSON.stringify(result.user));
@@ -378,29 +378,29 @@ class RegistrationPage {
     }
 
     getUserPreferences() {
-        // Collect all wizard preferences
+        
         const preferences = {};
         
         try {
-            // Get job title preferences
+            
             const jobPrefs = localStorage.getItem('jobTitlePreference');
             if (jobPrefs) {
                 preferences.jobTitles = JSON.parse(jobPrefs);
             }
             
-            // Get education preferences
+            
             const eduPrefs = localStorage.getItem('educationPreference');
             if (eduPrefs) {
                 preferences.education = JSON.parse(eduPrefs);
             }
             
-            // Get benefit preferences
+            
             const benefitPrefs = localStorage.getItem('benefitPreference');
             if (benefitPrefs) {
                 preferences.benefits = JSON.parse(benefitPrefs);
             }
             
-            // Get work experience preferences
+            
             const expPrefs = localStorage.getItem('experiencePreference');
             if (expPrefs) {
                 preferences.experience = JSON.parse(expPrefs);
@@ -414,7 +414,7 @@ class RegistrationPage {
     }
 
     showRegistrationError(message) {
-        // Create or update error message
+        
         let errorDiv = document.querySelector('.registration-error');
         
         if (!errorDiv) {
@@ -429,7 +429,7 @@ class RegistrationPage {
             ${message}
         `;
         
-        // Remove error after 5 seconds
+        
         setTimeout(() => {
             if (errorDiv.parentNode) {
                 errorDiv.remove();
@@ -438,7 +438,7 @@ class RegistrationPage {
     }
 
     trackRegistration(email) {
-        // Analytics tracking
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', 'sign_up', {
                 method: 'email',
@@ -451,7 +451,7 @@ class RegistrationPage {
     }
 
     trackSkipRegistration() {
-        // Analytics tracking
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', 'registration_skipped', {
                 page: 'registration',
@@ -462,7 +462,7 @@ class RegistrationPage {
         console.log('User skipped registration');
     }
 
-    // Public methods
+    
     reopenModal() {
         this.showModal();
     }
@@ -478,10 +478,10 @@ class RegistrationPage {
     }
 }
 
-// Initialize page when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     window.registrationPageInstance = new RegistrationPage();
 });
 
-// Export for external access
+
 window.RegistrationPage = RegistrationPage;

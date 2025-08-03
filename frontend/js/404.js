@@ -1,7 +1,4 @@
-/**
- * 404 Error Page JavaScript
- * Handles search functionality, recent activity tracking, and user assistance
- */
+
 
 class Error404Page {
     constructor() {
@@ -16,9 +13,7 @@ class Error404Page {
         this.initBackgroundAnimation();
     }
 
-    /**
-     * Initialize search form functionality
-     */
+    
     initSearchForm() {
         const searchForm = document.getElementById('errorSearchForm');
         const searchInput = document.getElementById('errorSearchInput');
@@ -29,44 +24,38 @@ class Error404Page {
                 this.handleSearch(searchInput.value.trim());
             });
 
-            // Auto-suggest functionality
+            
             searchInput.addEventListener('input', (e) => {
                 this.handleAutoSuggest(e.target.value.trim());
             });
         }
     }
 
-    /**
-     * Handle search functionality
-     */
+    
     handleSearch(query) {
         if (!query) {
             this.showMessage('Please enter a search term.', 'warning');
             return;
         }
 
-        // Track search attempt
+        
         this.trackErrorPageSearch(query);
 
-        // Redirect to search results page
+        
         const searchUrl = `job-search-results.html?q=${encodeURIComponent(query)}&from=404`;
         window.location.href = searchUrl;
     }
 
-    /**
-     * Handle auto-suggest functionality
-     */
+    
     handleAutoSuggest(query) {
         if (query.length < 2) return;
 
-        // Simple auto-suggest based on common job terms
+        
         const suggestions = this.getSearchSuggestions(query);
         this.displaySuggestions(suggestions);
     }
 
-    /**
-     * Get search suggestions
-     */
+    
     getSearchSuggestions(query) {
         const commonSearches = [
             'remote developer jobs',
@@ -86,9 +75,7 @@ class Error404Page {
             .slice(0, 5);
     }
 
-    /**
-     * Display search suggestions
-     */
+    
     displaySuggestions(suggestions) {
         let suggestionContainer = document.getElementById('searchSuggestions');
         
@@ -116,7 +103,7 @@ class Error404Page {
 
         suggestionContainer.style.display = 'block';
 
-        // Add click handlers
+        
         suggestionContainer.querySelectorAll('.error-404__suggestion-item').forEach(item => {
             item.addEventListener('click', () => {
                 const suggestion = item.getAttribute('data-suggestion');
@@ -126,9 +113,7 @@ class Error404Page {
         });
     }
 
-    /**
-     * Initialize recent activity tracking
-     */
+    
     initRecentActivity() {
         const recentActivity = this.getRecentActivity();
         
@@ -137,9 +122,7 @@ class Error404Page {
         }
     }
 
-    /**
-     * Get recent activity from localStorage
-     */
+    
     getRecentActivity() {
         try {
             const recent = localStorage.getItem('flexjobs_recent_activity');
@@ -150,9 +133,7 @@ class Error404Page {
         }
     }
 
-    /**
-     * Display recent activity
-     */
+    
     displayRecentActivity(activities) {
         const recentSection = document.getElementById('recentActivity');
         const recentList = document.getElementById('recentList');
@@ -160,7 +141,7 @@ class Error404Page {
         if (!recentSection || !recentList) return;
 
         recentList.innerHTML = activities
-            .slice(0, 5) // Show only last 5 activities
+            .slice(0, 5) 
             .map(activity => `
                 <div class="error-404__recent-item">
                     <a href="${activity.url}" class="error-404__recent-link">
@@ -176,9 +157,7 @@ class Error404Page {
         recentSection.style.display = 'block';
     }
 
-    /**
-     * Format timestamp to "time ago" format
-     */
+    
     formatTimeAgo(timestamp) {
         const now = Date.now();
         const diff = now - timestamp;
@@ -196,23 +175,19 @@ class Error404Page {
         }
     }
 
-    /**
-     * Initialize error tracking
-     */
+    
     initErrorTracking() {
-        // Track 404 error
+        
         this.track404Error();
         
-        // Track referring page
+        
         this.trackReferrer();
         
-        // Track time spent on 404 page
+        
         this.startTimeTracking();
     }
 
-    /**
-     * Track 404 error occurrence
-     */
+    
     track404Error() {
         const errorData = {
             url: window.location.href,
@@ -225,12 +200,12 @@ class Error404Page {
             }
         };
 
-        // Store in localStorage for debugging
+        
         try {
             const errors = JSON.parse(localStorage.getItem('flexjobs_404_errors') || '[]');
             errors.push(errorData);
             
-            // Keep only last 50 errors
+            
             if (errors.length > 50) {
                 errors.splice(0, errors.length - 50);
             }
@@ -240,13 +215,11 @@ class Error404Page {
             console.warn('Could not store 404 error data:', error);
         }
 
-        // Send to analytics (placeholder)
+        
         console.log('404 Error tracked:', errorData);
     }
 
-    /**
-     * Track referring page
-     */
+    
     trackReferrer() {
         const referrer = document.referrer;
         if (referrer) {
@@ -254,22 +227,18 @@ class Error404Page {
         }
     }
 
-    /**
-     * Start time tracking on 404 page
-     */
+    
     startTimeTracking() {
         this.startTime = Date.now();
         
-        // Track when user leaves the page
+        
         window.addEventListener('beforeunload', () => {
             const timeSpent = Date.now() - this.startTime;
             console.log('Time spent on 404 page:', Math.round(timeSpent / 1000), 'seconds');
         });
     }
 
-    /**
-     * Track search attempts on 404 page
-     */
+    
     trackErrorPageSearch(query) {
         const searchData = {
             query: query,
@@ -279,12 +248,12 @@ class Error404Page {
 
         console.log('404 Page search:', searchData);
         
-        // Store search history
+        
         try {
             const searches = JSON.parse(localStorage.getItem('flexjobs_404_searches') || '[]');
             searches.push(searchData);
             
-            // Keep only last 20 searches
+            
             if (searches.length > 20) {
                 searches.splice(0, searches.length - 20);
             }
@@ -295,9 +264,7 @@ class Error404Page {
         }
     }
 
-    /**
-     * Initialize helpful suggestions based on URL
-     */
+    
     initHelpfulSuggestions() {
         const currentUrl = window.location.pathname;
         const suggestions = this.getSuggestionsFromUrl(currentUrl);
@@ -307,13 +274,11 @@ class Error404Page {
         }
     }
 
-    /**
-     * Get suggestions based on the current URL
-     */
+    
     getSuggestionsFromUrl(url) {
         const suggestions = [];
         
-        // Common URL patterns and their suggestions
+        
         const patterns = {
             '/job': ['browse-jobs.html', 'Browse All Jobs'],
             '/jobs': ['browse-jobs.html', 'Browse All Jobs'],
@@ -342,15 +307,13 @@ class Error404Page {
         return suggestions;
     }
 
-    /**
-     * Display URL-based suggestions
-     */
+    
     displayUrlSuggestions(suggestions) {
         if (suggestions.length === 0) return;
 
-        const suggestion = suggestions[0]; // Use first match
+        const suggestion = suggestions[0]; 
         
-        // Create suggestion banner
+        
         const banner = document.createElement('div');
         banner.className = 'error-404__url-suggestion';
         banner.innerHTML = `
@@ -365,24 +328,20 @@ class Error404Page {
             </div>
         `;
 
-        // Insert after the main title
+        
         const title = document.querySelector('.error-404__title');
         if (title) {
             title.parentNode.insertBefore(banner, title.nextSibling);
         }
     }
 
-    /**
-     * Initialize background animation
-     */
+    
     initBackgroundAnimation() {
-        // Add floating elements animation
+        
         this.createFloatingElements();
     }
 
-    /**
-     * Create floating background elements
-     */
+    
     createFloatingElements() {
         const container = document.querySelector('.error-404');
         if (!container) return;
@@ -407,15 +366,13 @@ class Error404Page {
         }
     }
 
-    /**
-     * Show message to user
-     */
+    
     showMessage(message, type = 'info') {
-        // Remove existing messages
+        
         const existingMessages = document.querySelectorAll('.error-404__message-alert');
         existingMessages.forEach(msg => msg.remove());
 
-        // Create new message
+        
         const messageDiv = document.createElement('div');
         messageDiv.className = `error-404__message-alert alert alert-${type} alert-dismissible fade show`;
         messageDiv.style.cssText = `
@@ -432,14 +389,14 @@ class Error404Page {
 
         document.body.appendChild(messageDiv);
 
-        // Auto-remove after 5 seconds
+        
         setTimeout(() => {
             messageDiv.remove();
         }, 5000);
     }
 }
 
-// CSS for suggestions and floating elements
+
 const additionalStyles = `
     .error-404__suggestions {
         background: white;
@@ -484,26 +441,26 @@ const additionalStyles = `
     }
 `;
 
-// Inject additional styles
+
 const styleSheet = document.createElement('style');
 styleSheet.textContent = additionalStyles;
 document.head.appendChild(styleSheet);
 
-// Initialize 404 page when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     new Error404Page();
 });
 
-// Add page exit tracking
+
 window.addEventListener('beforeunload', () => {
-    // Track which link the user clicked to leave 404 page
+    
     const clickedLinks = document.querySelectorAll('a:hover');
     if (clickedLinks.length > 0) {
         console.log('User leaving 404 via:', clickedLinks[0].href);
     }
 });
 
-// Export for use in other modules
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = Error404Page;
 }

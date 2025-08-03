@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do you have a job title in mind? - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Enter your desired job title to find opportunities that match your career goals and expertise.">
+    <meta name="keywords" content="job title, flexible jobs, career search, job search, flexible work">
+    <meta property="og:title" content="Do you have a job title in mind? - FlexJobs">
+    <meta property="og:description" content="Find jobs that match your desired job title and career aspirations.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <!-- Wizard Components CSS -->
+    <link rel="stylesheet" href="css/components/wizard-header.css">
+    <link rel="stylesheet" href="css/components/wizard-footer.css">
+</head>
+
+<body class="page-what-job">
+    <!-- Wizard Header -->
+    <div id="wizard-header-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Progress Bar -->
+        <section class="page-job__progress py-2 bg-white border-bottom d-none">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 67%" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Job Title Section -->
+        <section class="page-job__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <!-- Main Title -->
+                        <div class="text-center mb-5">
+                            <h1 class="page-job__title h2 fw-bold text-dark mb-3">
+                                Do you have a job title in mind?
+                            </h1>
+                        </div>
+                        
+                        <!-- Job Title Input -->
+                        <div class="page-job__input-container mb-5">
+                            <div class="position-relative">
+                                <div class="page-job__input-icon position-absolute top-50 start-0 translate-middle-y ms-3 text-muted">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <input type="text" 
+                                       class="form-control form-control-lg ps-5" 
+                                       id="jobTitleInput"
+                                       placeholder="Enter job title. You may search more than one."
+                                       style="border-radius: 12px; border: 2px solid #e9ecef; font-size: 1.1rem; min-height: 60px;">
+                            </div>
+                            
+                            <!-- Job Title Suggestions -->
+                            <div class="page-job__suggestions d-none" id="jobSuggestions">
+                                <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+                                    <!-- Suggestions will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Popular Job Titles -->
+                        <div class="page-job__popular mb-5">
+                            <h3 class="h6 text-muted mb-3 text-center">Popular job titles</h3>
+                            <div class="page-job__popular-grid d-flex flex-wrap justify-content-center gap-2">
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Software Engineer">
+                                    <span class="me-2">Software Engineer</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Marketing Manager">
+                                    <span class="me-2">Marketing Manager</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Data Analyst">
+                                    <span class="me-2">Data Analyst</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="UX Designer">
+                                    <span class="me-2">UX Designer</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Content Writer">
+                                    <span class="me-2">Content Writer</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Project Manager">
+                                    <span class="me-2">Project Manager</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Customer Success Manager">
+                                    <span class="me-2">Customer Success Manager</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Virtual Assistant">
+                                    <span class="me-2">Virtual Assistant</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Sales Representative">
+                                    <span class="me-2">Sales Representative</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm page-job__popular-btn d-flex align-items-center" data-job="Graphic Designer">
+                                    <span class="me-2">Graphic Designer</span>
+                                    <i class="fas fa-plus page-job__btn-icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Skip Option -->
+                        <div class="page-job__skip-container text-center mb-5">
+                            <button class="page-job__skip-btn btn btn-link text-info text-decoration-none fw-medium" id="skipBtn">
+                                <i class="fas fa-forward me-2"></i>
+                                Skip, I want to see all jobs
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Search Tips Section -->
+        <!-- <section class="page-job__tips py-5 bg-white"> -->
+            <div class="container">
+                <!-- <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="h4 fw-bold text-dark mb-4">
+                            Job Search Tips
+                        </h2>
+                        <p class="text-muted mb-5">
+                            Get the most out of your job search with these helpful suggestions.
+                        </p>
+                    </div>
+                </div> -->
+                
+                <div class="row g-4">
+                    <!-- Tip 1 -->
+                    <!-- <div class="col-lg-4 col-md-6">
+                        <div class="page-job__tip text-center">
+                            <div class="page-job__tip-icon mb-3">
+                                <i class="fas fa-search fa-2x text-primary"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Use Multiple Keywords</h4>
+                            <p class="small text-muted mb-0">
+                                Search for variations of your desired role to find more opportunities
+                            </p>
+                        </div>
+                    </div> -->
+                    
+                    <!-- Tip 2 -->
+                    <!-- <div class="col-lg-4 col-md-6">
+                        <div class="page-job__tip text-center">
+                            <div class="page-job__tip-icon mb-3">
+                                <i class="fas fa-star fa-2x text-warning"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Be Specific</h4>
+                            <p class="small text-muted mb-0">
+                                Include seniority levels and specializations for better matches
+                            </p>
+                        </div>
+                    </div> -->
+                    
+                    <!-- Tip 3 -->
+                    <!-- <div class="col-lg-4 col-md-6 mx-auto">
+                        <div class="page-job__tip text-center">
+                            <div class="page-job__tip-icon mb-3">
+                                <i class="fas fa-lightbulb fa-2x text-success"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Stay Open</h4>
+                            <p class="small text-muted mb-0">
+                                Consider similar roles that might be a great fit for your skills
+                            </p>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Component JS -->
+    <script src="js/components/component-loader.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/footer.js"></script>
+    <!-- Wizard Components JS -->
+    <script src="js/components/wizard-header.js"></script>
+    <script src="js/components/wizard-footer.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script src="js/pages/what-job.js"></script>
+    
+    <!-- Page-specific CSS -->
+    <style>
+        /* Page-specific styles - Font inherited from main stylesheet */
+
+        .page-job__logo {
+            transition: all 0.3s ease;
+        }
+
+        .page-job__logo:hover {
+            transform: scale(1.05);
+        }
+
+        .page-job__title {
+            color: #2c3e50;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .page-job__input-container .form-control {
+            transition: all 0.3s ease;
+        }
+
+        .page-job__input-container .form-control:focus {
+            border-color: #0dcaf0;
+            box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .page-job__suggestions .list-group-item {
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .page-job__suggestions .list-group-item:hover {
+            background-color: rgba(13, 202, 240, 0.1);
+            transform: translateX(5px);
+        }
+
+        .page-job__selected-display {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-job__popular-btn {
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            border-width: 2px;
+            justify-content: space-between;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-job__popular-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #0dcaf0;
+            color: #0dcaf0;
+            background-color: white !important;
+        }
+
+        .page-job__popular-btn.selected {
+            border-color: #28a745 !important;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-job__popular-btn.selected:hover {
+            border-color: #28a745 !important;
+            background-color: white !important;
+            color: #6c757d;
+        }
+
+        .page-job__btn-icon {
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+
+        .page-job__popular-btn.selected .page-job__btn-icon {
+            color: #28a745 !important;
+        }
+
+        .page-job__skip-btn {
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .page-job__skip-btn:hover {
+            color: #0891b2 !important;
+            transform: translateY(-2px);
+        }
+
+        .page-job__tip {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .page-job__tip:hover {
+            background: rgba(13, 202, 240, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .page-job__tip-icon {
+            transition: all 0.3s ease;
+        }
+
+        .page-job__tip:hover .page-job__tip-icon {
+            transform: scale(1.1);
+        }
+
+        /* Badge animations */
+        .badge {
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 576px) {
+            .page-job__main {
+                padding: 1rem 0 140px !important; /* Reduced top/bottom padding for mobile wizard footer */
+                min-height: 70vh !important; /* Reduced min-height for mobile */
+            }
+            
+            .page-job__tips {
+                display: none; /* Hide Job Search Tips section on mobile */
+            }
+            
+            .page-job__title {
+                font-size: 1.5rem !important;
+            }
+            
+            .page-job__input-container .form-control {
+                min-height: 50px !important;
+                font-size: 1rem !important;
+            }
+            
+            .page-job__popular-grid {
+                justify-content: center !important;
+                gap: 0.5rem !important;
+            }
+            
+            .page-job__popular-btn {
+                flex: 0 1 auto;
+                min-width: auto;
+                max-width: 45%;
+                font-size: 0.75rem !important;
+                padding: 0.4rem 0.6rem !important;
+                border-radius: 15px !important;
+            }
+            
+            .page-job__popular-btn span {
+                font-size: 0.75rem;
+            }
+            
+            .page-job__btn-icon {
+                font-size: 0.65rem !important;
+            }
+        }
+
+        @media (min-width: 577px) and (max-width: 768px) {
+            .page-job__main {
+                padding: 1.5rem 0 140px !important; /* Moderate padding for tablet */
+                min-height: 75vh !important;
+            }
+            
+            .page-job__tips {
+                display: none; /* Hide Job Search Tips section on tablet */
+            }
+            
+            .page-job__popular-grid {
+                justify-content: stretch !important;
+            }
+            
+            .page-job__popular-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .page-job__main {
+                padding-bottom: 120px !important; /* Add bottom padding for desktop wizard footer */
+            }
+        }
+    </style>
+</body>
+</html>

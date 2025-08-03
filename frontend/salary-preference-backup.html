@@ -6,31 +6,31 @@
     <title>What is your minimum desired salary? - FlexJobs</title>
     <link rel="icon" type="image/png" href="images/f.png">
     
-    <!-- Bootstrap CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    
     <link rel="stylesheet" href="/css/style.css">
-    <!-- Wizard Components CSS -->
+    
     <link rel="stylesheet" href="css/components/wizard-header.css">
     <link rel="stylesheet" href="css/components/wizard-footer.css">
-    <!-- Page-specific CSS -->
+    
     <link rel="stylesheet" href="css/pages/salary-preference.css">
 </head>
 
 <body class="page-salary-preference">
-    <!-- Wizard Header -->
+    
     <div id="wizard-header-container"></div>
     
     <div class="salary-preference-container">
         <div class="container">
-            <!-- Main Title -->
+            
             <h4 class="mb-4 text-center">What is your minimum desired salary?</h4>
             
-            <!-- Salary Display Card -->
+            
             <div class="salary-display-card text-center mb-4">
                 <div class="salary-amount-display">
                     <div class="salary-amount-box" id="salaryDisplay">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             
-            <!-- Salary Type Toggle -->
+            
             <div class="salary-type-toggle text-center mb-4">
                 <div class="btn-group" role="group" aria-label="Salary type toggle">
                     <input type="radio" class="btn-check" name="salaryType" id="annually" value="annually" checked>
@@ -50,15 +50,15 @@
                 </div>
             </div>
             
-            <!-- Salary Slider -->
+            
             <div class="salary-slider-container mb-5">
                 <div class="salary-slider-wrapper">
-                    <!-- Slider Track -->
+                    
                     <div class="salary-slider-track">
                         <div class="salary-slider-fill" id="sliderFill"></div>
                     </div>
                     
-                    <!-- Slider Handle -->
+                    
                     <input type="range" 
                            class="salary-slider" 
                            id="salarySlider"
@@ -67,7 +67,7 @@
                            value="65000" 
                            step="1000">
                     
-                    <!-- Slider Labels -->
+                    
                     <div class="salary-slider-labels">
                         <span id="minLabel">$0</span>
                         <span class="slider-center-label">Minimum desired salary</span>
@@ -76,37 +76,37 @@
                 </div>
             </div>
             
-            <!-- Skip Option -->
+            
             <div class="text-center mb-4">
                 <a href="#" class="skip-link" id="skipLink">
                     Skip, I'm not sure yet
                 </a>
             </div>
             
-            <!-- Success Message -->
+            
             <div class="success-message" id="successMessage">
                 <i class="fas fa-check-circle"></i>Great! We'll find jobs matching your salary expectations.
             </div>
             
-            <!-- Desktop Next Button -->
+            
             <button class="next-button d-none d-md-block" id="nextBtn">
                 Next
             </button>
         </div>
     </div>
 
-    <!-- Wizard Footer -->
+    
     <div id="wizard-footer-container"></div>
                         
-                        <!-- Salary Slider -->
+                        
                         <div class="page-salary__slider-container mb-5">
                             <div class="page-salary__slider-wrapper position-relative">
-                                <!-- Slider Track -->
+                                
                                 <div class="page-salary__slider-track bg-light rounded-pill position-relative" style="height: 8px;">
                                     <div class="page-salary__slider-fill bg-info rounded-pill h-100 position-absolute" style="width: 50%; transition: width 0.3s ease;"></div>
                                 </div>
                                 
-                                <!-- Slider Handle -->
+                                
                                 <input type="range" 
                                        class="page-salary__slider form-range position-absolute w-100" 
                                        id="salarySlider"
@@ -116,7 +116,7 @@
                                        step="1000"
                                        style="top: -12px; height: 32px; background: transparent;">
                                 
-                                <!-- Slider Labels -->
+                                
                                 <div class="page-salary__slider-labels d-flex justify-content-between mt-3 text-muted small">
                                     <span id="minLabel">$0</span>
                                     <span class="fw-bold text-dark">Minimum desired salary</span>
@@ -125,7 +125,7 @@
                             </div>
                         </div>
                         
-                        <!-- Annual/Hourly Toggle -->
+                        
                         <div class="page-salary__toggle-container text-center mb-5">
                             <div class="btn-group page-salary__toggle-group" role="group" aria-label="Salary type toggle">
                                 <input type="radio" class="btn-check" name="salaryType" id="annually" value="annually" checked>
@@ -136,22 +136,22 @@
                             </div>
                         </div>
                         
-                        <!-- Skip Option -->
+                        
                         <div class="page-salary__skip-container text-center mb-5">
                             <a href="#" class="page-salary__skip-link text-info text-decoration-none fw-medium" id="skipLink">
                                 Skip, I'm not sure yet
                             </a>
                         </div>
                         
-                        <!-- Navigation Buttons -->
+                        
                         <div class="page-salary__navigation d-flex justify-content-between align-items-center">
-                            <!-- Back Button -->
+                            
                             <button class="page-salary__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
                                 <i class="fas fa-arrow-left me-2"></i>
                                 Back
                             </button>
                             
-                            <!-- Next Button -->
+                            
                             <button class="page-salary__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
                                     id="nextBtn"
                                     style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
@@ -164,7 +164,7 @@
             </div>
         </section>
 
-        <!-- Salary Insights Section -->
+        
         <section class="page-salary__insights py-5 bg-white">
             <div class="container">
                 <div class="row">
@@ -179,7 +179,7 @@
                 </div>
                 
                 <div class="row g-4">
-                    <!-- Insight 1 -->
+                    
                     <div class="col-lg-4 col-md-6">
                         <div class="page-salary__insight text-center p-4">
                             <div class="page-salary__insight-icon mb-3">
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                     
-                    <!-- Insight 2 -->
+                    
                     <div class="col-lg-4 col-md-6">
                         <div class="page-salary__insight text-center p-4">
                             <div class="page-salary__insight-icon mb-3">
@@ -205,7 +205,7 @@
                         </div>
                     </div>
                     
-                    <!-- Insight 3 -->
+                    
                     <div class="col-lg-4 col-md-6 mx-auto">
                         <div class="page-salary__insight text-center p-4">
                             <div class="page-salary__insight-icon mb-3">
@@ -222,20 +222,20 @@
         </section>
     </main>
 
-    <!-- Wizard Footer -->
+    
     <div id="wizard-footer-container"></div>
 
-    <!-- Bootstrap JS -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Component JS -->
+    
     <script src="js/components/component-loader.js"></script>
     <script src="js/components/header.js"></script>
     <script src="js/components/footer.js"></script>
-    <!-- Wizard Components JS -->
+    
     <script src="js/components/wizard-header.js"></script>
     <script src="js/components/wizard-footer.js"></script>
     
-    <!-- Page-specific JavaScript -->
+    
     <script>
         // Initialize wizard header and footer
         document.addEventListener('DOMContentLoaded', () => {

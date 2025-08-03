@@ -1,4 +1,4 @@
-// Agents Page JavaScript
+
 class AgentsManager {
     constructor() {
         this.agents = [];
@@ -13,25 +13,25 @@ class AgentsManager {
             verification: '',
             sortBy: 'rating'
         };
-        this.viewMode = 'grid'; // 'grid' or 'list'
+        this.viewMode = 'grid'; 
         this.init();
     }
 
     async init() {
         try {
-            // Load components
+            
             await this.loadComponents();
             
-            // Parse URL parameters
+            
             this.parseUrlParams();
             
-            // Load agents
+            
             await this.loadAgents();
             
-            // Set up event listeners
+            
             this.setupEventListeners();
             
-            // Initial render
+            
             this.applyFilters();
             
         } catch (error) {
@@ -42,17 +42,17 @@ class AgentsManager {
 
     async loadComponents() {
         try {
-            // Load main header with agent search placeholder
+            
             const headerResponse = await fetch('components/main-header/main-header.html');
             const headerHtml = await headerResponse.text();
             document.getElementById('main-header-container').innerHTML = headerHtml;
             
-            // Load footer
+            
             const footerResponse = await fetch('components/main-footer/main-footer.html');
             const footerHtml = await footerResponse.text();
             document.getElementById('footer-container').innerHTML = footerHtml;
             
-            // Initialize main header with agent search configuration
+            
             if (typeof MainHeader !== 'undefined') {
                 window.mainHeader = new MainHeader({
                     searchPlaceholder: 'Search for agents...',
@@ -69,16 +69,16 @@ class AgentsManager {
         this.filters.search = urlParams.get('q') || '';
         this.filters.location = urlParams.get('location') || '';
         
-        // Check if there's a specific agent to show
+        
         const agentId = urlParams.get('agent');
         if (agentId) {
-            // Auto-open the agent modal after page loads
+            
             setTimeout(() => {
                 this.showAgentModal(agentId);
             }, 1000);
         }
         
-        // Set search input values if they exist
+        
         setTimeout(() => {
             if (window.mainHeader && window.mainHeader.searchInput && this.filters.search) {
                 window.mainHeader.searchInput.value = this.filters.search;
@@ -95,7 +95,7 @@ class AgentsManager {
         this.currentPage = 1;
         this.applyFilters();
         
-        // Update URL
+        
         this.updateUrl();
     }
 
@@ -110,12 +110,12 @@ class AgentsManager {
                 this.agents = data.agents || [];
                 this.pagination = data.pagination || {};
             } else {
-                this.agents = []; // Ensure agents is always an array
+                this.agents = []; 
                 throw new Error(data.message || 'Failed to load agents');
             }
         } catch (error) {
             console.error('Error loading agents:', error);
-            this.agents = []; // Ensure agents is always an array
+            this.agents = []; 
             this.showError('Error loading agents');
         } finally {
             this.showLoading(false);
@@ -123,7 +123,7 @@ class AgentsManager {
     }
 
     setupEventListeners() {
-        // Filter controls
+        
         const specialtyFilter = document.getElementById('specialtyFilter');
         const ratingFilter = document.getElementById('ratingFilter');
         const verificationFilter = document.getElementById('verificationFilter');
@@ -140,7 +140,7 @@ class AgentsManager {
             }
         });
 
-        // View toggle
+        
         const gridView = document.getElementById('gridView');
         const listView = document.getElementById('listView');
 
@@ -173,7 +173,7 @@ class AgentsManager {
     applyFilters() {
         let filtered = [...this.agents];
 
-        // Search filter
+        
         if (this.filters.search) {
             const searchTerm = this.filters.search.toLowerCase();
             filtered = filtered.filter(agent => 
@@ -186,7 +186,7 @@ class AgentsManager {
             );
         }
 
-        // Location filter
+        
         if (this.filters.location) {
             const locationTerm = this.filters.location.toLowerCase();
             filtered = filtered.filter(agent => 
@@ -194,14 +194,14 @@ class AgentsManager {
             );
         }
 
-        // Specialty filter
+        
         if (this.filters.specialty) {
             filtered = filtered.filter(agent => 
                 agent.specializations && agent.specializations.includes && agent.specializations.includes(this.filters.specialty)
             );
         }
 
-        // Rating filter
+        
         if (this.filters.rating) {
             const minRating = parseFloat(this.filters.rating);
             filtered = filtered.filter(agent => 
@@ -209,14 +209,14 @@ class AgentsManager {
             );
         }
 
-        // Verification filter
+        
         if (this.filters.verification) {
             if (this.filters.verification === 'featured') {
                 filtered = filtered.filter(agent => agent.is_featured);
             }
         }
 
-        // Sort
+        
         this.sortAgents(filtered);
 
         this.filteredAgents = filtered;
@@ -242,10 +242,10 @@ class AgentsManager {
         const endIndex = startIndex + this.pageSize;
         const pageAgents = this.filteredAgents.slice(startIndex, endIndex);
 
-        // Update results count
+        
         this.updateResultsCount();
 
-        // Show/hide sections
+        
         const resultsHeader = document.getElementById('resultsHeader');
         const agentsGrid = document.getElementById('agentsGrid');
         const noResults = document.getElementById('noResults');
@@ -263,10 +263,10 @@ class AgentsManager {
             pagination.style.display = 'block';
         }
 
-        // Render agents
+        
         this.renderAgents(pageAgents);
         
-        // Render pagination
+        
         this.renderPagination();
     }
 
@@ -431,13 +431,13 @@ class AgentsManager {
         document.getElementById('pagination').style.display = 'block';
         pagination.innerHTML = '';
 
-        // Previous button
+        
         const prevItem = document.createElement('li');
         prevItem.className = `page-item ${this.currentPage === 1 ? 'disabled' : ''}`;
         prevItem.innerHTML = `<a class="page-link" href="#" onclick="agentsManager.goToPage(${this.currentPage - 1})">Previous</a>`;
         pagination.appendChild(prevItem);
 
-        // Page numbers
+        
         const startPage = Math.max(1, this.currentPage - 2);
         const endPage = Math.min(totalPages, this.currentPage + 2);
 
@@ -476,7 +476,7 @@ class AgentsManager {
             pagination.appendChild(lastItem);
         }
 
-        // Next button
+        
         const nextItem = document.createElement('li');
         nextItem.className = `page-item ${this.currentPage === totalPages ? 'disabled' : ''}`;
         nextItem.innerHTML = `<a class="page-link" href="#" onclick="agentsManager.goToPage(${this.currentPage + 1})">Next</a>`;
@@ -504,7 +504,7 @@ class AgentsManager {
 
             modalBody.innerHTML = this.createAgentModalContent(agent);
             
-            // Configure book consultation button
+            
             bookBtn.onclick = () => this.bookConsultation(agentId);
             
             modal.show();
@@ -557,7 +557,7 @@ class AgentsManager {
     }
 
     bookConsultation(agentId) {
-        // Check if user is logged in
+        
         const token = localStorage.getItem('token');
         if (!token) {
             this.showAlert('Please log in to book a consultation', 'warning');
@@ -567,7 +567,7 @@ class AgentsManager {
             return;
         }
 
-        // Redirect to booking page (to be implemented)
+        
         window.location.href = `book-consultation.html?agent=${agentId}`;
     }
 
@@ -617,15 +617,15 @@ class AgentsManager {
     }
 }
 
-// Global functions
+
 function clearFilters() {
-    // Reset all filters
+    
     document.getElementById('specialtyFilter').value = '';
     document.getElementById('ratingFilter').value = '';
     document.getElementById('verificationFilter').value = '';
     document.getElementById('sortBy').value = 'rating';
     
-    // Clear search inputs
+    
     if (window.mainHeader && window.mainHeader.searchInput) {
         window.mainHeader.searchInput.value = '';
     }
@@ -633,7 +633,7 @@ function clearFilters() {
         window.mainHeader.locationInput.value = '';
     }
     
-    // Reset manager filters
+    
     agentsManager.filters = {
         search: '',
         location: '',
@@ -647,7 +647,7 @@ function clearFilters() {
     agentsManager.updateUrl();
 }
 
-// Initialize agents manager when page loads
+
 let agentsManager;
 document.addEventListener('DOMContentLoaded', () => {
     agentsManager = new AgentsManager();

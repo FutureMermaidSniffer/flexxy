@@ -52,10 +52,10 @@ class DatabaseRollback {
         console.log('🗑️  Dropping all tables...');
         
         try {
-            // Use the database
+            
             await this.connection.execute(`USE ${this.databaseName}`);
             
-            // Get all tables
+            
             const tables = await this.getTableList();
             
             if (tables.length === 0) {
@@ -63,16 +63,16 @@ class DatabaseRollback {
                 return;
             }
 
-            // Disable foreign key checks temporarily
+            
             await this.connection.execute('SET FOREIGN_KEY_CHECKS = 0');
             
-            // Drop each table
+            
             for (const table of tables) {
                 await this.connection.execute(`DROP TABLE IF EXISTS ${table}`);
                 console.log(`✅ Dropped table: ${table}`);
             }
             
-            // Re-enable foreign key checks
+            
             await this.connection.execute('SET FOREIGN_KEY_CHECKS = 1');
             
             console.log(`✅ All ${tables.length} tables dropped successfully`);
@@ -123,17 +123,17 @@ class DatabaseRollback {
         console.log('🔄 Starting FlexJobs database rollback...\n');
         
         try {
-            // Connect to MySQL
+            
             await this.createConnection();
             
-            // Check if database exists
+            
             const dbExists = await this.checkDatabaseExists();
             if (!dbExists) {
                 console.log(`ℹ️  Database '${this.databaseName}' does not exist`);
                 return;
             }
 
-            // Get confirmation unless forced
+            
             if (!force) {
                 const action = dropDatabase ? 'drop the entire database' : 'drop all tables';
                 const confirmed = await this.confirmAction(action);
@@ -161,10 +161,10 @@ class DatabaseRollback {
     }
 }
 
-// Export for use in other scripts
+
 module.exports = DatabaseRollback;
 
-// Run rollback if called directly
+
 if (require.main === module) {
     const args = process.argv.slice(2);
     const dropDatabase = args.includes('--drop-database');

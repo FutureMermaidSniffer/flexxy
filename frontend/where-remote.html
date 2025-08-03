@@ -6,31 +6,31 @@
     <title>Where do you want to work remotely from? - FlexJobs</title>
     <link rel="icon" type="image/png" href="images/f.png">
     
-    <!-- Bootstrap CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    
     <link rel="stylesheet" href="/css/style.css">
-    <!-- Wizard Components CSS -->
+    
     <link rel="stylesheet" href="css/components/wizard-header.css">
     <link rel="stylesheet" href="css/components/wizard-footer.css">
-    <!-- Page-specific CSS -->
+    
     <link rel="stylesheet" href="css/pages/where-remote.css">
 </head>
 
 <body class="page-where-remote">
-    <!-- Wizard Header -->
+    
     <div id="wizard-header-container"></div>
     
     <div class="where-remote-container">
         <div class="container">
-            <!-- Main Title -->
+            
             <h4 class="mb-4 text-center">Where do you want to work from?</h4>
             
-            <!-- Location Search -->
+            
             <div class="location-search-container mb-4">
                 <div class="position-relative">
                     <div class="search-icon">
@@ -42,17 +42,17 @@
                            placeholder="Search by location">
                 </div>
                 
-                <!-- Location Suggestions -->
+                
                 <div class="location-suggestions d-none" id="locationSuggestions">
                     <div class="suggestions-list">
-                        <!-- Suggestions will be populated here -->
+                        
                     </div>
                 </div>
             </div>
             
-            <!-- Location Options -->
+            
             <div class="location-options-list mb-5">
-                <!-- US Option -->
+                
                 <div class="location-option-item" data-value="us-anywhere">
                     <input type="checkbox" class="option-checkbox" id="usAnywhere" data-option="us-anywhere">
                     <label for="usAnywhere" class="option-label">
@@ -60,7 +60,7 @@
                     </label>
                 </div>
                 
-                <!-- Global Option -->
+                
                 <div class="location-option-item" data-value="global-anywhere">
                     <input type="checkbox" class="option-checkbox" id="globalAnywhere" data-option="global-anywhere">
                     <label for="globalAnywhere" class="option-label">
@@ -69,40 +69,35 @@
                 </div>
             </div>
             
-            <!-- Selected Locations Display -->
+            
             <div class="selected-locations d-none" id="selectedDisplay">
                 <div class="selected-header">
                     <i class="fas fa-check-circle"></i>
                     <span>Selected locations:</span>
                 </div>
                 <div class="selected-list" id="selectedLocationsList">
-                    <!-- Selected locations will appear here -->
+                    
                 </div>
             </div>
             
-            <!-- Skip Option -->
-            <!-- <div class="text-center mb-4">
-                <a href="#" class="skip-link" id="skipLink">
-                    Skip, I'll specify this later
-                </a>
-            </div>
-             -->
-            <!-- Desktop Next Button -->
+            
+            
+            
             <button class="next-button d-none d-md-block" id="nextBtn">
                 Next
             </button>
         </div>
     </div>
 
-    <!-- Wizard Footer -->
+    
     <div id="wizard-footer-container"></div>
 
-    <!-- Bootstrap JS -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Wizard Components JS -->
+    
     <script src="js/components/wizard-header.js"></script>
     <script src="js/components/wizard-footer.js"></script>
-    <!-- Page-specific JavaScript -->
+    
     <script src="js/pages/where-remote.js"></script>
 </body>
 </html>

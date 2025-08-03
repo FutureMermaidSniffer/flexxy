@@ -1,33 +1,30 @@
-/**
- * Upload Resume Page JavaScript
- * Handles file upload, option selection, and wizard navigation
- */
 
-// Initialize wizard header and footer
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize wizard header (step 2 - show back button)
+    
     if (typeof WizardHeader !== 'undefined') {
         window.wizardHeader = new WizardHeader({
             isFirstPage: false
         });
     }
     
-    // Initialize wizard footer
+    
     if (typeof WizardFooter !== 'undefined') {
         window.wizardFooter = new WizardFooter(2, 6, 'Next');
-        // Override the handleNext method
+        
         window.wizardFooter.handleNext = () => {
             window.uploadResumePageInstance.handleNext();
         };
-        // Override the handleBack method
+        
         window.wizardFooter.handleBack = () => {
             window.uploadResumePageInstance.handleBack();
         };
-        // Disable by default until option is selected
+        
         window.wizardFooter.disableNextButton();
     }
     
-    // Initialize page functionality
+    
     window.uploadResumePageInstance = new UploadResumePage();
 });
 
@@ -65,14 +62,14 @@ class UploadResumePage {
     }
 
     selectOption(option) {
-        // Clear previous selections
+        
         this.clearSelections();
         
         this.selectedOption = option;
         
         if (option === 'upload') {
             this.showSelection('uploadOption', 'uploadOverlay');
-            // Create upload functionality dynamically
+            
             this.createUploadInterface();
         } else if (option === 'skip') {
             this.showSelection('skipOption', 'skipOverlay');
@@ -86,19 +83,19 @@ class UploadResumePage {
         const uploadCard = document.getElementById('uploadOption');
         const cardBody = uploadCard.querySelector('.card-body');
         
-        // Check if upload interface already exists
+        
         if (cardBody.querySelector('.dynamic-upload-zone')) {
             return;
         }
         
-        // Create file input (hidden)
+        
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.id = 'resumeFile';
         fileInput.className = 'd-none';
         fileInput.accept = '.doc,.docx,.pdf,.rtf,.txt';
         
-        // Create drop zone
+        
         const dropZone = document.createElement('div');
         dropZone.id = 'dropZone';
         dropZone.className = 'dynamic-upload-zone page-upload__drop-zone border-2 border-dashed border-info rounded p-4 mb-3';
@@ -113,19 +110,19 @@ class UploadResumePage {
             </div>
         `;
         
-        // Insert after the file types section
+        
         const fileTypesSection = cardBody.querySelector('.page-upload__file-types');
         if (fileTypesSection) {
             fileTypesSection.insertAdjacentElement('afterend', fileInput);
             fileTypesSection.insertAdjacentElement('afterend', dropZone);
         }
         
-        // Set up event listeners
+        
         this.setupDynamicFileUpload(fileInput, dropZone);
     }
 
     showSelection(cardId, overlayId) {
-        // Add selected state to card
+        
         const card = document.getElementById(cardId);
         const overlay = document.getElementById(overlayId);
         
@@ -138,12 +135,12 @@ class UploadResumePage {
             }
         }
         
-        // Show overlay
+        
         if (overlay) {
             overlay.classList.remove('d-none');
             overlay.classList.add('d-flex');
             
-            // Animation
+            
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.style.opacity = '1';
@@ -152,13 +149,13 @@ class UploadResumePage {
     }
 
     clearSelections() {
-        // Clear upload option
+        
         const uploadCard = document.getElementById('uploadOption');
         const uploadOverlay = document.getElementById('uploadOverlay');
         if (uploadCard) {
             uploadCard.classList.remove('border-3', 'border-info', 'selected');
             
-            // Remove any dynamic upload elements
+            
             const dynamicZone = uploadCard.querySelector('.dynamic-upload-zone');
             const dynamicInput = uploadCard.querySelector('#resumeFile');
             const dynamicStatus = uploadCard.querySelector('#uploadStatus');
@@ -172,7 +169,7 @@ class UploadResumePage {
             uploadOverlay.classList.remove('d-flex');
         }
         
-        // Clear skip option
+        
         const skipCard = document.getElementById('skipOption');
         const skipOverlay = document.getElementById('skipOverlay');
         if (skipCard) {
@@ -183,13 +180,13 @@ class UploadResumePage {
             skipOverlay.classList.remove('d-flex');
         }
         
-        // Reset upload state
+        
         this.uploadedFile = null;
         this.isFileUploaded = false;
     }
 
     setupFileUpload() {
-        // This method now handles static elements if they exist
+        
         const fileInput = document.getElementById('resumeFile');
         const dropZone = document.getElementById('dropZone');
         
@@ -199,14 +196,14 @@ class UploadResumePage {
     }
 
     setupDynamicFileUpload(fileInput, dropZone) {
-        // File input change
+        
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 this.handleFileUpload(e.target.files[0]);
             }
         });
         
-        // Browse button click
+        
         const browseButton = dropZone.querySelector('.btn');
         if (browseButton) {
             browseButton.addEventListener('click', () => {
@@ -214,7 +211,7 @@ class UploadResumePage {
             });
         }
         
-        // Drag and drop events
+        
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropZone.classList.add('dragover');
@@ -235,7 +232,7 @@ class UploadResumePage {
             }
         });
         
-        // Click to browse
+        
         dropZone.addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON') {
                 fileInput.click();
@@ -244,7 +241,7 @@ class UploadResumePage {
     }
 
     handleFileUpload(file) {
-        // Validate file type
+        
         const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/rtf', 'text/plain'];
         const allowedExtensions = ['.pdf', '.doc', '.docx', '.rtf', '.txt'];
         
@@ -256,7 +253,7 @@ class UploadResumePage {
             return;
         }
         
-        // Validate file size (max 10MB)
+        
         if (file.size > 10 * 1024 * 1024) {
             this.showError('File size must be less than 10MB');
             return;
@@ -266,23 +263,23 @@ class UploadResumePage {
         this.isFileUploaded = true;
         this.selectedOption = 'upload';
         
-        // Show upload success
+        
         this.showUploadSuccess(file.name);
         
-        // Select upload option
+        
         this.clearSelections();
         this.showSelection('uploadOption', 'uploadOverlay');
         this.updateNextButton();
         
-        // Store in localStorage
+        
         this.storeUploadPreference();
         
-        // Track upload
+        
         this.trackFileUpload(file);
     }
 
     showUploadSuccess(fileName) {
-        // Hide the drop zone (both static and dynamic)
+        
         const dropZone = document.getElementById('dropZone') || document.querySelector('.dynamic-upload-zone');
         const uploadStatus = document.getElementById('uploadStatus');
         const uploadedFileName = document.getElementById('uploadedFileName');
@@ -291,7 +288,7 @@ class UploadResumePage {
             dropZone.classList.add('d-none');
         }
         
-        // If no static upload status exists, create one dynamically
+        
         if (!uploadStatus) {
             const uploadCard = document.getElementById('uploadOption');
             const cardBody = uploadCard.querySelector('.card-body');
@@ -306,7 +303,7 @@ class UploadResumePage {
                 </div>
             `;
             
-            // Insert after drop zone or file types
+            
             const insertAfter = dropZone || cardBody.querySelector('.page-upload__file-types');
             if (insertAfter) {
                 insertAfter.insertAdjacentElement('afterend', statusDiv);
@@ -320,7 +317,7 @@ class UploadResumePage {
     }
 
     showError(message) {
-        // Show error message
+        
         const dropZone = document.getElementById('dropZone');
         if (!dropZone) return;
         
@@ -328,7 +325,7 @@ class UploadResumePage {
         errorDiv.className = 'alert alert-danger mt-2';
         errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle me-2"></i>${message}`;
         
-        // Remove any existing errors
+        
         const existingError = dropZone.parentElement.querySelector('.alert-danger');
         if (existingError) {
             existingError.remove();
@@ -336,7 +333,7 @@ class UploadResumePage {
         
         dropZone.parentElement.appendChild(errorDiv);
         
-        // Remove error after 5 seconds
+        
         setTimeout(() => {
             errorDiv.remove();
         }, 5000);
@@ -367,7 +364,7 @@ class UploadResumePage {
                 nextBtn.disabled = false;
                 nextBtn.classList.remove('opacity-50');
             }
-            // Enable wizard footer next button
+            
             if (window.wizardFooter) {
                 window.wizardFooter.enableNextButton();
             }
@@ -376,7 +373,7 @@ class UploadResumePage {
                 nextBtn.disabled = true;
                 nextBtn.classList.add('opacity-50');
             }
-            // Disable wizard footer next button
+            
             if (window.wizardFooter) {
                 window.wizardFooter.disableNextButton();
             }
@@ -386,40 +383,40 @@ class UploadResumePage {
     handleNext() {
         if (!this.selectedOption) return;
         
-        // Store preference
+        
         this.storeUploadPreference();
         
-        // Navigate to next step
+        
         setTimeout(() => {
             if (this.selectedOption === 'upload' && this.uploadedFile) {
-                // If file uploaded, go to job results
+                
                 this.processResumeAndContinue();
             } else {
-                // If skipped, go to job results
+                
                 this.continueWithoutUpload();
             }
         }, 300);
     }
 
     handleBack() {
-        // Navigate back to where-remote page
+        
         window.location.href = 'where-remote.html';
     }
 
     processResumeAndContinue() {
-        // Navigate to what-job page with resume uploaded
+        
         window.location.href = 'what-job.html';
     }
 
     continueWithoutUpload() {
-        // Navigate to what-job page without resume
+        
         window.location.href = 'what-job.html';
     }
 
     buildJobSearchParams() {
         const params = new URLSearchParams();
         
-        // Add previous preferences from localStorage
+        
         const preferences = [
             'workTypePreference',
             'salaryPreference', 
@@ -473,7 +470,7 @@ class UploadResumePage {
                     params.set('location_options', preference.options.join(','));
                 }
                 break;
-            // Add other preference mappings as needed
+            
         }
     }
 
@@ -515,7 +512,7 @@ class UploadResumePage {
     }
 
     trackSelection() {
-        // Analytics tracking
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', 'upload_option_selected', {
                 option: this.selectedOption,
@@ -527,7 +524,7 @@ class UploadResumePage {
     }
 
     trackFileUpload(file) {
-        // Analytics tracking
+        
         if (typeof gtag !== 'undefined') {
             gtag('event', 'resume_uploaded', {
                 file_type: file.type,
@@ -544,5 +541,5 @@ class UploadResumePage {
     }
 }
 
-// Export for global use
+
 window.UploadResumePage = UploadResumePage;

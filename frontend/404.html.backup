@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - FlexJobs</title>
+    <meta name="description" content="The page you're looking for doesn't exist. Find remote jobs and flexible work opportunities on FlexJobs.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages/404.css">
+    <!-- Footer CSS -->
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+
+    <!-- 404 Error Page -->
+    <main class="error-404">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <div class="error-404__content text-center">
+                        <!-- 404 Illustration -->
+                        <div class="error-404__illustration">
+                            <div class="error-404__number">
+                                <span class="error-404__digit">4</span>
+                                <div class="error-404__zero">
+                                    <i class="fas fa-search error-404__icon"></i>
+                                </div>
+                                <span class="error-404__digit">4</span>
+                            </div>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div class="error-404__message">
+                            <h1 class="error-404__title" style="color: wheat !important;">Oops! Page Not Found</h1>
+                            <p class="error-404__description">
+                                The page you're looking for seems to have taken a remote work break. 
+                                Don't worry, we'll help you find what you need!
+                            </p>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="error-404__actions">
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <!-- Search Bar -->
+                                    <!-- <div class="error-404__search">
+                                        <form class="error-404__search-form" id="errorSearchForm">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control error-404__search-input" 
+                                                       placeholder="Search for jobs, companies, or resources..." 
+                                                       id="errorSearchInput">
+                                                <button class="btn btn-primary error-404__search-btn" type="submit">
+                                                    <i class="fas fa-search"></i>
+                                                    Search
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div> -->
+
+                                    <!-- Action Buttons -->
+                                    <div class="error-404__buttons">
+                                        <a href="browse-jobs.html" class="btn btn-primary btn-lg error-404__btn-primary">
+                                            <i class="fas fa-briefcase me-2"></i>
+                                            Browse Jobs
+                                        </a>
+                                        <a href="index.html" class="btn btn-outline-primary btn-lg error-404__btn-secondary">
+                                            <i class="fas fa-home me-2"></i>
+                                            Go Home
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Helpful Links -->
+                        <!-- <div class="error-404__links">
+                            <h3 class="error-404__links-title">Popular Destinations</h3>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="error-404__link-category">
+                                        <h5><i class="fas fa-search me-2"></i>Job Search</h5>
+                                        <ul class="error-404__link-list">
+                                            <li><a href="browse-jobs.html">Remote Jobs</a></li>
+                                            <li><a href="browse-jobs.html">Part-Time Jobs</a></li>
+                                            <li><a href="browse-jobs.html">Freelance Work</a></li>
+                                            <li><a href="browse-jobs.html">Entry Level</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="error-404__link-category">
+                                        <h5><i class="fas fa-graduation-cap me-2"></i>Resources</h5>
+                                        <ul class="error-404__link-list">
+                                            <li><a href="career-advice.html">Career Advice</a></li>
+                                            <li><a href="blog.html">Job Search Tips</a></li>
+                                            <li><a href="events.html">Webinars</a></li>
+                                            <li><a href="about.html">How It Works</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="error-404__link-category">
+                                        <h5><i class="fas fa-user me-2"></i>Account</h5>
+                                        <ul class="error-404__link-list">
+                                            <li><a href="login.html">Sign In</a></li>
+                                            <li><a href="registration.html">Create Account</a></li>
+                                            <li><a href="account.html">My Profile</a></li>
+                                            <li><a href="support.html">Get Help</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- Contact Support -->
+                        <!-- <div class="error-404__support">
+                            <div class="error-404__support-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h4 class="error-404__support-title">Still can't find what you're looking for?</h4>
+                                        <p class="error-404__support-text">
+                                            Our support team is here to help you navigate FlexJobs and find the perfect remote opportunity.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4 text-md-end">
+                                        <a href="support.html" class="btn btn-warning btn-lg">
+                                            <i class="fas fa-life-ring me-2"></i>
+                                            Contact Support
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- Recent Activity -->
+                        <div class="error-404__recent" id="recentActivity" style="display: none;">
+                            <h3 class="error-404__recent-title">Your Recent Activity</h3>
+                            <div class="error-404__recent-list" id="recentList">
+                                <!-- Recent items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-placeholder">
+        <!-- Footer will be loaded here -->
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="js/404.js"></script>
+    
+    <!-- Load Header and Footer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header
+            fetch('components/main-header/main-header.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('header-placeholder').innerHTML = html;
+                    // Initialize header functionality if needed
+                });
+
+            // Load footer
+            fetch('components/main-footer/main-footer.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('footer-placeholder').innerHTML = html;
+                    // Initialize footer functionality if needed
+                });
+        });
+    </script>
+</body>
+</html>

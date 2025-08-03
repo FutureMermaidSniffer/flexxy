@@ -5,14 +5,14 @@ const { authenticateToken, requireEmployer } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Helper function to convert MySQL-style placeholders to PostgreSQL
+
 function convertQuery(query, params) {
   let index = 1;
   const convertedQuery = query.replace(/\?/g, () => `$${index++}`);
   return { query: convertedQuery, params };
 }
 
-// Validation rules
+
 const jobValidation = [
   body('title').trim().isLength({ min: 3, max: 255 }),
   body('description').trim().isLength({ min: 10 }),
@@ -26,7 +26,7 @@ const jobValidation = [
   body('salary_max').optional().isNumeric()
 ];
 
-// Get all jobs with filtering and pagination
+
 router.get('/', [
   query('page').optional().isInt({ min: 1 }),
   query('limit').optional().isInt({ min: 1, max: 50 }),
@@ -50,7 +50,7 @@ router.get('/', [
     const limit = parseInt(req.query.limit) || 20;
     const offset = (page - 1) * limit;
 
-    // Build WHERE clause based on filters
+    
     const whereConditions = ['j.is_active = TRUE'];
     const params = [];
 
@@ -107,7 +107,7 @@ router.get('/', [
 
     const whereClause = whereConditions.join(' AND ');
 
-    // Get total count for pagination
+    
     const countQueryTemplate = `
       SELECT COUNT(*) as total
       FROM jobs j
@@ -119,7 +119,7 @@ router.get('/', [
     const countResult = await getOne(countQuery, countParams);
     const total = countResult.total;
 
-    // Get jobs with pagination
+    
     const jobsQueryTemplate = `
       SELECT 
         j.id, j.title, j.description, j.location, j.job_type, j.remote_type,
@@ -157,7 +157,7 @@ router.get('/', [
   }
 });
 
-// Get job categories (specific route before generic :id)
+
 router.get('/categories/list', async (req, res) => {
   try {
     const categories = await getMany('SELECT * FROM categories ORDER BY name');
@@ -168,7 +168,7 @@ router.get('/categories/list', async (req, res) => {
   }
 });
 
-// Get jobs by company (specific route before generic :id)
+
 router.get('/company/:companyId', async (req, res) => {
   try {
     const companyId = req.params.companyId;
@@ -196,7 +196,7 @@ router.get('/company/:companyId', async (req, res) => {
   }
 });
 
-// Get single job by ID (generic route after specific ones)
+
 router.get('/:id', async (req, res) => {
   try {
     const jobId = req.params.id;
@@ -220,13 +220,13 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Job not found' });
     }
 
-    // Get job skills
+    
     const skills = await getMany(
       'SELECT skill_name, is_required FROM job_skills WHERE job_id = ?',
       [jobId]
     );
 
-    // Increment view count
+    
     await executeQuery('UPDATE jobs SET views_count = views_count + 1 WHERE id = ?', [jobId]);
 
     res.json({ job: { ...job, skills } });
@@ -236,7 +236,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create new job (employers only)
+
 router.post('/', authenticateToken, requireEmployer, jobValidation, async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -251,7 +251,7 @@ router.post('/', authenticateToken, requireEmployer, jobValidation, async (req, 
       skills
     } = req.body;
 
-    // Verify company belongs to user (unless admin)
+    
     if (req.user.user_type !== 'admin') {
       const company = await getOne('SELECT id FROM companies WHERE id = ? AND user_id = ?', [company_id, req.user.id]);
       if (!company) {
@@ -259,7 +259,7 @@ router.post('/', authenticateToken, requireEmployer, jobValidation, async (req, 
       }
     }
 
-    // Create job
+    
     const jobData = {
       title,
       description,
@@ -281,7 +281,7 @@ router.post('/', authenticateToken, requireEmployer, jobValidation, async (req, 
 
     const jobId = await insertOne('jobs', jobData);
 
-    // Add skills if provided
+    
     if (skills && Array.isArray(skills)) {
       for (const skill of skills) {
         await insertOne('job_skills', {
@@ -302,7 +302,7 @@ router.post('/', authenticateToken, requireEmployer, jobValidation, async (req, 
   }
 });
 
-// Update job (employers only)
+
 router.put('/:id', authenticateToken, requireEmployer, jobValidation, async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -312,7 +312,7 @@ router.put('/:id', authenticateToken, requireEmployer, jobValidation, async (req
 
     const jobId = req.params.id;
 
-    // Verify job belongs to user's company (unless admin)
+    
     let job;
     if (req.user.user_type === 'admin') {
       job = await getOne('SELECT id, company_id FROM jobs WHERE id = ?', [jobId]);
@@ -355,12 +355,12 @@ router.put('/:id', authenticateToken, requireEmployer, jobValidation, async (req
 
     await updateOne('jobs', updateData, 'id = ?', [jobId]);
 
-    // Update skills if provided
+    
     if (skills && Array.isArray(skills)) {
-      // Delete existing skills
+      
       await deleteOne('job_skills', 'job_id = ?', [jobId]);
       
-      // Add new skills
+      
       for (const skill of skills) {
         await insertOne('job_skills', {
           job_id: jobId,
@@ -377,12 +377,12 @@ router.put('/:id', authenticateToken, requireEmployer, jobValidation, async (req
   }
 });
 
-// Delete job (employers only)
+
 router.delete('/:id', authenticateToken, requireEmployer, async (req, res) => {
   try {
     const jobId = req.params.id;
 
-    // Verify job belongs to user's company (unless admin)
+    
     let job;
     if (req.user.user_type === 'admin') {
       job = await getOne('SELECT id FROM jobs WHERE id = ?', [jobId]);
@@ -399,7 +399,7 @@ router.delete('/:id', authenticateToken, requireEmployer, async (req, res) => {
       return res.status(404).json({ message: 'Job not found or access denied' });
     }
 
-    // Soft delete (set is_active to false)
+    
     await updateOne('jobs', { is_active: false }, 'id = ?', [jobId]);
 
     res.json({ message: 'Job deleted successfully' });

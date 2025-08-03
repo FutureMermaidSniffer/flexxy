@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is your minimum desired salary? - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Wizard Components CSS -->
+    <link rel="stylesheet" href="css/components/wizard-header.css">
+    <link rel="stylesheet" href="css/components/wizard-footer.css">
+    <!-- Page-specific CSS -->
+    <link rel="stylesheet" href="css/pages/salary-preference.css">
+</head>
+
+<body class="page-salary-preference">
+    <!-- Wizard Header -->
+    <div id="wizard-header-container"></div>
+    
+    <div class="salary-preference-container">
+        <div class="container">
+            <!-- Main Title -->
+            <h4 class="mb-4 text-center">What is your minimum desired salary?</h4>
+            
+            <!-- Salary Display Card -->
+            <div class="salary-display-card text-center mb-4">
+                <div class="salary-amount-display">
+                    <div class="salary-amount-box" id="salaryDisplay">
+                        $65,000 per year
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Salary Type Toggle -->
+            <div class="salary-type-toggle text-center mb-4">
+                <div class="btn-group" role="group" aria-label="Salary type toggle">
+                    <input type="radio" class="btn-check" name="salaryType" id="annually" value="annually" checked>
+                    <label class="btn btn-outline-primary" for="annually">Annually</label>
+                    
+                    <input type="radio" class="btn-check" name="salaryType" id="hourly" value="hourly">
+                    <label class="btn btn-outline-primary" for="hourly">Hourly</label>
+                </div>
+            </div>
+            
+            <!-- Salary Slider -->
+            <div class="salary-slider-container mb-5">
+                <div class="salary-slider-wrapper">
+                    <!-- Slider Track -->
+                    <div class="salary-slider-track">
+                        <div class="salary-slider-fill" id="sliderFill"></div>
+                    </div>
+                    
+                    <!-- Slider Handle -->
+                    <input type="range" 
+                           class="salary-slider" 
+                           id="salarySlider"
+                           min="0" 
+                           max="200000" 
+                           value="65000" 
+                           step="1000">
+                    
+                    <!-- Slider Labels -->
+                    <div class="salary-slider-labels">
+                        <span id="minLabel">$0</span>
+                        <span class="slider-center-label">Minimum desired salary</span>
+                        <span id="maxLabel">$200K+</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Skip Option -->
+            <div class="text-center mb-4">
+                <a href="#" class="skip-link" id="skipLink">
+                    Skip, I'm not sure yet
+                </a>
+            </div>
+            
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>Great! We'll find jobs matching your salary expectations.
+            </div>
+            
+            <!-- Desktop Next Button -->
+            <button class="next-button d-none d-md-block" id="nextBtn">
+                Next
+            </button>
+        </div>
+    </div>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
+                        
+                        <!-- Salary Slider -->
+                        <div class="page-salary__slider-container mb-5">
+                            <div class="page-salary__slider-wrapper position-relative">
+                                <!-- Slider Track -->
+                                <div class="page-salary__slider-track bg-light rounded-pill position-relative" style="height: 8px;">
+                                    <div class="page-salary__slider-fill bg-info rounded-pill h-100 position-absolute" style="width: 50%; transition: width 0.3s ease;"></div>
+                                </div>
+                                
+                                <!-- Slider Handle -->
+                                <input type="range" 
+                                       class="page-salary__slider form-range position-absolute w-100" 
+                                       id="salarySlider"
+                                       min="0" 
+                                       max="200000" 
+                                       value="65000" 
+                                       step="1000"
+                                       style="top: -12px; height: 32px; background: transparent;">
+                                
+                                <!-- Slider Labels -->
+                                <div class="page-salary__slider-labels d-flex justify-content-between mt-3 text-muted small">
+                                    <span id="minLabel">$0</span>
+                                    <span class="fw-bold text-dark">Minimum desired salary</span>
+                                    <span id="maxLabel">$200K+</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Annual/Hourly Toggle -->
+                        <div class="page-salary__toggle-container text-center mb-5">
+                            <div class="btn-group page-salary__toggle-group" role="group" aria-label="Salary type toggle">
+                                <input type="radio" class="btn-check" name="salaryType" id="annually" value="annually" checked>
+                                <label class="btn btn-outline-info px-4 py-2 fw-bold" for="annually">Annually</label>
+                                
+                                <input type="radio" class="btn-check" name="salaryType" id="hourly" value="hourly">
+                                <label class="btn btn-outline-info px-4 py-2 fw-bold" for="hourly">Hourly</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Skip Option -->
+                        <div class="page-salary__skip-container text-center mb-5">
+                            <a href="#" class="page-salary__skip-link text-info text-decoration-none fw-medium" id="skipLink">
+                                Skip, I'm not sure yet
+                            </a>
+                        </div>
+                        
+                        <!-- Navigation Buttons -->
+                        <div class="page-salary__navigation d-flex justify-content-between align-items-center">
+                            <!-- Back Button -->
+                            <button class="page-salary__back-btn btn btn-outline-secondary px-4 py-2" id="backBtn">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Back
+                            </button>
+                            
+                            <!-- Next Button -->
+                            <button class="page-salary__next-btn btn btn-lg px-5 py-3 fw-bold text-white" 
+                                    id="nextBtn"
+                                    style="background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%); border: none; border-radius: 50px;">
+                                Next
+                                <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Salary Insights Section -->
+        <section class="page-salary__insights py-5 bg-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="h4 fw-bold text-dark mb-4">
+                            Remote Work Salary Insights
+                        </h2>
+                        <p class="text-muted mb-5">
+                            Understanding market rates helps you set realistic expectations and negotiate better offers.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    <!-- Insight 1 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="page-salary__insight text-center p-4">
+                            <div class="page-salary__insight-icon mb-3">
+                                <i class="fas fa-chart-line fa-2x text-success"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Remote Premium</h4>
+                            <p class="small text-muted mb-0">
+                                Remote positions often pay 10-15% more than office-based roles
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Insight 2 -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="page-salary__insight text-center p-4">
+                            <div class="page-salary__insight-icon mb-3">
+                                <i class="fas fa-globe-americas fa-2x text-primary"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Location Independence</h4>
+                            <p class="small text-muted mb-0">
+                                Access high-paying jobs regardless of your geographic location
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Insight 3 -->
+                    <div class="col-lg-4 col-md-6 mx-auto">
+                        <div class="page-salary__insight text-center p-4">
+                            <div class="page-salary__insight-icon mb-3">
+                                <i class="fas fa-piggy-bank fa-2x text-warning"></i>
+                            </div>
+                            <h4 class="h6 fw-bold text-dark mb-2">Cost Savings</h4>
+                            <p class="small text-muted mb-0">
+                                Save on commuting, work clothes, and meals to increase take-home value
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Wizard Footer -->
+    <div id="wizard-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Component JS -->
+    <script src="js/components/component-loader.js"></script>
+    <script src="js/components/header.js"></script>
+    <script src="js/components/footer.js"></script>
+    <!-- Wizard Components JS -->
+    <script src="js/components/wizard-header.js"></script>
+    <script src="js/components/wizard-footer.js"></script>
+    
+    <!-- Page-specific JavaScript -->
+    <script>
+        // Initialize wizard header and footer
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize wizard header with back button
+            window.wizardHeader = new WizardHeader({
+                isFirstPage: false,
+                backUrl: '/why-remote'
+            });
+            
+            // Initialize wizard footer
+            window.wizardFooter = new WizardFooter();
+        });
+
+        // Load header and footer components
+        loadComponents();
+        
+        // Set active navigation when components are loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.headerInstance) {
+                window.headerInstance.setActiveNav('remote-jobs');
+            }
+        });
+
+        // Page-specific functionality
+        class SalaryPreferencePage {
+            constructor() {
+                this.salaryType = 'annually'; // Default to annually
+                this.currentValue = 65000; // Default salary
+                this.minAnnual = 20000;
+                this.maxAnnual = 200000;
+                this.minHourly = 10;
+                this.maxHourly = 150;
+                
+                this.init();
+            }
+
+            init() {
+                this.setupSlider();
+                this.setupToggle();
+                this.setupNavigation();
+                this.setupSkipLink();
+                this.updateDisplay();
+            }
+
+            setupSlider() {
+                const slider = document.getElementById('salarySlider');
+                
+                slider.addEventListener('input', (e) => {
+                    this.currentValue = parseInt(e.target.value);
+                    this.updateDisplay();
+                    this.updateSliderFill();
+                });
+                
+                // Initialize slider fill
+                this.updateSliderFill();
+            }
+
+            setupToggle() {
+                const toggles = document.querySelectorAll('input[name="salaryType"]');
+                
+                toggles.forEach(toggle => {
+                    toggle.addEventListener('change', (e) => {
+                        if (e.target.checked) {
+                            this.salaryType = e.target.value;
+                            this.switchSalaryType();
+                        }
+                    });
+                });
+            }
+
+            switchSalaryType() {
+                const slider = document.getElementById('salarySlider');
+                
+                if (this.salaryType === 'hourly') {
+                    // Convert annual to hourly (assuming 2080 hours/year)
+                    this.currentValue = Math.round(this.currentValue / 2080);
+                    slider.min = this.minHourly;
+                    slider.max = this.maxHourly;
+                    slider.step = 1;
+                    document.getElementById('minLabel').textContent = `$${this.minHourly}`;
+                    document.getElementById('maxLabel').textContent = `$${this.maxHourly}+`;
+                } else {
+                    // Convert hourly to annual (assuming 2080 hours/year)
+                    this.currentValue = this.currentValue * 2080;
+                    slider.min = this.minAnnual;
+                    slider.max = this.maxAnnual;
+                    slider.step = 1000;
+                    document.getElementById('minLabel').textContent = '$0';
+                    document.getElementById('maxLabel').textContent = '$200K+';
+                }
+                
+                // Ensure value is within bounds
+                this.currentValue = Math.max(slider.min, Math.min(slider.max, this.currentValue));
+                slider.value = this.currentValue;
+                
+                this.updateDisplay();
+                this.updateSliderFill();
+            }
+
+            updateDisplay() {
+                const display = document.getElementById('salaryDisplay');
+                
+                if (this.salaryType === 'hourly') {
+                    display.textContent = `$${this.currentValue} per hour`;
+                } else {
+                    const formattedSalary = this.formatCurrency(this.currentValue);
+                    display.textContent = `${formattedSalary} per year`;
+                }
+            }
+
+            updateSliderFill() {
+                const slider = document.getElementById('salarySlider');
+                const fill = document.querySelector('.page-salary__slider-fill');
+                
+                const percentage = ((this.currentValue - slider.min) / (slider.max - slider.min)) * 100;
+                fill.style.width = `${percentage}%`;
+            }
+
+            formatCurrency(amount) {
+                if (amount >= 1000000) {
+                    return `$${(amount / 1000000).toFixed(1)}M`;
+                } else if (amount >= 1000) {
+                    return `$${(amount / 1000).toFixed(0)}K`;
+                } else {
+                    return `$${amount}`;
+                }
+            }
+
+            setupNavigation() {
+                const backBtn = document.getElementById('backBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                
+                backBtn.addEventListener('click', () => {
+                    this.goBack();
+                });
+                
+                nextBtn.addEventListener('click', () => {
+                    this.goNext();
+                });
+            }
+
+            setupSkipLink() {
+                const skipLink = document.getElementById('skipLink');
+                
+                skipLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.skipSalary();
+                });
+            }
+
+            goBack() {
+                // Add loading animation
+                const backBtn = document.getElementById('backBtn');
+                const originalText = backBtn.innerHTML;
+                backBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+                backBtn.disabled = true;
+                
+                // Navigate back to why-remote page
+                setTimeout(() => {
+                    window.location.href = '/why-remote';
+                }, 300);
+            }
+
+            goNext() {
+                // Store salary preference
+                this.storeSalaryPreference();
+                
+                // Add loading animation
+                const nextBtn = document.getElementById('nextBtn');
+                nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+                nextBtn.disabled = true;
+                
+                // Navigate to next step (location preference)
+                setTimeout(() => {
+                    window.location.href = '/where-remote';
+                }, 500);
+            }
+
+            skipSalary() {
+                // Track skip action
+                this.trackAction('salary_skipped');
+                
+                // Navigate to job search without salary filter but with work type
+                const workType = localStorage.getItem('workTypePreference');
+                let url = '/remote-jobs';
+                
+                if (workType) {
+                    const typeMap = {
+                        '100-remote': 'fully-remote',
+                        'hybrid': 'hybrid',
+                        'flexible': 'flexible'
+                    };
+                    const params = new URLSearchParams({
+                        type: typeMap[workType] || 'remote'
+                    });
+                    url = `/remote-jobs?${params.toString()}`;
+                }
+                
+                window.location.href = url;
+            }
+
+            storeSalaryPreference() {
+                // Store in localStorage for user preference
+                const preference = {
+                    salary: this.currentValue,
+                    type: this.salaryType,
+                    timestamp: Date.now()
+                };
+                
+                localStorage.setItem('salaryPreference', JSON.stringify(preference));
+                
+                // Track selection
+                this.trackAction('salary_set', preference);
+            }
+
+            trackAction(action, data = {}) {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', action, {
+                        salary_amount: this.currentValue,
+                        salary_type: this.salaryType,
+                        page: 'salary-preference',
+                        ...data
+                    });
+                }
+
+                console.log('Salary action:', action, data);
+            }
+
+            // Public methods for external access
+            getSalaryPreference() {
+                return {
+                    salary: this.currentValue,
+                    type: this.salaryType
+                };
+            }
+
+            setSalaryPreference(salary, type = 'annually') {
+                this.currentValue = salary;
+                this.salaryType = type;
+                
+                // Update UI
+                document.getElementById(`${type}`).checked = true;
+                this.switchSalaryType();
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        let salaryPageInstance;
+        document.addEventListener('DOMContentLoaded', () => {
+            salaryPageInstance = new SalaryPreferencePage();
+        });
+
+        // Export for external access
+        window.salaryPageInstance = salaryPageInstance;
+    </script>
+
+</body>
+</html>

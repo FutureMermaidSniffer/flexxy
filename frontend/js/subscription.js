@@ -1,4 +1,4 @@
-// Subscription Page JavaScript
+
 class SubscriptionManager {
     constructor() {
         this.selectedPlan = null;
@@ -9,19 +9,19 @@ class SubscriptionManager {
 
     async init() {
         try {
-            // Load components
+            
             await this.loadComponents();
             
-            // Load subscription plans
+            
             await this.loadPlans();
             
-            // Load current subscription if user is logged in
+            
             await this.loadCurrentSubscription();
             
-            // Render plans
+            
             this.renderPlans();
             
-            // Set up event listeners
+            
             this.setupEventListeners();
             
         } catch (error) {
@@ -32,17 +32,17 @@ class SubscriptionManager {
 
     async loadComponents() {
         try {
-            // Load main header
+            
             const headerResponse = await fetch('components/main-header/main-header.html');
             const headerHtml = await headerResponse.text();
             document.getElementById('main-header-container').innerHTML = headerHtml;
             
-            // Load footer
+            
             const footerResponse = await fetch('components/main-footer/main-footer.html');
             const footerHtml = await footerResponse.text();
             document.getElementById('footer-container').innerHTML = footerHtml;
             
-            // Initialize main header
+            
             if (typeof MainHeader !== 'undefined') {
                 window.mainHeader = new MainHeader();
             }
@@ -68,7 +68,7 @@ class SubscriptionManager {
     }
 
     async loadCurrentSubscription() {
-        // Check if user is logged in
+        
         const token = localStorage.getItem('token');
         if (!token) return;
 
@@ -212,7 +212,7 @@ class SubscriptionManager {
     renderPlanFeatures(plan) {
         const features = [];
         
-        // Job applications
+        
         if (plan.features?.job_applications_limit) {
             if (plan.features.job_applications_limit === -1) {
                 features.push('<li class="feature-included"><i class="fas fa-check"></i> Unlimited job applications</li>');
@@ -223,7 +223,7 @@ class SubscriptionManager {
             features.push('<li class="feature-included"><i class="fas fa-check"></i> 10 job applications/month</li>');
         }
 
-        // Saved jobs
+        
         if (plan.features?.saved_jobs_limit) {
             if (plan.features.saved_jobs_limit === -1) {
                 features.push('<li class="feature-included"><i class="fas fa-check"></i> Unlimited saved jobs</li>');
@@ -234,14 +234,14 @@ class SubscriptionManager {
             features.push('<li class="feature-included"><i class="fas fa-check"></i> Up to 10 saved jobs</li>');
         }
 
-        // Advanced filters
+        
         if (plan.features?.advanced_filters) {
             features.push('<li class="feature-included"><i class="fas fa-check"></i> Advanced search filters</li>');
         } else {
             features.push('<li class="feature-not-included"><i class="fas fa-times"></i> Advanced search filters</li>');
         }
 
-        // Agent consultations
+        
         if (plan.features?.agent_consultations_limit) {
             if (plan.features.agent_consultations_limit === -1) {
                 features.push('<li class="feature-included"><i class="fas fa-check"></i> Unlimited agent consultations</li>');
@@ -252,21 +252,21 @@ class SubscriptionManager {
             features.push('<li class="feature-not-included"><i class="fas fa-times"></i> Agent consultations</li>');
         }
 
-        // Resume templates
+        
         if (plan.features?.resume_templates) {
             features.push('<li class="feature-included"><i class="fas fa-check"></i> Professional resume templates</li>');
         } else {
             features.push('<li class="feature-not-included"><i class="fas fa-times"></i> Resume templates</li>');
         }
 
-        // Career coaching
+        
         if (plan.features?.career_coaching) {
             features.push('<li class="feature-included"><i class="fas fa-check"></i> Career coaching resources</li>');
         } else {
             features.push('<li class="feature-not-included"><i class="fas fa-times"></i> Career coaching resources</li>');
         }
 
-        // Priority support
+        
         if (plan.features?.priority_support) {
             features.push('<li class="feature-included"><i class="fas fa-check"></i> Priority customer support</li>');
         } else {
@@ -284,10 +284,10 @@ class SubscriptionManager {
             return;
         }
 
-        // Check if user is logged in
+        
         const token = localStorage.getItem('token');
         if (!token) {
-            // Redirect to login page
+            
             this.showAlert('Please log in to subscribe to a plan', 'warning');
             setTimeout(() => {
                 window.location.href = 'index.html#login';
@@ -295,11 +295,11 @@ class SubscriptionManager {
             return;
         }
 
-        // Show payment modal for paid plans
+        
         if (this.selectedPlan.price > 0) {
             this.showPaymentModal();
         } else {
-            // Subscribe to free plan directly
+            
             this.subscribeToPlan();
         }
     }
@@ -343,14 +343,14 @@ class SubscriptionManager {
             if (response.ok) {
                 this.showAlert('Successfully subscribed to plan!', 'success');
                 
-                // Close modal if open
+                
                 const modal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
                 if (modal) modal.hide();
                 
-                // Reload current subscription
+                
                 await this.loadCurrentSubscription();
                 
-                // Re-render plans
+                
                 this.renderPlans();
                 
             } else {
@@ -363,7 +363,7 @@ class SubscriptionManager {
     }
 
     setupEventListeners() {
-        // Payment form validation
+        
         const cardNumber = document.getElementById('cardNumber');
         const expiryDate = document.getElementById('expiryDate');
         const cvv = document.getElementById('cvv');
@@ -388,7 +388,7 @@ class SubscriptionManager {
     }
 
     showAlert(message, type = 'info') {
-        // Create alert element
+        
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
         alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
@@ -399,7 +399,7 @@ class SubscriptionManager {
 
         document.body.appendChild(alertDiv);
 
-        // Auto remove after 5 seconds
+        
         setTimeout(() => {
             if (alertDiv.parentNode) {
                 alertDiv.parentNode.removeChild(alertDiv);
@@ -408,14 +408,14 @@ class SubscriptionManager {
     }
 }
 
-// Global function for payment processing
+
 async function processPayment() {
     const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
     const expiryDate = document.getElementById('expiryDate').value;
     const cvv = document.getElementById('cvv').value;
     const cardholderName = document.getElementById('cardholderName').value;
 
-    // Basic validation
+    
     if (!cardNumber || !expiryDate || !cvv || !cardholderName) {
         subscription.showAlert('Please fill in all payment details', 'danger');
         return;
@@ -436,9 +436,9 @@ async function processPayment() {
         return;
     }
 
-    // In a real application, this would integrate with a payment processor
+    
     const paymentData = {
-        card_number: cardNumber.slice(-4), // Only store last 4 digits
+        card_number: cardNumber.slice(-4), 
         cardholder_name: cardholderName,
         payment_method: 'credit_card'
     };
@@ -446,7 +446,7 @@ async function processPayment() {
     await subscription.subscribeToPlan(paymentData);
 }
 
-// Initialize subscription manager when page loads
+
 let subscription;
 document.addEventListener('DOMContentLoaded', () => {
     subscription = new SubscriptionManager();

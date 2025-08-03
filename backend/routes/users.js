@@ -4,14 +4,14 @@ const { authenticateToken, requireOwnershipOrAdmin } = require('../middleware/au
 
 const router = express.Router();
 
-// Helper function to convert MySQL-style placeholders to PostgreSQL
+
 function convertQuery(query, params) {
   let index = 1;
   const convertedQuery = query.replace(/\?/g, () => `$${index++}`);
   return { query: convertedQuery, params };
 }
 
-// Get user profile by ID (public info only)
+
 router.get('/:id', async (req, res) => {
   try {
     const userId = req.params.id;
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // If it's a job seeker, get some stats
+    
     if (user.user_type === 'job_seeker') {
       const stats = await getOne(`
         SELECT 
@@ -51,7 +51,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Get user's applications (own profile only)
+
 router.get('/:id/applications', authenticateToken, requireOwnershipOrAdmin('id'), async (req, res) => {
   try {
     const userId = req.params.id;
@@ -73,7 +73,7 @@ router.get('/:id/applications', authenticateToken, requireOwnershipOrAdmin('id')
       LIMIT ? OFFSET ?
     `, [userId, limit, offset]);
 
-    // Get total count
+    
     const countResult = await getOne(
       'SELECT COUNT(*) as total FROM applications WHERE user_id = ?',
       [userId]
@@ -99,7 +99,7 @@ router.get('/:id/applications', authenticateToken, requireOwnershipOrAdmin('id')
   }
 });
 
-// Get user's saved jobs (own profile only)
+
 router.get('/:id/saved-jobs', authenticateToken, requireOwnershipOrAdmin('id'), async (req, res) => {
   try {
     const userId = req.params.id;
@@ -121,7 +121,7 @@ router.get('/:id/saved-jobs', authenticateToken, requireOwnershipOrAdmin('id'), 
       LIMIT ? OFFSET ?
     `, [userId, limit, offset]);
 
-    // Get total count
+    
     const countResult = await getOne(
       'SELECT COUNT(*) as total FROM saved_jobs sj JOIN jobs j ON sj.job_id = j.id WHERE sj.user_id = ? AND j.is_active = TRUE',
       [userId]
@@ -147,10 +147,10 @@ router.get('/:id/saved-jobs', authenticateToken, requireOwnershipOrAdmin('id'), 
   }
 });
 
-// Update user status (admin only)
+
 router.put('/:id/status', authenticateToken, async (req, res) => {
   try {
-    // Only admin can change user status
+    
     if (req.user.user_type !== 'admin') {
       return res.status(403).json({ message: 'Admin access required' });
     }
@@ -171,13 +171,13 @@ router.put('/:id/status', authenticateToken, async (req, res) => {
   }
 });
 
-// Get user dashboard stats (own profile only)
+
 router.get('/:id/dashboard', authenticateToken, requireOwnershipOrAdmin('id'), async (req, res) => {
   try {
     const userId = req.params.id;
 
     if (req.user.user_type === 'job_seeker') {
-      // Job seeker dashboard
+      
       const stats = await getOne(`
         SELECT 
           COUNT(DISTINCT a.id) as total_applications,
@@ -191,7 +191,7 @@ router.get('/:id/dashboard', authenticateToken, requireOwnershipOrAdmin('id'), a
         WHERE u.id = ?
       `, [userId]);
 
-      // Recent activity
+      
       const recentApplications = await getMany(`
         SELECT 
           a.status, a.applied_at,
@@ -211,7 +211,7 @@ router.get('/:id/dashboard', authenticateToken, requireOwnershipOrAdmin('id'), a
       });
 
     } else if (req.user.user_type === 'employer') {
-      // Employer dashboard
+      
       const company = await getOne('SELECT id FROM companies WHERE user_id = ?', [userId]);
       
       if (!company) {
@@ -229,7 +229,7 @@ router.get('/:id/dashboard', authenticateToken, requireOwnershipOrAdmin('id'), a
         WHERE j.company_id = ?
       `, [company.id]);
 
-      // Recent jobs
+      
       const recentJobs = await getMany(`
         SELECT 
           id, title, job_type, remote_type, applications_count, views_count, created_at

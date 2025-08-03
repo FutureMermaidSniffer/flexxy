@@ -16,7 +16,7 @@ async function runAgentsMigration() {
   try {
     console.log('🔄 Starting agents table migration...');
     
-    // Check if agents table already exists
+    
     const checkTable = await client.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
@@ -28,7 +28,7 @@ async function runAgentsMigration() {
     if (checkTable.rows[0].exists) {
       console.log('✅ Agents table already exists');
       
-      // Show current structure
+      
       const tableInfo = await client.query(`
         SELECT column_name, data_type, is_nullable, column_default
         FROM information_schema.columns 
@@ -44,7 +44,7 @@ async function runAgentsMigration() {
       return;
     }
     
-    // Read and execute the migration file
+    
     const fs = require('fs');
     const migrationSQL = fs.readFileSync(
       path.join(__dirname, 'migrations', 'create_agents_table.sql'), 
@@ -63,7 +63,7 @@ async function runAgentsMigration() {
     console.log('   - Proper indexes for performance');
     console.log('   - Auto-updating timestamps');
     
-    // Verify the migration
+    
     const tableInfo = await client.query(`
       SELECT column_name, data_type, is_nullable, column_default
       FROM information_schema.columns 
@@ -76,7 +76,7 @@ async function runAgentsMigration() {
       console.log(`   ${row.column_name}: ${row.data_type} (nullable: ${row.is_nullable}, default: ${row.column_default || 'none'})`);
     });
     
-    // Check indexes
+    
     const indexes = await client.query(`
       SELECT indexname, indexdef 
       FROM pg_indexes 
@@ -98,7 +98,7 @@ async function runAgentsMigration() {
   }
 }
 
-// Run the migration
+
 if (require.main === module) {
   runAgentsMigration().catch(console.error);
 }

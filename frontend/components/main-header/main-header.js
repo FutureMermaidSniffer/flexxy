@@ -1,11 +1,8 @@
-/**
- * Main Header Component
- * Provides a reusable header with logo, search bar, navigation, and mobile menu
- */
+
 if (typeof MainHeader === 'undefined') {
 class MainHeader {
     constructor(options = {}) {
-        // Prevent multiple instances if one already exists globally
+        
         if (window.mainHeaderInstance && window.mainHeaderInstance instanceof MainHeader) {
             console.log('MainHeader instance already exists, returning existing instance');
             return window.mainHeaderInstance;
@@ -16,7 +13,7 @@ class MainHeader {
             searchPlaceholder: 'Search for agents...',
             locationPlaceholder: 'Anywhere',
             showSearch: true,
-            contentType: 'default', // 'match', 'title', 'custom'
+            contentType: 'default', 
             content: {},
             onSearch: null,
             ...options
@@ -35,21 +32,17 @@ class MainHeader {
         this.init();
     }
     
-    /**
-     * Initialize the header component
-     */
+    
     async init() {
         await this.loadHeader();
         this.setupEventListeners();
         this.injectContent();
     }
     
-    /**
-     * Load the header HTML structure
-     */
+    
     async loadHeader() {
         try {
-            // Check if header HTML is already loaded by ComponentLoader
+            
             const existingHeader = document.querySelector('.main-header');
             if (existingHeader) {
                 console.log('Header HTML already loaded, using existing element');
@@ -61,12 +54,12 @@ class MainHeader {
             const response = await fetch('components/main-header/main-header.html');
             const html = await response.text();
             
-            // Create header container
+            
             const headerContainer = document.createElement('div');
             headerContainer.innerHTML = html;
             this.headerElement = headerContainer.firstElementChild;
             
-            // Insert at the beginning of the body or specified container
+            
             const targetContainer = document.querySelector(this.options.container || 'body');
             if (targetContainer) {
                 if (this.options.container) {
@@ -84,11 +77,9 @@ class MainHeader {
         }
     }
 
-    /**
-     * Bind elements when header HTML already exists
-     */
+    
     bindExistingElements() {
-        // Get references to elements
+        
         this.searchInput = this.headerElement.querySelector('.search-input');
         this.locationInput = this.headerElement.querySelector('.location-input');
         this.searchButton = this.headerElement.querySelector('.search-btn');
@@ -97,23 +88,23 @@ class MainHeader {
         this.mobileMenu = this.headerElement.querySelector('.main-header__mobile-menu');
         this.mobileMenuOverlay = this.headerElement.querySelector('.mobile-menu-overlay');
         
-        // Update logo path if needed
+        
         const logoImg = this.headerElement.querySelector('.main-header__logo');
         if (logoImg && this.options.logoPath) {
             logoImg.src = this.options.logoPath;
         }
         
-        // Update search placeholder
+        
         if (this.searchInput && this.options.searchPlaceholder) {
             this.searchInput.placeholder = this.options.searchPlaceholder;
         }
         
-        // Update location placeholder
+        
         if (this.locationInput && this.options.locationPlaceholder) {
             this.locationInput.placeholder = this.options.locationPlaceholder;
         }
         
-        // Hide search if not needed
+        
         if (!this.options.showSearch) {
             const searchContainer = this.headerElement.querySelector('.main-header__search-container');
             if (searchContainer) {
@@ -121,19 +112,17 @@ class MainHeader {
             }
         }
         
-        // Initialize dropdowns after header is fully loaded
+        
         this.initializeDropdowns();
         
-        // Initialize unified search functionality
+        
         this.initializeUnifiedSearch();
         
-        // Dispatch event to notify that main header is ready
+        
         document.dispatchEvent(new CustomEvent('mainHeaderReady'));
     }
     
-    /**
-     * Create a fallback header if loading fails
-     */
+    
     createFallbackHeader() {
         const fallbackHTML = `
             <header class="main-header">
@@ -273,18 +262,16 @@ class MainHeader {
             }
         }
         
-        // Use the same binding method for consistency
+        
         this.bindExistingElements();
         
-        // Dispatch event to notify that main header is ready (fallback)
+        
         document.dispatchEvent(new CustomEvent('mainHeaderReady'));
     }
     
-    /**
-     * Setup event listeners
-     */
+    
     setupEventListeners() {
-        // Search functionality
+        
         if (this.searchButton) {
             this.searchButton.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -301,7 +288,7 @@ class MainHeader {
             });
         }
         
-        // Mobile menu functionality
+        
         if (this.hamburgerBtn) {
             this.hamburgerBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -315,29 +302,27 @@ class MainHeader {
             });
         }
         
-        // Close menu on escape key
+        
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isMenuOpen) {
                 this.closeMobileMenu();
             }
         });
         
-        // Handle window resize
+        
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 768 && this.isMenuOpen) {
                 this.closeMobileMenu();
             }
         });
 
-        // Handle logout buttons
+        
         this.setupLogoutHandlers();
     }
 
-    /**
-     * Setup logout button event handlers
-     */
+    
     setupLogoutHandlers() {
-        // Use event delegation to handle logout buttons
+        
         document.addEventListener('click', (e) => {
             if (e.target.closest('.logout-btn')) {
                 e.preventDefault();
@@ -346,48 +331,42 @@ class MainHeader {
         });
     }
 
-    /**
-     * Handle logout functionality
-     */
+    
     async handleLogout() {
         if (window.auth && typeof window.auth.logout === 'function') {
             await window.auth.logout();
         } else {
-            // Fallback logout if auth object is not available
+            
             localStorage.removeItem('flexjobs_token');
             localStorage.removeItem('flexjobs_user');
             window.location.href = 'browse-jobs.html';
         }
     }
     
-    /**
-     * Initialize Bootstrap dropdowns
-     */
+    
     initializeDropdowns() {
-        // Ensure header element exists before trying to initialize dropdowns
+        
         if (!this.headerElement) {
             console.warn('Header element not found, skipping dropdown initialization');
             return;
         }
         
-        // Check if Bootstrap is available
+        
         if (typeof window.bootstrap !== 'undefined') {
-            // Initialize all dropdowns in the header
+            
             const dropdownElements = this.headerElement.querySelectorAll('[data-bs-toggle="dropdown"]');
             dropdownElements.forEach(element => {
                 new bootstrap.Dropdown(element);
             });
         } else {
-            // Fallback: Add manual dropdown functionality
+            
             this.addManualDropdownFunctionality();
         }
     }
     
-    /**
-     * Add manual dropdown functionality if Bootstrap is not available
-     */
+    
     addManualDropdownFunctionality() {
-        // Double-check that header element exists
+        
         if (!this.headerElement) {
             console.warn('Header element not found, cannot add manual dropdown functionality');
             return;
@@ -401,10 +380,10 @@ class MainHeader {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Toggle dropdown
+                
                 const isOpen = dropdownMenu.classList.contains('show');
                 
-                // Close all other dropdowns
+                
                 document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
                     menu.classList.remove('show');
                 });
@@ -414,14 +393,14 @@ class MainHeader {
                 }
             });
             
-            // Close dropdown when clicking outside
+            
             document.addEventListener('click', (e) => {
                 if (!accountBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
                     dropdownMenu.classList.remove('show');
                 }
             });
             
-            // Close dropdown on escape key
+            
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     dropdownMenu.classList.remove('show');
@@ -432,14 +411,12 @@ class MainHeader {
         }
     }
     
-    /**
-     * Initialize unified search functionality
-     */
+    
     initializeUnifiedSearch() {
-        // Check if UnifiedSearch class is available
+        
         if (typeof window.UnifiedSearch !== 'undefined') {
             try {
-                // Initialize unified search with the search inputs in the header
+                
                 this.unifiedSearch = new UnifiedSearch();
                 console.log('Unified search initialized successfully');
             } catch (error) {
@@ -450,9 +427,7 @@ class MainHeader {
         }
     }
     
-    /**
-     * Toggle mobile menu
-     */
+    
     toggleMobileMenu() {
         if (this.isMenuOpen) {
             this.closeMobileMenu();
@@ -461,9 +436,7 @@ class MainHeader {
         }
     }
     
-    /**
-     * Open mobile menu
-     */
+    
     openMobileMenu() {
         this.isMenuOpen = true;
         
@@ -479,13 +452,11 @@ class MainHeader {
             this.mobileMenuOverlay.classList.add('active');
         }
         
-        // Prevent body scroll
+        
         document.body.style.overflow = 'hidden';
     }
     
-    /**
-     * Close mobile menu
-     */
+    
     closeMobileMenu() {
         this.isMenuOpen = false;
         
@@ -501,53 +472,47 @@ class MainHeader {
             this.mobileMenuOverlay.classList.remove('active');
         }
         
-        // Restore body scroll
+        
         document.body.style.overflow = '';
     }
     
-    /**
-     * Handle search functionality
-     */
+    
     handleSearch() {
         const searchTerm = this.searchInput ? this.searchInput.value.trim() : '';
         const location = this.locationInput ? this.locationInput.value.trim() : '';
         
-        // Call custom search handler if provided
+        
         if (this.options.onSearch && typeof this.options.onSearch === 'function') {
             this.options.onSearch({ searchTerm, location });
         } else {
-            // Default search behavior
+            
             this.performDefaultSearch(searchTerm, location);
         }
         
-        // Track search event
+        
         this.trackSearch(searchTerm, location);
     }
     
-    /**
-     * Perform default search behavior
-     */
+    
     performDefaultSearch(searchTerm, location) {
         const params = new URLSearchParams();
         if (searchTerm) params.append('q', searchTerm);
         if (location) params.append('location', location);
         
-        // Determine search type based on placeholder or explicit option
+        
         let searchUrl;
         if (this.options.searchPlaceholder.toLowerCase().includes('agent')) {
-            // Agent search
+            
             searchUrl = `agents.html?${params.toString()}`;
         } else {
-            // Default job search
+            
             searchUrl = `job-search-results.html?${params.toString()}`;
         }
         
         window.location.href = searchUrl;
     }
     
-    /**
-     * Track search analytics
-     */
+    
     trackSearch(searchTerm, location) {
         if (window.gtag) {
             window.gtag('event', 'search', {
@@ -558,9 +523,7 @@ class MainHeader {
         }
     }
     
-    /**
-     * Inject content into the header content area
-     */
+    
     injectContent() {
         if (!this.contentArea) return;
         
@@ -603,17 +566,13 @@ class MainHeader {
         }
     }
     
-    /**
-     * Create job match content
-     */
+    
     createMatchContent() {
         const jobCount = this.options.content.jobCount || '12,020';
         return `<div class="match-title">Join today to see ${jobCount} job matches</div>`;
     }
     
-    /**
-     * Create title content
-     */
+    
     createTitleContent() {
         const title = this.options.content.title || 'Welcome to FlexJobs';
         const subtitle = this.options.content.subtitle || '';
@@ -626,18 +585,14 @@ class MainHeader {
         return html;
     }
     
-    /**
-     * Update header content dynamically
-     */
+    
     updateContent(contentType, content) {
         this.options.contentType = contentType;
         this.options.content = { ...this.options.content, ...content };
         this.injectContent();
     }
     
-    /**
-     * Update search values
-     */
+    
     updateSearch(searchTerm = '', location = '') {
         if (this.searchInput) {
             this.searchInput.value = searchTerm;
@@ -647,9 +602,7 @@ class MainHeader {
         }
     }
     
-    /**
-     * Show/hide search bar
-     */
+    
     toggleSearch(show = true) {
         const searchContainers = this.headerElement?.querySelectorAll('.main-header__search-container, .main-header__mobile-search');
         if (searchContainers) {
@@ -659,9 +612,7 @@ class MainHeader {
         }
     }
     
-    /**
-     * Get search values
-     */
+    
     getSearchValues() {
         return {
             searchTerm: this.searchInput ? this.searchInput.value.trim() : '',
@@ -669,24 +620,22 @@ class MainHeader {
         };
     }
     
-    /**
-     * Destroy the component
-     */
+    
     destroy() {
         if (this.headerElement) {
             this.headerElement.remove();
         }
         
-        // Restore body scroll if menu was open
+        
         document.body.style.overflow = '';
     }
 }
 
-// Export for use in other modules
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = MainHeader;
 }
 
-// Make available globally
+
 window.MainHeader = MainHeader;
 }

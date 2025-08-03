@@ -1,7 +1,4 @@
-/**
- * Admin Dashboard JavaScript
- * Handles all admin functionality including user management, agent management, and analytics
- */
+
 
 class AdminDashboard {
     constructor() {
@@ -35,12 +32,12 @@ class AdminDashboard {
             return;
         }
 
-        // Update admin name in navbar
+        
         document.getElementById('adminName').textContent = `${user.first_name} ${user.last_name}`;
     }
 
     setupEventListeners() {
-        // Sidebar navigation
+        
         document.querySelectorAll('[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -48,7 +45,7 @@ class AdminDashboard {
             });
         });
 
-        // Global event delegation for data-action attributes
+        
         document.addEventListener('click', (e) => {
             const action = e.target.getAttribute('data-action') || e.target.closest('[data-action]')?.getAttribute('data-action');
             if (!action) return;
@@ -57,7 +54,7 @@ class AdminDashboard {
             this.handleAction(action, e.target);
         });
 
-        // Handle change events for filters and selects
+        
         document.addEventListener('change', (e) => {
             const action = e.target.getAttribute('data-action');
             if (!action) return;
@@ -65,12 +62,12 @@ class AdminDashboard {
             this.handleAction(action, e.target);
         });
 
-        // Logout button
+        
         document.getElementById('logoutBtn')?.addEventListener('click', () => {
             logout();
         });
 
-        // Search inputs
+        
         document.getElementById('userSearch')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.searchUsers();
         });
@@ -164,7 +161,7 @@ class AdminDashboard {
     }
 
     showAlert(message, type = 'info') {
-        // Create alert element
+        
         const alertElement = document.createElement('div');
         alertElement.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
         alertElement.style.cssText = 'top: 70px; right: 20px; z-index: 9999; min-width: 300px;';
@@ -175,7 +172,7 @@ class AdminDashboard {
         
         document.body.appendChild(alertElement);
         
-        // Auto remove after 5 seconds
+        
         setTimeout(() => {
             if (alertElement.parentNode) {
                 alertElement.remove();
@@ -184,22 +181,22 @@ class AdminDashboard {
     }
 
     switchSection(section) {
-        // Update sidebar active state
+        
         document.querySelectorAll('.sidebar .nav-link').forEach(link => {
             link.classList.remove('active');
         });
         document.querySelector(`[data-section="${section}"]`).classList.add('active');
 
-        // Hide all sections
+        
         document.querySelectorAll('.content-section').forEach(sec => {
             sec.style.display = 'none';
         });
 
-        // Show selected section
+        
         document.getElementById(`${section}-section`).style.display = 'block';
         this.currentSection = section;
 
-        // Load section data
+        
         switch (section) {
             case 'dashboard':
                 this.loadDashboardStats();
@@ -236,12 +233,12 @@ class AdminDashboard {
 
             const data = await response.json();
             
-            // Our API returns data in data.data, extract it
+            
             const statsData = data.data || data;
             
             this.renderDashboardStats(statsData);
             
-            // For now, show empty activity feed and top agents since we don't have this data yet
+            
             this.renderActivityFeed([]);
             this.renderTopAgents([]);
         } catch (error) {
@@ -478,7 +475,7 @@ class AdminDashboard {
 
             const data = await response.json();
             this.showAlert(data.message, 'success');
-            this.loadUsers(); // Reload users table
+            this.loadUsers(); 
         } catch (error) {
             console.error('Toggle user status error:', error);
             this.showAlert('Failed to toggle user status', 'danger');
@@ -648,14 +645,14 @@ class AdminDashboard {
         
         let paginationHtml = '<nav><ul class="pagination">';
         
-        // Previous button
+        
         paginationHtml += `
             <li class="page-item ${!hasPrev ? 'disabled' : ''}">
                 <a class="page-link" href="#" onclick="adminDashboard.changePage('${type}', ${page - 1})">Previous</a>
             </li>
         `;
         
-        // Page numbers (show max 5 pages)
+        
         const startPage = Math.max(1, page - 2);
         const endPage = Math.min(totalPages, startPage + 4);
         
@@ -667,7 +664,7 @@ class AdminDashboard {
             `;
         }
         
-        // Next button
+        
         paginationHtml += `
             <li class="page-item ${!hasNext ? 'disabled' : ''}">
                 <a class="page-link" href="#" onclick="adminDashboard.changePage('${type}', ${page + 1})">Next</a>
@@ -734,7 +731,7 @@ class AdminDashboard {
         this.loadAgents();
     }
 
-    // Job Management Methods
+    
     async loadJobs(page = 1) {
         try {
             this.showLoading();
@@ -845,7 +842,7 @@ class AdminDashboard {
 
         let paginationHtml = '';
         
-        // Previous page
+        
         if (pagination.page > 1) {
             paginationHtml += `
                 <li class="page-item">
@@ -854,7 +851,7 @@ class AdminDashboard {
             `;
         }
 
-        // Page numbers
+        
         for (let i = Math.max(1, pagination.page - 2); i <= Math.min(pagination.pages, pagination.page + 2); i++) {
             paginationHtml += `
                 <li class="page-item ${i === pagination.page ? 'active' : ''}">
@@ -863,7 +860,7 @@ class AdminDashboard {
             `;
         }
 
-        // Next page
+        
         if (pagination.page < pagination.pages) {
             paginationHtml += `
                 <li class="page-item">
@@ -994,7 +991,7 @@ class AdminDashboard {
     }
 }
 
-// Global functions
+
 function refreshDashboard() {
     adminDashboard.loadDashboardStats();
 }
@@ -1028,7 +1025,7 @@ async function createAgent() {
             is_verified: document.getElementById('isVerified').checked
         };
 
-        // Validate required fields
+        
         if (!formData.agent_name || !formData.display_name || !formData.email) {
             adminDashboard.showAlert('Please fill in all required fields', 'warning');
             return;
@@ -1059,10 +1056,10 @@ async function createAgent() {
     }
 }
 
-// Edit Agent Function
+
 async function editAgent(agentId) {
     try {
-        // Fetch agent details
+        
         const response = await fetch(`/api/admin/agents/${agentId}`, {
             headers: adminDashboard.getAuthHeaders()
         });
@@ -1073,7 +1070,7 @@ async function editAgent(agentId) {
 
         const agent = await response.json();
 
-        // Populate edit form
+        
         document.getElementById('editAgentId').value = agent.id;
         document.getElementById('editAgentName').value = agent.agent_name || '';
         document.getElementById('editDisplayName').value = agent.display_name || '';
@@ -1095,12 +1092,12 @@ async function editAgent(agentId) {
         document.getElementById('editIsFeatured').checked = agent.is_featured || false;
         document.getElementById('editIsVerified').checked = agent.is_verified || false;
         
-        // Populate read-only fields
+        
         document.getElementById('editRating').value = `${agent.rating || '0.00'}/5.00`;
         document.getElementById('editTotalReviews').value = agent.total_reviews || 0;
         document.getElementById('editCreatedAt').value = adminDashboard.formatDate(agent.created_at);
 
-        // Show edit modal
+        
         new bootstrap.Modal(document.getElementById('editAgentModal')).show();
     } catch (error) {
         console.error('Edit agent error:', error);
@@ -1108,7 +1105,7 @@ async function editAgent(agentId) {
     }
 }
 
-// Update Agent Function
+
 async function updateAgent() {
     try {
         const agentId = document.getElementById('editAgentId').value;
@@ -1133,7 +1130,7 @@ async function updateAgent() {
             is_verified: document.getElementById('editIsVerified').checked
         };
 
-        // Validate required fields
+        
         if (!formData.agent_name || !formData.display_name || !formData.email) {
             adminDashboard.showAlert('Please fill in all required fields', 'warning');
             return;
@@ -1163,7 +1160,7 @@ async function updateAgent() {
     }
 }
 
-// Job Management Global Functions
+
 function searchJobs() {
     adminDashboard.searchJobs();
 }
@@ -1253,7 +1250,7 @@ async function createJob() {
 }
 
 async function saveJobAsDraft() {
-    // Set status to draft and create
+    
     document.getElementById('jobStatus').value = 'draft';
     await createJob();
 }
@@ -1306,7 +1303,7 @@ async function viewJobDetails(jobId) {
                 ` : ''}
             `;
             
-            // Store job ID for edit functionality
+            
             document.getElementById('jobDetailsModal').setAttribute('data-job-id', jobId);
             
             bootstrap.Modal.getOrCreateInstance(document.getElementById('jobDetailsModal')).show();
@@ -1335,7 +1332,7 @@ async function editJob(jobId) {
             const data = await response.json();
             const job = data.data;
             
-            // Populate edit form
+            
             document.getElementById('editJobId').value = job.id;
             document.getElementById('editJobTitle').value = job.title;
             document.getElementById('editJobStatus').value = job.status;
@@ -1356,7 +1353,7 @@ async function updateJob() {
         const formData = {
             title: document.getElementById('editJobTitle').value,
             status: document.getElementById('editJobStatus').value
-            // Add other fields as needed
+            
         };
 
         const response = await fetch(`/api/jobs/${jobId}`, {
@@ -1495,7 +1492,7 @@ function exportJobs() {
     window.open(exportUrl, '_blank');
 }
 
-// Initialize dashboard when page loads
+
 let adminDashboard;
 document.addEventListener('DOMContentLoaded', function() {
     adminDashboard = new AdminDashboard();

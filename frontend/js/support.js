@@ -1,4 +1,4 @@
-// Support Page JavaScript
+
 class SupportManager {
     constructor() {
         this.chatAvailable = true;
@@ -6,22 +6,22 @@ class SupportManager {
     }
 
     init() {
-        // Setup form handling
+        
         this.setupFormHandler();
         
-        // Setup chat functionality
+        
         this.setupChat();
         
-        // Setup phone support
+        
         this.setupPhoneSupport();
         
-        // Auto-fill user data if available
+        
         this.autoFillUserData();
         
-        // Setup analytics tracking
+        
         this.setupAnalytics();
         
-        // Check chat availability
+        
         this.checkChatAvailability();
     }
 
@@ -34,7 +34,7 @@ class SupportManager {
             await this.handleFormSubmission(supportForm);
         });
 
-        // Auto-populate account email if user is logged in
+        
         const emailField = document.getElementById('email');
         const accountEmailField = document.getElementById('accountEmail');
         
@@ -46,7 +46,7 @@ class SupportManager {
             });
         }
 
-        // File upload validation
+        
         const attachmentField = document.getElementById('attachment');
         if (attachmentField) {
             attachmentField.addEventListener('change', (e) => {
@@ -60,33 +60,33 @@ class SupportManager {
             const formData = new FormData(form);
             const supportData = Object.fromEntries(formData.entries());
 
-            // Show loading state
+            
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
             submitBtn.disabled = true;
 
-            // Validate form
+            
             if (!this.validateForm(supportData)) {
                 throw new Error('Please fill in all required fields correctly.');
             }
 
-            // Simulate API call to submit support ticket
+            
             await this.submitSupportTicket(supportData);
 
-            // Show success message
+            
             this.showSuccessMessage();
 
-            // Reset form
+            
             form.reset();
 
-            // Track submission
+            
             this.trackEvent('support_ticket_submitted', {
                 subject: supportData.subject,
                 priority: supportData.priority
             });
 
-            // Reset button
+            
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
 
@@ -94,7 +94,7 @@ class SupportManager {
             console.error('Error submitting support form:', error);
             this.showAlert('Failed to submit your request. Please try again or contact us directly.', 'danger');
             
-            // Reset button
+            
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Message';
             submitBtn.disabled = false;
@@ -111,7 +111,7 @@ class SupportManager {
             }
         }
 
-        // Validate email format
+        
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
             this.showAlert('Please enter a valid email address.', 'warning');
@@ -125,7 +125,7 @@ class SupportManager {
         const file = fileInput.files[0];
         if (!file) return;
 
-        const maxSize = 10 * 1024 * 1024; // 10MB
+        const maxSize = 10 * 1024 * 1024; 
         const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
         if (file.size > maxSize) {
@@ -144,15 +144,15 @@ class SupportManager {
     }
 
     async submitSupportTicket(data) {
-        // In a real implementation, this would send to the backend
-        // For now, we'll simulate the API call
+        
+        
         
         const ticketId = this.generateTicketId();
         
-        // Simulate network delay
+        
         await new Promise(resolve => setTimeout(resolve, 2000));
         
-        // Store ticket info in localStorage for demo purposes
+        
         const ticket = {
             id: ticketId,
             ...data,
@@ -194,10 +194,10 @@ class SupportManager {
         const formCard = document.querySelector('.contact-form-card');
         formCard.insertAdjacentHTML('afterbegin', successHtml);
         
-        // Scroll to success message
+        
         formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         
-        // Auto-remove after 10 seconds
+        
         setTimeout(() => {
             const alert = formCard.querySelector('.alert-success');
             if (alert) {
@@ -217,7 +217,7 @@ class SupportManager {
     }
 
     initiateLiveChat() {
-        // Track chat initiation
+        
         this.trackEvent('live_chat_initiated', { source: 'support_page' });
         
         if (!this.chatAvailable) {
@@ -225,8 +225,8 @@ class SupportManager {
             return;
         }
 
-        // In a real implementation, this would integrate with a chat service like Zendesk, Intercom, etc.
-        // For now, we'll show a modal or redirect
+        
+        
         
         this.showChatModal();
     }
@@ -273,20 +273,20 @@ class SupportManager {
             </div>
         `;
         
-        // Remove existing modal if present
+        
         const existingModal = document.getElementById('chatModal');
         if (existingModal) {
             existingModal.remove();
         }
         
-        // Add modal to page
+        
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         
-        // Show modal
+        
         const modal = new bootstrap.Modal(document.getElementById('chatModal'));
         modal.show();
         
-        // Handle connect button
+        
         document.getElementById('connectChat').addEventListener('click', () => {
             modal.hide();
             this.connectToChat();
@@ -294,8 +294,8 @@ class SupportManager {
     }
 
     connectToChat() {
-        // In a real app, this would open the chat widget
-        // For demo, we'll show a placeholder message
+        
+        
         alert('Chat integration would open here. For now, please use the contact form or email support.');
     }
 
@@ -313,7 +313,7 @@ class SupportManager {
     }
 
     handlePhoneSupport() {
-        // Check if user has premium subscription
+        
         const userSubscription = this.getUserSubscription();
         
         if (!userSubscription || userSubscription.type === 'free') {
@@ -325,8 +325,8 @@ class SupportManager {
     }
 
     getUserSubscription() {
-        // In a real app, this would come from the backend
-        // For demo, check localStorage or return mock data
+        
+        
         const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
         return user.subscription || { type: 'free' };
     }
@@ -368,12 +368,12 @@ class SupportManager {
         const modal = new bootstrap.Modal(document.getElementById('upgradeModal'));
         modal.show();
         
-        // Track upgrade prompt
+        
         this.trackEvent('upgrade_prompt_shown', { source: 'phone_support' });
     }
 
     autoFillUserData() {
-        // Auto-fill form with user data if available
+        
         const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
         
         if (user.firstName) {
@@ -419,7 +419,7 @@ class SupportManager {
     }
 
     setupAnalytics() {
-        // Track page sections viewed
+        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -429,24 +429,24 @@ class SupportManager {
             });
         }, { threshold: 0.5 });
 
-        // Observe main sections
+        
         const sections = document.querySelectorAll('.support-options, .contact-form-section, .support-resources');
         sections.forEach(section => observer.observe(section));
     }
 
     checkChatAvailability() {
-        // In a real app, this would check with the chat service
-        // For demo, we'll simulate based on time
+        
+        
         const now = new Date();
         const hour = now.getHours();
         const day = now.getDay();
         
-        // Business hours: 9 AM - 6 PM EST, Monday-Friday
+        
         const isBusinessHours = (day >= 1 && day <= 5) && (hour >= 9 && hour <= 18);
         
         this.chatAvailable = isBusinessHours;
         
-        // Update chat status indicators
+        
         const statusIndicators = document.querySelectorAll('.status-indicator');
         const statusTexts = document.querySelectorAll('.chat-status small');
         
@@ -469,12 +469,12 @@ class SupportManager {
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
 
-        // Insert at top of form
+        
         const formCard = document.querySelector('.contact-form-card');
         if (formCard) {
             formCard.insertBefore(alertDiv, formCard.firstChild);
             
-            // Auto-remove after 5 seconds
+            
             setTimeout(() => {
                 if (alertDiv.parentNode) {
                     alertDiv.remove();
@@ -492,12 +492,12 @@ class SupportManager {
     }
 }
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', () => {
     new SupportManager();
 });
 
-// Export for use in other modules
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = SupportManager;
 }

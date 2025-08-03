@@ -1,39 +1,34 @@
-/**
- * Component Loader - Handles loading of reusable components
- * Manages HTML/CSS/JS loading for header and footer components
- */
+
 
 class ComponentLoader {
     static loadedScripts = new Set();
     static loadedComponents = new Set();
 
-    /**
-     * Load header component with HTML, CSS, and JS
-     */
+    
     static async loadHeader() {
         const componentPath = 'components/main-header';
         const containerId = 'main-header-placeholder';
         
         try {
-            // Check if already loaded
+            
             if (this.loadedComponents.has('main-header')) {
                 console.log('Header component already loaded');
                 return;
             }
 
-            // Load HTML
+            
             await this.loadHTML(`${componentPath}/main-header.html`, containerId);
             
-            // Load CSS (if not already loaded)
+            
             await this.loadCSS(`${componentPath}/main-header.css`);
             
-            // Load JS (if not already loaded)
+            
             await this.loadJS(`${componentPath}/main-header.js`);
             
-            // Load unified search functionality
+            
             await this.loadJS('js/unified-search.js');
             
-            // Initialize MainHeader component (prevent duplicates)
+            
             setTimeout(() => {
                 if (typeof MainHeader !== 'undefined' && !window.mainHeaderInstance) {
                     window.mainHeaderInstance = new MainHeader();
@@ -43,7 +38,7 @@ class ComponentLoader {
                 }
             }, 100);
             
-            // Mark as loaded
+            
             this.loadedComponents.add('main-header');
             
             console.log('Header component loaded successfully');
@@ -54,30 +49,28 @@ class ComponentLoader {
         }
     }
 
-    /**
-     * Load footer component with HTML, CSS, and JS
-     */
+    
     static async loadFooter() {
         const componentPath = 'components/main-footer';
         const containerId = 'footer-placeholder';
         
         try {
-            // Check if already loaded
+            
             if (this.loadedComponents.has('main-footer')) {
                 console.log('Footer component already loaded');
                 return;
             }
 
-            // Load HTML
+            
             await this.loadHTML(`${componentPath}/main-footer.html`, containerId);
             
-            // Load CSS (if not already loaded)
+            
             await this.loadCSS(`${componentPath}/main-footer.css`);
             
-            // Load JS (if not already loaded)
+            
             await this.loadJS(`${componentPath}/main-footer.js`);
             
-            // Mark as loaded
+            
             this.loadedComponents.add('main-footer');
             
             console.log('Footer component loaded successfully');
@@ -88,9 +81,7 @@ class ComponentLoader {
         }
     }
 
-    /**
-     * Load HTML content into a container
-     */
+    
     static async loadHTML(htmlPath, containerId) {
         const response = await fetch(htmlPath);
         if (!response.ok) {
@@ -107,11 +98,9 @@ class ComponentLoader {
         container.innerHTML = html;
     }
 
-    /**
-     * Load CSS file (avoid duplicates)
-     */
+    
     static async loadCSS(cssPath) {
-        // Check if CSS is already loaded
+        
         if (document.querySelector(`link[href="${cssPath}"]`)) {
             return;
         }
@@ -135,11 +124,9 @@ class ComponentLoader {
         });
     }
 
-    /**
-     * Load JavaScript file (avoid duplicates and redeclarations)
-     */
+    
     static async loadJS(jsPath) {
-        // Check if script is already loaded
+        
         if (this.loadedScripts.has(jsPath)) {
             console.log(`Script already loaded: ${jsPath}`);
             return;
@@ -165,26 +152,22 @@ class ComponentLoader {
         });
     }
 
-    /**
-     * Check if a component is loaded
-     */
+    
     static isComponentLoaded(componentName) {
         return this.loadedComponents.has(componentName);
     }
 
-    /**
-     * Reset loaded components (for testing/debugging)
-     */
+    
     static reset() {
         this.loadedScripts.clear();
         this.loadedComponents.clear();
     }
 }
 
-// Make ComponentLoader globally available
+
 window.ComponentLoader = ComponentLoader;
 
-// Also export for module systems if needed
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = ComponentLoader;
 }

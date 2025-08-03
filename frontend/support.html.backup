@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Get help and support from the FlexJobs customer service team. Contact us for assistance with your account, billing, or job search.">
+    <meta name="keywords" content="FlexJobs support, customer service, help center, contact support">
+    <meta property="og:title" content="Customer Support - FlexJobs">
+    <meta property="og:description" content="Get personalized help from our customer support team.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+</head>
+
+<body class="support-page">
+    <!-- Main Header Component -->
+    <div id="main-header-placeholder"></div>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Customer Support</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="support-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="hero-title">We're Here to Help</h1>
+                    <p class="hero-subtitle">Get personalized support from our dedicated customer service team</p>
+                    
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <div class="row justify-content-center">
+                            <div class="col-md-4 mb-3">
+                                <div class="quick-action-card">
+                                    <div class="action-icon">
+                                        <i class="fas fa-question-circle"></i>
+                                    </div>
+                                    <h5>Browse FAQ</h5>
+                                    <p>Find quick answers</p>
+                                    <a href="faq.html" class="btn btn-outline-primary btn-sm">View FAQ</a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="quick-action-card">
+                                    <div class="action-icon">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <h5>Live Chat</h5>
+                                    <p>Chat with our team</p>
+                                    <button class="btn btn-primary btn-sm" id="startLiveChat">Start Chat</button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="quick-action-card">
+                                    <div class="action-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <h5>Email Support</h5>
+                                    <p>Send us a message</p>
+                                    <a href="#contact-form" class="btn btn-outline-primary btn-sm">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Options -->
+    <section class="support-options">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title text-center mb-5">Choose Your Support Option</h2>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Email Support -->
+                <div class="col-lg-4 mb-4">
+                    <div class="support-option-card">
+                        <div class="option-header">
+                            <div class="option-icon email">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h4>Email Support</h4>
+                            <p class="option-subtitle">Best for detailed questions and account issues</p>
+                        </div>
+                        
+                        <div class="option-details">
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Detailed responses</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Account-specific help</li>
+                                <li><i class="fas fa-check text-success me-2"></i>File attachments</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Response within 24 hours</li>
+                            </ul>
+                            
+                            <div class="option-action">
+                                <a href="#contact-form" class="btn btn-primary w-100">Send Email</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Chat -->
+                <div class="col-lg-4 mb-4">
+                    <div class="support-option-card popular">
+                        <div class="popular-badge">Most Popular</div>
+                        <div class="option-header">
+                            <div class="option-icon chat">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h4>Live Chat</h4>
+                            <p class="option-subtitle">Get instant help from our support team</p>
+                        </div>
+                        
+                        <div class="option-details">
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Instant responses</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Real-time problem solving</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Screen sharing available</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Available 9 AM - 6 PM EST</li>
+                            </ul>
+                            
+                            <div class="option-action">
+                                <button class="btn btn-primary w-100" id="startChatMain">Start Chat Now</button>
+                                <div class="chat-status mt-2">
+                                    <span class="status-indicator online"></span>
+                                    <small class="text-success">Support team is online</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Support -->
+                <div class="col-lg-4 mb-4">
+                    <div class="support-option-card">
+                        <div class="option-header">
+                            <div class="option-icon phone">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <h4>Phone Support</h4>
+                            <p class="option-subtitle">Premium subscribers only</p>
+                        </div>
+                        
+                        <div class="option-details">
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check text-success me-2"></i>Direct phone consultation</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Personalized guidance</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Complex issue resolution</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Callback scheduling</li>
+                            </ul>
+                            
+                            <div class="option-action">
+                                <button class="btn btn-outline-primary w-100" id="scheduleCall">Schedule Call</button>
+                                <small class="text-muted mt-2 d-block">Available for Premium members</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="contact-form-section" id="contact-form">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="contact-form-card">
+                        <div class="form-header text-center">
+                            <h3 class="form-title">Send Us a Message</h3>
+                            <p class="form-subtitle">Fill out the form below and we'll get back to you within 24 hours</p>
+                        </div>
+
+                        <form class="support-form" id="supportForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                                <select class="form-select" id="subject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="account">Account Issues</option>
+                                    <option value="billing">Billing & Subscription</option>
+                                    <option value="technical">Technical Problems</option>
+                                    <option value="jobs">Job Search Help</option>
+                                    <option value="feedback">Feedback & Suggestions</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="priority" class="form-label">Priority Level</label>
+                                <select class="form-select" id="priority" name="priority">
+                                    <option value="low">Low - General inquiry</option>
+                                    <option value="medium" selected>Medium - Standard support</option>
+                                    <option value="high">High - Urgent issue</option>
+                                    <option value="critical">Critical - Account locked/billing issue</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Please describe your issue or question in detail..." required></textarea>
+                                <div class="form-text">Please provide as much detail as possible to help us assist you better.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="attachment" class="form-label">Attachment (optional)</label>
+                                <input type="file" class="form-control" id="attachment" name="attachment" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+                                <div class="form-text">Supported formats: JPG, PNG, PDF, DOC, DOCX (Max 10MB)</div>
+                            </div>
+
+                            <!-- Account Information -->
+                            <div class="account-info">
+                                <h5 class="info-title">Account Information (if applicable)</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="accountEmail" class="form-label">Account Email</label>
+                                        <input type="email" class="form-control" id="accountEmail" name="accountEmail" placeholder="Email associated with your FlexJobs account">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="subscriptionType" class="form-label">Subscription Type</label>
+                                        <select class="form-select" id="subscriptionType" name="subscriptionType">
+                                            <option value="">Select subscription type</option>
+                                            <option value="free">Free Account</option>
+                                            <option value="monthly">Monthly Premium</option>
+                                            <option value="quarterly">Quarterly Premium</option>
+                                            <option value="annual">Annual Premium</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    Send Message
+                                </button>
+                                <button type="reset" class="btn btn-outline-secondary btn-lg ms-2">
+                                    Clear Form
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Resources -->
+    <section class="support-resources">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title text-center mb-5">Additional Resources</h2>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h5>Help Center</h5>
+                        <p>Browse our comprehensive help documentation and guides.</p>
+                        <a href="help.html" class="btn btn-outline-primary btn-sm">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h5>Video Tutorials</h5>
+                        <p>Watch step-by-step tutorials on using FlexJobs effectively.</p>
+                        <a href="tutorials.html" class="btn btn-outline-primary btn-sm">Watch Videos</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5>Community Forum</h5>
+                        <p>Connect with other job seekers and share experiences.</p>
+                        <a href="community.html" class="btn btn-outline-primary btn-sm">Join Community</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h5>System Status</h5>
+                        <p>Check the current status of FlexJobs services and any known issues.</p>
+                        <a href="status.html" class="btn btn-outline-primary btn-sm">Check Status</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Response Time Info -->
+    <section class="response-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="info-card">
+                        <div class="info-header">
+                            <h3>Expected Response Times</h3>
+                            <p>We're committed to providing timely support based on your inquiry type</p>
+                        </div>
+                        
+                        <div class="response-times">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="response-item">
+                                        <div class="response-type">
+                                            <i class="fas fa-bolt text-warning"></i>
+                                            <strong>Critical Issues</strong>
+                                        </div>
+                                        <div class="response-time">Within 2 hours</div>
+                                        <small class="text-muted">Account locked, billing problems</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="response-item">
+                                        <div class="response-type">
+                                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                                            <strong>High Priority</strong>
+                                        </div>
+                                        <div class="response-time">Within 4 hours</div>
+                                        <small class="text-muted">Technical issues, urgent questions</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="response-item">
+                                        <div class="response-type">
+                                            <i class="fas fa-clock text-info"></i>
+                                            <strong>Standard Support</strong>
+                                        </div>
+                                        <div class="response-time">Within 24 hours</div>
+                                        <small class="text-muted">General questions, account help</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="response-item">
+                                        <div class="response-type">
+                                            <i class="fas fa-info-circle text-success"></i>
+                                            <strong>General Inquiries</strong>
+                                        </div>
+                                        <div class="response-time">Within 48 hours</div>
+                                        <small class="text-muted">Feature requests, feedback</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="support-hours">
+                            <h5>Support Hours</h5>
+                            <p><strong>Live Chat:</strong> Monday - Friday, 9:00 AM - 6:00 PM EST</p>
+                            <p><strong>Email Support:</strong> 24/7 (responses during business hours)</p>
+                            <p><strong>Phone Support:</strong> Premium members only, by appointment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Page-specific JavaScript -->
+    <script src="js/support.js"></script>
+    
+    <!-- Load Header and Footer -->
+    <script>
+        // Load header
+        fetch('components/main-header/main-header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('main-header-placeholder').innerHTML = data;
+                // Load header CSS and JS
+                const headerCSS = document.createElement('link');
+                headerCSS.rel = 'stylesheet';
+                headerCSS.href = 'components/main-header/main-header.css';
+                document.head.appendChild(headerCSS);
+                
+                const headerJS = document.createElement('script');
+                headerJS.src = 'components/main-header/main-header.js';
+                document.body.appendChild(headerJS);
+            });
+
+        // Load footer
+        fetch('components/main-footer/main-footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+    </script>
+
+    <!-- Page-specific CSS -->
+    <style>
+        .support-page {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Hero Section */
+        .support-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .quick-action-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .action-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .action-icon i {
+            font-size: 1.5rem;
+        }
+
+        /* Support Options */
+        .support-options {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .support-option-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            height: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .support-option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .support-option-card.popular {
+            border-color: #667eea;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .option-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+        }
+
+        .option-icon.email {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .option-icon.chat {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .option-icon.phone {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+        }
+
+        .option-icon i {
+            font-size: 1.5rem;
+        }
+
+        .option-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-header h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .chat-status {
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-indicator.online {
+            background: #28a745;
+        }
+
+        /* Contact Form */
+        .contact-form-section {
+            background: #f8f9fa;
+            padding: 4rem 0;
+        }
+
+        .contact-form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .form-subtitle {
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        .account-info {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+
+        /* Support Resources */
+        .support-resources {
+            padding: 4rem 0;
+        }
+
+        .resource-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .resource-card h5 {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .resource-card p {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Response Info */
+        .response-info {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .info-header h3 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .response-item {
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            height: 100%;
+        }
+
+        .response-type {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .response-type i {
+            margin-right: 0.5rem;
+        }
+
+        .response-time {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.25rem;
+        }
+
+        .support-hours {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .support-hours h5 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .contact-form-card {
+                padding: 2rem 1rem;
+            }
+
+            .support-option-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</body>
+</html>

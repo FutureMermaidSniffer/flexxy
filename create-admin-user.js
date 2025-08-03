@@ -3,7 +3,7 @@ const { insertOne, getOne } = require('./backend/database.js');
 
 async function createAdminUser() {
   try {
-    // Check if admin user already exists
+    
     const existingAdmin = await getOne('SELECT * FROM users WHERE email = $1', ['admin@flexjobs.com']);
     
     if (existingAdmin) {
@@ -14,10 +14,10 @@ async function createAdminUser() {
       process.exit(0);
     }
 
-    // Hash the password
+    
     const hashedPassword = await bcrypt.hash('admin123', 12);
     
-    // Create admin user
+    
     const userId = await insertOne('users', {
       email: 'admin@flexjobs.com',
       password: hashedPassword,
@@ -38,12 +38,12 @@ async function createAdminUser() {
     console.log('');
     console.log('🚀 How to access Admin Dashboard:');
     console.log('1. Start the FlexJobs server: npm run dev');
-    console.log('2. Open: http://localhost:3000');
+    console.log('2. Open: http:
     console.log('3. Click "Login" in the top menu');
     console.log('4. Enter the admin credentials above');
-    console.log('5. After login, navigate to: http://localhost:3000/admin-dashboard.html');
+    console.log('5. After login, navigate to: http:
     console.log('');
-    console.log('Or login directly at: http://localhost:3000/login.html');
+    console.log('Or login directly at: http:
     
   } catch (error) {
     if (error.message.includes('duplicate key') || error.message.includes('UNIQUE constraint')) {

@@ -1,5 +1,5 @@
-// Statistics Page - Dynamic Modal Job Management
-// Displays a sample job in the statistics modal
+
+
 
 class StatisticsJobManager {
     constructor() {
@@ -13,18 +13,18 @@ class StatisticsJobManager {
         this.modalContainer = null;
     }
 
-    // Initialize the statistics job system
+    
     async init() {
         console.log('🚀 Initializing Statistics Job Manager');
         
-        // Wait for DOM to be ready
+        
         if (document.readyState === 'loading') {
             await new Promise(resolve => {
                 document.addEventListener('DOMContentLoaded', resolve);
             });
         }
 
-        // Find the modal job container
+        
         this.modalContainer = document.querySelector('#sampleJobModal .modal-body, .job-sample-container');
         if (!this.modalContainer) {
             console.log('ℹ️ Statistics job modal container not found - this is optional');
@@ -33,29 +33,29 @@ class StatisticsJobManager {
 
         console.log('✅ Statistics job modal container found');
 
-        // Load sample job when modal is shown
+        
         this.setupModalEvents();
     }
 
-    // Setup modal event handlers
+    
     setupModalEvents() {
-        // Find modal element
+        
         const modal = document.querySelector('#sampleJobModal, .modal');
         if (!modal) return;
 
-        // Load job when modal is shown
+        
         modal.addEventListener('show.bs.modal', async () => {
             await this.loadSampleJob();
         });
     }
 
-    // Load and display a sample job
+    
     async loadSampleJob() {
         console.log('📋 Loading sample job for statistics modal');
         this.showLoading();
 
         try {
-            // Fetch a featured job or random job
+            
             let response = await fetch('/api/jobs?is_featured=true&limit=1&is_active=true', {
                 method: 'GET',
                 headers: {
@@ -69,7 +69,7 @@ class StatisticsJobManager {
 
             let data = await response.json();
 
-            // If no featured jobs, get any job
+            
             if (!data.jobs || data.jobs.length === 0) {
                 response = await fetch('/api/jobs?limit=1&is_active=true');
                 data = await response.json();
@@ -80,7 +80,7 @@ class StatisticsJobManager {
                 return;
             }
 
-            // Render the sample job
+            
             this.renderJob(data.jobs[0]);
 
             console.log('✅ Sample job loaded successfully');
@@ -91,7 +91,7 @@ class StatisticsJobManager {
         }
     }
 
-    // Show loading state
+    
     showLoading() {
         if (!this.modalContainer) return;
         
@@ -105,7 +105,7 @@ class StatisticsJobManager {
         `;
     }
 
-    // Show error state
+    
     showError() {
         if (!this.modalContainer) return;
         
@@ -117,7 +117,7 @@ class StatisticsJobManager {
         `;
     }
 
-    // Show empty state
+    
     showEmptyState() {
         if (!this.modalContainer) return;
         
@@ -130,11 +130,11 @@ class StatisticsJobManager {
         `;
     }
 
-    // Render job using the job card component
+    
     renderJob(job) {
         if (!this.modalContainer) return;
 
-        // Create a wrapper that looks good in modal
+        
         const jobCardHtml = this.jobCard.render(job);
         
         this.modalContainer.innerHTML = `
@@ -150,7 +150,7 @@ class StatisticsJobManager {
             </div>
         `;
 
-        // Add event listener for view details button
+        
         const viewDetailsBtn = this.modalContainer.querySelector('#view-job-details-btn');
         if (viewDetailsBtn) {
             viewDetailsBtn.addEventListener('click', () => {
@@ -159,7 +159,7 @@ class StatisticsJobManager {
             });
         }
 
-        // Ensure the job card click handler works
+        
         const jobCard = this.modalContainer.querySelector('.job-card, .card');
         if (jobCard) {
             jobCard.style.cursor = 'pointer';
@@ -169,7 +169,7 @@ class StatisticsJobManager {
         }
     }
 
-    // Get a random job for demonstrations
+    
     async getRandomJob() {
         try {
             const response = await fetch('/api/jobs?limit=1&is_active=true');
@@ -182,16 +182,16 @@ class StatisticsJobManager {
     }
 }
 
-// Global instance
+
 let statisticsJobManager;
 
-// Initialize when DOM is ready
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // Wait for JobCard component to be available
+    
     if (typeof JobCard === 'undefined') {
         console.log('⏳ Waiting for JobCard component...');
         
-        // Load job card component if not already loaded
+        
         const script = document.createElement('script');
         script.src = 'js/components/job-card.js';
         script.onload = async () => {
@@ -205,5 +205,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Export for global access
+
 window.statisticsJobManager = statisticsJobManager;

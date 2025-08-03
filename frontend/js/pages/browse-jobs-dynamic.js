@@ -1,5 +1,5 @@
-// Browse Jobs Page - Dynamic Job Listings Management
-// Fetches and displays jobs with pagination and filtering for browse-jobs.html
+
+
 
 class BrowseJobsManager {
     constructor() {
@@ -27,18 +27,18 @@ class BrowseJobsManager {
         };
     }
 
-    // Initialize the browse jobs system
+    
     async init() {
         console.log('🚀 Initializing Browse Jobs Manager');
         
-        // Wait for DOM to be ready
+        
         if (document.readyState === 'loading') {
             await new Promise(resolve => {
                 document.addEventListener('DOMContentLoaded', resolve);
             });
         }
 
-        // Find the existing HTML elements
+        
         this.container = document.querySelector('#jobs-container');
         this.loadingElement = document.querySelector('#jobs-loading');
         this.paginationContainer = document.querySelector('#pagination-container');
@@ -55,16 +55,16 @@ class BrowseJobsManager {
 
         console.log('✅ Job listings elements found');
 
-        // Create error element for dynamic use
+        
         this.createErrorElement();
 
-        // Load initial jobs
+        
         await this.loadJobs();
     }
 
-    // Create error status element
+    
     createErrorElement() {
-        // Error state
+        
         this.errorElement = document.createElement('div');
         this.errorElement.className = 'col-12 text-center py-5';
         this.errorElement.innerHTML = `
@@ -79,7 +79,7 @@ class BrowseJobsManager {
         `;
     }
 
-    // Show loading state
+    
     showLoading() {
         if (this.loadingElement) {
             this.loadingElement.style.display = 'block';
@@ -90,7 +90,7 @@ class BrowseJobsManager {
         console.log('🔄 Showing loading state');
     }
 
-    // Hide loading state
+    
     hideLoading() {
         if (this.loadingElement) {
             this.loadingElement.style.display = 'none';
@@ -101,7 +101,7 @@ class BrowseJobsManager {
         console.log('✅ Hiding loading state');
     }
 
-    // Show error state
+    
     showError(message = null) {
         this.hideLoading();
         if (message) {
@@ -118,14 +118,14 @@ class BrowseJobsManager {
         this.container.appendChild(this.errorElement);
         this.container.style.display = 'flex';
         
-        // Add event listener for retry button
+        
         const retryBtn = this.errorElement.querySelector('#retry-jobs-btn');
         if (retryBtn) {
             retryBtn.addEventListener('click', () => this.loadJobs());
         }
     }
 
-    // Show empty state
+    
     showEmptyState() {
         this.hideLoading();
         this.container.innerHTML = `
@@ -140,16 +140,16 @@ class BrowseJobsManager {
         this.container.style.display = 'flex';
     }
 
-    // Build API URL with filters and pagination
+    
     buildApiUrl() {
         const params = new URLSearchParams();
         
-        // Pagination
+        
         params.append('page', this.currentPage);
         params.append('limit', this.jobsPerPage);
         params.append('is_active', 'true');
 
-        // Filters
+        
         Object.entries(this.filters).forEach(([key, value]) => {
             if (value && value.trim()) {
                 params.append(key, value.trim());
@@ -159,7 +159,7 @@ class BrowseJobsManager {
         return `/api/jobs?${params.toString()}`;
     }
 
-    // Load and display jobs
+    
     async loadJobs() {
         console.log('📋 Loading jobs for browse page', {
             page: this.currentPage,
@@ -193,20 +193,20 @@ class BrowseJobsManager {
                 return;
             }
 
-            // Update pagination info
+            
             if (data.pagination) {
                 this.totalPages = data.pagination.totalPages;
                 this.totalJobs = parseInt(data.pagination.total);
             }
 
-            // Render job cards
+            
             this.renderJobs(data.jobs);
             
-            // Update statistics and pagination
+            
             this.updateJobStats(data.jobs.length, this.totalJobs, this.currentPage);
             this.updatePagination(data.pagination);
             
-            // Hide loading and show results
+            
             this.hideLoading();
 
             console.log(`🎯 Successfully loaded ${data.jobs.length} jobs (page ${this.currentPage})`);
@@ -217,19 +217,19 @@ class BrowseJobsManager {
         }
     }
 
-    // Render jobs using the job card component
+    
     renderJobs(jobs) {
-        // Clear container
+        
         this.container.innerHTML = '';
 
-        // Create job cards
+        
         jobs.forEach((job, index) => {
             const jobCardHtml = this.jobCard.render(job);
             const cardWrapper = document.createElement('div');
             cardWrapper.className = 'col-lg-6 col-md-6 mb-4';
             cardWrapper.innerHTML = jobCardHtml;
             
-            // Add staggered animation
+            
             const card = cardWrapper.querySelector('.job-card, .card');
             if (card) {
                 card.style.animationDelay = `${index * 0.1}s`;
@@ -239,13 +239,13 @@ class BrowseJobsManager {
             this.container.appendChild(cardWrapper);
         });
 
-        // Set up event listeners for job card interactions
+        
         this.jobCard.setupEventListeners(this.container);
     }
 
-    // Update job statistics display
+    
     updateJobStats(currentCount, totalCount, currentPage) {
-        // Update results counter
+        
         const resultsElement = document.querySelector('.results-count, .job-count');
         if (resultsElement) {
             const startIndex = ((currentPage - 1) * this.jobsPerPage) + 1;
@@ -254,14 +254,14 @@ class BrowseJobsManager {
             resultsElement.textContent = `Showing ${startIndex}-${endIndex} of ${totalCount} jobs`;
         }
 
-        // Update any other count displays
+        
         const headerCount = document.querySelector('.jobs-header .job-count');
         if (headerCount) {
             headerCount.textContent = `${totalCount} Jobs Found`;
         }
     }
 
-    // Update pagination controls
+    
     updatePagination(pagination) {
         if (!this.paginationContainer || !pagination) return;
 
@@ -269,7 +269,7 @@ class BrowseJobsManager {
 
         let paginationHtml = '<nav aria-label="Job listings pagination"><ul class="pagination justify-content-center">';
 
-        // Previous button
+        
         paginationHtml += `
             <li class="page-item ${!hasPrev ? 'disabled' : ''}">
                 <button class="page-link pagination-btn" data-page="${page - 1}" ${!hasPrev ? 'disabled' : ''}>
@@ -278,7 +278,7 @@ class BrowseJobsManager {
             </li>
         `;
 
-        // Page numbers
+        
         const startPage = Math.max(1, page - 2);
         const endPage = Math.min(totalPages, page + 2);
 
@@ -300,7 +300,7 @@ class BrowseJobsManager {
             paginationHtml += `<li class="page-item"><button class="page-link pagination-btn" data-page="${totalPages}">${totalPages}</button></li>`;
         }
 
-        // Next button
+        
         paginationHtml += `
             <li class="page-item ${!hasNext ? 'disabled' : ''}">
                 <button class="page-link pagination-btn" data-page="${page + 1}" ${!hasNext ? 'disabled' : ''}>
@@ -313,7 +313,7 @@ class BrowseJobsManager {
 
         this.paginationContainer.innerHTML = paginationHtml;
         
-        // Add event listeners to pagination buttons
+        
         const paginationButtons = this.paginationContainer.querySelectorAll('.pagination-btn');
         paginationButtons.forEach(button => {
             button.addEventListener('click', (e) => {
@@ -325,27 +325,27 @@ class BrowseJobsManager {
         });
     }
 
-    // Navigate to specific page
+    
     async goToPage(page) {
         if (page < 1 || page > this.totalPages) return;
         
         this.currentPage = page;
         await this.loadJobs();
         
-        // Scroll to top of job listings
+        
         if (this.container) {
             this.container.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
-    // Apply filters and reload jobs
+    
     async applyFilters(newFilters = {}) {
         this.filters = { ...this.filters, ...newFilters };
-        this.currentPage = 1; // Reset to first page
+        this.currentPage = 1; 
         await this.loadJobs();
     }
 
-    // Clear all filters
+    
     async clearFilters() {
         this.filters = {
             search: '',
@@ -359,22 +359,22 @@ class BrowseJobsManager {
         await this.loadJobs();
     }
 
-    // Refresh current page
+    
     async refresh() {
         await this.loadJobs();
     }
 }
 
-// Global instance
+
 let browseJobsManager;
 
-// Initialize when DOM is ready
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // Wait for JobCard component to be available
+    
     if (typeof JobCard === 'undefined') {
         console.log('⏳ Waiting for JobCard component...');
         
-        // Load job card component if not already loaded
+        
         const script = document.createElement('script');
         script.src = 'js/components/job-card.js';
         script.onload = async () => {
@@ -388,5 +388,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Export for global access
+
 window.browseJobsManager = browseJobsManager;

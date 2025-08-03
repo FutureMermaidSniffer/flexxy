@@ -7,7 +7,7 @@ async function runMigration() {
   try {
     console.log('🚀 Starting user interactions migration...');
 
-    // Create database connection
+    
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
@@ -18,18 +18,18 @@ async function runMigration() {
 
     console.log('✅ Connected to database');
 
-    // Read migration file
+    
     const migrationPath = path.join(__dirname, 'migrations', 'add_user_interactions.sql');
     const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
 
     console.log('📂 Read migration file');
 
-    // Execute migration
+    
     await connection.execute(migrationSQL);
 
     console.log('✅ Migration executed successfully');
 
-    // Verify tables were created
+    
     const [tables] = await connection.execute(`
       SELECT TABLE_NAME 
       FROM INFORMATION_SCHEMA.TABLES 
@@ -48,7 +48,7 @@ async function runMigration() {
   }
 }
 
-// Run migration if called directly
+
 if (require.main === module) {
   runMigration();
 }

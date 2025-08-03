@@ -6,33 +6,33 @@
     <title>Do you have a job title in mind? - FlexJobs</title>
     <link rel="icon" type="image/png" href="images/f.png">
     
-    <!-- SEO Meta Tags -->
+    
     <meta name="description" content="Enter your desired job title to find opportunities that match your career goals and expertise.">
     <meta name="keywords" content="job title, flexible jobs, career search, job search, flexible work">
     <meta property="og:title" content="Do you have a job title in mind? - FlexJobs">
     <meta property="og:description" content="Find jobs that match your desired job title and career aspirations.">
     
-    <!-- Bootstrap CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
+    
     <link rel="stylesheet" href="css/style.css">
-    <!-- Component CSS -->
+    
     <link rel="stylesheet" href="css/components/header.css">
     <link rel="stylesheet" href="components/main-footer/main-footer.css">
-    <!-- Wizard Components CSS -->
+    
     <link rel="stylesheet" href="css/components/wizard-header.css">
     <link rel="stylesheet" href="css/components/wizard-footer.css">
 </head>
 
 <body class="page-what-job">
-    <!-- Wizard Header -->
+    
     <div id="wizard-header-container"></div>
 
-    <!-- Main Content -->
+    
     <main>
-        <!-- Progress Bar -->
+        
         <section class="page-job__progress py-2 bg-white border-bottom d-none">
             <div class="container">
                 <div class="row">
@@ -45,19 +45,19 @@
             </div>
         </section>
 
-        <!-- Main Job Title Section -->
+        
         <section class="page-job__main py-5" style="min-height: 80vh; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-xl-6">
-                        <!-- Main Title -->
+                        
                         <div class="text-center mb-5">
                             <h1 class="page-job__title h2 fw-bold text-dark mb-3">
                                 Do you have a job title in mind?
                             </h1>
                         </div>
                         
-                        <!-- Job Title Input -->
+                        
                         <div class="page-job__input-container mb-5">
                             <div class="position-relative">
                                 <div class="page-job__input-icon position-absolute top-50 start-0 translate-middle-y ms-3 text-muted">
@@ -70,15 +70,15 @@
                                        style="border-radius: 12px; border: 2px solid #e9ecef; font-size: 1.1rem; min-height: 60px;">
                             </div>
                             
-                            <!-- Job Title Suggestions -->
+                            
                             <div class="page-job__suggestions d-none" id="jobSuggestions">
                                 <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
-                                    <!-- Suggestions will be populated here -->
+                                    
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Popular Job Titles -->
+                        
                         <div class="page-job__popular mb-5">
                             <h3 class="h6 text-muted mb-3 text-center">Popular job titles</h3>
                             <div class="page-job__popular-grid d-flex flex-wrap justify-content-center gap-2">
@@ -125,7 +125,7 @@
                             </div>
                         </div>
                         
-                        <!-- Skip Option -->
+                        
                         <div class="page-job__skip-container text-center mb-5">
                             <button class="page-job__skip-btn btn btn-link text-info text-decoration-none fw-medium" id="skipBtn">
                                 <i class="fas fa-forward me-2"></i>
@@ -137,80 +137,41 @@
             </div>
         </section>
 
-        <!-- Job Search Tips Section -->
-        <!-- <section class="page-job__tips py-5 bg-white"> -->
+        
+        
             <div class="container">
-                <!-- <div class="row">
-                    <div class="col-lg-8 mx-auto text-center">
-                        <h2 class="h4 fw-bold text-dark mb-4">
-                            Job Search Tips
-                        </h2>
-                        <p class="text-muted mb-5">
-                            Get the most out of your job search with these helpful suggestions.
-                        </p>
-                    </div>
-                </div> -->
+                
                 
                 <div class="row g-4">
-                    <!-- Tip 1 -->
-                    <!-- <div class="col-lg-4 col-md-6">
-                        <div class="page-job__tip text-center">
-                            <div class="page-job__tip-icon mb-3">
-                                <i class="fas fa-search fa-2x text-primary"></i>
-                            </div>
-                            <h4 class="h6 fw-bold text-dark mb-2">Use Multiple Keywords</h4>
-                            <p class="small text-muted mb-0">
-                                Search for variations of your desired role to find more opportunities
-                            </p>
-                        </div>
-                    </div> -->
                     
-                    <!-- Tip 2 -->
-                    <!-- <div class="col-lg-4 col-md-6">
-                        <div class="page-job__tip text-center">
-                            <div class="page-job__tip-icon mb-3">
-                                <i class="fas fa-star fa-2x text-warning"></i>
-                            </div>
-                            <h4 class="h6 fw-bold text-dark mb-2">Be Specific</h4>
-                            <p class="small text-muted mb-0">
-                                Include seniority levels and specializations for better matches
-                            </p>
-                        </div>
-                    </div> -->
                     
-                    <!-- Tip 3 -->
-                    <!-- <div class="col-lg-4 col-md-6 mx-auto">
-                        <div class="page-job__tip text-center">
-                            <div class="page-job__tip-icon mb-3">
-                                <i class="fas fa-lightbulb fa-2x text-success"></i>
-                            </div>
-                            <h4 class="h6 fw-bold text-dark mb-2">Stay Open</h4>
-                            <p class="small text-muted mb-0">
-                                Consider similar roles that might be a great fit for your skills
-                            </p>
-                        </div>
-                    </div> -->
+                    
+                    
+                    
+                    
+                    
+                    
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Wizard Footer -->
+    
     <div id="wizard-footer-container"></div>
 
-    <!-- Bootstrap JS -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Component JS -->
+    
     <script src="js/components/component-loader.js"></script>
     <script src="js/components/header.js"></script>
     <script src="js/components/footer.js"></script>
-    <!-- Wizard Components JS -->
+    
     <script src="js/components/wizard-header.js"></script>
     <script src="js/components/wizard-footer.js"></script>
-    <!-- Page-specific JavaScript -->
+    
     <script src="js/pages/what-job.js"></script>
     
-    <!-- Page-specific CSS -->
+    
     <style>
         /* Page-specific styles - Font inherited from main stylesheet */
 

@@ -1,20 +1,15 @@
-/**
- * 404 Error Handler Middleware
- * Handles different types of 404 errors for API routes and static content
- */
+
 
 const path = require('path');
 const fs = require('fs');
 
 class Error404Handler {
-    /**
-     * Handle API 404 errors
-     */
+    
     static handleApiNotFound(req, res, next) {
-        // Log the 404 attempt for analytics
+        
         console.log(`API 404: ${req.method} ${req.originalUrl} - IP: ${req.ip}`);
         
-        // Return structured JSON error for API requests
+        
         res.status(404).json({
             error: 'Not Found',
             message: 'The requested API endpoint does not exist',
@@ -25,16 +20,14 @@ class Error404Handler {
         });
     }
 
-    /**
-     * Handle static file 404 errors
-     */
+    
     static handleStaticNotFound(req, res, next) {
         const requestedPath = req.path;
         
-        // Log the 404 attempt
+        
         console.log(`Static 404: ${requestedPath} - IP: ${req.ip} - Referrer: ${req.get('Referrer') || 'Direct'}`);
         
-        // Check if it's a component request
+        
         if (requestedPath.startsWith('/components/')) {
             return res.status(404).json({
                 error: 'Component Not Found',
@@ -44,7 +37,7 @@ class Error404Handler {
             });
         }
 
-        // Check if it's an asset request
+        
         const ext = path.extname(requestedPath);
         const assetExtensions = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.eot'];
         
@@ -57,24 +50,22 @@ class Error404Handler {
             });
         }
 
-        // For all other requests, serve the 404 HTML page
+        
         const fourOhFourPath = path.join(process.cwd(), 'frontend', '404.html');
         
         if (fs.existsSync(fourOhFourPath)) {
             res.status(404).sendFile(fourOhFourPath);
         } else {
-            // Fallback if 404.html doesn't exist
+            
             res.status(404).send(Error404Handler.getFallbackHtml(requestedPath));
         }
     }
 
-    /**
-     * Get API suggestions based on the requested URL
-     */
+    
     static getApiSuggestions(requestedUrl) {
         const suggestions = [];
         
-        // Common API endpoints and their corrections
+        
         const apiMappings = {
             '/api/job': '/api/jobs',
             '/api/user': '/api/users',
@@ -86,24 +77,22 @@ class Error404Handler {
             '/api/admin': '/api/admin'
         };
 
-        // Check for close matches
+        
         for (const [pattern, suggestion] of Object.entries(apiMappings)) {
             if (requestedUrl.includes(pattern.replace('/api/', ''))) {
                 suggestions.push(suggestion);
             }
         }
 
-        // If no specific suggestions, provide general ones
+        
         if (suggestions.length === 0) {
             suggestions.push('/api/jobs', '/api/users', '/api/companies', '/api/applications');
         }
 
-        return suggestions.slice(0, 3); // Return max 3 suggestions
+        return suggestions.slice(0, 3); 
     }
 
-    /**
-     * Get fallback HTML for 404 errors when 404.html doesn't exist
-     */
+    
     static getFallbackHtml(requestedPath) {
         return `
         <!DOCTYPE html>
@@ -187,9 +176,7 @@ class Error404Handler {
         `;
     }
 
-    /**
-     * Log 404 errors for analysis
-     */
+    
     static log404Error(req, type = 'unknown') {
         const errorData = {
             timestamp: new Date().toISOString(),
@@ -201,16 +188,14 @@ class Error404Handler {
             referrer: req.get('Referrer') || 'Direct'
         };
 
-        // In production, you might want to send this to a logging service
+        
         console.log('404 Error:', JSON.stringify(errorData));
         
-        // You could also store in database or send to analytics service
-        // await analytics.track404Error(errorData);
+        
+        
     }
 
-    /**
-     * Middleware factory for different types of 404 handling
-     */
+    
     static createHandler(type = 'page') {
         return (req, res, next) => {
             Error404Handler.log404Error(req, type);

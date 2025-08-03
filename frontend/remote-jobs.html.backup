@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Jobs - FlexJobs</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center py-2">
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <img src="images/FlexJobs_logo-1.png" alt="FlexJobs" style="height: 40px;">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#registerModal">Sign Up</button>
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- Desktop Navigation -->
+    <nav class="navbar navbar-expand-lg bg-success d-none d-lg-block">
+        <div class="container-fluid">
+            <div class="navbar-nav">
+                <a class="nav-link text-white" href="#">Find Remote, Hybrid & Flexible Jobs</a>
+                <a class="nav-link text-white" href="#">How FlexJobs Works</a>
+                <a class="nav-link text-white" href="#">Career Advice</a>
+                <a class="nav-link text-white" href="#">Events & Webinars</a>
+                <a class="nav-link text-white" href="#">Job Search Articles</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Search Section -->
+    <section class="py-3 bg-info text-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="d-flex gap-2">
+                        <input type="text" class="form-control form-control-lg" placeholder="Search for agents">
+                        <input type="text" class="form-control form-control-lg" placeholder="Location">
+                        <button class="btn btn-warning btn-lg px-4">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Menu Offcanvas -->
+    <div class="offcanvas offcanvas-start bg-success" tabindex="-1" id="mobileMenu" style="width: 300px;">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav class="nav flex-column">
+                <a class="nav-link text-white border-bottom border-white border-opacity-25 py-4 px-4" href="#">
+                    <i class="fas fa-sign-in-alt me-3"></i>
+                    Login
+                </a>
+                <a class="nav-link text-white border-bottom border-white border-opacity-25 py-4 px-4 d-flex justify-content-between" href="#">
+                    <span>
+                        <i class="fas fa-search me-3"></i>
+                        Find Remote, Hybrid, & Flexible Jobs
+                    </span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <a class="nav-link text-white border-bottom border-white border-opacity-25 py-4 px-4 d-flex justify-content-between" href="#">
+                    <span>
+                        <i class="fas fa-info-circle me-3"></i>
+                        How FlexJobs Works
+                    </span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <a class="nav-link text-white border-bottom border-white border-opacity-25 py-4 px-4 d-flex justify-content-between" href="#">
+                    <span>
+                        <i class="fas fa-lightbulb me-3"></i>
+                        Career Advice
+                    </span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <a class="nav-link text-white border-bottom border-white border-opacity-25 py-4 px-4 d-flex justify-content-between" href="#">
+                    <span>
+                        <i class="fas fa-calendar me-3"></i>
+                        Events & Webinars
+                    </span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <a class="nav-link text-white py-4 px-4 d-flex justify-content-between" href="#">
+                    <span>
+                        <i class="fas fa-newspaper me-3"></i>
+                        Job Search Articles
+                    </span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2025 FlexJobs. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-muted me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-muted me-3"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-muted"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sign Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registerFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="registerFirstName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="registerLastName" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required minlength="6">
+                        </div>
+                        <div class="mb-3">
+                            <label for="userType" class="form-label">I am a</label>
+                            <select class="form-select" id="userType" required>
+                                <option value="">Select...</option>
+                                <option value="job_seeker">Job Seeker</option>
+                                <option value="employer">Employer</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/auth.js"></script>
+    <script src="js/jobs.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Job search and filter functionality
+        class JobSearchManager {
+            constructor() {
+                this.currentFilters = {
+                    workType: null,
+                    salaryMin: null,
+                    salaryType: 'annual',
+                    keywords: '',
+                    location: ''
+                };
+                this.init();
+            }
+
+            init() {
+                // Parse URL parameters from wizard flow
+                this.parseURLParameters();
+                
+                // Apply initial filters
+                this.applyFiltersFromWizard();
+                
+                // Setup search functionality
+                this.setupSearchHandlers();
+                
+                // Display active filters
+                this.displayActiveFilters();
+                
+                console.log('Job search initialized with filters:', this.currentFilters);
+            }
+
+            parseURLParameters() {
+                const urlParams = new URLSearchParams(window.location.search);
+                
+                // Get work type preference
+                const workType = urlParams.get('type');
+                if (workType) {
+                    this.currentFilters.workType = workType;
+                }
+                
+                // Get salary preferences
+                const salaryMin = urlParams.get('salary_min');
+                const hourlyMin = urlParams.get('hourly_min');
+                const salaryType = urlParams.get('salary_type');
+                
+                if (salaryMin) {
+                    this.currentFilters.salaryMin = parseInt(salaryMin);
+                    this.currentFilters.salaryType = 'annual';
+                } else if (hourlyMin) {
+                    this.currentFilters.salaryMin = parseInt(hourlyMin);
+                    this.currentFilters.salaryType = 'hourly';
+                }
+                
+                if (salaryType) {
+                    this.currentFilters.salaryType = salaryType;
+                }
+                
+                // Get job title preferences
+                const jobTitles = urlParams.get('job_titles');
+                if (jobTitles) {
+                    this.currentFilters.jobTitles = jobTitles.split(',').map(title => title.trim());
+                }
+                
+                // Get category preferences
+                const categories = urlParams.get('categories');
+                if (categories) {
+                    this.currentFilters.categories = categories.split(',').map(category => category.trim());
+                }
+                
+                // Get experience preferences
+                const experience = urlParams.get('experience');
+                if (experience) {
+                    this.currentFilters.experience = experience;
+                }
+                
+                // Get education preferences
+                const education = urlParams.get('education');
+                if (education) {
+                    this.currentFilters.education = education;
+                }
+                
+                // Get benefits preferences
+                const benefits = urlParams.get('benefits');
+                if (benefits) {
+                    this.currentFilters.benefits = benefits.split(',');
+                }
+                
+                // Get location preferences
+                const location = urlParams.get('location');
+                if (location) {
+                    this.currentFilters.location = location;
+                }
+                
+                const locationOptions = urlParams.get('location_options');
+                if (locationOptions) {
+                    this.currentFilters.locationOptions = locationOptions.split(',');
+                }
+                
+                // Get upload preference
+                const resumeUploaded = urlParams.get('resume_uploaded');
+                if (resumeUploaded) {
+                    this.currentFilters.resumeUploaded = resumeUploaded === 'true';
+                }
+            }
+
+            applyFiltersFromWizard() {
+                // Show loading state
+                this.showLoadingState();
+                
+                // Simulate API call to fetch filtered jobs
+                setTimeout(() => {
+                    this.loadFilteredJobs();
+                }, 1000);
+            }
+
+            displayActiveFilters() {
+                const container = document.querySelector('.container');
+                const searchSection = container.querySelector('section');
+                
+                if (this.hasActiveFilters()) {
+                    const filtersHTML = this.generateFiltersHTML();
+                    
+                    // Insert filters after search section
+                    const filtersElement = document.createElement('div');
+                    filtersElement.innerHTML = filtersHTML;
+                    searchSection.insertAdjacentElement('afterend', filtersElement.firstElementChild);
+                }
+            }
+
+            hasActiveFilters() {
+                return this.currentFilters.workType || 
+                       this.currentFilters.salaryMin || 
+                       this.currentFilters.jobTitles?.length > 0 || 
+                       this.currentFilters.categories?.length > 0 || 
+                       this.currentFilters.experience ||
+                       this.currentFilters.education ||
+                       this.currentFilters.benefits?.length > 0 ||
+                       this.currentFilters.location ||
+                       this.currentFilters.resumeUploaded;
+            }
+
+            generateFiltersHTML() {
+                const filters = [];
+                
+                if (this.currentFilters.workType) {
+                    const typeMap = {
+                        'fully-remote': '100% Remote',
+                        'hybrid': 'Hybrid',
+                        'flexible': 'Flexible Schedule'
+                    };
+                    filters.push(`Work Type: ${typeMap[this.currentFilters.workType] || this.currentFilters.workType}`);
+                }
+                
+                if (this.currentFilters.salaryMin) {
+                    const salaryDisplay = this.currentFilters.salaryType === 'annual' 
+                        ? `$${this.currentFilters.salaryMin.toLocaleString()}/year`
+                        : `$${this.currentFilters.salaryMin}/hour`;
+                    filters.push(`Minimum Salary: ${salaryDisplay}`);
+                }
+                
+                if (this.currentFilters.location) {
+                    filters.push(`Location: ${this.currentFilters.location}`);
+                }
+                
+                if (this.currentFilters.jobTitles && this.currentFilters.jobTitles.length > 0) {
+                    const titleDisplay = this.currentFilters.jobTitles.length > 2 
+                        ? `${this.currentFilters.jobTitles.slice(0, 2).join(', ')} +${this.currentFilters.jobTitles.length - 2} more`
+                        : this.currentFilters.jobTitles.join(', ');
+                    filters.push(`Job Titles: ${titleDisplay}`);
+                }
+                
+                if (this.currentFilters.categories && this.currentFilters.categories.length > 0) {
+                    const categoryDisplay = this.currentFilters.categories.length > 2 
+                        ? `${this.currentFilters.categories.slice(0, 2).join(', ')} +${this.currentFilters.categories.length - 2} more`
+                        : this.currentFilters.categories.join(', ');
+                    filters.push(`Categories: ${categoryDisplay}`);
+                }
+                
+                if (this.currentFilters.experience) {
+                    const experienceMap = {
+                        'less-than-3': 'Less Than 3 Years',
+                        '3-5': '3-5 Years',
+                        '5-10': '5-10 Years',
+                        '10-plus': '10+ Years'
+                    };
+                    filters.push(`Experience: ${experienceMap[this.currentFilters.experience] || this.currentFilters.experience}`);
+                }
+                
+                if (this.currentFilters.education) {
+                    const educationMap = {
+                        'high-school': 'High School or GED',
+                        'associates': 'Associate\'s Degree or Some College',
+                        'bachelors': 'Bachelor\'s Degree',
+                        'masters': 'Master\'s or Higher',
+                        'specialized': 'Specialized/Other',
+                        'prefer-not': 'Prefer Not to Answer'
+                    };
+                    filters.push(`Education: ${educationMap[this.currentFilters.education] || this.currentFilters.education}`);
+                }
+                
+                if (this.currentFilters.benefits && this.currentFilters.benefits.length > 0) {
+                    const benefitMap = {
+                        'health-insurance': 'Health Insurance',
+                        'dental-insurance': 'Dental Insurance',
+                        'vision-insurance': 'Vision Insurance',
+                        'life-insurance': 'Life Insurance',
+                        'retirement-savings': 'Retirement Savings',
+                        'paid-time-off': 'Paid Time Off',
+                        'paid-holidays': 'Paid Holidays',
+                        'paid-illness-leave': 'Paid Illness Leave',
+                        'parental-leave': 'Parental Leave',
+                        'flexible-pto': 'Unlimited or Flexible PTO',
+                        'career-development': 'Career Development',
+                        'continuing-education': 'Continuing Education',
+                        'education-assistance': 'Education Assistance',
+                        'mental-health-support': 'Mental Health Support',
+                        'gym-health-stipend': 'Gym/Health Stipend',
+                        'internet-reimbursement': 'Internet Reimbursement',
+                        'cell-reimbursement': 'Cell Reimbursement',
+                        'office-stipend': 'Office Stipend',
+                        'computer-provided': 'Computer Provided',
+                        'work-from-home-stipend': 'Work From Home Stipend'
+                    };
+                    
+                    const benefitNames = this.currentFilters.benefits.map(benefit => 
+                        benefitMap[benefit] || benefit
+                    );
+                    
+                    if (benefitNames.length <= 3) {
+                        filters.push(`Benefits: ${benefitNames.join(', ')}`);
+                    } else {
+                        filters.push(`Benefits: ${benefitNames.slice(0, 2).join(', ')} and ${benefitNames.length - 2} more`);
+                    }
+                }
+                
+                if (this.currentFilters.resumeUploaded) {
+                    filters.push('Resume: Uploaded');
+                }
+
+                return `
+                    <section class="py-3 bg-light border-bottom">
+                        <div class="container">
+                            <div class="d-flex flex-wrap align-items-center gap-2">
+                                <span class="fw-bold text-muted">Active Filters:</span>
+                                ${filters.map(filter => `
+                                    <span class="badge bg-primary px-3 py-2">
+                                        ${filter}
+                                        <button class="btn-close btn-close-white ms-2" style="font-size: 10px;" onclick="jobSearchManager.removeFilter('${filter}')"></button>
+                                    </span>
+                                `).join('')}
+                                <button class="btn btn-outline-secondary btn-sm ms-2" onclick="jobSearchManager.clearAllFilters()">
+                                    Clear All
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            }
+
+            showLoadingState() {
+                // Add loading indicators to the page
+                const container = document.querySelector('.container');
+                const loadingHTML = `
+                    <section class="py-5">
+                        <div class="container text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading jobs...</span>
+                            </div>
+                            <div class="mt-3">
+                                <h5>Finding perfect remote jobs for you...</h5>
+                                <p class="text-muted">Based on your preferences</p>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                
+                container.insertAdjacentHTML('beforeend', loadingHTML);
+            }
+
+            loadFilteredJobs() {
+                // Remove loading state
+                const loadingSection = document.querySelector('.spinner-border')?.closest('section');
+                if (loadingSection) {
+                    loadingSection.remove();
+                }
+                
+                // Add job results
+                this.displayJobResults();
+            }
+
+            displayJobResults() {
+                const container = document.querySelector('.container');
+                
+                // Sample job data based on filters
+                const jobs = this.generateSampleJobs();
+                
+                const jobsHTML = `
+                    <section class="py-4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <h3>Remote Jobs (${jobs.length} found)</h3>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                Sort by: Most Recent
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Most Recent</a></li>
+                                                <li><a class="dropdown-item" href="#">Highest Salary</a></li>
+                                                <li><a class="dropdown-item" href="#">Best Match</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3">
+                                        ${jobs.map(job => `
+                                            <div class="col-12">
+                                                <div class="card h-100 border-0 shadow-sm">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <h5 class="card-title mb-2">${job.title}</h5>
+                                                                <p class="text-muted mb-2">${job.company}</p>
+                                                                <p class="card-text text-truncate">${job.description}</p>
+                                                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                                                    ${job.tags.map(tag => `<span class="badge bg-light text-dark">${tag}</span>`).join('')}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 text-md-end">
+                                                                <div class="mb-2">
+                                                                    <strong class="text-success">${job.salary}</strong>
+                                                                </div>
+                                                                <div class="mb-2">
+                                                                    <small class="text-muted">${job.location}</small>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <small class="text-muted">${job.posted}</small>
+                                                                </div>
+                                                                <button class="btn btn-primary btn-sm">Apply Now</button>
+                                                                <button class="btn btn-outline-secondary btn-sm ms-1">
+                                                                    <i class="fas fa-heart"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    
+                                    <!-- Pagination -->
+                                    <nav class="mt-4">
+                                        <ul class="pagination justify-content-center">
+                                            <li class="page-item disabled">
+                                                <span class="page-link">Previous</span>
+                                            </li>
+                                            <li class="page-item active">
+                                                <span class="page-link">1</span>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">2</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">3</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                
+                container.insertAdjacentHTML('beforeend', jobsHTML);
+            }
+
+            generateSampleJobs() {
+                const baseJobs = [
+                    {
+                        title: "Senior Software Engineer",
+                        company: "TechFlow Solutions",
+                        description: "Join our remote-first team building scalable web applications using modern technologies.",
+                        salary: "$120k - $150k/year",
+                        location: "Remote (US)",
+                        posted: "2 days ago",
+                        tags: ["JavaScript", "React", "Node.js", "Remote"]
+                    },
+                    {
+                        title: "Digital Marketing Manager",
+                        company: "Growth Marketing Co.",
+                        description: "Lead digital marketing campaigns for B2B SaaS companies with flexible schedule options.",
+                        salary: "$80k - $100k/year",
+                        location: "Remote (Global)",
+                        posted: "1 day ago",
+                        tags: ["Marketing", "SaaS", "Analytics", "Flexible"]
+                    },
+                    {
+                        title: "UX/UI Designer",
+                        company: "Design Studio Pro",
+                        description: "Create beautiful user experiences for mobile and web applications in a hybrid work environment.",
+                        salary: "$90k - $110k/year",
+                        location: "Hybrid (NY/Remote)",
+                        posted: "3 days ago",
+                        tags: ["Design", "UI/UX", "Figma", "Hybrid"]
+                    },
+                    {
+                        title: "Data Analyst",
+                        company: "Analytics Plus",
+                        description: "Analyze complex datasets and provide insights to drive business decisions.",
+                        salary: "$70k - $85k/year",
+                        location: "Remote (US)",
+                        posted: "1 week ago",
+                        tags: ["Python", "SQL", "Analytics", "Remote"]
+                    },
+                    {
+                        title: "Content Writer",
+                        company: "Content Creators Inc.",
+                        description: "Write engaging content for various digital platforms with complete schedule flexibility.",
+                        salary: "$25 - $40/hour",
+                        location: "Remote (Global)",
+                        posted: "4 days ago",
+                        tags: ["Writing", "Content", "SEO", "Flexible"]
+                    }
+                ];
+
+                // Filter jobs based on current filters
+                return baseJobs.filter(job => {
+                    // Filter by work type
+                    if (this.currentFilters.workType) {
+                        const jobType = job.tags.find(tag => 
+                            tag.toLowerCase().includes('remote') || 
+                            tag.toLowerCase().includes('hybrid') || 
+                            tag.toLowerCase().includes('flexible')
+                        );
+                        
+                        if (this.currentFilters.workType === 'fully-remote' && !jobType?.toLowerCase().includes('remote')) {
+                            return false;
+                        }
+                        if (this.currentFilters.workType === 'hybrid' && !jobType?.toLowerCase().includes('hybrid')) {
+                            return false;
+                        }
+                        if (this.currentFilters.workType === 'flexible' && !jobType?.toLowerCase().includes('flexible')) {
+                            return false;
+                        }
+                    }
+                    
+                    // Filter by salary (simplified)
+                    if (this.currentFilters.salaryMin) {
+                        const salaryText = job.salary.toLowerCase();
+                        if (this.currentFilters.salaryType === 'annual') {
+                            const match = salaryText.match(/\$(\d+)k/);
+                            if (match) {
+                                const jobSalary = parseInt(match[1]) * 1000;
+                                if (jobSalary < this.currentFilters.salaryMin) {
+                                    return false;
+                                }
+                            }
+                        } else {
+                            const match = salaryText.match(/\$(\d+)/);
+                            if (match) {
+                                const jobHourly = parseInt(match[1]);
+                                if (jobHourly < this.currentFilters.salaryMin) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                    
+                    return true;
+                });
+            }
+
+            setupSearchHandlers() {
+                // Add search functionality to existing search inputs
+                const searchBtn = document.querySelector('.btn-warning');
+                if (searchBtn) {
+                    searchBtn.addEventListener('click', () => {
+                        this.performSearch();
+                    });
+                }
+            }
+
+            performSearch() {
+                console.log('Performing search with current filters');
+                // Reload results with current search terms
+                this.loadFilteredJobs();
+            }
+
+            removeFilter(filterName) {
+                // Logic to remove specific filter
+                console.log('Removing filter:', filterName);
+                window.location.href = '/remote-jobs';
+            }
+
+            clearAllFilters() {
+                // Clear all filters and reload
+                window.location.href = '/remote-jobs';
+            }
+        }
+
+        // Initialize job search when page loads
+        let jobSearchManager;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded');
+            
+            // Initialize job search manager
+            jobSearchManager = new JobSearchManager();
+            
+            // Mobile menu debug
+            const mobileMenuButton = document.querySelector('[data-bs-target="#mobileMenu"]');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                console.log('Mobile menu elements found');
+            } else {
+                console.error('Mobile menu elements not found');
+            }
+        });
+    </script>
+</body>
+</html>

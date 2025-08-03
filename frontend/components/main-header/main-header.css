@@ -1,4 +1,4 @@
-/* Montserrat Font Declarations */
+
 @font-face {
     font-family: 'Montserrat';
     src: url('../../fonts/Montserrat/Montserrat-Regular.ttf') format('truetype');
@@ -28,7 +28,7 @@
     font-display: swap;
 }
 
-/* Main Header Component Styles */
+
 .main-header {
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     position: sticky;
@@ -37,31 +37,31 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Top Row - White Background */
+
 .main-header__top-row {
     background-color: white;
-    padding: 8px 0; /* Reduced from 12px */
+    padding: 8px 0; 
     border-bottom: 1px solid #e9ecef;
 }
 
-/* Logo */
+
 .main-header__logo-container {
     display: flex;
     align-items: center;
 }
 
 .main-header__logo {
-    height: 32px; /* Reduced from 40px */
+    height: 32px; 
     width: auto;
 }
 
-/* Mobile Logo Centering */
+
 @media (max-width: 991px) {
     .main-header__logo-container.text-center {
         justify-content: center;
     }
     
-    /* Ensure equal spacing on mobile */
+    
     .main-header__top-row .row {
         display: flex;
         align-items: center;
@@ -69,11 +69,11 @@
     
     .main-header__top-row .col-auto:first-child,
     .main-header__top-row .col-auto:last-child {
-        min-width: 60px; /* Ensure consistent button areas */
+        min-width: 60px; 
     }
 }
 
-/* Desktop Search Bar */
+
 .main-header__search-container {
     max-width: 600px;
     margin: 0 auto;
@@ -112,8 +112,8 @@
     border: none;
     outline: none;
     width: 100%;
-    padding: 8px 0; /* Reduced from 12px */
-    font-size: 14px; /* Reduced from 16px */
+    padding: 8px 0; 
+    font-size: 14px; 
     background: transparent;
 }
 
@@ -138,16 +138,16 @@
     border: none;
     outline: none;
     background: transparent;
-    padding: 8px 0; /* Reduced from 12px */
+    padding: 8px 0; 
     color: #495057;
-    min-width: 100px; /* Reduced from 120px */
+    min-width: 100px; 
 }
 
 .search-btn {
     background: orangered;
     border: none;
     color: white;
-    padding: 8px 16px; /* Reduced from 12px 20px */
+    padding: 8px 16px; 
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -156,7 +156,7 @@
     background: #004f6e;
 }
 
-/* Account Button */
+
 .main-header__account-btn {
     background: #f8f9fa;
     border: 0px solid #dee2e6;
@@ -172,7 +172,7 @@
     border-color: #adb5bd;
 }
 
-/* Hamburger Menu */
+
 .main-header__hamburger {
     background: none;
     border: none;
@@ -202,7 +202,7 @@
     transform: rotate(-45deg) translate(7px, -6px);
 }
 
-/* Message Button */
+
 .main-header__message-btn {
     background: none;
     border: none;
@@ -217,7 +217,7 @@
     color: #004f6e;
 }
 
-/* Mobile Search Row */
+
 .main-header__mobile-search {
     background: #004f6e;
     padding: 12px 0;
@@ -232,7 +232,7 @@
     color: #495057;
 }
 
-/* Navigation Row - Blue Background */
+
 .main-header__nav-row {
     background: #004f6e;
     padding: 0;
@@ -256,7 +256,7 @@
     margin-right: 0;
 }
 
-/* Account button in navigation row */
+
 .main-header__nav-row .main-header__account-btn {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -272,7 +272,7 @@
     border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Dropdown Menu Styling */
+
 .main-header__nav-row .dropdown-menu {
     background: white;
     border: 1px solid #dee2e6;
@@ -319,7 +319,7 @@
     display: block;
     color: white;
     text-decoration: none;
-    padding: 12px 16px; /* Reduced from 16px 20px */
+    padding: 12px 16px; 
     text-align: center;
     font-weight: 300;
     transition: all 0.3s ease;
@@ -337,17 +337,17 @@
     border-bottom-color: #ffc107;
 }
 
-/* Mobile Slide-out Menu */
+
 .main-header__mobile-menu {
     position: fixed;
-    top: 65px; /* Position below the top row */
+    top: 65px; 
     left: 0;
     width: 100vw;
-    height: calc(100vh - 65px); /* Full height minus top row */
-    background: #004f6e; /* Blue background like nav row */
+    height: calc(100vh - 65px); 
+    background: #004f6e; 
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-    z-index: 999; /* Lower than top row */
+    z-index: 999; 
     overflow-y: auto;
 }
 
@@ -369,7 +369,7 @@
 .mobile-nav-link,
 .mobile-account-link {
     display: block;
-    color: white; /* White text */
+    color: white; 
     text-decoration: none;
     padding: 20px 24px;
     font-weight: 400;
@@ -390,22 +390,22 @@
 }
 
 .logout-link {
-    color: #ff6b6b !important; /* Light red for logout */
+    color: #ff6b6b !important; 
 }
 
 .logout-link:hover {
     background: rgba(255, 107, 107, 0.1) !important;
 }
 
-/* Mobile Menu Overlay */
+
 .mobile-menu-overlay {
     position: fixed;
-    top: 65px; /* Start below top row */
+    top: 65px; 
     left: 0;
     width: 100vw;
     height: calc(100vh - 65px);
-    background: rgba(0, 0, 0, 0.3); /* Lighter overlay */
-    z-index: 998; /* Below mobile menu */
+    background: rgba(0, 0, 0, 0.3); 
+    z-index: 998; 
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -416,27 +416,27 @@
     visibility: visible;
 }
 
-/* Dynamic Content */
+
 .main-header__content {
     background: linear-gradient(135deg, #004f6e 0%, #004f6e 100%);
     color: white;
     padding: 1.5rem 0;
 }
 
-/* Responsive Design */
+
 @media (max-width: 991px) {
     .main-header__logo {
-        height: 38px; /* Reduced from 35px */
+        height: 38px; 
     }
 }
 
 @media (max-width: 767px) {
     .main-header__top-row {
-        padding: 6px 0; /* Reduced from 10px */
+        padding: 6px 0; 
     }
     
     .main-header__logo {
-        height: 34px; /* Reduced from 30px */
+        height: 34px; 
     }
     
     .main-header__search-bar {
@@ -445,16 +445,16 @@
     
     .search-input,
     .location-input {
-        padding: 8px 0; /* Reduced from 10px */
-        font-size: 13px; /* Reduced from 14px */
+        padding: 8px 0; 
+        font-size: 13px; 
     }
     
     .search-btn {
-        padding: 8px 12px; /* Reduced from 10px 16px */
+        padding: 8px 12px; 
     }
 }
 
-/* Accessibility */
+
 @media (prefers-reduced-motion: reduce) {
     * {
         transition: none !important;
@@ -462,7 +462,7 @@
     }
 }
 
-/* High contrast mode support */
+
 @media (prefers-contrast: high) {
     .main-header__search-bar {
         border-width: 3px;
@@ -474,7 +474,7 @@
     }
 }
 
-/* Search Type Toggle Styles */
+
 .search-type-toggle {
     display: flex;
     align-items: center;
@@ -522,7 +522,7 @@
     border-color: #6c757d;
 }
 
-/* Adjust search bar layout to accommodate toggle */
+
 .main-header__search-bar {
     display: flex;
     align-items: center;
@@ -534,7 +534,7 @@
     flex: 1;
 }
 
-/* Mobile responsive adjustments */
+
 @media (max-width: 991.98px) {
     .search-type-toggle {
         margin-left: 4px;

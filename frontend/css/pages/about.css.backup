@@ -1,0 +1,518 @@
+/* About Page Specific Styles */
+
+/* Page-specific styles */
+.page-about {
+    font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Hero Statistics Section */
+.hero-stats-section {
+    padding: 3rem 0;
+    background: white;
+}
+
+.stat-card {
+    text-align: left;
+    padding: 1rem 1rem;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.stat-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.stat-text {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #004f6e;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+.stat-image {
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
+.stat-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    padding: 3rem 0;
+    background: #f8f9fa;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: 'Halcyon', sans-serif;
+    color: #212529;
+    margin-bottom: 1rem;
+}
+
+.section-title, .h4 {
+    font-size: 1.5rem;
+}
+
+.work-step {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.step-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.step-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-family: 'Halcyon', sans-serif;
+    color: #212529;
+    margin-bottom: 1rem;
+}
+
+.step-description {
+    font-size: 1rem;
+    font-family: 'Halcyon', sans-serif;
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+/* Benefits Section */
+.benefits-section {
+    padding: 3rem 0;
+    background: white;
+}
+
+.benefit-card {
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border: 1px solid #e9ecef;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.benefit-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #28a745, #20c997);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.benefit-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Halcyon', sans-serif;
+    color: #212529;
+    margin-bottom: 1rem;
+}
+
+.benefit-description {
+    font-size: 0.95rem;
+    font-family: 'Halcyon', sans-serif;
+    color: #6c757d;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Reviews Section */
+.reviews-section {
+    padding: 3rem 0;
+    background: #f8f9fa;
+}
+
+.review-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    height: 100%;
+}
+
+.review-text {
+    font-size: 1.1rem;
+    color: #212529;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.reviewer-avatar {
+    width: 60px;
+    height: 60px;
+    background: #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    overflow: hidden;
+    border: 3px solid #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.reviewer-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.reviewer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.reviewer-name {
+    font-weight: 600;
+    color: #212529;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.reviewer-location {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 400;
+}
+
+.reviewer-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.read-more-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.read-more-link:hover {
+    text-decoration: underline;
+}
+
+/* Testimonials Carousel */
+.testimonials-carousel-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+}
+
+.testimonials-carousel {
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.testimonials-track {
+    display: flex;
+    transition: transform 0.3s ease;
+    gap: 2rem;
+}
+
+.testimonial-slide {
+    flex: 0 0 calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+}
+
+/* Carousel Navigation Buttons */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #007bff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.carousel-btn:hover {
+    background: #0056b3;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+}
+
+.carousel-btn-prev {
+    left: 0;
+}
+
+.carousel-btn-next {
+    right: 0;
+}
+
+.carousel-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.carousel-btn:disabled:hover {
+    transform: translateY(-50%);
+    background: #ccc;
+}
+
+/* Origin Story Section */
+.origin-story-section {
+    padding: 3rem 0;
+    background: white;
+}
+
+.story-content {
+    padding: 1rem;
+}
+
+.story-text {
+    font-size: 1rem;
+    color: #495057;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.story-image {
+    text-align: center;
+    padding: 2rem;
+}
+
+.story-icon {
+    font-size: 10rem;
+    color: #007bff;
+    opacity: 0.1;
+}
+
+/* Final CTA Section */
+.final-cta-section {
+    padding: 3rem 0;
+    background: #004f6d;
+    color: white;
+}
+
+.final-cta-section .section-title,
+.final-cta-section .section-subtitle {
+    color: white;
+}
+
+.section-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.cta-btn {
+    background: linear-gradient(45deg, #ff6b35, #f39c12);
+    border: none;
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* Wizard-style button for about page */
+.wizard-next-button {
+    background: #ff6b35;
+    border: none;
+    color: white;
+    padding: 0.7rem 3rem;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.wizard-next-button:hover {
+    background: #e55a2b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+    .stat-content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .stat-text {
+        text-align: left;
+        margin-bottom: 0;
+    }
+    
+    .stat-image {
+        margin-left: 1rem;
+    }
+    
+    .reviewer-avatar {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .reviewer-info {
+        gap: 0.75rem;
+    }
+    
+    .reviewer-name {
+        font-size: 0.95rem;
+    }
+    
+    .reviewer-location {
+        font-size: 0.8rem;
+    }
+    
+    .stat-img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    /* Mobile Carousel Styles */
+    .testimonials-carousel-container {
+        padding: 0 50px;
+    }
+    
+    .testimonial-slide {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .carousel-btn-prev {
+        left: 5px;
+    }
+    
+    .carousel-btn-next {
+        right: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .stat-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+    }
+
+    .step-title {
+        font-size: 1.4rem;
+    }
+
+    .benefit-title {
+        font-size: 1.25rem;
+    }
+
+    .story-text {
+        font-size: 1.1rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .hero-stats-section,
+    .how-it-works-section,
+    .benefits-section,
+    .reviews-section,
+    .origin-story-section,
+    .final-cta-section {
+        padding: 2rem 0;
+    }
+
+    .story-icon {
+        font-size: 15rem;
+    }
+}

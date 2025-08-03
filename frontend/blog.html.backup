@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexJobs Blog - Career Advice & Work Tips</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Read the latest career advice, work tips, and job search strategies on the FlexJobs blog.">
+    <meta name="keywords" content="career blog, remote work blog, job search tips, career advice">
+    <meta property="og:title" content="FlexJobs Blog - Career Advice & Work Tips">
+    <meta property="og:description" content="Expert insights on career development, work, and job search success.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Halcyon Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Halcyon Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/halcyon-regular/Halcyon Regular/Halcyon Regular.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/halcyon-regular/Halcyon Regular/Halcyon Regular.ttf') format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/halcyon-regular/Halcyon Regular/Halcyon Regular.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    <!-- Main Header Component CSS -->
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <!-- Main Footer Component CSS -->
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-blog">
+    <!-- Main Header Component will be injected here -->
+    <div id="main-header-container"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Featured Article Section -->
+        <section class="featured-article-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="featured-article">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6">
+                                    <div class="featured-content">
+                                        <div class="featured-badge">Featured Article</div>
+                                        <h1 class="featured-title" style="color: white !important;">
+                                            The Complete Guide to Success in 2024
+                                        </h1>
+                                        <p class="featured-excerpt">
+                                            Discover the essential strategies, tools, and mindset shifts needed to thrive
+                                            in the evolving world of work. From productivity hacks to career advancement
+                                            tips, this comprehensive guide has everything you need.
+                                        </p>
+                                        <div class="featured-meta">
+                                            <div class="author-info">
+                                                <div class="author-avatar">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                                <div class="author-details">
+                                                    <div class="author-name">Sarah Mitchell</div>
+                                                    <div class="publish-date">January 25, 2024</div>
+                                                </div>
+                                            </div>
+                                            <div class="article-stats">
+                                                <span class="read-time">
+                                                    <i class="fas fa-clock"></i>
+                                                    8 min read
+                                                </span>
+                                                <span class="view-count">
+                                                    <i class="fas fa-eye"></i>
+                                                    12.5K views
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="btn btn-primary read-article-btn">Read Full Article</a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="featured-image">
+                                        <i class="fas fa-laptop-house"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Navigation Section -->
+        <section class="blog-nav-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="blog-navigation">
+                            <div class="nav-tabs-container">
+                                <div class="nav-tabs">
+                                    <button class="nav-tab active" data-filter="latest">
+                                        <i class="fas fa-clock"></i>
+                                        Latest
+                                    </button>
+                                    <button class="nav-tab" data-filter="trending">
+                                        <i class="fas fa-fire"></i>
+                                        Trending
+                                    </button>
+                                    <button class="nav-tab" data-filter="popular">
+                                        <i class="fas fa-star"></i>
+                                        Most Popular
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="blog-filters">
+                                <select class="form-select category-filter" id="categoryFilter">
+                                    <option value="">All Categories</option>
+                                    <option value="remote-work">Work</option>
+                                    <option value="job-search">Job Search</option>
+                                    <option value="career-development">Career Development</option>
+                                    <option value="work-life-balance">Work-Life Balance</option>
+                                    <option value="interview-tips">Interview Tips</option>
+                                    <option value="salary-negotiation">Salary Negotiation</option>
+                                </select>
+                                <div class="search-box">
+                                    <input type="text" class="form-control" placeholder="Search articles..." id="blogSearch">
+                                    <i class="fas fa-search search-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Articles Grid Section -->
+        <section class="articles-grid-section">
+            <div class="container">
+                <div class="row" id="articlesGrid">
+                    <!-- Article Card 1 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="remote-work" data-type="latest">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-home"></i>
+                                <div class="article-category"> Work</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">10 Essential Tools for Team Collaboration</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Discover the must-have digital tools that make teamwork seamless and productive.
+                                    From communication platforms to project management solutions.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">Mike Chen</span>
+                                        <span class="publish-date">January 22, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">5 min</span>
+                                        <span class="view-count">8.2K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Article Card 2 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="job-search" data-type="trending">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-search"></i>
+                                <div class="article-category">Job Search</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">How to Optimize Your LinkedIn Profile for Jobs</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Learn the key strategies to make your LinkedIn profile stand out to employers
+                                    and increase your visibility in searches.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">Lisa Rodriguez</span>
+                                        <span class="publish-date">January 20, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">7 min</span>
+                                        <span class="view-count">15.7K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Article Card 3 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="career-development" data-type="popular">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-chart-line"></i>
+                                <div class="article-category">Career Development</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">Building Your Personal Brand While Working</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Strategies for maintaining visibility and building your professional reputation
+                                    in a work environment.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">David Park</span>
+                                        <span class="publish-date">January 18, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">6 min</span>
+                                        <span class="view-count">11.3K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Article Card 4 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="work-life-balance" data-type="latest">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-balance-scale"></i>
+                                <div class="article-category">Work-Life Balance</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">Setting Boundaries: The Key to Work Success</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Learn how to create healthy boundaries between work and personal life when your
+                                    office is at home.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">Emma Thompson</span>
+                                        <span class="publish-date">January 15, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">4 min</span>
+                                        <span class="view-count">9.8K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Article Card 5 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="interview-tips" data-type="trending">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-video"></i>
+                                <div class="article-category">Interview Tips</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">Mastering Virtual Interviews: A Complete Guide</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Everything you need to know about virtual interviews, from technical setup to
+                                    body language and follow-up strategies.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">Alex Wilson</span>
+                                        <span class="publish-date">January 12, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">9 min</span>
+                                        <span class="view-count">18.4K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Article Card 6 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="salary-negotiation" data-type="popular">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-dollar-sign"></i>
+                                <div class="article-category">Salary Negotiation</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">Negotiating Work Salaries: What You Need to Know</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Navigate the complexities of salary negotiation for positions, including
+                                    location-based pay differences.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">Rachel Green</span>
+                                        <span class="publish-date">January 10, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">8 min</span>
+                                        <span class="view-count">14.2K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Article Card 7 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="remote-work" data-type="latest">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-users"></i>
+                                <div class="article-category">Work</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">Building Team Culture in Organizations</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Strategies for fostering strong team connections and company culture when everyone
+                                    works in a hybrid environment.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">Tom Johnson</span>
+                                        <span class="publish-date">January 8, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">6 min</span>
+                                        <span class="view-count">7.9K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Article Card 8 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="career-development" data-type="trending">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-graduation-cap"></i>
+                                <div class="article-category">Career Development</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">Upskilling for Work: Top Skills in Demand</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Discover the most valuable skills for workers and how to develop them to
+                                    advance your career.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">Maria Garcia</span>
+                                        <span class="publish-date">January 5, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">7 min</span>
+                                        <span class="view-count">13.6K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Article Card 9 -->
+                    <div class="col-lg-4 col-md-6 mb-4" data-category="job-search" data-type="popular">
+                        <article class="article-card">
+                            <div class="article-image">
+                                <i class="fas fa-file-alt"></i>
+                                <div class="article-category">Job Search</div>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">
+                                    <a href="#">Crafting the Perfect Work Resume</a>
+                                </h3>
+                                <p class="article-excerpt">
+                                    Learn how to tailor your resume for positions and highlight the skills
+                                    that matter most to employers.
+                                </p>
+                                <div class="article-meta">
+                                    <div class="author-info">
+                                        <span class="author-name">Kevin Lee</span>
+                                        <span class="publish-date">January 3, 2024</span>
+                                    </div>
+                                    <div class="article-stats">
+                                        <span class="read-time">5 min</span>
+                                        <span class="view-count">16.8K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-outline-primary load-more-btn">
+                            <i class="fas fa-plus"></i>
+                            Load More Articles
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="section-title">Stay Updated with Our Latest Articles</h2>
+                        <p class="section-subtitle">
+                            Get weekly career insights and work tips delivered straight to your inbox.
+                        </p>
+                        <form class="newsletter-form">
+                            <div class="input-group">
+                                <input type="email" class="form-control" placeholder="Enter your email address" required>
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Subscribe
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Main Footer Component will be injected here -->
+    <div id="main-footer-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Main Header Component JS -->
+    <script src="components/main-header/main-header.js"></script>
+    <!-- Main Footer Component JS -->
+    <script src="components/main-footer/main-footer.js"></script>
+    <!-- Blog Page JS -->
+    <script src="js/pages/blog.js"></script>
+    
+    <script>
+        // Load Footer Component
+        async function loadFooterComponent() {
+            try {
+                const response = await fetch('components/main-footer/main-footer.html');
+                if (response.ok) {
+                    const html = await response.text();
+                    document.getElementById('main-footer-container').innerHTML = html;
+                    
+                    // Initialize footer functionality after loading
+                    if (typeof MainFooter !== 'undefined') {
+                        new MainFooter();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading footer component:', error);
+            }
+        }
+
+        // Load footer on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFooterComponent();
+        });
+    </script>
+    
+    <style>
+        /* Page-specific styles */
+        .page-blog {
+            font-family: 'Halcyon', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Featured Article Section */
+        .featured-article-section {
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+
+        .featured-article {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .featured-badge {
+            background: #ff6b35;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .featured-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .featured-excerpt {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .featured-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: white;
+        }
+
+        .publish-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .article-stats {
+            display: flex;
+            gap: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .read-time,
+        .view-count {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .featured-image {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .featured-image i {
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .read-article-btn {
+            background: #ff6b35;
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Blog Navigation Section */
+        .blog-nav-section {
+            padding: 2rem 0;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .blog-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-tab {
+            background: none;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: #6c757d;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-tab:hover,
+        .nav-tab.active {
+            border-color: #007bff;
+            color: #007bff;
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .blog-filters {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .category-filter {
+            min-width: 200px;
+            border-radius: 25px;
+            border: 2px solid #e9ecef;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box .form-control {
+            border-radius: 25px;
+            border: 2px solid #e9ecef;
+            padding-left: 2.5rem;
+            min-width: 250px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        /* Articles Grid Section */
+        .articles-grid-section {
+            padding: 3rem 0;
+            background: #f8f9fa;
+        }
+
+        .article-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .article-image {
+            height: 200px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .article-category {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #007bff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .article-title {
+            margin-bottom: 1rem;
+        }
+
+        .article-title a {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212529;
+            text-decoration: none;
+            line-height: 1.4;
+        }
+
+        .article-title a:hover {
+            color: #007bff;
+        }
+
+        .article-excerpt {
+            font-size: 0.95rem;
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-card .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .article-card .author-name {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .article-card .publish-date {
+            color: #6c757d;
+        }
+
+        .article-card .article-stats {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            padding: 3rem 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-form .input-group {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form .form-control {
+            border-radius: 25px 0 0 25px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .newsletter-form .btn {
+            border-radius: 0 25px 25px 0;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .load-more-btn {
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            .blog-navigation {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .blog-filters {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .category-filter,
+            .search-box .form-control {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .featured-meta {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .featured-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .nav-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .featured-article {
+                padding: 2rem;
+            }
+
+            .featured-title {
+                font-size: 1.5rem;
+            }
+
+            .featured-excerpt {
+                font-size: 1rem;
+            }
+
+            .article-content {
+                padding: 1rem;
+            }
+
+            .articles-grid-section {
+                padding: 2rem 0;
+            }
+
+            .featured-image i {
+                font-size: 5rem;
+            }
+        }
+
+        /* Footer Integration Styles */
+        .page-blog {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .page-blog main {
+            flex: 1;
+        }
+
+        /* Ensure proper spacing before footer */
+        .page-blog #main-footer-container {
+            margin-top: 2rem;
+        }
+
+        /* Footer responsive adjustments for blog page */
+        @media (max-width: 768px) {
+            .page-blog #main-footer-container {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>
