@@ -1,4 +1,4 @@
-# AI Prompt Templates for CSS Maintainability
+## Templates for CSS Maintainability
 
 ## Template 1: Before Adding New Styles
 

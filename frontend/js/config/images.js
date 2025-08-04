@@ -1,25 +1,17 @@
 
 
 const IMAGE_CONFIG = {
-    
-    BASE_URL: 'https:
-    
-    
+    BASE_URL: 'https://git-lfs.github.com',
     IMAGES: {
-        
         hero: {
             careerChange: '/images/career-change.jpeg',
             different: '/images/different.png'
         },
-        
-        
         logos: {
             flexjobs: '/images/FlexJobs_logo-1.png',
             favicon: '/images/f.png',
             cdot: '/images/logo.png'
         },
-        
-        
         media: {
             today: '/images/Today_logo.svg.png',
             wsj: '/images/wsj.jpg',
@@ -28,21 +20,17 @@ const IMAGE_CONFIG = {
             cnn: '/images/cnn.png',
             usatoday: '/images/usatoday.png'
         },
-        
-        
         testimonials: {
             michelle: '/images/testimonials/michelle.jpg',
             brandon: '/images/testimonials/Brandon.jpeg',
             erin: '/images/testimonials/erin.jpeg'
         },
-        
-        
         companies: {
-            dropbox: 'https:
-            netflix: 'https:
-            zillow: 'https:
-            doordash: 'https:
-            reddit: 'https:
+            dropbox: 'https://logo.clearbit.com/dropbox.com',
+            netflix: 'https://logo.clearbit.com/netflix.com',
+            zillow: 'https://logo.clearbit.com/zillow.com',
+            doordash: 'https://logo.clearbit.com/doordash.com',
+            reddit: 'https://logo.clearbit.com/reddit.com'
         }
     }
 };
