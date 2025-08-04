@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  # FlexJobs Application
+  flexjobs-app:
+    build: .
+    container_name: flexjobs-app
+    restart: unless-stopped
+    ports:
+      - "3003:3003"  # App port
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=flexjobs-db
+      - DB_PORT=5432
+      - DB_USER=flexjobs_user
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=flexjobs_db
+      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - PORT=3003
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      - flexjobs-db
+    networks:
+      - flexjobs-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3003/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # PostgreSQL Database
+  flexjobs-db:
+    image: postgres:15-alpine
+    container_name: flexjobs-db
+    restart: unless-stopped
+    ports:
+      - "8694:5432"  # Custom external port mapping to avoid conflicts
+    environment:
+      - POSTGRES_DB=flexjobs_db
+      - POSTGRES_USER=flexjobs_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - flexjobs-db-data:/var/lib/postgresql/data
+      - ./database/backup:/backup
+    networks:
+      - flexjobs-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flexjobs_user -d flexjobs_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Redis (Optional - for caching/sessions if needed)
+  flexjobs-redis:
+    image: redis:7-alpine
+    container_name: flexjobs-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - flexjobs-redis-data:/data
+    networks:
+      - flexjobs-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  flexjobs-db-data:
+    driver: local
+  flexjobs-redis-data:
+    driver: local
+
+networks:
+  flexjobs-network:
+    driver: bridge
