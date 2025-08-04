@@ -30,7 +30,7 @@ SESSION_SECRET=${this.generateSecureSecret()}
 
 # Database Configuration
 DB_HOST=your-production-db-host
-DB_PORT=5432
+DB_PORT=8694
 DB_USER=your-limited-db-user
 DB_PASSWORD=your-secure-db-password
 DB_NAME=your_production_db

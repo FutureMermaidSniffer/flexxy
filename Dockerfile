@@ -22,7 +22,7 @@ RUN mkdir -p uploads logs
 RUN chown -R flexjobs:nodejs /app
 
 # Switch to non-root user
-USER flexjobs
+USER koder
 
 # Expose port
 EXPOSE 3003

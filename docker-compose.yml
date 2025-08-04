@@ -11,8 +11,8 @@ services:
     environment:
       - NODE_ENV=production
       - DB_HOST=flexjobs-db
-      - DB_PORT=5432
-      - DB_USER=flexjobs_user
+      - DB_PORT=8694
+      - DB_USER=koder
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=flexjobs_db
       - JWT_SECRET=${JWT_SECRET}
@@ -50,7 +50,7 @@ services:
     networks:
       - flexjobs-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U flexjobs_user -d flexjobs_db"]
+      test: ["CMD-SHELL", "pg_isready -U koder -d flexjobs_db"]
       interval: 30s
       timeout: 10s
       retries: 5
