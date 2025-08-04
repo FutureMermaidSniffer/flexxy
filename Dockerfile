@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Create app user for security
 RUN addgroup -g 1001 -S nodejs
-RUN adduser -S flexjobs -u 1001
+RUN adduser -S koder -u 1001
 
 # Copy package files
 COPY package*.json ./
@@ -19,7 +19,7 @@ COPY . .
 
 # Create necessary directories
 RUN mkdir -p uploads logs
-RUN chown -R flexjobs:nodejs /app
+RUN chown -R koder:nodejs /app
 
 # Switch to non-root user
 USER koder

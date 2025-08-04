@@ -41,7 +41,7 @@ services:
       - "8694:5432"  # Custom external port mapping to avoid conflicts
     environment:
       - POSTGRES_DB=flexjobs_db
-      - POSTGRES_USER=flexjobs_user
+      - POSTGRES_USER=koder
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
