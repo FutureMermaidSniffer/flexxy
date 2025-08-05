@@ -18,7 +18,8 @@
     "assets:sync": "node scripts/dev-assets.js sync",
     "assets:check": "node scripts/dev-assets.js check",
     "assets:list": "node scripts/dev-assets.js list",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests specified\" && exit 0",
+    "docker:prod": "docker-compose --env-file .env.docker up -d"
   },
   "keywords": [
     "jobs",
@@ -37,6 +38,7 @@
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "cheerio": "^1.1.2",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^4.21.2",

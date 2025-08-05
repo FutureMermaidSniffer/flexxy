@@ -3,6 +3,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { executeQuery } = require('../database');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
+const siteConfig = require('../config/site');
 
 
 router.use(authenticateToken);
@@ -492,6 +493,24 @@ router.delete('/agents/:id', async (req, res) => {
             error: error.message 
         });
     }
+});
+
+// Get site configuration for admin panel
+router.get('/site-config', (req, res) => {
+    res.json({
+        siteUrl: siteConfig.siteUrl,
+        adminUrl: siteConfig.adminUrl(),
+        jobsUrl: siteConfig.jobsUrl(),
+        dashboardUrl: siteConfig.dashboardUrl(),
+        environment: siteConfig.environment,
+        isProduction: siteConfig.isProduction(),
+        urls: {
+            admin: siteConfig.adminUrl(),
+            jobs: siteConfig.jobsUrl(),
+            dashboard: siteConfig.dashboardUrl(),
+            site: siteConfig.siteUrl
+        }
+    });
 });
 
 module.exports = router;
