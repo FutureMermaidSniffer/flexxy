@@ -4,6 +4,7 @@
  */
 
 const nodemailer = require('nodemailer');
+const siteConfig = require('../config/site');
 
 class EmailService {
   constructor() {
@@ -53,7 +54,7 @@ class EmailService {
       throw new Error('Email transporter not initialized');
     }
 
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3003'}/reset-password?token=${resetToken}`;
+    const resetUrl = siteConfig.resetPasswordUrl(resetToken);
     
     const mailOptions = {
       from: process.env.FROM_EMAIL || 'noreply@flexjobs.com',

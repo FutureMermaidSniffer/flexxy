@@ -49,7 +49,7 @@ if (!fs.existsSync('logs')) {
 }
 
 const { createAdminFromEnv } = require('./auto-create-admin');
-
+const siteConfig = require('./backend/config/site');
 
 const authRoutes = require('./backend/routes/auth');
 const jobRoutes = require('./backend/routes/jobs');
@@ -233,6 +233,18 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Site configuration endpoint
+app.get('/api/config', (req, res) => {
+  res.json({
+    siteUrl: siteConfig.siteUrl,
+    adminUrl: siteConfig.adminUrl(),
+    jobsUrl: siteConfig.jobsUrl(),
+    dashboardUrl: siteConfig.dashboardUrl(),
+    environment: siteConfig.environment,
+    isProduction: siteConfig.isProduction()
   });
 });
 
