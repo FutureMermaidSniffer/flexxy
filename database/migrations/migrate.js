@@ -8,10 +8,16 @@ class DatabaseMigration {
             port: process.env.DB_PORT || 5432,
             user: process.env.DB_USER || 'postgres',
             password: process.env.DB_PASSWORD || 'postgres',
-            database: process.env.DB_NAME || 'flexjobs_db'
+            database: process.env.DB_NAME || 'flexjobs_db',
+            schema: 'public'
         };
         
         this.databaseName = process.env.DB_NAME || 'flexjobs_db';
+        console.log('📌 Database Configuration:');
+        console.log(`   Host: ${this.connectionConfig.host}`);
+        console.log(`   Port: ${this.connectionConfig.port}`);
+        console.log(`   User: ${this.connectionConfig.user}`);
+        console.log(`   Database: ${this.connectionConfig.database}`);
     }
 
     async createConnection() {
@@ -28,11 +34,22 @@ class DatabaseMigration {
 
     async createDatabase() {
         try {
-            // PostgreSQL doesn't need explicit database creation in this context
-            // since we're already connecting to the target database
-            console.log(`✅ Using database '${this.databaseName}'`);
+            // Check if connected to the correct database
+            const result = await this.connection.query('SELECT current_database() as db');
+            const currentDb = result.rows[0].db;
+            
+            if (currentDb === this.databaseName) {
+                console.log(`✅ Connected to '${this.databaseName}' database`);
+            } else {
+                console.log(`⚠️ Warning: Connected to '${currentDb}' but expected '${this.databaseName}'`);
+            }
+            
+            // Check database version for compatibility
+            const versionResult = await this.connection.query('SELECT version()');
+            console.log(`📊 Database server: ${versionResult.rows[0].version.split(',')[0]}`);
+            
         } catch (error) {
-            console.error('❌ Failed to use database:', error.message);
+            console.error('❌ Failed to verify database:', error.message);
             throw error;
         }
     }
@@ -56,6 +73,10 @@ class DatabaseMigration {
                 portfolio_url VARCHAR(255),
                 is_active BOOLEAN DEFAULT TRUE,
                 email_verified BOOLEAN DEFAULT FALSE,
+                google_id VARCHAR(255) UNIQUE,
+                apple_id VARCHAR(255) UNIQUE,
+                is_temp_account BOOLEAN DEFAULT FALSE,
+                created_via_wizard BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
@@ -127,6 +148,9 @@ class DatabaseMigration {
                 views_count INTEGER DEFAULT 0,
                 applications_count INTEGER DEFAULT 0,
                 created_by INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'expired', 'draft', 'pending', 'filled')),
+                application_url VARCHAR(255),
+                contact_email VARCHAR(255),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
@@ -185,21 +209,155 @@ class DatabaseMigration {
         console.log('✅ Job Skills table created');
     }
 
+    async createPasswordResetTokensTable() {
+        const query = `
+            CREATE TABLE IF NOT EXISTS password_reset_tokens (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                token VARCHAR(255) NOT NULL UNIQUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                expires_at TIMESTAMP NOT NULL
+            )
+        `;
+        
+        await this.connection.query(query);
+        console.log('✅ Password Reset Tokens table created');
+    }
+    
+    async createAgentsTable() {
+        const query = `
+            CREATE TABLE IF NOT EXISTS agents (
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                description TEXT,
+                avatar VARCHAR(255),
+                specializations TEXT,
+                experience_years INTEGER DEFAULT 0,
+                hourly_rate DECIMAL(10,2),
+                portfolio_url VARCHAR(255),
+                website_url VARCHAR(255),
+                linkedin_url VARCHAR(255),
+                rating DECIMAL(3,2) DEFAULT 0.0,
+                reviews_count INTEGER DEFAULT 0,
+                is_verified BOOLEAN DEFAULT FALSE,
+                is_featured BOOLEAN DEFAULT FALSE,
+                is_active BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `;
+        
+        await this.connection.query(query);
+        console.log('✅ Agents table created');
+    }
+
+    async createAgentReviewsTable() {
+        const query = `
+            CREATE TABLE IF NOT EXISTS agent_reviews (
+                id SERIAL PRIMARY KEY,
+                agent_id INTEGER NOT NULL REFERENCES agents(id) ON DELETE CASCADE,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+                comment TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(agent_id, user_id)
+            )
+        `;
+        
+        await this.connection.query(query);
+        console.log('✅ Agent Reviews table created');
+    }
+
+    async createAgentBookingsTable() {
+        const query = `
+            CREATE TABLE IF NOT EXISTS agent_bookings (
+                id SERIAL PRIMARY KEY,
+                agent_id INTEGER NOT NULL REFERENCES agents(id) ON DELETE CASCADE,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                booking_date TIMESTAMP NOT NULL,
+                duration INTEGER DEFAULT 60,
+                status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'completed', 'cancelled')),
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `;
+        
+        await this.connection.query(query);
+        console.log('✅ Agent Bookings table created');
+    }
+    
+    async createUserSubscriptionsTable() {
+        const query = `
+            CREATE TABLE IF NOT EXISTS user_subscriptions (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                plan_type VARCHAR(50) NOT NULL,
+                status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'canceled', 'expired')),
+                starts_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                expires_at TIMESTAMP,
+                payment_method VARCHAR(50),
+                payment_id VARCHAR(255),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `;
+        
+        await this.connection.query(query);
+        console.log('✅ User Subscriptions table created');
+    }
+
     async createIndexes() {
+        // Wait for all tables to be created before creating indexes
         const indexes = [
+            // User related indexes
             'CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)',
             'CREATE INDEX IF NOT EXISTS idx_users_type ON users(user_type)',
+            'CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id) WHERE google_id IS NOT NULL',
+            'CREATE INDEX IF NOT EXISTS idx_users_apple_id ON users(apple_id) WHERE apple_id IS NOT NULL',
+            'CREATE INDEX IF NOT EXISTS idx_users_temp_account ON users(is_temp_account) WHERE is_temp_account IS NOT NULL',
+            'CREATE INDEX IF NOT EXISTS idx_users_wizard_created ON users(created_via_wizard) WHERE created_via_wizard IS NOT NULL',
+            
+            // Jobs related indexes
             'CREATE INDEX IF NOT EXISTS idx_jobs_active ON jobs(is_active)',
             'CREATE INDEX IF NOT EXISTS idx_jobs_featured ON jobs(is_featured)',
             'CREATE INDEX IF NOT EXISTS idx_jobs_location ON jobs(location)',
             'CREATE INDEX IF NOT EXISTS idx_jobs_job_type ON jobs(job_type)',
             'CREATE INDEX IF NOT EXISTS idx_jobs_remote_type ON jobs(remote_type)',
             'CREATE INDEX IF NOT EXISTS idx_jobs_created_at ON jobs(created_at)',
+            'CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status) WHERE status IS NOT NULL',
+            'CREATE INDEX IF NOT EXISTS idx_jobs_type ON jobs(job_type)',
+            'CREATE INDEX IF NOT EXISTS idx_jobs_application_url ON jobs(application_url) WHERE application_url IS NOT NULL',
+            'CREATE INDEX IF NOT EXISTS idx_jobs_contact_email ON jobs(contact_email) WHERE contact_email IS NOT NULL',
+            
+            // Applications related indexes
             'CREATE INDEX IF NOT EXISTS idx_applications_status ON applications(status)',
             'CREATE INDEX IF NOT EXISTS idx_applications_user ON applications(user_id)',
             'CREATE INDEX IF NOT EXISTS idx_applications_job ON applications(job_id)',
+            
+            // Other tables indexes
             'CREATE INDEX IF NOT EXISTS idx_saved_jobs_user ON saved_jobs(user_id)',
-            'CREATE INDEX IF NOT EXISTS idx_job_skills_job ON job_skills(job_id)'
+            'CREATE INDEX IF NOT EXISTS idx_job_skills_job ON job_skills(job_id)',
+            
+            // Password reset tokens
+            'CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_token ON password_reset_tokens(token)',
+            'CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_user_id ON password_reset_tokens(user_id)',
+            'CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_expires_at ON password_reset_tokens(expires_at)',
+            
+            // Agent related indexes
+            'CREATE INDEX IF NOT EXISTS idx_agents_active ON agents(is_active)',
+            'CREATE INDEX IF NOT EXISTS idx_agents_featured ON agents(is_featured)',
+            'CREATE INDEX IF NOT EXISTS idx_agents_rating ON agents(rating)',
+            'CREATE INDEX IF NOT EXISTS idx_agents_specializations ON agents(specializations)',
+            
+            // Agent reviews and bookings
+            'CREATE INDEX IF NOT EXISTS idx_agent_reviews_rating ON agent_reviews(rating)',
+            'CREATE INDEX IF NOT EXISTS idx_agent_bookings_status ON agent_bookings(status)',
+            
+            // Subscriptions
+            'CREATE INDEX IF NOT EXISTS idx_user_subscriptions_status ON user_subscriptions(status)',
+            'CREATE INDEX IF NOT EXISTS idx_user_subscriptions_expires ON user_subscriptions(expires_at)'
         ];
 
         for (const indexQuery of indexes) {
@@ -282,48 +440,101 @@ class DatabaseMigration {
         }
     }
 
+    async getDatabaseInfo() {
+        try {
+            // Get database information
+            const databaseInfo = await this.connection.query(`
+                SELECT 
+                    current_database() as database_name,
+                    pg_encoding_to_char(encoding) as charset,
+                    datcollate as collation
+                FROM pg_database
+                WHERE datname = current_database()
+            `);
+            
+            // Get tables information
+            const tablesInfo = await this.connection.query(`
+                SELECT 
+                    table_name,
+                    (SELECT count(*) FROM ${this.connectionConfig.schema || 'public'}."' || table_name || '") as row_count
+                FROM 
+                    information_schema.tables
+                WHERE 
+                    table_schema = $1
+                    AND table_type = 'BASE TABLE'
+                ORDER BY 
+                    table_name
+            `, [this.connectionConfig.schema || 'public']);
+            
+            return {
+                database: databaseInfo.rows[0],
+                tables: tablesInfo.rows
+            };
+        } catch (error) {
+            console.error('Error getting database info:', error.message);
+            return null;
+        }
+    }
+
     async runMigration() {
         console.log('🚀 Starting FlexJobs database migration...\n');
         
         try {
-            
             await this.createConnection();
-            
-            
             await this.createDatabase();
             
-            
             console.log('\n📝 Creating tables...');
+            
+            // First create the users table which many other tables depend on
             await this.createUsersTable();
+            
+            // Create password reset tokens table that depends on users
+            await this.createPasswordResetTokensTable();
+            
+            // Create company and category tables
             await this.createCompaniesTable();
             await this.createCategoriesTable();
+            
+            // Create jobs table which depends on companies and categories
             await this.createJobsTable();
+            
+            // Create tables that depend on jobs
             await this.createApplicationsTable();
             await this.createSavedJobsTable();
             await this.createJobSkillsTable();
             
+            // Create agent related tables
+            await this.createAgentsTable();
+            await this.createAgentReviewsTable();
+            await this.createAgentBookingsTable();
             
+            // Create subscription tables
+            await this.createUserSubscriptionsTable();
+            
+            // Wait for tables to be created before creating indexes
             console.log('\n🔍 Creating indexes...');
             await this.createIndexes();
-            
             
             console.log('\n📊 Inserting sample data...');
             await this.insertSampleCategories();
             await this.createAdminUser();
             
-            
-            console.log('\n📈 Database Information:');
-            const dbInfo = await this.getDatabaseInfo();
-            if (dbInfo) {
-                console.log(`Database: ${dbInfo.database.database_name}`);
-                console.log(`Charset: ${dbInfo.database.charset}`);
-                console.log(`Collation: ${dbInfo.database.collation}`);
-                console.log(`Tables created: ${dbInfo.tables.length}`);
-                
-                console.log('\n📋 Tables:');
-                dbInfo.tables.forEach(table => {
-                    console.log(`  - ${table.table_name} (${table.row_count || 0} rows)`);
-                });
+            try {
+                console.log('\n📈 Database Information:');
+                const dbInfo = await this.getDatabaseInfo();
+                if (dbInfo) {
+                    console.log(`Database: ${dbInfo.database.database_name}`);
+                    console.log(`Charset: ${dbInfo.database.charset}`);
+                    console.log(`Collation: ${dbInfo.database.collation}`);
+                    console.log(`Tables created: ${dbInfo.tables.length}`);
+                    
+                    console.log('\n📋 Tables:');
+                    dbInfo.tables.forEach(table => {
+                        console.log(`  - ${table.table_name} (${table.row_count || 0} rows)`);
+                    });
+                }
+            } catch (infoError) {
+                console.log('Note: Could not retrieve detailed database information');
             }
             
             console.log('\n✅ Migration completed successfully!');
