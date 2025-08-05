@@ -1,13 +1,14 @@
-const mysql = require('mysql2/promise');
+const { Client } = require('pg');
 require('dotenv').config();
 
 class DatabaseMigration {
     constructor() {
         this.connectionConfig = {
             host: process.env.DB_HOST || 'localhost',
-            user: process.env.DB_USER || 'root',
-            password: process.env.DB_PASSWORD || '',
-            charset: 'utf8mb4'
+            port: process.env.DB_PORT || 5432,
+            user: process.env.DB_USER || 'postgres',
+            password: process.env.DB_PASSWORD || 'postgres',
+            database: process.env.DB_NAME || 'flexjobs_db'
         };
         
         this.databaseName = process.env.DB_NAME || 'flexjobs_db';
@@ -15,24 +16,23 @@ class DatabaseMigration {
 
     async createConnection() {
         try {
-            this.connection = await mysql.createConnection(this.connectionConfig);
-            console.log('✅ Connected to MySQL server');
+            this.connection = new Client(this.connectionConfig);
+            await this.connection.connect();
+            console.log('✅ Connected to PostgreSQL server');
             return this.connection;
         } catch (error) {
-            console.error('❌ Failed to connect to MySQL server:', error.message);
+            console.error('❌ Failed to connect to PostgreSQL server:', error.message);
             throw error;
         }
     }
 
     async createDatabase() {
         try {
-            await this.connection.execute(`CREATE DATABASE IF NOT EXISTS ${this.databaseName}`);
-            console.log(`✅ Database '${this.databaseName}' created or already exists`);
-            
-            await this.connection.execute(`USE ${this.databaseName}`);
+            // PostgreSQL doesn't need explicit database creation in this context
+            // since we're already connecting to the target database
             console.log(`✅ Using database '${this.databaseName}'`);
         } catch (error) {
-            console.error('❌ Failed to create database:', error.message);
+            console.error('❌ Failed to use database:', error.message);
             throw error;
         }
     }
@@ -40,16 +40,16 @@ class DatabaseMigration {
     async createUsersTable() {
         const query = `
             CREATE TABLE IF NOT EXISTS users (
-                id INT PRIMARY KEY AUTO_INCREMENT,
+                id SERIAL PRIMARY KEY,
                 email VARCHAR(255) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 first_name VARCHAR(100) NOT NULL,
                 last_name VARCHAR(100) NOT NULL,
-                user_type ENUM('job_seeker', 'employer', 'admin') DEFAULT 'job_seeker',
+                user_type VARCHAR(20) DEFAULT 'job_seeker' CHECK (user_type IN ('job_seeker', 'employer', 'admin')),
                 phone VARCHAR(20),
                 bio TEXT,
                 skills TEXT,
-                experience_level ENUM('entry', 'mid', 'senior', 'executive') DEFAULT 'entry',
+                experience_level VARCHAR(20) DEFAULT 'entry' CHECK (experience_level IN ('entry', 'mid', 'senior', 'executive')),
                 location VARCHAR(255),
                 profile_image VARCHAR(255),
                 linkedin_url VARCHAR(255),
@@ -57,67 +57,66 @@ class DatabaseMigration {
                 is_active BOOLEAN DEFAULT TRUE,
                 email_verified BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
         `;
         
-        await this.connection.execute(query);
+        await this.connection.query(query);
         console.log('✅ Users table created');
     }
 
     async createCompaniesTable() {
         const query = `
             CREATE TABLE IF NOT EXISTS companies (
-                id INT PRIMARY KEY AUTO_INCREMENT,
+                id SERIAL PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
                 description TEXT,
                 website VARCHAR(255),
                 logo VARCHAR(255),
                 industry VARCHAR(100),
-                company_size ENUM('1-10', '11-50', '51-200', '201-500', '501-1000', '1000+') DEFAULT '1-10',
+                company_size VARCHAR(20) DEFAULT '1-10' CHECK (company_size IN ('1-10', '11-50', '51-200', '201-500', '501-1000', '1000+')),
                 location VARCHAR(255),
-                founded_year YEAR,
-                user_id INT,
+                founded_year INTEGER,
+                user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
                 is_verified BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
         `;
         
-        await this.connection.execute(query);
+        await this.connection.query(query);
         console.log('✅ Companies table created');
     }
 
     async createCategoriesTable() {
         const query = `
             CREATE TABLE IF NOT EXISTS categories (
-                id INT PRIMARY KEY AUTO_INCREMENT,
+                id SERIAL PRIMARY KEY,
                 name VARCHAR(100) NOT NULL UNIQUE,
                 description TEXT,
                 icon VARCHAR(50),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+            )
         `;
         
-        await this.connection.execute(query);
+        await this.connection.query(query);
         console.log('✅ Categories table created');
     }
 
     async createJobsTable() {
         const query = `
             CREATE TABLE IF NOT EXISTS jobs (
-                id INT PRIMARY KEY AUTO_INCREMENT,
+                id SERIAL PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
                 description TEXT NOT NULL,
                 requirements TEXT,
                 responsibilities TEXT,
-                company_id INT NOT NULL,
-                category_id INT,
+                company_id INTEGER NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
+                category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
                 location VARCHAR(255),
-                job_type ENUM('full-time', 'part-time', 'contract', 'freelance', 'internship') DEFAULT 'full-time',
-                remote_type ENUM('remote', 'hybrid', 'on-site') DEFAULT 'remote',
-                experience_level ENUM('entry', 'mid', 'senior', 'executive') DEFAULT 'entry',
+                job_type VARCHAR(20) DEFAULT 'full-time' CHECK (job_type IN ('full-time', 'part-time', 'contract', 'freelance', 'internship')),
+                remote_type VARCHAR(20) DEFAULT 'remote' CHECK (remote_type IN ('remote', 'hybrid', 'on-site')),
+                experience_level VARCHAR(20) DEFAULT 'entry' CHECK (experience_level IN ('entry', 'mid', 'senior', 'executive')),
                 salary_min DECIMAL(10,2),
                 salary_max DECIMAL(10,2),
                 salary_currency VARCHAR(3) DEFAULT 'USD',
@@ -125,72 +124,64 @@ class DatabaseMigration {
                 application_deadline DATE,
                 is_active BOOLEAN DEFAULT TRUE,
                 is_featured BOOLEAN DEFAULT FALSE,
-                views_count INT DEFAULT 0,
-                applications_count INT DEFAULT 0,
-                created_by INT NOT NULL,
+                views_count INTEGER DEFAULT 0,
+                applications_count INTEGER DEFAULT 0,
+                created_by INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
-                FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
-                FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
         `;
         
-        await this.connection.execute(query);
+        await this.connection.query(query);
         console.log('✅ Jobs table created');
     }
 
     async createApplicationsTable() {
         const query = `
             CREATE TABLE IF NOT EXISTS applications (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                job_id INT NOT NULL,
-                user_id INT NOT NULL,
+                id SERIAL PRIMARY KEY,
+                job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                 cover_letter TEXT,
                 resume_path VARCHAR(255),
-                status ENUM('pending', 'reviewed', 'interviewed', 'hired', 'rejected') DEFAULT 'pending',
+                status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'reviewed', 'interviewed', 'hired', 'rejected')),
                 notes TEXT,
                 applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-                UNIQUE KEY unique_application (job_id, user_id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(job_id, user_id)
+            )
         `;
         
-        await this.connection.execute(query);
+        await this.connection.query(query);
         console.log('✅ Applications table created');
     }
 
     async createSavedJobsTable() {
         const query = `
             CREATE TABLE IF NOT EXISTS saved_jobs (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                user_id INT NOT NULL,
-                job_id INT NOT NULL,
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
                 saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-                FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
-                UNIQUE KEY unique_saved_job (user_id, job_id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                UNIQUE(user_id, job_id)
+            )
         `;
         
-        await this.connection.execute(query);
+        await this.connection.query(query);
         console.log('✅ Saved Jobs table created');
     }
 
     async createJobSkillsTable() {
         const query = `
             CREATE TABLE IF NOT EXISTS job_skills (
-                id INT PRIMARY KEY AUTO_INCREMENT,
-                job_id INT NOT NULL,
+                id SERIAL PRIMARY KEY,
+                job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
                 skill_name VARCHAR(100) NOT NULL,
-                is_required BOOLEAN DEFAULT FALSE,
-                FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+                is_required BOOLEAN DEFAULT FALSE
+            )
         `;
         
-        await this.connection.execute(query);
+        await this.connection.query(query);
         console.log('✅ Job Skills table created');
     }
 
@@ -212,16 +203,16 @@ class DatabaseMigration {
         ];
 
         for (const indexQuery of indexes) {
-            await this.connection.execute(indexQuery);
+            await this.connection.query(indexQuery);
         }
         console.log('✅ Database indexes created');
     }
 
     async insertSampleCategories() {
+        // Check if categories already exist
+        const existingCategories = await this.connection.query('SELECT COUNT(*) as count FROM categories');
         
-        const [existingCategories] = await this.connection.execute('SELECT COUNT(*) as count FROM categories');
-        
-        if (existingCategories[0].count > 0) {
+        if (parseInt(existingCategories.rows[0].count) > 0) {
             console.log('✅ Categories already exist, skipping sample data insertion');
             return;
         }
@@ -239,23 +230,23 @@ class DatabaseMigration {
             ['Project Management', 'Project managers, coordinators, and operations', 'fa-tasks']
         ];
 
-        const query = 'INSERT INTO categories (name, description, icon) VALUES (?, ?, ?)';
+        const query = 'INSERT INTO categories (name, description, icon) VALUES ($1, $2, $3)';
         
         for (const category of categories) {
-            await this.connection.execute(query, category);
+            await this.connection.query(query, category);
         }
         
         console.log('✅ Sample categories inserted');
     }
 
     async createAdminUser() {
-        
-        const [existingAdmin] = await this.connection.execute(
-            'SELECT id FROM users WHERE user_type = ? LIMIT 1',
+        // Check if admin user already exists
+        const existingAdmin = await this.connection.query(
+            'SELECT id FROM users WHERE user_type = $1 LIMIT 1',
             ['admin']
         );
         
-        if (existingAdmin.length > 0) {
+        if (existingAdmin.rows.length > 0) {
             console.log('✅ Admin user already exists, skipping creation');
             return;
         }
@@ -267,10 +258,10 @@ class DatabaseMigration {
             INSERT INTO users (
                 email, password, first_name, last_name, user_type, 
                 is_active, email_verified
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7)
         `;
         
-        await this.connection.execute(query, [
+        await this.connection.query(query, [
             'admin@flexjobs.com',
             adminPassword,
             'Admin',
@@ -282,61 +273,6 @@ class DatabaseMigration {
         
         console.log('✅ Admin user created (email: admin@flexjobs.com, password: admin123)');
         console.log('⚠️  Please change the admin password after first login!');
-    }
-
-    async checkDatabaseExists() {
-        try {
-            const [databases] = await this.connection.execute('SHOW DATABASES LIKE ?', [this.databaseName]);
-            return databases.length > 0;
-        } catch (error) {
-            return false;
-        }
-    }
-
-    async checkTableExists(tableName) {
-        try {
-            const [tables] = await this.connection.execute(
-                'SHOW TABLES FROM ?? LIKE ?', 
-                [this.databaseName, tableName]
-            );
-            return tables.length > 0;
-        } catch (error) {
-            return false;
-        }
-    }
-
-    async getDatabaseInfo() {
-        try {
-            
-            const [dbInfo] = await this.connection.execute(`
-                SELECT 
-                    SCHEMA_NAME as database_name,
-                    DEFAULT_CHARACTER_SET_NAME as charset,
-                    DEFAULT_COLLATION_NAME as collation
-                FROM information_schema.SCHEMATA 
-                WHERE SCHEMA_NAME = ?
-            `, [this.databaseName]);
-
-            
-            const [tables] = await this.connection.execute(`
-                SELECT 
-                    TABLE_NAME as table_name,
-                    TABLE_ROWS as row_count,
-                    DATA_LENGTH as data_size,
-                    INDEX_LENGTH as index_size
-                FROM information_schema.TABLES 
-                WHERE TABLE_SCHEMA = ?
-                ORDER BY TABLE_NAME
-            `, [this.databaseName]);
-
-            return {
-                database: dbInfo[0],
-                tables: tables
-            };
-        } catch (error) {
-            console.error('Error getting database info:', error);
-            return null;
-        }
     }
 
     async closeConnection() {
