@@ -5,7 +5,6 @@ const { body, validationResult } = require('express-validator');
 const { getOne, insertOne, updateOne, deleteOne } = require('../database');
 const { authenticateToken } = require('../middleware/auth');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const crypto = require('crypto');
 const emailService = require('../services/email');
 
@@ -277,63 +276,8 @@ router.get('/verify', authenticateToken, (req, res) => {
   });
 });
 
-
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  passport.use(new GoogleStrategy({
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL || "/api/auth/google/callback"
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        
-        let user = await getOne('SELECT * FROM users WHERE google_id = ?', [profile.id]);
-        
-        if (user) {
-          return done(null, user);
-        }
-
-        
-        user = await getOne('SELECT * FROM users WHERE email = ?', [profile.emails[0].value]);
-        
-        if (user) {
-          
-          await updateOne('users', { 
-            google_id: profile.id,
-            avatar_url: profile.photos[0]?.value 
-          }, 'id = ?', [user.id]);
-          
-          user.google_id = profile.id;
-          user.avatar_url = profile.photos[0]?.value;
-          return done(null, user);
-        }
-
-        
-        const newUserData = {
-          email: profile.emails[0].value,
-          first_name: profile.name.givenName,
-          last_name: profile.name.familyName,
-          google_id: profile.id,
-          avatar_url: profile.photos[0]?.value,
-          user_type: 'job_seeker', 
-          email_verified: true, 
-          created_at: new Date(),
-          updated_at: new Date()
-        };
-
-        const userId = await insertOne('users', newUserData);
-        const newUser = await getOne('SELECT * FROM users WHERE id = ?', [userId]);
-        
-        return done(null, newUser);
-      } catch (error) {
-        return done(error, null);
-      }
-    }
-  ));
-} else {
-  console.log('⚠️  Google OAuth disabled - missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET');
-}
-
+// Google OAuth is disabled - can be re-enabled by installing passport-google-oauth20 
+// and setting GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET environment variables
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -348,29 +292,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-
-router.get('/google', 
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
-
-router.get('/google/callback',
-  passport.authenticate('google', { session: false }),
-  (req, res) => {
-    try {
-      // Generate JWT token
-      const token = generateToken(req.user.id, req.user.email, req.user.user_type);
-      
-      // Redirect to frontend with token
-      const redirectUrl = `${process.env.FRONTEND_URL || 'http://localhost:3003'}/?token=${token}&auth=success`;
-      res.redirect(redirectUrl);
-    } catch (error) {
-      console.error('Google callback error:', error);
-      const errorUrl = `${process.env.FRONTEND_URL || 'http://localhost:3003'}/login.html?error=auth_failed`;
-      res.redirect(errorUrl);
-    }
-  }
-);
-
+// Google OAuth routes removed - can be re-enabled by configuring Google OAuth strategy above
 
 router.post('/apple/callback', async (req, res) => {
   try {

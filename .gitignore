@@ -4,12 +4,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Environment variables (Keep templates and production examples)
+# .env
+# .env.local
+# .env.development.local
+# .env.test.local
+# Note: .env.production, .env.example, .env.docker.example are INCLUDED for production
 
 # Operating System
 .DS_Store
@@ -50,9 +50,8 @@ build/
 .temp/
 .tmp/
 
-# Package manager lockfiles (optional - you might want to keep package-lock.json)
-# package-lock.json
-# yarn.lock
+# Package manager lockfiles (INCLUDE for production)
+# package-lock.json and yarn.lock are now INCLUDED
 
 # Windows specific
 *.lnk
@@ -66,29 +65,54 @@ build/
 *~
 
 # Large files that shouldn't be committed to GitHub
-*.mp4
-*.mov
-*.avi
-*.mkv
-*.wmv
+# *.mp4
+# *.mov
+# *.avi
+# *.mkv
+# *.wmv
 
 # Large images (over 1MB) - keep small versions
-frontend/images/**/*.jpg
-frontend/images/**/*.jpeg
-frontend/images/**/*.png
-frontend/images/**/*.gif
-!frontend/images/**/thumbnail_*
-!frontend/images/**/small_*
-!frontend/images/**/icon_*
+# frontend/images/**/*.jpg
+# frontend/images/**/*.jpeg
+# frontend/images/**/*.png
+# frontend/images/**/*.gif
+# !frontend/images/**/thumbnail_*
+# !frontend/images/**/small_*
+# !frontend/images/**/icon_*
 
-# Backup files
+# Backup files (.backup extension files are excluded)
 *.backup
 *.bak
 *.old
 
-# Asset optimization generated files
+# Asset optimization generated files (exclude optimized versions)
 *_optimized.*
 *_compressed.*
 
-# Deployment packages
+# Runtime deployment packages (exclude deployment archives)
 deployment.tar.gz
+
+# Production secrets that should never be committed
+.env.production.local
+.env.secrets
+
+# === PRODUCTION FILES (EXPLICITLY INCLUDED) ===
+# The following files are REQUIRED for production deployment and are included:
+# - Dockerfile
+# - docker-compose.yml
+# - deploy-docker.sh
+# - package.json & package-lock.json
+# - .env.example, .env.production, .env.docker.example
+# - All deployment guides and scripts in DEPLOYMENT_* files
+# - GitHub Actions workflows (.github/workflows/)
+# - Production configuration and deployment scripts (scripts/deploy-*.sh)
+
+# === DEVELOPMENT/TEST FILES (EXCLUDED FROM PRODUCTION) ===
+# Exclude test files from production deployments
+test-*.js
+**/test-*.js
+**/test-*.html
+
+# Keep these important test utilities for debugging
+!database/test-connection.js
+!scripts/test-scraping-setup.js
