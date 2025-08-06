@@ -264,6 +264,7 @@ app.use('/api/interactions', interactionRoutes);
 app.use('/components', express.static(path.join(__dirname, 'frontend/components')));
 
 
+// Clean URL routes (no .html extension)
 app.get('/why-remote', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'why-remote.html'));
 });
@@ -304,12 +305,87 @@ app.get('/remote-jobs', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'remote-jobs.html'));
 });
 
+app.get('/browse-jobs', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'browse-jobs.html'));
+});
+
 app.get('/forgot-password', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'forgot-password.html'));
 });
 
 app.get('/reset-password', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'reset-password.html'));
+});
+
+// Add more clean URL routes for common pages
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'about.html'));
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'login.html'));
+});
+
+app.get('/registration', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'registration.html'));
+});
+
+app.get('/admin-dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'admin-dashboard.html'));
+});
+
+app.get('/job-details', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'job-details.html'));
+});
+
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dashboard.html'));
+});
+
+app.get('/account', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'account.html'));
+});
+
+app.get('/faq', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'faq.html'));
+});
+
+app.get('/support', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'support.html'));
+});
+
+app.get('/help', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'help.html'));
+});
+
+app.get('/career-advice', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'career-advice.html'));
+});
+
+app.get('/events', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'events.html'));
+});
+
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'blog.html'));
+});
+
+// Clean URL middleware - handle URLs without .html extension
+app.get('*', (req, res, next) => {
+  // Skip API routes and files with extensions
+  if (req.path.startsWith('/api/') || req.path.includes('.') || req.path === '/') {
+    return next();
+  }
+  
+  // Try to serve the HTML file for clean URLs
+  const htmlPath = path.join(__dirname, 'frontend', req.path + '.html');
+  const fs = require('fs');
+  
+  if (fs.existsSync(htmlPath)) {
+    return res.sendFile(htmlPath);
+  }
+  
+  next();
 });
 
 

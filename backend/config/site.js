@@ -12,32 +12,32 @@ const config = {
   
   // Admin panel URL
   adminUrl: function() {
-    return `${this.siteUrl}/admin-dashboard.html`;
+    return `${this.siteUrl}/admin-dashboard`;
   },
   
   // Jobs page URL
   jobsUrl: function() {
-    return `${this.siteUrl}/remote-jobs.html`;
+    return `${this.siteUrl}/remote-jobs`;
   },
   
   // User dashboard URL
   dashboardUrl: function() {
-    return `${this.siteUrl}/dashboard.html`;
+    return `${this.siteUrl}/dashboard`;
   },
   
   // Password reset URL
   resetPasswordUrl: function(token) {
-    return `${this.siteUrl}/reset-password.html?token=${token}`;
+    return `${this.siteUrl}/reset-password?token=${token}`;
   },
   
   // Job details URL
   jobDetailsUrl: function(jobId) {
-    return `${this.siteUrl}/job-details.html?id=${jobId}`;
+    return `${this.siteUrl}/job-details?id=${jobId}`;
   },
   
   // Company profile URL
   companyUrl: function(companyId) {
-    return `${this.siteUrl}/company-profile.html?id=${companyId}`;
+    return `${this.siteUrl}/company-profile?id=${companyId}`;
   },
   
   // Get full URL for any path

@@ -19,6 +19,7 @@
     
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="components/main-header/main-header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
 </head>
 
 <body class="faq-page">
@@ -30,7 +31,7 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">FAQ</li>
                 </ol>
             </nav>
@@ -46,12 +47,12 @@
                     <p class="hero-subtitle">Find quick answers to common questions about FlexJobs, remote work, and flexible job opportunities</p>
                     
                     
-                    <div class="faq-search">
+                    <!-- <div class="faq-search">
                         <div class="search-container">
                             <i class="fas fa-search search-icon"></i>
                             <input type="text" class="form-control search-input" placeholder="Search for answers..." id="faqSearch">
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -430,7 +431,7 @@
                                         </div>
                                         <h5>Email Support</h5>
                                         <p>Get help via email</p>
-                                        <a href="support.html" class="btn btn-outline-primary">Contact Us</a>
+                                        <a href="/support" class="btn btn-outline-primary">Contact Us</a>
                                     </div>
                                 </div>
                                 <div class="col-md-4 mb-3">
@@ -450,7 +451,7 @@
                                         </div>
                                         <h5>Help Center</h5>
                                         <p>Browse our guides</p>
-                                        <a href="help.html" class="btn btn-outline-primary">Learn More</a>
+                                        <a href="/help" class="btn btn-outline-primary">Learn More</a>
                                     </div>
                                 </div>
                             </div>
@@ -492,6 +493,16 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
+                
+                // Load footer CSS and JS
+                const footerCSS = document.createElement('link');
+                footerCSS.rel = 'stylesheet';
+                footerCSS.href = 'components/main-footer/main-footer.css';
+                document.head.appendChild(footerCSS);
+                
+                const footerJS = document.createElement('script');
+                footerJS.src = 'components/main-footer/main-footer.js';
+                document.body.appendChild(footerJS);
             });
     </script>
 
@@ -503,9 +514,9 @@
 
         /* Hero Section */
         .faq-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: white;
             color: white;
-            padding: 4rem 0;
+            padding: 0rem 0;
         }
 
         .hero-title {
@@ -527,6 +538,7 @@
 
         .search-container {
             position: relative;
+            background-color:#e9ecef;
         }
 
         .search-icon {

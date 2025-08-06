@@ -29,7 +29,7 @@ class BrowseJobsManager {
 
     
     async init() {
-        console.log('🚀 Initializing Browse Jobs Manager');
+        // console.log('🚀 Initializing Browse Jobs Manager'); // Debug mode only
         
         
         if (document.readyState === 'loading') {
