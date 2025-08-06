@@ -141,6 +141,7 @@ class DatabaseMigration {
                 salary_min DECIMAL(10,2),
                 salary_max DECIMAL(10,2),
                 salary_currency VARCHAR(3) DEFAULT 'USD',
+                salary_type VARCHAR(50) DEFAULT 'fixed' CHECK (salary_type IN ('fixed', 'range', 'hourly', 'negotiable', 'competitive')),
                 benefits TEXT,
                 application_deadline DATE,
                 is_active BOOLEAN DEFAULT TRUE,
