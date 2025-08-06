@@ -52,7 +52,7 @@ docker-compose --env-file .env.docker ps
 echo ""
 echo "🎉 FlexJobs deployment completed!"
 echo "📱 Application URL: http://your-server-ip:3003"
-echo "🗄️  Database accessible on port: 8694"
+echo "🗄️  Database accessible on port: 5432"
 echo ""
 echo "📝 Useful commands:"
 echo "   View logs: docker-compose --env-file .env.docker logs -f flexjobs-app"

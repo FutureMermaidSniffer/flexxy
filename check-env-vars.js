@@ -1,0 +1,22 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
+console.log('Environment Variables Check:');
+console.log('===========================');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('PORT:', process.env.PORT);
+console.log('');
+console.log('Database Configuration:');
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_PORT:', process.env.DB_PORT);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD ? '[REDACTED]' : 'NOT SET');
+console.log('DB_NAME:', process.env.DB_NAME);
+console.log('');
+console.log('Security:');
+console.log('JWT_SECRET:', process.env.JWT_SECRET ? '[REDACTED]' : 'NOT SET');
+console.log('SESSION_SECRET:', process.env.SESSION_SECRET ? '[REDACTED]' : 'NOT SET');
+console.log('');
+console.log('Admin Configuration:');
+console.log('ADMIN_EMAIL:', process.env.ADMIN_EMAIL || 'NOT SET');
+console.log('ADMIN_PASSWORD:', process.env.ADMIN_PASSWORD ? '[REDACTED]' : 'NOT SET');

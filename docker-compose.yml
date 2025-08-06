@@ -9,17 +9,17 @@ services:
     ports:
       - "3003:3003"  # App port
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - DB_HOST=flexjobs-db
-      - DB_PORT=${DB_PORT:-5432}
+      - DB_PORT=5432
       - DB_USER=${DB_USER:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
       - DB_NAME=${DB_NAME:-flexjobs_db}
-      - JWT_SECRET=${JWT_SECRET}
-      - SESSION_SECRET=${SESSION_SECRET}
+      - JWT_SECRET=${JWT_SECRET:-dev_jwt_secret}
+      - SESSION_SECRET=${SESSION_SECRET:-dev_session_secret}
       - PORT=3003
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@flexjobs.local}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
       
     volumes:
       - ./uploads:/app/uploads
@@ -41,7 +41,7 @@ services:
     container_name: flexjobs-db
     restart: unless-stopped
     ports:
-      - "8694:5432"  # Custom external port mapping to avoid conflicts
+      - "5432:5432"  # Standard PostgreSQL port mapping
     environment:
       - POSTGRES_DB=${DB_NAME:-flexjobs_db}
       - POSTGRES_USER=${DB_USER:-postgres}

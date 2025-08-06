@@ -31,7 +31,7 @@ PORT=3003
 
 # Database Configuration
 DB_HOST=localhost
-DB_PORT=8694
+DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=flexjobs_db
