@@ -13,6 +13,208 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="components/main-header/main-header.css">
     <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    
+    <!-- Job Cards Styling -->
+    <style>
+        .job-listings-section {
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 1rem;
+        }
+
+        .results-count {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        /* Job Cards Dynamic Styling - Compact Design */
+        .job-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #007bff;
+        }
+
+        .job-card .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .job-card .company-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            flex-shrink: 0;
+        }
+
+        .job-card .company-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .job-card .job-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .job-card .job-badge.new {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .job-card .job-badge.featured {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .job-card .job-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .job-card .job-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .job-card .company-name {
+            color: #007bff;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            text-decoration: none;
+        }
+
+        .job-card .job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .job-card .job-details span {
+            display: flex;
+            align-items: center;
+            color: #6c757d;
+            gap: 0.25rem;
+        }
+
+        .job-card .job-details i {
+            font-size: 0.8rem;
+            color: #007bff;
+            width: 12px;
+        }
+
+        .job-card .job-description {
+            color: #495057;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .job-card .job-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .job-card .job-tags .tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .job-card .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+            margin-top: auto;
+        }
+
+        .job-card .salary {
+            font-weight: 600;
+            color: #28a745;
+            font-size: 1rem;
+        }
+
+        .job-card .posted-date {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+
+        /* Loading spinner */
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .job-card {
+                padding: 1rem;
+            }
+            
+            .job-card .job-details {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     
@@ -30,6 +232,46 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Listings Section -->
+    <section class="job-listings-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="section-title">Remote Job Opportunities</h3>
+                        <div class="results-info">
+                            <span class="results-count">Loading jobs...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="jobs-loading" class="row">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading jobs...</span>
+                    </div>
+                    <p class="mt-3 text-muted">Finding amazing remote job opportunities...</p>
+                </div>
+            </div>
+            
+            <!-- Jobs Container -->
+            <div id="jobs-container" class="row g-4" style="display: none;">
+                <!-- Jobs will be dynamically loaded here -->
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <button id="load-more-btn" class="btn btn-outline-primary btn-lg" style="display: none;">
+                        <i class="fas fa-plus me-2"></i>Load More Jobs
+                    </button>
                 </div>
             </div>
         </div>
@@ -109,6 +351,10 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Jobs Database and Components -->
+    <script src="js/data/jobs-database.js"></script>
+    <script src="js/components/job-card.js"></script>
+    
     <script src="js/auth.js"></script>
     <script src="js/jobs.js"></script>
     <script src="js/main.js"></script>
@@ -147,6 +393,159 @@
                 footerJS.src = 'components/main-footer/main-footer.js';
                 document.body.appendChild(footerJS);
             });
+    </script>
+
+    <!-- Remote Jobs Management Script -->
+    <script>
+        class RemoteJobsManager {
+            constructor() {
+                this.currentPage = 1;
+                this.jobsPerPage = 12;
+                this.currentFilters = {};
+                this.jobCard = new JobCard();
+                this.allJobs = [];
+                this.displayedJobs = [];
+                
+                this.init();
+            }
+
+            init() {
+                this.loadJobs();
+                this.setupEventListeners();
+            }
+
+            loadJobs() {
+                // Show loading state
+                this.showLoadingState();
+
+                // Simulate API call delay
+                setTimeout(() => {
+                    // Get all jobs from database
+                    this.allJobs = JobsDatabase.getAllJobs();
+                    
+                    // Filter for remote jobs
+                    this.allJobs = this.allJobs.filter(job => 
+                        job.remote_type === 'fully_remote' || job.remote_type === 'hybrid'
+                    );
+
+                    // Display first page
+                    this.displayJobs();
+                    this.updateResultsCount();
+                    this.hideLoadingState();
+                }, 1000);
+            }
+
+            showLoadingState() {
+                document.getElementById('jobs-loading').style.display = 'block';
+                document.getElementById('jobs-container').style.display = 'none';
+                document.getElementById('load-more-btn').style.display = 'none';
+            }
+
+            hideLoadingState() {
+                document.getElementById('jobs-loading').style.display = 'none';
+                document.getElementById('jobs-container').style.display = 'flex';
+            }
+
+            displayJobs() {
+                const startIndex = 0;
+                const endIndex = this.currentPage * this.jobsPerPage;
+                this.displayedJobs = this.allJobs.slice(startIndex, endIndex);
+
+                // Render jobs using JobCard component
+                this.jobCard.renderMultiple(this.displayedJobs, '#jobs-container');
+
+                // Show/hide load more button
+                this.updateLoadMoreButton();
+            }
+
+            updateLoadMoreButton() {
+                const loadMoreBtn = document.getElementById('load-more-btn');
+                const hasMoreJobs = this.displayedJobs.length < this.allJobs.length;
+                
+                if (hasMoreJobs) {
+                    loadMoreBtn.style.display = 'inline-block';
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
+            }
+
+            updateResultsCount() {
+                const resultsCount = document.querySelector('.results-count');
+                if (resultsCount) {
+                    resultsCount.textContent = `Showing ${this.displayedJobs.length} of ${this.allJobs.length} remote jobs`;
+                }
+            }
+
+            loadMoreJobs() {
+                this.currentPage++;
+                this.displayJobs();
+                this.updateResultsCount();
+            }
+
+            setupEventListeners() {
+                // Load more button
+                const loadMoreBtn = document.getElementById('load-more-btn');
+                if (loadMoreBtn) {
+                    loadMoreBtn.addEventListener('click', () => {
+                        this.loadMoreJobs();
+                    });
+                }
+
+                // Search functionality
+                this.setupSearchHandlers();
+            }
+
+            setupSearchHandlers() {
+                const searchBtn = document.querySelector('.btn-warning');
+                const searchInputs = document.querySelectorAll('.form-control');
+                
+                if (searchBtn) {
+                    searchBtn.addEventListener('click', () => {
+                        this.performSearch();
+                    });
+                }
+
+                // Enter key search
+                searchInputs.forEach(input => {
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            this.performSearch();
+                        }
+                    });
+                });
+            }
+
+            performSearch() {
+                const searchInputs = document.querySelectorAll('.form-control');
+                const searchTerm = searchInputs[0].value;
+                const location = searchInputs[1].value;
+
+                // Show loading
+                this.showLoadingState();
+
+                setTimeout(() => {
+                    // Filter jobs based on search
+                    this.allJobs = JobsDatabase.searchJobs(searchTerm, { location });
+                    
+                    // Filter for remote jobs
+                    this.allJobs = this.allJobs.filter(job => 
+                        job.remote_type === 'fully_remote' || job.remote_type === 'hybrid'
+                    );
+
+                    // Reset pagination and display
+                    this.currentPage = 1;
+                    this.displayJobs();
+                    this.updateResultsCount();
+                    this.hideLoadingState();
+                }, 500);
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize remote jobs manager
+            window.remoteJobsManager = new RemoteJobsManager();
+        });
     </script>
     
     <script>

@@ -28,7 +28,7 @@ class AdminDashboard {
 
         if (!token || !user || user.user_type !== 'admin') {
             alert('Access denied. Admin privileges required.');
-            window.location.href = 'index.html';
+            window.location.href = '/';
             return;
         }
 
@@ -999,7 +999,7 @@ function refreshDashboard() {
 function logout() {
     localStorage.removeItem('flexjobs_token');
     localStorage.removeItem('flexjobs_user');
-    window.location.href = 'index.html';
+    window.location.href = '/';
 }
 
 async function createAgent() {

@@ -290,7 +290,7 @@ class SubscriptionManager {
             
             this.showAlert('Please log in to subscribe to a plan', 'warning');
             setTimeout(() => {
-                window.location.href = 'index.html#login';
+                window.location.href = '/#login';
             }, 2000);
             return;
         }

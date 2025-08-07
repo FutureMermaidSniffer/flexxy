@@ -370,6 +370,11 @@ app.get('/blog', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'blog.html'));
 });
 
+// Home page route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
 // Clean URL middleware - handle URLs without .html extension
 app.get('*', (req, res, next) => {
   // Skip API routes and files with extensions

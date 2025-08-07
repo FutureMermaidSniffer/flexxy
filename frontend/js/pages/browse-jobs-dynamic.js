@@ -58,8 +58,36 @@ class BrowseJobsManager {
         
         this.createErrorElement();
 
+        // Parse URL parameters for initial filters
+        this.parseUrlParameters();
+
         
         await this.loadJobs();
+    }
+
+    
+    parseUrlParameters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Map URL parameters to filter properties
+        const paramMap = {
+            'search': 'search',
+            'q': 'search',
+            'location': 'location',
+            'job_type': 'job_type',
+            'remote_type': 'remote_type',
+            'experience_level': 'experience_level',
+            'category': 'category_id'
+        };
+
+        // Apply URL parameters to filters
+        Object.entries(paramMap).forEach(([urlParam, filterKey]) => {
+            const value = urlParams.get(urlParam);
+            if (value) {
+                this.filters[filterKey] = value;
+                console.log(`🔍 Applied URL filter: ${filterKey} = ${value}`);
+            }
+        });
     }
 
     
@@ -169,47 +197,90 @@ class BrowseJobsManager {
         this.showLoading();
 
         try {
-            const apiUrl = this.buildApiUrl();
-            console.log('🔗 API URL:', apiUrl);
-
-            const response = await fetch(apiUrl, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            // Check if jobs database is available
+            if (typeof window.JobsDatabase === 'undefined') {
+                throw new Error('Jobs database not loaded');
             }
 
-            const data = await response.json();
-            console.log('✅ Jobs data received:', data);
+            // Apply search and filters to the database
+            let filteredJobs = window.JOBS_DATABASE;
 
-            if (!data.jobs || data.jobs.length === 0) {
+            // Apply search filter
+            if (this.filters.search) {
+                filteredJobs = window.JobsDatabase.searchJobs(this.filters.search, {
+                    category: this.filters.category_id,
+                    remote_type: this.filters.remote_type,
+                    experience_level: this.filters.experience_level,
+                    location: this.filters.location
+                });
+            } else {
+                // Apply individual filters
+                if (this.filters.category_id) {
+                    filteredJobs = filteredJobs.filter(job => job.category === this.filters.category_id);
+                }
+                if (this.filters.remote_type) {
+                    filteredJobs = filteredJobs.filter(job => job.remote_type === this.filters.remote_type);
+                }
+                if (this.filters.experience_level) {
+                    filteredJobs = filteredJobs.filter(job => job.experience_level === this.filters.experience_level);
+                }
+                if (this.filters.location) {
+                    filteredJobs = filteredJobs.filter(job => 
+                        job.location.toLowerCase().includes(this.filters.location.toLowerCase())
+                    );
+                }
+                if (this.filters.job_type) {
+                    filteredJobs = filteredJobs.filter(job => job.job_type === this.filters.job_type);
+                }
+            }
+
+            // Calculate pagination
+            this.totalJobs = filteredJobs.length;
+            this.totalPages = Math.ceil(this.totalJobs / this.jobsPerPage);
+            
+            // Get jobs for current page
+            const startIndex = (this.currentPage - 1) * this.jobsPerPage;
+            const endIndex = startIndex + this.jobsPerPage;
+            const paginatedJobs = filteredJobs.slice(startIndex, endIndex);
+
+            console.log('✅ Jobs data processed:', {
+                total: this.totalJobs,
+                currentPage: this.currentPage,
+                showing: paginatedJobs.length
+            });
+
+            if (paginatedJobs.length === 0) {
                 this.showEmptyState();
                 this.updateJobStats(0, 0, 0);
-                this.updatePagination(data.pagination || {});
+                this.updatePagination({
+                    page: this.currentPage,
+                    totalPages: this.totalPages,
+                    hasNext: false,
+                    hasPrev: false
+                });
                 return;
             }
 
-            
-            if (data.pagination) {
-                this.totalPages = data.pagination.totalPages;
-                this.totalJobs = parseInt(data.pagination.total);
-            }
+            // Create pagination object
+            const pagination = {
+                page: this.currentPage,
+                totalPages: this.totalPages,
+                total: this.totalJobs,
+                hasNext: this.currentPage < this.totalPages,
+                hasPrev: this.currentPage > 1
+            };
 
+            // Render jobs
+            this.renderJobs(paginatedJobs);
             
-            this.renderJobs(data.jobs);
+            // Update UI
+            this.updateJobStats(paginatedJobs.length, this.totalJobs, this.currentPage);
+            this.updatePagination(pagination);
             
-            
-            this.updateJobStats(data.jobs.length, this.totalJobs, this.currentPage);
-            this.updatePagination(data.pagination);
-            
-            
+            // Hide loading
             this.hideLoading();
 
-            console.log(`🎯 Successfully loaded ${data.jobs.length} jobs (page ${this.currentPage})`);
+            console.log(`🎯 Successfully loaded ${paginatedJobs.length} jobs (page ${this.currentPage})`);
 
         } catch (error) {
             console.error('❌ Error loading jobs:', error);

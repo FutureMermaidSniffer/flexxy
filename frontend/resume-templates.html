@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Templates - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Download professional resume templates designed for remote and flexible jobs.">
+    <meta name="keywords" content="resume templates, CV templates, remote work resume, job application">
+    <meta property="og:title" content="Resume Templates - FlexJobs">
+    <meta property="og:description" content="Professional resume templates for your next remote or flexible job application.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-semibold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-resume-templates">
+    <!-- Header -->
+    <div id="main-header-container"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="hero-content">
+                            <h1 class="hero-title">Professional Resume Templates</h1>
+                            <p class="hero-description">
+                                Stand out from the competition with our professionally designed resume templates. 
+                                Optimized for remote and flexible job applications, these templates help you 
+                                showcase your skills and experience effectively.
+                            </p>
+                            <div class="hero-buttons">
+                                <a href="#templates" class="btn btn-primary btn-lg">Browse Templates</a>
+                                <a href="#tips" class="btn btn-outline-primary btn-lg ms-3">Resume Tips</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="hero-image">
+                            <img src="images/resume-illustration.png" alt="Resume templates illustration" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Templates Section -->
+        <section id="templates" class="templates-section py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="section-title">Choose Your Template</h2>
+                        <p class="section-subtitle">Professional templates designed for modern job seekers</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <!-- Modern Template -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="template-card">
+                            <div class="template-preview">
+                                <img src="images/resume-template-modern.png" alt="Modern Resume Template" class="img-fluid">
+                                <div class="template-overlay">
+                                    <a href="templates/modern-resume-template.docx" class="btn btn-primary" download>
+                                        <i class="fas fa-download me-2"></i>Download
+                                    </a>
+                                    <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#previewModal" data-template="modern">
+                                        <i class="fas fa-eye me-2"></i>Preview
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <h3 class="template-title">Modern Professional</h3>
+                                <p class="template-description">Clean, contemporary design perfect for tech and creative roles.</p>
+                                <div class="template-tags">
+                                    <span class="badge bg-secondary">Modern</span>
+                                    <span class="badge bg-secondary">ATS-Friendly</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Classic Template -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="template-card">
+                            <div class="template-preview">
+                                <img src="images/resume-template-classic.png" alt="Classic Resume Template" class="img-fluid">
+                                <div class="template-overlay">
+                                    <a href="templates/classic-resume-template.docx" class="btn btn-primary" download>
+                                        <i class="fas fa-download me-2"></i>Download
+                                    </a>
+                                    <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#previewModal" data-template="classic">
+                                        <i class="fas fa-eye me-2"></i>Preview
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <h3 class="template-title">Classic Professional</h3>
+                                <p class="template-description">Traditional format ideal for corporate and finance positions.</p>
+                                <div class="template-tags">
+                                    <span class="badge bg-secondary">Traditional</span>
+                                    <span class="badge bg-secondary">Corporate</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Creative Template -->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="template-card">
+                            <div class="template-preview">
+                                <img src="images/resume-template-creative.png" alt="Creative Resume Template" class="img-fluid">
+                                <div class="template-overlay">
+                                    <a href="templates/creative-resume-template.docx" class="btn btn-primary" download>
+                                        <i class="fas fa-download me-2"></i>Download
+                                    </a>
+                                    <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#previewModal" data-template="creative">
+                                        <i class="fas fa-eye me-2"></i>Preview
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <h3 class="template-title">Creative Professional</h3>
+                                <p class="template-description">Eye-catching design for creative and marketing professionals.</p>
+                                <div class="template-tags">
+                                    <span class="badge bg-secondary">Creative</span>
+                                    <span class="badge bg-secondary">Visual</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resume Tips Section -->
+        <section id="tips" class="tips-section py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="section-title">Resume Writing Tips</h2>
+                        <p class="section-subtitle">Expert advice to make your resume stand out</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h3 class="tip-title">Tailor for Each Job</h3>
+                            <p class="tip-description">
+                                Customize your resume for each application by highlighting relevant skills 
+                                and experiences that match the job requirements.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6 mb-4">
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="tip-title">Quantify Achievements</h3>
+                            <p class="tip-description">
+                                Use numbers and percentages to demonstrate your impact. For example, 
+                                "Increased sales by 25%" is more compelling than "Increased sales."
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6 mb-4">
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3 class="tip-title">Optimize for ATS</h3>
+                            <p class="tip-description">
+                                Use relevant keywords from the job posting and avoid complex formatting 
+                                to ensure your resume passes through applicant tracking systems.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6 mb-4">
+                        <div class="tip-card">
+                            <div class="tip-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3 class="tip-title">Keep It Concise</h3>
+                            <p class="tip-description">
+                                Aim for 1-2 pages maximum. Focus on your most relevant and recent 
+                                experiences that demonstrate your qualifications for the role.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <div id="main-footer-container"></div>
+
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalLabel">Template Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="previewImage" src="" alt="Template Preview" class="img-fluid">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a id="downloadLink" href="" class="btn btn-primary" download>
+                        <i class="fas fa-download me-2"></i>Download Template
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="components/main-header/main-header.js"></script>
+    <script src="components/main-footer/main-footer.js"></script>
+    
+    <script>
+        // Initialize header and footer
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header
+            const headerContainer = document.getElementById('main-header-container');
+            if (headerContainer) {
+                new MainHeader({
+                    contentType: 'resume-templates',
+                    showSearch: true
+                });
+            }
+
+            // Load footer
+            const footerContainer = document.getElementById('main-footer-container');
+            if (footerContainer && typeof MainFooter !== 'undefined') {
+                new MainFooter();
+            }
+
+            // Preview modal functionality
+            const previewModal = document.getElementById('previewModal');
+            if (previewModal) {
+                previewModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const template = button.getAttribute('data-template');
+                    const previewImage = document.getElementById('previewImage');
+                    const downloadLink = document.getElementById('downloadLink');
+                    
+                    previewImage.src = `images/resume-template-${template}.png`;
+                    downloadLink.href = `templates/${template}-resume-template.docx`;
+                });
+            }
+        });
+    </script>
+
+    <style>
+        .hero-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .templates-section {
+            padding: 80px 0;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .template-preview {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-preview img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .template-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .template-preview:hover .template-overlay {
+            opacity: 1;
+        }
+
+        .template-info {
+            padding: 20px;
+        }
+
+        .template-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .template-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .template-tags .badge {
+            margin-right: 5px;
+        }
+
+        .tips-section {
+            padding: 80px 0;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            text-align: center;
+        }
+
+        .tip-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .tip-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .tip-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+        }
+    </style>
+</body>
+</html>

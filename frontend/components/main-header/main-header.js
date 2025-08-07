@@ -400,7 +400,7 @@ class MainHeader {
             
             localStorage.removeItem('flexjobs_token');
             localStorage.removeItem('flexjobs_user');
-            window.location.href = 'browse-jobs.html';
+            window.location.href = '/';
         }
     }
     

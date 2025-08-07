@@ -64,43 +64,50 @@ class JobDetails {
         this.showLoading();
 
         try {
-            const response = await fetch(`/api/jobs/${this.jobId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                if (response.status === 404) {
-                    this.showError('Job not found');
-                } else {
-                    this.showError(`Error loading job: ${response.status}`);
-                }
+            // Wait for jobs database to be available
+            if (typeof JobsDatabase === 'undefined') {
+                // Try to load the jobs database script if not already loaded
+                await this.loadJobsDatabase();
+            }
+            
+            // Get job from static database
+            const job = JobsDatabase.getJobById(this.jobId);
+            
+            if (!job) {
+                this.showError('Job not found');
                 return;
             }
 
-            const data = await response.json();
+            this.jobData = job;
+            console.log('✅ Job data loaded from static database:', this.jobData);
             
-            if (!data.job) {
-                this.showError('Invalid job data received');
-                return;
-            }
-
-            this.jobData = data.job;
-            console.log('✅ Job data loaded:', this.jobData);
-            
-            
+            // Render the job details
             this.renderJobDetails();
             this.showContent();
             
-            
+            // Update page title
             document.title = `${this.jobData.title} - ${this.jobData.company_name} | FlexJobs`;
 
         } catch (error) {
             console.error('❌ Error loading job details:', error);
             this.showError('Failed to load job details');
         }
+    }
+    
+    // Load jobs database script if not already loaded
+    async loadJobsDatabase() {
+        return new Promise((resolve, reject) => {
+            if (typeof JobsDatabase !== 'undefined') {
+                resolve();
+                return;
+            }
+            
+            const script = document.createElement('script');
+            script.src = 'js/data/jobs-database.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
     }
 
     

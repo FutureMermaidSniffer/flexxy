@@ -126,13 +126,15 @@ class JobCard {
 
     
     renderJobHeader(job) {
+        const companyInitials = this.getCompanyInitials(job.company_name);
+        
         return `
             <div class="job-header">
                 <div class="company-logo">
                     <img src="${job.company_logo}" 
                          alt="${job.company_name}" 
                          class="company-img" 
-                         onerror="this.src='images/logo.png'">
+                         onerror="this.parentElement.innerHTML='<div class=&quot;company-initials&quot;>${companyInitials}</div>'">
                 </div>
                 ${job.badges.map(badge => `<div class="job-badge ${badge.type}">${badge.text}</div>`).join('')}
             </div>
@@ -427,7 +429,8 @@ class JobCard {
         }
 
         
-        window.location.href = `job-details.html?id=${jobId}`;
+        // Navigate to job details page with clean URL
+        window.location.href = `/job-details?id=${jobId}`;
     }
 
     
@@ -482,6 +485,25 @@ class JobCard {
                     <p class="mt-3">Finding the best opportunities for you...</p>
                 </div>
             `;
+        }
+    }
+
+    // Helper function to generate company initials
+    getCompanyInitials(companyName) {
+        if (!companyName) return 'CO';
+        
+        // Split by spaces and take first letter of each word
+        const words = companyName.trim().split(/\s+/);
+        
+        if (words.length === 1) {
+            // Single word: take first 2 letters
+            return words[0].substring(0, 2).toUpperCase();
+        } else if (words.length === 2) {
+            // Two words: take first letter of each
+            return (words[0][0] + words[1][0]).toUpperCase();
+        } else {
+            // Multiple words: take first letter of first two words
+            return (words[0][0] + words[1][0]).toUpperCase();
         }
     }
 }

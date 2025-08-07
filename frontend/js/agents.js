@@ -562,7 +562,7 @@ class AgentsManager {
         if (!token) {
             this.showAlert('Please log in to book a consultation', 'warning');
             setTimeout(() => {
-                window.location.href = 'index.html#login';
+                window.location.href = '/#login';
             }, 2000);
             return;
         }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Logo Generator</title>
+</head>
+<body>
+    <canvas id="canvas" width="200" height="80" style="border: 1px solid #ccc;"></canvas>
+    <br><br>
+    <button onclick="downloadLogo('Salesforce', '#00A1E0', '#FFFFFF')">Salesforce</button>
+    <button onclick="downloadLogo('Meta', '#1877F2', '#FFFFFF')">Meta</button>
+    <button onclick="downloadLogo('Shopify', '#96BF48', '#FFFFFF')">Shopify</button>
+    <button onclick="downloadLogo('Netflix', '#E50914', '#FFFFFF')">Netflix</button>
+    <button onclick="downloadLogo('Atlassian', '#0052CC', '#FFFFFF')">Atlassian</button>
+    <button onclick="downloadLogo('Spotify', '#1DB954', '#FFFFFF')">Spotify</button>
+    <button onclick="downloadLogo('Zoom', '#2D8CFF', '#FFFFFF')">Zoom</button>
+    <button onclick="downloadLogo('Stripe', '#635BFF', '#FFFFFF')">Stripe</button>
+    <button onclick="downloadLogo('Slack', '#4A154B', '#FFFFFF')">Slack</button>
+    <button onclick="downloadLogo('Airbnb', '#FF5A5F', '#FFFFFF')">Airbnb</button>
+    <button onclick="downloadLogo('Tesla', '#CC0000', '#FFFFFF')">Tesla</button>
+
+    <script>
+        function downloadLogo(companyName, bgColor, textColor) {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw background
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw company name
+            ctx.fillStyle = textColor;
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(companyName, canvas.width/2, canvas.height/2);
+            
+            // Download as PNG
+            const link = document.createElement('a');
+            link.download = companyName.toLowerCase() + '-logo.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

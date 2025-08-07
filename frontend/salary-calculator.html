@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Calculator - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Calculate and compare salaries across industries and locations. Get insights into competitive compensation packages.">
+    <meta name="keywords" content="salary calculator, wage calculator, compensation, salary comparison">
+    <meta property="og:title" content="Salary Calculator - FlexJobs">
+    <meta property="og:description" content="Free salary calculator to help you understand your market value and negotiate better compensation.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-semibold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-salary-calculator">
+    <!-- Header -->
+    <div id="main-header-container"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="hero-content">
+                            <h1 class="hero-title">Salary Calculator</h1>
+                            <p class="hero-description">
+                                Discover your market value with our comprehensive salary calculator. 
+                                Compare wages across industries, locations, and experience levels to 
+                                make informed career decisions.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <h3 class="stat-number">500K+</h3>
+                                <p class="stat-label">Salary Data Points</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3 class="stat-number">50+</h3>
+                                <p class="stat-label">Industries Covered</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section class="calculator-section py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="calculator-card">
+                            <div class="calculator-header text-center mb-4">
+                                <h2>Calculate Your Salary</h2>
+                                <p>Enter your details below to get an estimated salary range</p>
+                            </div>
+                            
+                            <form id="salaryForm" class="calculator-form">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="jobTitle" class="form-label">Job Title</label>
+                                        <input type="text" class="form-control" id="jobTitle" placeholder="e.g., Software Engineer" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="industry" class="form-label">Industry</label>
+                                        <select class="form-select" id="industry" required>
+                                            <option value="">Select Industry</option>
+                                            <option value="technology">Technology</option>
+                                            <option value="finance">Finance</option>
+                                            <option value="healthcare">Healthcare</option>
+                                            <option value="marketing">Marketing</option>
+                                            <option value="sales">Sales</option>
+                                            <option value="education">Education</option>
+                                            <option value="consulting">Consulting</option>
+                                            <option value="media">Media</option>
+                                            <option value="retail">Retail</option>
+                                            <option value="manufacturing">Manufacturing</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="location" class="form-label">Location</label>
+                                        <select class="form-select" id="location" required>
+                                            <option value="">Select Location</option>
+                                            <option value="us-national">United States (National)</option>
+                                            <option value="uk-national">United Kingdom (National)</option>
+                                            <option value="canada-national">Canada (National)</option>
+                                            <option value="australia-national">Australia (National)</option>
+                                            <option value="germany-national">Germany (National)</option>
+                                            <option value="france-national">France (National)</option>
+                                            <option value="netherlands-national">Netherlands (National)</option>
+                                            <option value="spain-national">Spain (National)</option>
+                                            <option value="remote">Remote/Global</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="experience" class="form-label">Years of Experience</label>
+                                        <select class="form-select" id="experience" required>
+                                            <option value="">Select Experience</option>
+                                            <option value="0-1">0-1 years (Entry Level)</option>
+                                            <option value="2-4">2-4 years (Junior)</option>
+                                            <option value="5-7">5-7 years (Mid-level)</option>
+                                            <option value="8-12">8-12 years (Senior)</option>
+                                            <option value="13+">13+ years (Executive)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="education" class="form-label">Education Level</label>
+                                        <select class="form-select" id="education">
+                                            <option value="">Select Education</option>
+                                            <option value="high-school">High School</option>
+                                            <option value="associates">Associate's Degree</option>
+                                            <option value="bachelors">Bachelor's Degree</option>
+                                            <option value="masters">Master's Degree</option>
+                                            <option value="phd">PhD/Doctorate</option>
+                                            <option value="certification">Professional Certification</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="companySize" class="form-label">Company Size</label>
+                                        <select class="form-select" id="companySize">
+                                            <option value="">Select Company Size</option>
+                                            <option value="startup">Startup (1-50 employees)</option>
+                                            <option value="small">Small (51-200 employees)</option>
+                                            <option value="medium">Medium (201-1000 employees)</option>
+                                            <option value="large">Large (1001-5000 employees)</option>
+                                            <option value="enterprise">Enterprise (5000+ employees)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">Calculate Salary</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results" class="results-section py-5" style="display: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="results-card">
+                            <h2 class="results-title text-center mb-4">Your Salary Estimate</h2>
+                            
+                            <div class="salary-range">
+                                <div class="row text-center">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="salary-item">
+                                            <h3 class="salary-label">25th Percentile</h3>
+                                            <div class="salary-amount" id="salary25">$0</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="salary-item featured">
+                                            <h3 class="salary-label">Median (50th)</h3>
+                                            <div class="salary-amount" id="salary50">$0</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="salary-item">
+                                            <h3 class="salary-label">75th Percentile</h3>
+                                            <div class="salary-amount" id="salary75">$0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="salary-breakdown mt-5">
+                                <h3 class="breakdown-title">Compensation Breakdown</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="breakdown-item">
+                                            <span class="breakdown-label">Base Salary:</span>
+                                            <span class="breakdown-value" id="baseSalary">$0</span>
+                                        </div>
+                                        <div class="breakdown-item">
+                                            <span class="breakdown-label">Bonus (Est.):</span>
+                                            <span class="breakdown-value" id="bonus">$0</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="breakdown-item">
+                                            <span class="breakdown-label">Benefits Value:</span>
+                                            <span class="breakdown-value" id="benefits">$0</span>
+                                        </div>
+                                        <div class="breakdown-item">
+                                            <span class="breakdown-label">Total Package:</span>
+                                            <span class="breakdown-value total" id="totalPackage">$0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="salary-insights mt-4">
+                                <h4>Key Insights</h4>
+                                <div id="insights" class="insights-list">
+                                    <!-- Insights will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button class="btn btn-outline-primary" onclick="calculateAgain()">Calculate Again</button>
+                                <button class="btn btn-primary ms-3" onclick="shareResults()">Share Results</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Market Trends Section -->
+        <section class="trends-section py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="section-title">Salary Market Trends</h2>
+                        <p class="section-subtitle">Stay informed about the latest compensation trends</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="trend-card">
+                            <div class="trend-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="trend-title">Remote Work Premium</h3>
+                            <p class="trend-description">
+                                Remote positions are offering 5-15% higher salaries compared to in-office roles in many industries.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="trend-card">
+                            <div class="trend-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3 class="trend-title">Skills Over Degrees</h3>
+                            <p class="trend-description">
+                                Companies are prioritizing practical skills and experience over formal education requirements.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="trend-card">
+                            <div class="trend-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3 class="trend-title">Global Competition</h3>
+                            <p class="trend-description">
+                                International talent pools are creating new salary benchmarks across different regions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <div id="main-footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="components/main-header/main-header.js"></script>
+    <script src="components/main-footer/main-footer.js"></script>
+    
+    <script>
+        // Sample salary data (in a real application, this would come from an API)
+        const salaryData = {
+            'technology': {
+                'software engineer': { base: 75000, multiplier: 1.0 },
+                'data scientist': { base: 85000, multiplier: 1.1 },
+                'product manager': { base: 90000, multiplier: 1.15 },
+                'default': { base: 70000, multiplier: 1.0 }
+            },
+            'finance': {
+                'financial analyst': { base: 65000, multiplier: 1.0 },
+                'investment banker': { base: 95000, multiplier: 1.3 },
+                'default': { base: 60000, multiplier: 1.0 }
+            },
+            'healthcare': {
+                'nurse': { base: 55000, multiplier: 1.0 },
+                'doctor': { base: 150000, multiplier: 1.5 },
+                'default': { base: 50000, multiplier: 1.0 }
+            },
+            'default': {
+                'default': { base: 50000, multiplier: 1.0 }
+            }
+        };
+
+        const locationMultipliers = {
+            'us-national': 1.0,
+            'uk-national': 0.8,
+            'canada-national': 0.7,
+            'australia-national': 0.9,
+            'germany-national': 0.75,
+            'france-national': 0.7,
+            'netherlands-national': 0.8,
+            'spain-national': 0.6,
+            'remote': 0.9
+        };
+
+        const experienceMultipliers = {
+            '0-1': 0.8,
+            '2-4': 1.0,
+            '5-7': 1.3,
+            '8-12': 1.6,
+            '13+': 2.0
+        };
+
+        const educationMultipliers = {
+            'high-school': 0.9,
+            'associates': 0.95,
+            'bachelors': 1.0,
+            'masters': 1.1,
+            'phd': 1.2,
+            'certification': 1.05
+        };
+
+        const companySizeMultipliers = {
+            'startup': 0.9,
+            'small': 0.95,
+            'medium': 1.0,
+            'large': 1.1,
+            'enterprise': 1.2
+        };
+
+        function calculateSalary(jobTitle, industry, location, experience, education, companySize) {
+            // Get base salary for the role
+            const industryData = salaryData[industry] || salaryData['default'];
+            const roleData = industryData[jobTitle.toLowerCase()] || industryData['default'];
+            
+            let baseSalary = roleData.base * roleData.multiplier;
+            
+            // Apply multipliers
+            baseSalary *= locationMultipliers[location] || 1.0;
+            baseSalary *= experienceMultipliers[experience] || 1.0;
+            baseSalary *= educationMultipliers[education] || 1.0;
+            baseSalary *= companySizeMultipliers[companySize] || 1.0;
+            
+            // Calculate percentiles
+            const salary25 = Math.round(baseSalary * 0.85);
+            const salary50 = Math.round(baseSalary);
+            const salary75 = Math.round(baseSalary * 1.25);
+            
+            // Calculate breakdown
+            const bonus = Math.round(baseSalary * 0.15);
+            const benefits = Math.round(baseSalary * 0.25);
+            const totalPackage = salary50 + bonus + benefits;
+            
+            return {
+                salary25,
+                salary50,
+                salary75,
+                baseSalary: salary50,
+                bonus,
+                benefits,
+                totalPackage
+            };
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function generateInsights(results, formData) {
+            const insights = [];
+            
+            if (formData.experience === '0-1') {
+                insights.push('💡 Entry-level positions offer great growth potential. Consider focusing on skill development.');
+            }
+            
+            if (formData.location === 'remote') {
+                insights.push('🌐 Remote work can offer access to higher-paying opportunities across different markets.');
+            }
+            
+            if (formData.industry === 'technology') {
+                insights.push('💻 Technology sector continues to show strong salary growth year over year.');
+            }
+            
+            if (results.salary50 > 80000) {
+                insights.push('📈 Your estimated salary is above the national average across all industries.');
+            }
+            
+            insights.push('📊 Salary ranges can vary by 20-30% based on company culture and specific requirements.');
+            
+            return insights;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header
+            const headerContainer = document.getElementById('main-header-container');
+            if (headerContainer) {
+                new MainHeader({
+                    contentType: 'salary-calculator',
+                    showSearch: true
+                });
+            }
+
+            // Load footer
+            const footerContainer = document.getElementById('main-footer-container');
+            if (footerContainer && typeof MainFooter !== 'undefined') {
+                new MainFooter();
+            }
+
+            // Handle form submission
+            const salaryForm = document.getElementById('salaryForm');
+            salaryForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    jobTitle: document.getElementById('jobTitle').value,
+                    industry: document.getElementById('industry').value,
+                    location: document.getElementById('location').value,
+                    experience: document.getElementById('experience').value,
+                    education: document.getElementById('education').value,
+                    companySize: document.getElementById('companySize').value
+                };
+                
+                const results = calculateSalary(
+                    formData.jobTitle,
+                    formData.industry,
+                    formData.location,
+                    formData.experience,
+                    formData.education,
+                    formData.companySize
+                );
+                
+                displayResults(results, formData);
+            });
+        });
+
+        function displayResults(results, formData) {
+            // Update salary amounts
+            document.getElementById('salary25').textContent = formatCurrency(results.salary25);
+            document.getElementById('salary50').textContent = formatCurrency(results.salary50);
+            document.getElementById('salary75').textContent = formatCurrency(results.salary75);
+            document.getElementById('baseSalary').textContent = formatCurrency(results.baseSalary);
+            document.getElementById('bonus').textContent = formatCurrency(results.bonus);
+            document.getElementById('benefits').textContent = formatCurrency(results.benefits);
+            document.getElementById('totalPackage').textContent = formatCurrency(results.totalPackage);
+            
+            // Generate and display insights
+            const insights = generateInsights(results, formData);
+            const insightsContainer = document.getElementById('insights');
+            insightsContainer.innerHTML = insights.map(insight => `<div class="insight-item">${insight}</div>`).join('');
+            
+            // Show results section
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculateAgain() {
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('salaryForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function shareResults() {
+            const salary50 = document.getElementById('salary50').textContent;
+            const text = `I just calculated my market salary: ${salary50}! Check out the FlexJobs Salary Calculator to find yours.`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Salary Calculation - FlexJobs',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
+                    alert('Results copied to clipboard!');
+                });
+            }
+        }
+    </script>
+
+    <style>
+        .hero-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            text-align: center;
+        }
+
+        .stat-item {
+            margin-bottom: 30px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .results-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .salary-range {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .salary-item {
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .salary-item.featured {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .salary-label {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .salary-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .breakdown-item.total {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .breakdown-label {
+            font-weight: 500;
+        }
+
+        .breakdown-value {
+            font-weight: 600;
+        }
+
+        .insight-item {
+            background: #e8f4fd;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .trend-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .trend-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .trend-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .trend-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .trend-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+        }
+    </style>
+</body>
+</html>

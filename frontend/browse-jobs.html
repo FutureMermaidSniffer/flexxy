@@ -188,7 +188,7 @@
                 <div class="row">
                     <div class="col-12 text-center">
                         <h3 class="stats-title">Browse All Job Categories</h3>
-                        <p class="stats-subtitle">Featuring <span class="highlight">156,447</span> jobs from <span class="highlight">10,524</span> companies</p>
+                        <p class="stats-subtitle">Featuring <span class="highlight" id="total-jobs-count">21</span> jobs from <span class="highlight" id="total-companies-count">15</span> companies</p>
                     </div>
                 </div>
             </div>
@@ -260,6 +260,8 @@
     
     <script src="js/auth.js"></script>
     
+    <!-- Jobs Database -->
+    <script src="js/data/jobs-database.js"></script>
     
     <script src="js/components/job-card.js"></script>
     
@@ -322,6 +324,31 @@
                 // Clean URL
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
+        });
+    </script>
+
+    <script>
+        // Update statistics dynamically from jobs database
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for the jobs database to load
+            setTimeout(() => {
+                if (typeof window.JobsDatabase !== 'undefined') {
+                    const totalJobs = window.JobsDatabase.getAllJobs().length;
+                    const totalCompanies = window.JobsDatabase.getCompanies().length;
+                    
+                    const jobsCountElement = document.getElementById('total-jobs-count');
+                    const companiesCountElement = document.getElementById('total-companies-count');
+                    
+                    if (jobsCountElement) {
+                        jobsCountElement.textContent = totalJobs;
+                    }
+                    if (companiesCountElement) {
+                        companiesCountElement.textContent = totalCompanies;
+                    }
+                    
+                    console.log(`📊 Updated statistics: ${totalJobs} jobs from ${totalCompanies} companies`);
+                }
+            }, 500);
         });
     </script>
     
