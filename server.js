@@ -157,21 +157,21 @@ app.use('/api/', generalLimiter);
 // Apply strict rate limiting to auth routes
 app.use('/api/auth/', authLimiter);
 
-// SECURITY: Session configuration with mandatory secret
+// SECURITY: Session configuration with Redis store
+const setupSessionMiddleware = require('./backend/session-middleware');
+
 if (!process.env.SESSION_SECRET) {
   console.error('❌ SECURITY ERROR: SESSION_SECRET environment variable is required');
   process.exit(1);
 }
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 
-  }
-}));
+// Initialize session middleware with Redis store
+setupSessionMiddleware(app).then((sessionManager) => {
+  console.log('✅ Session middleware initialized with Redis store');
+}).catch((error) => {
+  console.error('❌ Failed to initialize session middleware:', error);
+  process.exit(1);
+});
 
 
 app.use(passport.initialize());

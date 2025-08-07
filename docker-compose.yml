@@ -17,6 +17,10 @@ services:
       - DB_NAME=${DB_NAME:-flexjobs_db}
       - JWT_SECRET=${JWT_SECRET}
       - SESSION_SECRET=${SESSION_SECRET}
+      - REDIS_HOST=flexjobs-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_DB=0
       - PORT=3003
       - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@flexjobs.local}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}

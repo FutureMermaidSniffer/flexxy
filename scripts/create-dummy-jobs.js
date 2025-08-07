@@ -8,7 +8,7 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+    port: process.env.DB_PORT || 5433,  // Default to our secure port
 });
 
 
@@ -27,8 +27,8 @@ const companies = [
     {
         name: 'TechFlow Solutions',
         description: 'Leading technology consulting firm specializing in digital transformation and cloud solutions.',
-        website: 'https:
-        logo_url: 'https:
+        website: 'https://techflow.com',
+        logo_url: 'https://via.placeholder.com/200x200/4A90E2/FFFFFF?text=TechFlow',
         industry: 'Technology',
         size: '201-500 employees',
         founded_year: 2015,
@@ -38,8 +38,8 @@ const companies = [
     {
         name: 'DataVision Analytics',
         description: 'Advanced data analytics and business intelligence solutions for enterprise clients.',
-        website: 'https:
-        logo_url: 'https:
+        website: 'https://datavision.com',
+        logo_url: 'https://via.placeholder.com/200x200/50C878/FFFFFF?text=DataVision',
         industry: 'Data Analytics',
         size: '51-200 employees',
         founded_year: 2018,
@@ -49,8 +49,8 @@ const companies = [
     {
         name: 'Colorado Department of Transportation',
         description: 'State agency responsible for transportation infrastructure and services across Colorado.',
-        website: 'https:
-        logo_url: 'https:
+        website: 'https://www.codot.gov',
+        logo_url: 'https://via.placeholder.com/200x200/1E90FF/FFFFFF?text=CDOT',
         industry: 'Government',
         size: '1000+ employees',
         founded_year: 1917,
@@ -60,8 +60,8 @@ const companies = [
     {
         name: 'CloudFirst Inc',
         description: 'Cloud infrastructure and DevOps solutions for modern applications.',
-        website: 'https:
-        logo_url: 'https:
+        website: 'https://cloudfirst.io',
+        logo_url: 'https://via.placeholder.com/200x200/FF6B6B/FFFFFF?text=CloudFirst',
         industry: 'Cloud Computing',
         size: '11-50 employees',
         founded_year: 2020,
@@ -71,8 +71,8 @@ const companies = [
     {
         name: 'Marketing Dynamics',
         description: 'Full-service digital marketing agency helping brands grow their online presence.',
-        website: 'https:
-        logo_url: 'https:
+        website: 'https://marketingdynamics.com',
+        logo_url: 'https://via.placeholder.com/200x200/9B59B6/FFFFFF?text=Marketing+Dynamics',
         industry: 'Marketing',
         size: '11-50 employees',
         founded_year: 2019,
@@ -122,7 +122,7 @@ Requirements:
         category_name: 'Software Engineering',
         skills: ['JavaScript', 'React', 'Node.js', 'AWS', 'PostgreSQL'],
         benefits: ['Health Insurance', 'Dental Insurance', '401k Match', 'Flexible PTO', 'Remote Work Stipend'],
-        application_url: 'https:
+        application_url: 'https://techflow.com/careers/senior-fullstack-developer',
         is_featured: true,
         is_urgent: false
     },
@@ -154,7 +154,7 @@ Requirements:
         category_name: 'Data Science',
         skills: ['Python', 'R', 'SQL', 'TensorFlow', 'Machine Learning'],
         benefits: ['Health Insurance', 'Stock Options', 'Learning Budget', 'Gym Membership'],
-        application_url: 'https:
+        application_url: 'https://datavision.com/careers/data-scientist-ml',
         is_featured: true,
         is_urgent: true
     },
@@ -186,7 +186,7 @@ Requirements:
         category_name: 'Marketing',
         skills: ['Google Ads', 'Facebook Ads', 'SEO', 'Content Marketing', 'Analytics'],
         benefits: ['Health Insurance', 'Flexible Hours', 'Professional Development', 'Remote Work'],
-        application_url: 'https:
+        application_url: 'https://marketingdynamics.com/careers/digital-marketing-manager',
         is_featured: false,
         is_urgent: false
     },
@@ -218,7 +218,7 @@ Requirements:
         category_name: 'DevOps',
         skills: ['Kubernetes', 'Docker', 'AWS', 'Terraform', 'Python'],
         benefits: ['Health Insurance', 'Stock Options', 'Flexible PTO', 'Tech Stipend'],
-        application_url: 'https:
+        application_url: 'https://cloudfirst.io/careers/devops-engineer',
         is_featured: true,
         is_urgent: false
     },
@@ -250,7 +250,7 @@ Requirements:
         category_name: 'Software Engineering',
         skills: ['React', 'JavaScript', 'Redux', 'CSS', 'Jest'],
         benefits: ['Health Insurance', 'Dental Insurance', 'Vision Insurance', 'Remote Work'],
-        application_url: 'https:
+        application_url: 'https://techflow.com/careers/frontend-developer-react',
         is_featured: false,
         is_urgent: true
     },
@@ -282,7 +282,7 @@ Requirements:
         category_name: 'Marketing',
         skills: ['Content Writing', 'SEO', 'WordPress', 'Social Media', 'Analytics'],
         benefits: ['Health Insurance', 'Flexible Hours', 'Professional Development'],
-        application_url: 'https:
+        application_url: 'https://marketingdynamics.com/careers/content-marketing-specialist',
         is_featured: false,
         is_urgent: false
     },
@@ -316,7 +316,7 @@ Requirements:
         category_name: 'Transportation',
         skills: ['Civil Engineering', 'AutoCAD', 'Transportation Planning', 'Project Management'],
         benefits: ['State Health Plan', 'Pension', 'Paid Time Off', 'Professional Development'],
-        application_url: 'https:
+        application_url: 'https://www.governmentjobs.com/careers/colorado/jobs/transportation-engineer-ii',
         is_featured: false,
         is_urgent: false
     },
@@ -348,7 +348,7 @@ Requirements:
         category_name: 'Transportation',
         skills: ['GIS', 'ArcGIS', 'SQL', 'Transportation Planning', 'Data Analysis'],
         benefits: ['State Health Plan', 'Pension', 'Flexible Schedule', 'Training Opportunities'],
-        application_url: 'https:
+        application_url: 'https://www.governmentjobs.com/careers/colorado/jobs/gis-analyst-transportation',
         is_featured: false,
         is_urgent: true
     },
@@ -380,7 +380,7 @@ Requirements:
         category_name: 'Project Management',
         skills: ['Project Management', 'Construction Management', 'PMP', 'Budgeting', 'Quality Control'],
         benefits: ['State Health Plan', 'Pension', 'Paid Time Off', 'State Vehicle'],
-        application_url: 'https:
+        application_url: 'https://www.governmentjobs.com/careers/colorado/jobs/project-manager-highway',
         is_featured: true,
         is_urgent: false
     },
@@ -412,7 +412,7 @@ Requirements:
         category_name: 'Transportation',
         skills: ['Traffic Management', 'ITS Systems', 'Data Analysis', 'Incident Response'],
         benefits: ['State Health Plan', 'Pension', 'Shift Differential', 'Overtime Pay'],
-        application_url: 'https:
+        application_url: 'https://www.governmentjobs.com/careers/colorado/jobs/traffic-operations-specialist',
         is_featured: false,
         is_urgent: false
     }
@@ -420,6 +420,32 @@ Requirements:
 
 async function createDummyJobs() {
     console.log('🚀 Starting to create dummy jobs...');
+    
+    // Validate required environment variables
+    const requiredEnvVars = ['DB_USER', 'DB_HOST', 'DB_NAME', 'DB_PASSWORD'];
+    const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    
+    if (missingVars.length > 0) {
+        console.error('❌ Missing required environment variables:', missingVars.join(', '));
+        console.error('💡 Please set these in your .env file');
+        throw new Error('Missing required environment variables');
+    }
+    
+    // Test database connection first
+    try {
+        console.log('🔍 Testing database connection...');
+        const testClient = await pool.connect();
+        await testClient.query('SELECT NOW()');
+        testClient.release();
+        console.log('✅ Database connection successful');
+    } catch (error) {
+        console.error('❌ Database connection failed:', error.message);
+        console.error('💡 Make sure:');
+        console.error('   - Database is running on port', process.env.DB_PORT || 5433);
+        console.error('   - Environment variables are set correctly');
+        console.error('   - Database credentials are valid');
+        throw error;
+    }
     
     try {
         
@@ -430,9 +456,11 @@ async function createDummyJobs() {
         let adminUserId;
         
         if (adminUser.rows.length === 0) {
-            // SECURITY: Use environment variable for admin password
-            const adminPassword = process.env.ADMIN_PASSWORD || 'change-me-in-production';
-            const hashedPassword = await bcrypt.hash(adminPassword, 12);
+            // SECURITY: Admin password must be provided via environment
+            if (!process.env.ADMIN_PASSWORD) {
+                throw new Error('ADMIN_PASSWORD environment variable is required for admin user creation');
+            }
+            const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
             const newAdmin = await pool.query(
                 'INSERT INTO users (first_name, last_name, email, password, user_type, is_verified) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
                 ['Admin', 'User', 'admin@flexjobs.com', hashedPassword, 'admin', true]
