@@ -9,17 +9,17 @@ services:
     ports:
       - "3003:3003"  # App port
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - DB_HOST=flexjobs-db
-      - DB_PORT=5432
+      - DB_PORT=5433
       - DB_USER=${DB_USER:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_NAME=${DB_NAME:-flexjobs_db}
-      - JWT_SECRET=${JWT_SECRET:-dev_jwt_secret}
-      - SESSION_SECRET=${SESSION_SECRET:-dev_session_secret}
+      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
       - PORT=3003
       - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@flexjobs.local}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       
     volumes:
       - ./uploads:/app/uploads
@@ -40,20 +40,23 @@ services:
     image: postgres:15-alpine
     container_name: flexjobs-db
     restart: unless-stopped
-    ports:
-      - "5432:5432"  # Standard PostgreSQL port mapping
+    # No external port mapping - database only accessible internally
+    expose:
+      - "5433"
     environment:
       - POSTGRES_DB=${DB_NAME:-flexjobs_db}
       - POSTGRES_USER=${DB_USER:-postgres}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_PORT=5433
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - flexjobs-db-data:/var/lib/postgresql/data
       - ./database/backup:/backup
+    command: postgres -p 5433
     networks:
       - flexjobs-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-flexjobs_db}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-flexjobs_db} -p 5433"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -64,8 +67,9 @@ services:
     image: redis:7-alpine
     container_name: flexjobs-redis
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+    # No external port mapping - Redis only accessible internally
+    expose:
+      - "6379"
     volumes:
       - flexjobs-redis-data:/data
     networks:

@@ -430,7 +430,9 @@ async function createDummyJobs() {
         let adminUserId;
         
         if (adminUser.rows.length === 0) {
-            const hashedPassword = await bcrypt.hash('admin123', 12);
+            // SECURITY: Use environment variable for admin password
+            const adminPassword = process.env.ADMIN_PASSWORD || 'change-me-in-production';
+            const hashedPassword = await bcrypt.hash(adminPassword, 12);
             const newAdmin = await pool.query(
                 'INSERT INTO users (first_name, last_name, email, password, user_type, is_verified) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
                 ['Admin', 'User', 'admin@flexjobs.com', hashedPassword, 'admin', true]

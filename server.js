@@ -48,7 +48,8 @@ if (!fs.existsSync('logs')) {
   fs.mkdirSync('logs');
 }
 
-const { createAdminFromEnv } = require('./auto-create-admin');
+// SECURITY: Auto-admin creation disabled for production security
+// const { createAdminFromEnv } = require('./auto-create-admin');
 const siteConfig = require('./backend/config/site');
 
 const authRoutes = require('./backend/routes/auth');
@@ -156,8 +157,14 @@ app.use('/api/', generalLimiter);
 // Apply strict rate limiting to auth routes
 app.use('/api/auth/', authLimiter);
 
+// SECURITY: Session configuration with mandatory secret
+if (!process.env.SESSION_SECRET) {
+  console.error('❌ SECURITY ERROR: SESSION_SECRET environment variable is required');
+  process.exit(1);
+}
+
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'fallback-secret-key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -455,8 +462,8 @@ app.use((err, req, res, next) => {
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
   
-  
-  
-  const { createAdminFromEnv } = require('./auto-create-admin');
-  await createAdminFromEnv();
+  // SECURITY: Auto-admin creation disabled for production security
+  // Use manual admin setup script when needed
+  // const { createAdminFromEnv } = require('./auto-create-admin');
+  // await createAdminFromEnv();
 });
