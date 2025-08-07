@@ -6,7 +6,12 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "migrate": "node database/migrate.js",
+    "migrate": "node database/migration-system.js migrate",
+    "migrate:status": "node database/migration-system.js status",
+    "migrate:rollback": "node database/migration-system.js rollback",
+    "migrate:generate": "node database/generate-migration.js",
+    "migrate:transition": "node database/transition-migrations.js",
+    "migrate:legacy": "node database/migrate.js",
     "rollback": "node database/rollback.js",
     "db:setup": "npm run migrate",
     "db:reset": "npm run rollback && npm run migrate",
