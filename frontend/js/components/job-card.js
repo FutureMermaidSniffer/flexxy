@@ -85,6 +85,17 @@ class JobCard {
                 }
             });
         });
+
+        
+        const companyImages = container.querySelectorAll('.company-img');
+        companyImages.forEach(img => {
+            img.addEventListener('error', (e) => {
+                const initials = img.getAttribute('data-company-initials');
+                if (initials) {
+                    img.parentElement.innerHTML = `<div class="company-initials">${initials}</div>`;
+                }
+            });
+        });
     }
 
     
@@ -134,7 +145,7 @@ class JobCard {
                     <img src="${job.company_logo}" 
                          alt="${job.company_name}" 
                          class="company-img" 
-                         onerror="this.parentElement.innerHTML='<div class=&quot;company-initials&quot;>${companyInitials}</div>'">
+                         data-company-initials="${companyInitials}">
                 </div>
                 ${job.badges.map(badge => `<div class="job-badge ${badge.type}">${badge.text}</div>`).join('')}
             </div>

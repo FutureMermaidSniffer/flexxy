@@ -139,7 +139,7 @@ class JobDetails {
         this.updateElement('jobRequirements', this.formatContent(job.requirements), 'innerHTML');
         
         
-        if (job.benefits && job.benefits.trim()) {
+        if (job.benefits && this.hasContent(job.benefits)) {
             this.updateElement('jobBenefits', this.formatContent(job.benefits), 'innerHTML');
             const benefitsSection = document.getElementById('benefitsSection');
             if (benefitsSection) benefitsSection.style.display = 'block';
@@ -162,7 +162,7 @@ class JobDetails {
         const companyWebsite = job.company_website;
         const websiteBtn = document.getElementById('viewCompanyWebsite');
         if (companyWebsite && websiteBtn) {
-            websiteBtn.href = companyWebsite.startsWith('http') ? companyWebsite : `https:
+            websiteBtn.href = companyWebsite.startsWith('http') ? companyWebsite : `https://${companyWebsite}`;
             websiteBtn.style.display = 'inline-block';
         } else if (websiteBtn) {
             websiteBtn.style.display = 'none';
@@ -182,20 +182,23 @@ class JobDetails {
             return;
         }
         
+        // Remove any existing event listeners by cloning the button
+        const newApplyBtn = applyBtn.cloneNode(true);
+        applyBtn.parentNode.replaceChild(newApplyBtn, applyBtn);
+        
         if (job.application_url && job.application_url.trim()) {
             
             const cleanUrl = job.application_url.trim();
-            const applicationUrl = cleanUrl.startsWith('http') ? cleanUrl : `https:
+            const applicationUrl = cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`;
             
-            applyBtn.href = applicationUrl;
-            applyBtn.target = '_blank';
-            applyBtn.rel = 'noopener noreferrer';
-            applyBtn.innerHTML = `
+            newApplyBtn.href = applicationUrl;
+            newApplyBtn.target = '_blank';
+            newApplyBtn.rel = 'noopener noreferrer';
+            newApplyBtn.innerHTML = `
                 <i class="fas fa-external-link-alt me-2"></i>Apply Now
             `;
             
-            
-            applyBtn.addEventListener('click', () => {
+            newApplyBtn.addEventListener('click', () => {
                 console.log(`🔗 External application click: ${applicationUrl}`);
                 this.trackApplicationClick();
             });
@@ -203,15 +206,15 @@ class JobDetails {
             console.log(`🔗 External application URL configured: ${applicationUrl}`);
         } else {
             
-            applyBtn.href = '#';
-            applyBtn.target = '_self';
-            applyBtn.removeAttribute('rel');
-            applyBtn.innerHTML = `
+            newApplyBtn.href = '#';
+            newApplyBtn.target = '_self';
+            newApplyBtn.removeAttribute('rel');
+            newApplyBtn.innerHTML = `
                 <i class="fas fa-paper-plane me-2"></i>Apply Now
             `;
             
             
-            applyBtn.addEventListener('click', (e) => {
+            newApplyBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.showInternalApplicationForm();
             });
@@ -280,11 +283,38 @@ class JobDetails {
     }
 
     
+    hasContent(content) {
+        if (!content) return false;
+        
+        if (typeof content === 'string') {
+            return content.trim().length > 0;
+        } else if (Array.isArray(content)) {
+            return content.length > 0 && content.some(item => item && String(item).trim().length > 0);
+        } else if (typeof content === 'object') {
+            return Object.keys(content).length > 0;
+        } else {
+            return String(content).trim().length > 0;
+        }
+    }
+
+    
     formatContent(content) {
         if (!content) return 'Not specified';
         
+        // Handle different content types
+        let contentString = '';
+        if (typeof content === 'string') {
+            contentString = content;
+        } else if (Array.isArray(content)) {
+            contentString = content.join('\n');
+        } else if (typeof content === 'object') {
+            contentString = JSON.stringify(content);
+        } else {
+            contentString = String(content);
+        }
         
-        return content
+        
+        return contentString
             .replace(/\n/g, '<br>')
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>');
