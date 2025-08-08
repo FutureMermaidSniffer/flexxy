@@ -95,7 +95,7 @@ class Auth {
                 
                 
                 setTimeout(() => {
-                    window.location.href = 'browse-jobs.html';
+                    window.location.href = '/browse-jobs';
                 }, 1000);
             } else {
                 this.showAlert(data.message || 'Login failed', 'danger');
@@ -153,7 +153,7 @@ class Auth {
                 
                 
                 setTimeout(() => {
-                    window.location.href = 'browse-jobs.html';
+                    window.location.href = '/browse-jobs';
                 }, 1000);
             } else {
                 if (data.errors) {
@@ -231,7 +231,7 @@ class Auth {
         
         
         setTimeout(() => {
-            window.location.href = 'browse-jobs.html';
+            window.location.href = '/';
         }, 1000);
     }
 

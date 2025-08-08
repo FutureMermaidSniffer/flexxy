@@ -48,7 +48,8 @@ if (!fs.existsSync('logs')) {
   fs.mkdirSync('logs');
 }
 
-const { createAdminFromEnv } = require('./auto-create-admin');
+// SECURITY: Auto-admin creation disabled for production security
+// const { createAdminFromEnv } = require('./auto-create-admin');
 const siteConfig = require('./backend/config/site');
 
 const authRoutes = require('./backend/routes/auth');
@@ -156,15 +157,21 @@ app.use('/api/', generalLimiter);
 // Apply strict rate limiting to auth routes
 app.use('/api/auth/', authLimiter);
 
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'fallback-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 
-  }
-}));
+// SECURITY: Session configuration with Redis store
+const setupSessionMiddleware = require('./backend/session-middleware');
+
+if (!process.env.SESSION_SECRET) {
+  console.error('❌ SECURITY ERROR: SESSION_SECRET environment variable is required');
+  process.exit(1);
+}
+
+// Initialize session middleware with Redis store
+setupSessionMiddleware(app).then((sessionManager) => {
+  console.log('✅ Session middleware initialized with Redis store');
+}).catch((error) => {
+  console.error('❌ Failed to initialize session middleware:', error);
+  process.exit(1);
+});
 
 
 app.use(passport.initialize());
@@ -370,6 +377,11 @@ app.get('/blog', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'blog.html'));
 });
 
+// Home page route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
 // Clean URL middleware - handle URLs without .html extension
 app.get('*', (req, res, next) => {
   // Skip API routes and files with extensions
@@ -450,8 +462,8 @@ app.use((err, req, res, next) => {
 app.listen(PORT, async () => {
   console.log(`Server running on port ${PORT}`);
   
-  
-  
-  const { createAdminFromEnv } = require('./auto-create-admin');
-  await createAdminFromEnv();
+  // SECURITY: Auto-admin creation disabled for production security
+  // Use manual admin setup script when needed
+  // const { createAdminFromEnv } = require('./auto-create-admin');
+  // await createAdminFromEnv();
 });

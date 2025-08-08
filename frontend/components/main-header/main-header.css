@@ -217,6 +217,82 @@
     color: #004f6e;
 }
 
+/* EU Flags */
+.main-header__flags {
+    display: flex;
+    align-items: center;
+}
+
+.flag-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.flag-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    overflow: hidden;
+}
+
+.flag-image {
+    width: 24px;
+    height: 18px;
+    object-fit: cover;
+    border-radius: 2px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.flag-btn:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.1);
+}
+
+.flag-btn:hover .flag-image {
+    transform: scale(1.05);
+}
+
+.flag-btn:active {
+    transform: scale(0.95);
+}
+
+.flag-btn:active .flag-image {
+    transform: scale(0.9);
+}
+
+.flag-btn:focus {
+    outline: 2px solid #004f6e;
+    outline-offset: 2px;
+}
+
+.flag-btn.active {
+    background-color: #e3f2fd;
+    border: 2px solid #004f6e;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 79, 110, 0.2);
+}
+
+.flag-btn.active:hover {
+    background-color: #e3f2fd;
+}
+
+.flag-btn.active .flag-image {
+    transform: scale(1.1);
+}
+
 
 .main-header__mobile-search {
     background: #004f6e;
@@ -551,5 +627,10 @@
         flex: 1;
         font-size: 0.75rem;
         padding: 0.2rem 0.4rem;
+    }
+    
+    /* Hide flags on mobile to save space */
+    .main-header__flags {
+        display: none;
     }
 }

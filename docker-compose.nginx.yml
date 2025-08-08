@@ -1,0 +1,137 @@
+# FlexJobs Production Docker Compose with Nginx Reverse Proxy
+# Usage: DOMAIN=yourdomain.com docker-compose -f docker-compose.nginx.yml up -d
+
+version: '3.8'
+
+services:
+  # Nginx Reverse Proxy - Production Configuration
+  flexjobs-nginx:
+    image: nginx:1.25-alpine
+    container_name: flexjobs-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:8080"  # HTTP (since port 80 is used by another app)
+      - "8443:443"   # HTTPS mapped to 8443 (since port 443 is used by another app)
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./frontend:/var/www/flexjobs/frontend:ro
+      - ssl-certs:/etc/ssl/certs:ro
+      - ssl-private:/etc/ssl/private:ro
+      - nginx-cache:/var/cache/nginx
+      - nginx-logs:/var/log/nginx
+    networks:
+      - flexjobs-network
+    depends_on:
+      - flexjobs-app
+    environment:
+      - DOMAIN=${DOMAIN}
+      - SSL_EMAIL=${SSL_EMAIL}
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Node.js Application (no longer exposed externally)
+  flexjobs-app:
+    build: .
+    container_name: flexjobs-app
+    restart: unless-stopped
+    # Remove external port exposure - only accessible via Nginx
+    expose:
+      - "3003"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=flexjobs-db
+      - DB_PORT=5433
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME:-flexjobs_db}
+      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - REDIS_HOST=flexjobs-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_DB=0
+      - PORT=3003
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@flexjobs.local}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      - flexjobs-db
+      - flexjobs-redis
+    networks:
+      - flexjobs-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3003/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # PostgreSQL Database
+  flexjobs-db:
+    image: postgres:15-alpine
+    container_name: flexjobs-db
+    restart: unless-stopped
+    # No external port mapping - database only accessible internally
+    expose:
+      - "5433"
+    environment:
+      - POSTGRES_DB=${DB_NAME:-flexjobs_db}
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_PORT=5433
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - flexjobs-db-data:/var/lib/postgresql/data
+      - ./database/backup:/backup
+    command: postgres -p 5433
+    networks:
+      - flexjobs-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-flexjobs_db} -p 5433"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Redis (for sessions and caching)
+  flexjobs-redis:
+    image: redis:7-alpine
+    container_name: flexjobs-redis
+    restart: unless-stopped
+    # No external port mapping - Redis only accessible internally
+    expose:
+      - "6379"
+    volumes:
+      - flexjobs-redis-data:/data
+    networks:
+      - flexjobs-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  flexjobs-db-data:
+    driver: local
+  flexjobs-redis-data:
+    driver: local
+  ssl-certs:
+    driver: local
+  ssl-private:
+    driver: local
+  nginx-cache:
+    driver: local
+  nginx-logs:
+    driver: local
+
+networks:
+  flexjobs-network:
+    driver: bridge

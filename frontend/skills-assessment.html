@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Assessment - FlexJobs</title>
+    <link rel="icon" type="image/png" href="images/f.png">
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Assess your professional skills and discover career opportunities that match your strengths and interests.">
+    <meta name="keywords" content="skills assessment, career test, professional skills, career aptitude">
+    <meta property="og:title" content="Skills Assessment - FlexJobs">
+    <meta property="og:description" content="Free skills assessment to help you identify your strengths and find the perfect career path.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-semibold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Halcyon';
+            src: url('fonts/Fontspring-DEMO-halcyon-bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    
+    <!-- Component CSS -->
+    <link rel="stylesheet" href="components/main-header/main-header.css">
+    <link rel="stylesheet" href="components/main-footer/main-footer.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="page-skills-assessment">
+    <!-- Header -->
+    <div id="main-header-container"></div>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="hero-content">
+                            <h1 class="hero-title">Skills Assessment</h1>
+                            <p class="hero-description">
+                                Discover your professional strengths and identify career opportunities 
+                                that align with your skills and interests. Our comprehensive assessment 
+                                provides personalized insights for your career development.
+                            </p>
+                            <div class="hero-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>15-minute assessment</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span>Detailed skill analysis</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <span>Career recommendations</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="hero-image">
+                            <img src="images/skills-assessment-illustration.png" alt="Skills assessment illustration" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assessment Introduction -->
+        <section class="intro-section py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="section-title">Start Your Skills Assessment</h2>
+                        <p class="section-description">
+                            Our assessment evaluates your technical skills, soft skills, and career interests 
+                            to provide you with personalized insights and job recommendations.
+                        </p>
+                        <button class="btn btn-primary btn-lg" onclick="startAssessment()">
+                            <i class="fas fa-play me-2"></i>Begin Assessment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assessment Form -->
+        <section id="assessmentForm" class="assessment-section py-5" style="display: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="assessment-card">
+                            <!-- Progress Bar -->
+                            <div class="progress-container mb-4">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        <span class="progress-text">Question 1 of 20</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Question Container -->
+                            <div id="questionContainer">
+                                <!-- Questions will be dynamically loaded here -->
+                            </div>
+
+                            <!-- Navigation Buttons -->
+                            <div class="assessment-navigation mt-4">
+                                <button id="prevBtn" class="btn btn-outline-secondary" onclick="previousQuestion()" style="display: none;">
+                                    <i class="fas fa-arrow-left me-2"></i>Previous
+                                </button>
+                                <button id="nextBtn" class="btn btn-primary ms-auto" onclick="nextQuestion()">
+                                    Next<i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                                <button id="submitBtn" class="btn btn-success ms-auto" onclick="submitAssessment()" style="display: none;">
+                                    <i class="fas fa-check me-2"></i>Complete Assessment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results" class="results-section py-5" style="display: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="results-card">
+                            <div class="text-center mb-5">
+                                <h2 class="results-title">Your Skills Assessment Results</h2>
+                                <p class="results-subtitle">Based on your responses, here's your personalized career profile</p>
+                            </div>
+
+                            <!-- Skills Overview -->
+                            <div class="skills-overview mb-5">
+                                <h3 class="section-heading">Skills Overview</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="skill-category">
+                                            <h4 class="skill-category-title">
+                                                <i class="fas fa-code"></i>
+                                                Technical Skills
+                                            </h4>
+                                            <div id="technicalSkills" class="skills-list">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="skill-category">
+                                            <h4 class="skill-category-title">
+                                                <i class="fas fa-users"></i>
+                                                Soft Skills
+                                            </h4>
+                                            <div id="softSkills" class="skills-list">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Career Recommendations -->
+                            <div class="career-recommendations mb-5">
+                                <h3 class="section-heading">Recommended Career Paths</h3>
+                                <div id="careerRecommendations" class="career-cards">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <!-- Development Areas -->
+                            <div class="development-areas mb-5">
+                                <h3 class="section-heading">Areas for Development</h3>
+                                <div id="developmentAreas" class="development-list">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <!-- Next Steps -->
+                            <div class="next-steps">
+                                <h3 class="section-heading">Recommended Next Steps</h3>
+                                <div class="action-cards">
+                                    <div class="action-card">
+                                        <i class="fas fa-search"></i>
+                                        <h4>Browse Jobs</h4>
+                                        <p>Find jobs that match your skill profile</p>
+                                        <a href="/jobs" class="btn btn-primary">View Jobs</a>
+                                    </div>
+                                    <div class="action-card">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <h4>Skill Building</h4>
+                                        <p>Enhance your skills with recommended courses</p>
+                                        <a href="/career-guides" class="btn btn-outline-primary">Learn More</a>
+                                    </div>
+                                    <div class="action-card">
+                                        <i class="fas fa-file-alt"></i>
+                                        <h4>Update Resume</h4>
+                                        <p>Highlight your strengths in your resume</p>
+                                        <a href="/resume-templates" class="btn btn-outline-primary">Get Templates</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-5">
+                                <button class="btn btn-outline-primary" onclick="retakeAssessment()">Retake Assessment</button>
+                                <button class="btn btn-primary ms-3" onclick="shareResults()">Share Results</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits-section py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="section-title">Why Take Our Skills Assessment?</h2>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h3 class="benefit-title">Identify Strengths</h3>
+                            <p class="benefit-description">
+                                Discover your unique professional strengths and learn how to leverage them in your career.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <h3 class="benefit-title">Career Direction</h3>
+                            <p class="benefit-description">
+                                Get personalized career recommendations based on your skills, interests, and experience.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="benefit-title">Growth Plan</h3>
+                            <p class="benefit-description">
+                                Receive targeted recommendations for skill development and career advancement.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <div id="main-footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="components/main-header/main-header.js"></script>
+    <script src="components/main-footer/main-footer.js"></script>
+    
+    <script>
+        // Assessment data
+        const assessmentQuestions = [
+            {
+                id: 1,
+                category: 'technical',
+                question: 'How comfortable are you with programming languages?',
+                type: 'scale',
+                options: ['Not at all', 'Beginner', 'Intermediate', 'Advanced', 'Expert']
+            },
+            {
+                id: 2,
+                category: 'soft',
+                question: 'How well do you handle working in teams?',
+                type: 'scale',
+                options: ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent']
+            },
+            {
+                id: 3,
+                category: 'technical',
+                question: 'Which of these tools have you used? (Select all that apply)',
+                type: 'multiple',
+                options: ['Microsoft Office', 'Google Workspace', 'Adobe Creative Suite', 'CRM Software', 'Project Management Tools']
+            },
+            {
+                id: 4,
+                category: 'soft',
+                question: 'How do you prefer to communicate with colleagues?',
+                type: 'single',
+                options: ['Face-to-face meetings', 'Video calls', 'Email', 'Instant messaging', 'Phone calls']
+            },
+            {
+                id: 5,
+                category: 'interest',
+                question: 'Which work environment appeals to you most?',
+                type: 'single',
+                options: ['Creative studio', 'Corporate office', 'Home office', 'Co-working space', 'Outdoor/Field work']
+            },
+            {
+                id: 6,
+                category: 'technical',
+                question: 'Rate your data analysis skills',
+                type: 'scale',
+                options: ['No experience', 'Basic', 'Intermediate', 'Advanced', 'Expert']
+            },
+            {
+                id: 7,
+                category: 'soft',
+                question: 'How do you handle tight deadlines?',
+                type: 'scale',
+                options: ['Very poorly', 'Poorly', 'Adequately', 'Well', 'Very well']
+            },
+            {
+                id: 8,
+                category: 'interest',
+                question: 'What motivates you most at work?',
+                type: 'single',
+                options: ['Solving complex problems', 'Helping others', 'Creating something new', 'Leading a team', 'Achieving targets']
+            },
+            {
+                id: 9,
+                category: 'technical',
+                question: 'How comfortable are you with learning new software?',
+                type: 'scale',
+                options: ['Very uncomfortable', 'Uncomfortable', 'Neutral', 'Comfortable', 'Very comfortable']
+            },
+            {
+                id: 10,
+                category: 'soft',
+                question: 'How would you rate your public speaking skills?',
+                type: 'scale',
+                options: ['Very poor', 'Poor', 'Average', 'Good', 'Excellent']
+            },
+            {
+                id: 11,
+                category: 'interest',
+                question: 'Which industry interests you most?',
+                type: 'single',
+                options: ['Technology', 'Healthcare', 'Finance', 'Education', 'Creative Arts', 'Sales & Marketing']
+            },
+            {
+                id: 12,
+                category: 'technical',
+                question: 'Rate your written communication skills',
+                type: 'scale',
+                options: ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent']
+            },
+            {
+                id: 13,
+                category: 'soft',
+                question: 'How do you approach problem-solving?',
+                type: 'single',
+                options: ['Analytical approach', 'Creative brainstorming', 'Collaborative discussion', 'Research-based', 'Trial and error']
+            },
+            {
+                id: 14,
+                category: 'interest',
+                question: 'What type of tasks energize you?',
+                type: 'multiple',
+                options: ['Strategic planning', 'Hands-on execution', 'Research and analysis', 'Client interaction', 'Creative design']
+            },
+            {
+                id: 15,
+                category: 'technical',
+                question: 'How experienced are you with project management?',
+                type: 'scale',
+                options: ['No experience', 'Basic', 'Some experience', 'Experienced', 'Very experienced']
+            },
+            {
+                id: 16,
+                category: 'soft',
+                question: 'How do you handle constructive criticism?',
+                type: 'scale',
+                options: ['Very poorly', 'Poorly', 'Okay', 'Well', 'Very well']
+            },
+            {
+                id: 17,
+                category: 'interest',
+                question: 'What work schedule do you prefer?',
+                type: 'single',
+                options: ['Traditional 9-5', 'Flexible hours', 'Remote work', 'Part-time', 'Project-based']
+            },
+            {
+                id: 18,
+                category: 'technical',
+                question: 'Rate your customer service skills',
+                type: 'scale',
+                options: ['No experience', 'Basic', 'Intermediate', 'Advanced', 'Expert']
+            },
+            {
+                id: 19,
+                category: 'soft',
+                question: 'How comfortable are you with leading others?',
+                type: 'scale',
+                options: ['Very uncomfortable', 'Uncomfortable', 'Neutral', 'Comfortable', 'Very comfortable']
+            },
+            {
+                id: 20,
+                category: 'interest',
+                question: 'What size company would you prefer to work for?',
+                type: 'single',
+                options: ['Startup (1-50)', 'Small (51-200)', 'Medium (201-1000)', 'Large (1000+)', 'No preference']
+            }
+        ];
+
+        let currentQuestion = 0;
+        let responses = {};
+
+        function startAssessment() {
+            document.querySelector('.intro-section').style.display = 'none';
+            document.getElementById('assessmentForm').style.display = 'block';
+            currentQuestion = 0;
+            responses = {};
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const question = assessmentQuestions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            let optionsHtml = '';
+            
+            if (question.type === 'scale') {
+                optionsHtml = question.options.map((option, index) => `
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="q${question.id}" value="${index}" id="q${question.id}_${index}">
+                        <label class="form-check-label" for="q${question.id}_${index}">
+                            ${option}
+                        </label>
+                    </div>
+                `).join('');
+            } else if (question.type === 'single') {
+                optionsHtml = question.options.map((option, index) => `
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="q${question.id}" value="${index}" id="q${question.id}_${index}">
+                        <label class="form-check-label" for="q${question.id}_${index}">
+                            ${option}
+                        </label>
+                    </div>
+                `).join('');
+            } else if (question.type === 'multiple') {
+                optionsHtml = question.options.map((option, index) => `
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="q${question.id}" value="${index}" id="q${question.id}_${index}">
+                        <label class="form-check-label" for="q${question.id}_${index}">
+                            ${option}
+                        </label>
+                    </div>
+                `).join('');
+            }
+            
+            container.innerHTML = `
+                <div class="question">
+                    <h3 class="question-title">Question ${currentQuestion + 1}</h3>
+                    <p class="question-text">${question.question}</p>
+                    <div class="question-options">
+                        ${optionsHtml}
+                    </div>
+                </div>
+            `;
+            
+            updateProgress();
+            updateNavigation();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / assessmentQuestions.length) * 100;
+            const progressBar = document.querySelector('.progress-bar');
+            const progressText = document.querySelector('.progress-text');
+            
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute('aria-valuenow', progress);
+            progressText.textContent = `Question ${currentQuestion + 1} of ${assessmentQuestions.length}`;
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            prevBtn.style.display = currentQuestion > 0 ? 'inline-block' : 'none';
+            
+            if (currentQuestion === assessmentQuestions.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'inline-block';
+            } else {
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        function saveCurrentResponse() {
+            const question = assessmentQuestions[currentQuestion];
+            const questionId = question.id;
+            
+            if (question.type === 'multiple') {
+                const checked = document.querySelectorAll(`input[name="q${questionId}"]:checked`);
+                responses[questionId] = Array.from(checked).map(input => parseInt(input.value));
+            } else {
+                const selected = document.querySelector(`input[name="q${questionId}"]:checked`);
+                if (selected) {
+                    responses[questionId] = parseInt(selected.value);
+                }
+            }
+        }
+
+        function nextQuestion() {
+            saveCurrentResponse();
+            if (currentQuestion < assessmentQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            saveCurrentResponse();
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        function submitAssessment() {
+            saveCurrentResponse();
+            calculateResults();
+            displayResults();
+        }
+
+        function calculateResults() {
+            // Simple scoring algorithm - in a real app, this would be more sophisticated
+            const scores = {
+                technical: 0,
+                soft: 0,
+                leadership: 0,
+                creativity: 0,
+                analytical: 0
+            };
+            
+            // Calculate scores based on responses
+            Object.keys(responses).forEach(questionId => {
+                const question = assessmentQuestions.find(q => q.id == questionId);
+                const response = responses[questionId];
+                
+                if (question.category === 'technical') {
+                    scores.technical += Array.isArray(response) ? response.length : response;
+                } else if (question.category === 'soft') {
+                    scores.soft += Array.isArray(response) ? response.length : response;
+                }
+            });
+            
+            return scores;
+        }
+
+        function displayResults() {
+            const scores = calculateResults();
+            
+            // Hide assessment form and show results
+            document.getElementById('assessmentForm').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            // Populate technical skills
+            const technicalSkills = document.getElementById('technicalSkills');
+            technicalSkills.innerHTML = `
+                <div class="skill-item">
+                    <span class="skill-name">Programming</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: ${Math.min(scores.technical * 10, 100)}%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Data Analysis</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: ${Math.min(scores.technical * 8, 100)}%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Software Tools</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: ${Math.min(scores.technical * 12, 100)}%"></div>
+                    </div>
+                </div>
+            `;
+            
+            // Populate soft skills
+            const softSkills = document.getElementById('softSkills');
+            softSkills.innerHTML = `
+                <div class="skill-item">
+                    <span class="skill-name">Communication</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: ${Math.min(scores.soft * 12, 100)}%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Teamwork</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: ${Math.min(scores.soft * 10, 100)}%"></div>
+                    </div>
+                </div>
+                <div class="skill-item">
+                    <span class="skill-name">Problem Solving</span>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: ${Math.min(scores.soft * 11, 100)}%"></div>
+                    </div>
+                </div>
+            `;
+            
+            // Populate career recommendations
+            const careerRecommendations = document.getElementById('careerRecommendations');
+            careerRecommendations.innerHTML = `
+                <div class="career-card">
+                    <h4>Software Developer</h4>
+                    <p>Based on your technical skills and problem-solving abilities</p>
+                    <div class="match-score">85% Match</div>
+                </div>
+                <div class="career-card">
+                    <h4>Project Manager</h4>
+                    <p>Your communication and leadership skills are well-suited for this role</p>
+                    <div class="match-score">78% Match</div>
+                </div>
+                <div class="career-card">
+                    <h4>Business Analyst</h4>
+                    <p>Perfect combination of technical and analytical skills</p>
+                    <div class="match-score">72% Match</div>
+                </div>
+            `;
+            
+            // Populate development areas
+            const developmentAreas = document.getElementById('developmentAreas');
+            developmentAreas.innerHTML = `
+                <div class="development-item">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h5>Advanced Data Analysis</h5>
+                        <p>Consider learning advanced Excel, SQL, or Python for data analysis</p>
+                    </div>
+                </div>
+                <div class="development-item">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h5>Leadership Skills</h5>
+                        <p>Develop your leadership abilities through management training or mentoring</p>
+                    </div>
+                </div>
+            `;
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function retakeAssessment() {
+            document.getElementById('results').style.display = 'none';
+            document.querySelector('.intro-section').style.display = 'block';
+            currentQuestion = 0;
+            responses = {};
+        }
+
+        function shareResults() {
+            const text = "I just completed my skills assessment on FlexJobs! Discover your professional strengths too.";
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Skills Assessment Results - FlexJobs',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text + ' ' + window.location.href).then(() => {
+                    alert('Results copied to clipboard!');
+                });
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header
+            const headerContainer = document.getElementById('main-header-container');
+            if (headerContainer) {
+                new MainHeader({
+                    contentType: 'skills-assessment',
+                    showSearch: true
+                });
+            }
+
+            // Load footer
+            const footerContainer = document.getElementById('main-footer-container');
+            if (footerContainer && typeof MainFooter !== 'undefined') {
+                new MainFooter();
+            }
+        });
+    </script>
+
+    <style>
+        .hero-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .feature-item i {
+            color: #ffd700;
+        }
+
+        .assessment-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-container {
+            position: relative;
+        }
+
+        .progress {
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #666;
+        }
+
+        .question-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-check {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .form-check:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+
+        .form-check-input:checked + .form-check-label {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .assessment-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .results-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .results-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .section-heading {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .skill-category {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            height: 100%;
+        }
+
+        .skill-category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .skill-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .skill-bar {
+            width: 60%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.8s ease;
+        }
+
+        .career-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .career-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            position: relative;
+        }
+
+        .career-card h4 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .match-score {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .development-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .development-item i {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-top: 5px;
+        }
+
+        .development-item h5 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-card i {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .action-card h4 {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .benefit-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .benefit-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .benefit-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+    </style>
+</body>
+</html>

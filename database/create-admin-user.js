@@ -34,8 +34,13 @@ async function createAdminUser() {
 
     // Create admin user
     const adminData = {
+<<<<<<< HEAD
       email: 'admin@flexjobs.com',
       password: 'admin123', // Change this in production!
+=======
+      email: process.env.ADMIN_EMAIL || 'admin@flexjobs.com',
+      password: process.env.ADMIN_PASSWORD || 'change-me-in-production', // SECURITY: Set in environment
+>>>>>>> europe
       first_name: 'Admin',
       last_name: 'User',
       user_type: 'admin'

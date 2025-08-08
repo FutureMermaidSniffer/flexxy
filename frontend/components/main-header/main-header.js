@@ -318,6 +318,7 @@ class MainHeader {
 
         
         this.setupLogoutHandlers();
+        this.setupFlagHandlers();
     }
 
     
@@ -332,6 +333,66 @@ class MainHeader {
     }
 
     
+    setupFlagHandlers() {
+        
+        const flagButtons = this.headerElement?.querySelectorAll('.flag-btn');
+        if (flagButtons) {
+            flagButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.handleFlagSelection(button);
+                });
+            });
+        }
+    }
+
+    
+    handleFlagSelection(button) {
+        const country = button.getAttribute('data-country');
+        console.log(`Flag selected: ${country}`);
+        
+        
+        const allFlags = this.headerElement?.querySelectorAll('.flag-btn');
+        allFlags?.forEach(flag => flag.classList.remove('active'));
+        button.classList.add('active');
+        
+        
+        const countryMappings = {
+            'france': { code: 'FR', language: 'fr', region: 'Europe/Paris' },
+            'germany': { code: 'DE', language: 'de', region: 'Europe/Berlin' },
+            'netherlands': { code: 'NL', language: 'nl', region: 'Europe/Amsterdam' }
+        };
+        
+        const selectedCountry = countryMappings[country];
+        if (selectedCountry) {
+            
+            this.updateLocationFilter(selectedCountry.code);
+            
+            
+            if (this.options.onFlagSelect && typeof this.options.onFlagSelect === 'function') {
+                this.options.onFlagSelect(selectedCountry);
+            }
+            
+            
+            const event = new CustomEvent('flagSelected', {
+                detail: selectedCountry
+            });
+            document.dispatchEvent(event);
+        }
+    }
+
+    
+    updateLocationFilter(countryCode) {
+        if (this.locationInput) {
+            
+            const option = this.locationInput.querySelector(`option[value="${countryCode}"], option[value="${countryCode.toLowerCase()}"]`);
+            if (option) {
+                this.locationInput.value = option.value;
+            }
+        }
+    }
+
+    
     async handleLogout() {
         if (window.auth && typeof window.auth.logout === 'function') {
             await window.auth.logout();
@@ -339,7 +400,7 @@ class MainHeader {
             
             localStorage.removeItem('flexjobs_token');
             localStorage.removeItem('flexjobs_user');
-            window.location.href = 'browse-jobs.html';
+            window.location.href = '/';
         }
     }
     

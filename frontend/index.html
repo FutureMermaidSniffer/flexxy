@@ -80,7 +80,7 @@
                             <img src="https://cdn.worldvectorlogo.com/logos/doordash-1.svg" alt="DoorDash" class="img-fluid company-logo-small">
                         </div>
                         <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                            <img src="images/logo.png" alt="CDOT" class="img-fluid company-logo-small">
+                            <img src="images/logo-words.png" alt="CDOT" class="img-fluid company-logo-small">
                         </div>
                         <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                             <img src="https://cdn.worldvectorlogo.com/logos/reddit-1.svg" alt="Reddit" class="img-fluid company-logo-small">
@@ -116,7 +116,7 @@
                 </div>
                 
                 <div class="text-center">
-                    <a href="browse-jobs.html" class="btn btn-warning btn-lg px-5 py-3 fw-semibold text-decoration-none">
+                    <a href="/browse-jobs" class="btn btn-warning btn-lg px-5 py-3 fw-semibold text-decoration-none">
                         Find Your Next Remote Job!
                     </a>
                 </div>
@@ -309,10 +309,10 @@
                                 <img src="images/cnbc.png" alt="CNBC" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
                             </div>
                             <div class="col-6 col-md-2">
-                                <img src="images/cnn.png" alt="CNN" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
+                                <img src="images/CNN-logo-vector-01.webp" alt="CNN" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
                             </div>
                             <div class="col-6 col-md-2">
-                                <img src="images/usatoday.png" alt="USA Today" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
+                                <img src="images/Today_logo.svg.png" alt="USA Today" class="img-fluid" style="max-height: 60px; object-fit: contain; opacity: 0.8;">
                             </div>
                         </div>
                     </div>
@@ -572,9 +572,9 @@
 
             // Redirect to browse-jobs page with search query
             if (searchQuery) {
-                window.location.href = `browse-jobs.html?search=${encodeURIComponent(searchQuery)}`;
+                window.location.href = `/browse-jobs?search=${encodeURIComponent(searchQuery)}`;
             } else {
-                window.location.href = 'browse-jobs.html';
+                window.location.href = '/browse-jobs';
             }
         }
 
@@ -648,6 +648,21 @@
                     height: 32px;
                     object-fit: contain;
                     border-radius: 4px;
+                }
+
+                /* Company initials fallback styling */
+                .job-card .company-initials {
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    color: #fff;
+                    background: linear-gradient(135deg, #007bff, #0056b3);
+                    border-radius: 4px;
+                    text-transform: uppercase;
                 }
 
                 /* Job badges */
@@ -807,9 +822,9 @@
                 const searchInput = document.getElementById('mainSearchInput');
                 if (searchInput && searchInput.value.trim()) {
                     // Redirect to browse-jobs page with search query
-                    window.location.href = `browse-jobs.html?search=${encodeURIComponent(searchInput.value.trim())}`;
+                    window.location.href = `/browse-jobs?search=${encodeURIComponent(searchInput.value.trim())}`;
                 } else {
-                    window.location.href = 'browse-jobs.html';
+                    window.location.href = '/browse-jobs';
                 }
             };
 
