@@ -153,134 +153,64 @@ class IndexJobsManager {
 
     
     async loadFeaturedJobs() {
-        console.log('⭐ Loading featured jobs for homepage');
+        console.log('⭐ Loading featured jobs for homepage from static database');
         this.showLoading();
 
         try {
-            
-            const featuredResponse = await fetch('/api/jobs?is_featured=true&limit=6&is_active=true', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!featuredResponse.ok) {
-                throw new Error(`HTTP error! status: ${featuredResponse.status}`);
+            // Check if jobs database is available
+            if (typeof window.JOBS_DATABASE === 'undefined') {
+                throw new Error('Jobs database not loaded');
             }
 
-            const featuredData = await featuredResponse.json();
-            console.log('✅ Featured jobs data received:', featuredData);
-
-            let jobsToShow = [];
+            // Get featured jobs first
+            let featuredJobs = window.JOBS_DATABASE.filter(job => job.is_featured === true);
+            console.log(`🎯 Found ${featuredJobs.length} featured jobs in database`);
             
-            
-            if (featuredData.jobs && featuredData.jobs.length > 0) {
-                jobsToShow = featuredData.jobs;
-                console.log(`🎯 Found ${jobsToShow.length} featured jobs`);
-            }
-
-            
+            // If we need more jobs, get regular jobs
+            let jobsToShow = featuredJobs.slice(0, 6);
             if (jobsToShow.length < 6) {
-                console.log(`🔄 Need ${6 - jobsToShow.length} more jobs, fetching regular jobs`);
-                const regularResponse = await fetch(`/api/jobs?limit=${6 - jobsToShow.length}&is_active=true`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (regularResponse.ok) {
-                    const regularData = await regularResponse.json();
-                    if (regularData.jobs && regularData.jobs.length > 0) {
-                        
-                        const featuredIds = jobsToShow.map(job => job.id);
-                        const newJobs = regularData.jobs.filter(job => !featuredIds.includes(job.id));
-                        jobsToShow = [...jobsToShow, ...newJobs].slice(0, 6); 
-                        console.log(`📋 Added ${newJobs.length} regular jobs`);
-                    }
-                }
+                console.log(`🔄 Need ${6 - jobsToShow.length} more jobs, getting regular jobs`);
+                const regularJobs = window.JOBS_DATABASE.filter(job => 
+                    job.is_featured !== true && 
+                    !featuredJobs.find(fJob => fJob.id === job.id)
+                );
+                const additionalJobs = regularJobs.slice(0, 6 - jobsToShow.length);
+                jobsToShow = [...jobsToShow, ...additionalJobs];
+                console.log(`📋 Added ${additionalJobs.length} regular jobs`);
             }
+
+            console.log(`✅ Total jobs to display: ${jobsToShow.length}`);
 
             if (jobsToShow.length === 0) {
                 this.showEmptyState();
                 return;
             }
 
+            // Clear container and render jobs
+            this.container.innerHTML = '';
             
-            this.renderJobs(jobsToShow);
-            console.log(`🎯 Successfully loaded ${jobsToShow.length} jobs for homepage`);
+            for (const job of jobsToShow) {
+                try {
+                    const jobCardHtml = this.jobCard.render(job);
+                    
+                    // Create a wrapper div for Bootstrap grid
+                    const jobWrapper = document.createElement('div');
+                    jobWrapper.className = 'col-lg-4 col-md-6 col-12';
+                    jobWrapper.innerHTML = jobCardHtml;
+                    
+                    this.container.appendChild(jobWrapper);
+                } catch (error) {
+                    console.error('❌ Error rendering job card:', error, job);
+                }
+            }
+
+            this.hideLoading();
+            console.log('✅ Featured jobs loaded successfully from static database');
 
         } catch (error) {
             console.error('❌ Error loading featured jobs:', error);
-            this.showError(error.message);
+            this.showError(error.message || 'Failed to load featured jobs');
         }
-    }
-
-    
-    async loadRegularJobs() {
-        try {
-            const response = await fetch('/api/jobs?limit=6&is_active=true', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            if (!data.jobs || data.jobs.length === 0) {
-                this.showEmptyState();
-                return;
-            }
-
-            
-            this.renderJobs(data.jobs);
-            console.log(`📋 Loaded ${data.jobs.length} regular jobs as fallback`);
-
-        } catch (error) {
-            console.error('❌ Error loading regular jobs:', error);
-            this.showError(error.message);
-        }
-    }
-
-    
-    renderJobs(jobs) {
-        console.log(`🎨 Rendering ${jobs.length} featured jobs`);
-        
-        
-        this.hideLoading();
-        
-        
-        this.container.innerHTML = '';
-        
-        
-        this.container.className = 'row g-4 mb-4';
-        this.container.style.display = 'flex';
-
-        
-        jobs.forEach((job, index) => {
-            const jobCardHtml = this.jobCard.render(job);
-            const cardWrapper = document.createElement('div');
-            cardWrapper.className = 'col-lg-4 col-md-6 col-sm-12 mb-4';
-            cardWrapper.innerHTML = jobCardHtml;
-            
-            
-            const card = cardWrapper.querySelector('.job-card, .card');
-            if (card) {
-                card.style.animationDelay = `${index * 0.1}s`;
-                card.classList.add('fade-in-up');
-            }
-            
-            this.container.appendChild(cardWrapper);
-        });
-
-        
-        this.jobCard.setupEventListeners(this.container);
     }
 
     

@@ -1,10 +1,10 @@
 
 
 const IMAGE_CONFIG = {
+    // Base URL for images
+    BASE_URL: '',
     
-    BASE_URL: 'https:
-    
-    
+    // Image paths
     IMAGES: {
         
         hero: {
