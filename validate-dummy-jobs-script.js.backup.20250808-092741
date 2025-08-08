@@ -21,8 +21,8 @@ try {
     passed.push('✅ Script file exists and is readable');
     
     // 2. Check for secure port configuration
-    if (scriptContent.includes('port: process.env.DB_PORT || 5432')) {
-        passed.push('✅ Database port configured with secure default (5432)');
+    if (scriptContent.includes('port: process.env.DB_PORT || 5433')) {
+        passed.push('✅ Database port configured with secure default (5433)');
     } else {
         issues.push('❌ Database port not configured with secure default');
         validationPassed = false;
@@ -93,14 +93,14 @@ if (validationPassed) {
     console.log('🎯 Script Validation: PASSED');
     console.log('✅ create-dummy-jobs.js is ready for production use');
     console.log('🔒 All security best practices implemented');
-    console.log('🚀 Script compatible with new port 5432 configuration');
+    console.log('🚀 Script compatible with new port 5433 configuration');
 } else {
     console.log('❌ Script Validation: FAILED');
     console.log('⚠️  Please fix the issues above before running the script');
 }
 
 console.log('\n📝 Script Features:');
-console.log('✅ Secure database connection with port 5432');
+console.log('✅ Secure database connection with port 5433');
 console.log('✅ Environment variable validation');
 console.log('✅ Connection testing before execution');
 console.log('✅ Secure admin password handling');
@@ -111,7 +111,7 @@ console.log('✅ Creates 5 companies and 6 job categories');
 console.log('\n⚡ Usage:');
 console.log('1. Set required environment variables:');
 console.log('   DB_HOST=localhost (or flexjobs-db for Docker)');
-console.log('   DB_PORT=5432');
+console.log('   DB_PORT=5433');
 console.log('   DB_USER=postgres');
 console.log('   DB_PASSWORD=your_secure_password');
 console.log('   DB_NAME=flexjobs_db');

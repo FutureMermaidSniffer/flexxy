@@ -1,32 +1,34 @@
-const SessionManager = require('./session-manager');
+const session = require('express-session');
 
 async function setupSessionMiddleware(app) {
-    const sessionManager = new SessionManager();
+    console.log('🔄 Setting up session middleware with memory store...');
     
-    // Initialize Redis session store
-    await sessionManager.initializeRedis();
-    
-    // Get session configuration
-    const sessionConfig = sessionManager.getSessionConfig();
+    // Simple session configuration without Redis
+    const sessionConfig = {
+        secret: process.env.SESSION_SECRET || 'fallback-session-secret-change-this',
+        resave: false,
+        saveUninitialized: false,
+        name: 'flexjobs.sid',
+        cookie: {
+            secure: false, // Set to true only if using HTTPS
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000, // 24 hours
+            sameSite: 'lax'
+        },
+        rolling: true,
+        genid: () => {
+            return require('crypto').randomBytes(16).toString('hex');
+        }
+    };
     
     // Apply session middleware
-    const session = require('express-session');
     app.use(session(sessionConfig));
     
-    console.log('✅ Session middleware configured with Redis store');
+    console.log('✅ Session middleware configured with memory store');
     
-    // Graceful shutdown handler
-    process.on('SIGTERM', async () => {
-        console.log('🔄 Gracefully shutting down session manager...');
-        await sessionManager.cleanup();
-    });
-    
-    process.on('SIGINT', async () => {
-        console.log('🔄 Gracefully shutting down session manager...');
-        await sessionManager.cleanup();
-    });
-    
-    return sessionManager;
+    return { sessionConfig };
 }
+
+module.exports = setupSessionMiddleware;
 
 module.exports = setupSessionMiddleware;

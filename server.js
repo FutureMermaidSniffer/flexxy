@@ -157,7 +157,7 @@ app.use('/api/', generalLimiter);
 // Apply strict rate limiting to auth routes
 app.use('/api/auth/', authLimiter);
 
-// SECURITY: Session configuration with Redis store
+// SECURITY: Session configuration with memory store
 const setupSessionMiddleware = require('./backend/session-middleware');
 
 if (!process.env.SESSION_SECRET) {
@@ -165,9 +165,9 @@ if (!process.env.SESSION_SECRET) {
   process.exit(1);
 }
 
-// Initialize session middleware with Redis store
+// Initialize session middleware with memory store
 setupSessionMiddleware(app).then((sessionManager) => {
-  console.log('✅ Session middleware initialized with Redis store');
+  console.log('✅ Session middleware initialized with memory store');
 }).catch((error) => {
   console.error('❌ Failed to initialize session middleware:', error);
   process.exit(1);
