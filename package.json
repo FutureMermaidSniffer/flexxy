@@ -24,7 +24,7 @@
     "assets:check": "node scripts/dev-assets.js check",
     "assets:list": "node scripts/dev-assets.js list",
     "test": "echo \"No tests specified\" && exit 0",
-    "docker:prod": "docker-compose --env-file .env.docker up -d"
+    "test:db": "node database/test-connection.js"
   },
   "keywords": [
     "jobs",

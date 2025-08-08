@@ -9,7 +9,7 @@ yarn-error.log*
 # .env.local
 # .env.development.local
 # .env.test.local
-# Note: .env.production, .env.example, .env.docker.example are INCLUDED for production
+# Note: .env.production, .env.example are INCLUDED for production
 
 # Operating System
 .DS_Store
@@ -98,11 +98,8 @@ deployment.tar.gz
 
 # === PRODUCTION FILES (EXPLICITLY INCLUDED) ===
 # The following files are REQUIRED for production deployment and are included:
-# - Dockerfile
-# - docker-compose.yml
-# - deploy-docker.sh
 # - package.json & package-lock.json
-# - .env.example, .env.production, .env.docker.example
+# - .env.example, .env.production
 # - All deployment guides and scripts in DEPLOYMENT_* files
 # - GitHub Actions workflows (.github/workflows/)
 # - Production configuration and deployment scripts (scripts/deploy-*.sh)
