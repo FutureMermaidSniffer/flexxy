@@ -16,7 +16,7 @@ class EmailService {
     // Initialize email transporter based on environment
     if (process.env.SMTP_HOST) {
       // Production SMTP configuration
-      this.transporter = nodemailer.createTransporter({
+      this.transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: process.env.SMTP_PORT || 587,
         secure: process.env.SMTP_SECURE === 'true',
@@ -34,7 +34,7 @@ class EmailService {
   async createTestAccount() {
     try {
       const testAccount = await nodemailer.createTestAccount();
-      this.transporter = nodemailer.createTransporter({
+      this.transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
         port: 587,
         secure: false,
