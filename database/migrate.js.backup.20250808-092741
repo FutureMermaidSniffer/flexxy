@@ -7,9 +7,9 @@ require('dotenv').config();
 
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 5432,
+  port: process.env.DB_PORT || 5433,
   user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'password',
+  password: process.env.DB_PASSWORD,
   database: 'postgres' // Connect to postgres to create/manage target database
 };
 
@@ -59,22 +59,94 @@ async function runProductionMigration() {
     
     console.log('⚡ Executing complete schema creation...');
     
-    // Split and execute SQL statements
-    const statements = schemaSQL
+    // Split statements and clean them
+    const allStatements = schemaSQL
       .split(';')
       .map(stmt => stmt.trim())
-      .filter(stmt => stmt && !stmt.startsWith('--') && stmt !== 'SELECT \'Job scraping fields added successfully\' as status');
+      .filter(stmt => {
+        if (!stmt) return false;
+        const sqlContent = stmt.replace(/--.*$/gm, '').trim();
+        return sqlContent && sqlContent !== 'SELECT \'Job scraping fields added successfully\' as status';
+      });
 
+    // Separate table creation from indexes and constraints
+    const createTableStatements = allStatements.filter(stmt => {
+      const cleanStmt = stmt.replace(/--.*$/gm, '').trim();
+      return cleanStmt.startsWith('CREATE TABLE');
+    });
+
+    const indexStatements = allStatements.filter(stmt => {
+      const cleanStmt = stmt.replace(/--.*$/gm, '').trim();
+      return cleanStmt.startsWith('CREATE INDEX');
+    });
+
+    console.log(`Found ${createTableStatements.length} table creation statements and ${indexStatements.length} index statements`);
+
+    // Execute table creation first (without foreign key constraints)
     let executedCount = 0;
-    for (const statement of statements) {
+    
+    console.log('\n🏗️  Creating tables without foreign key constraints...');
+    for (const statement of createTableStatements) {
       if (statement.trim()) {
         try {
-          await client.query(statement);
+          // Remove foreign key constraints from the CREATE TABLE statement
+          let cleanStatement = statement.replace(/--.*$/gm, '').trim();
+          
+          // Remove FOREIGN KEY constraints (but keep the column definitions)
+          cleanStatement = cleanStatement.replace(/,\s*FOREIGN KEY[^,)]+/g, '');
+          
+          console.log(`Creating table: ${cleanStatement.match(/CREATE TABLE (\w+)/)?.[1] || 'unknown'}`);
+          await client.query(cleanStatement);
           executedCount++;
         } catch (error) {
-          // Skip errors for existing objects (IF NOT EXISTS should handle this)
           if (!error.message.includes('already exists')) {
-            console.warn(`Warning: ${error.message}`);
+            console.warn(`Warning creating table: ${error.message}`);
+            console.warn(`Statement: ${statement.substring(0, 200)}...`);
+          }
+        }
+      }
+    }
+
+    console.log(`✅ Created ${executedCount} tables without constraints\n`);
+
+    // Now add foreign key constraints
+    console.log('🔗 Adding foreign key constraints...');
+    for (const statement of createTableStatements) {
+      const cleanStatement = statement.replace(/--.*$/gm, '').trim();
+      const tableName = cleanStatement.match(/CREATE TABLE (\w+)/)?.[1];
+      
+      if (tableName) {
+        // Extract foreign key constraints
+        const fkMatches = statement.match(/FOREIGN KEY \([^)]+\) REFERENCES [^,)]+/g);
+        
+        if (fkMatches) {
+          for (const fkConstraint of fkMatches) {
+            try {
+              const alterStatement = `ALTER TABLE ${tableName} ADD ${fkConstraint}`;
+              console.log(`Adding FK constraint to ${tableName}`);
+              await client.query(alterStatement);
+              executedCount++;
+            } catch (error) {
+              if (!error.message.includes('already exists')) {
+                console.warn(`Warning adding FK constraint: ${error.message}`);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Execute index creation
+    console.log('\n📊 Creating indexes...');
+    for (const statement of indexStatements) {
+      if (statement.trim()) {
+        try {
+          const cleanStatement = statement.replace(/--.*$/gm, '').trim();
+          await client.query(cleanStatement);
+          executedCount++;
+        } catch (error) {
+          if (!error.message.includes('already exists')) {
+            console.warn(`Warning creating index: ${error.message}`);
           }
         }
       }

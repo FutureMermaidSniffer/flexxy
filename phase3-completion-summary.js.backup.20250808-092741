@@ -15,7 +15,7 @@ console.log('🔐 SECURITY ISSUES IDENTIFIED & RESOLVED:\n');
 
 console.log('1. 📡 DATABASE PORT EXPOSURE');
 console.log('   ❌ BEFORE: PostgreSQL exposed on standard port 5432');
-console.log('   ✅ AFTER:  Database uses custom port 5432, no public exposure');
+console.log('   ✅ AFTER:  Database uses custom port 5433, no public exposure');
 console.log('   📝 IMPACT: Eliminates automated attacks on standard database ports\n');
 
 console.log('2. 🔴 REDIS PORT EXPOSURE');
@@ -38,20 +38,20 @@ console.log('📦 FILES MODIFIED:\n');
 const modifiedFiles = [
     'docker-compose.yml - Updated ports, environment, and security',
     'backend/database.js - Removed hardcoded password fallbacks',
-    'database/migrate.js - Updated to use port 5432',
-    'database/migrate-production.js - Updated to use port 5432',
-    'database/enhanced-migrations.js - Updated to use port 5432',
-    'database/snapshot-database.js - Updated to use port 5432',
+    'database/migrate.js - Updated to use port 5433',
+    'database/migrate-production.js - Updated to use port 5433',
+    'database/enhanced-migrations.js - Updated to use port 5433',
+    'database/snapshot-database.js - Updated to use port 5433',
     'database/migration-system.js - Removed password fallbacks',
     'database/transition-migrations.js - Removed password fallbacks',
-    'database/run-password-reset-migration.js - Updated to use port 5432',
-    'database/run-job-management-migration.js - Updated to use port 5432',
-    'database/run-agents-migration.js - Updated to use port 5432',
-    'database/rollback.js - Updated to use port 5432',
-    'database/add-scraping-fields.js - Updated to use port 5432',
-    'database/migrations/migrate.js - Updated to use port 5432',
-    'database/migrations/add-tags-column.js - Updated to use port 5432',
-    'database/migrations/add-salary-type-column.js - Updated to use port 5432'
+    'database/run-password-reset-migration.js - Updated to use port 5433',
+    'database/run-job-management-migration.js - Updated to use port 5433',
+    'database/run-agents-migration.js - Updated to use port 5433',
+    'database/rollback.js - Updated to use port 5433',
+    'database/add-scraping-fields.js - Updated to use port 5433',
+    'database/migrations/migrate.js - Updated to use port 5433',
+    'database/migrations/add-tags-column.js - Updated to use port 5433',
+    'database/migrations/add-salary-type-column.js - Updated to use port 5433'
 ];
 
 modifiedFiles.forEach((file, index) => {
@@ -61,14 +61,14 @@ modifiedFiles.forEach((file, index) => {
 console.log('\n🔧 CONFIGURATION CHANGES:\n');
 
 console.log('🐳 Docker Compose Changes:');
-console.log('   • PostgreSQL: Port 5432 → 5432 (internal only)');
+console.log('   • PostgreSQL: Port 5432 → 5433 (internal only)');
 console.log('   • Redis: Port 6379 → internal only');
 console.log('   • Environment: development → production');
 console.log('   • Secrets: All now require environment variables');
 console.log('   • Health checks: Updated for new port configuration\n');
 
 console.log('🗄️  Database Configuration:');
-console.log('   • All migration files now use consistent port 5432');
+console.log('   • All migration files now use consistent port 5433');
 console.log('   • Removed hardcoded postgres password fallbacks');
 console.log('   • Added mandatory DB_PASSWORD environment requirement');
 console.log('   • Updated connection strings for new port\n');
@@ -99,7 +99,7 @@ console.log('📋 Required Environment Variables:');
 console.log('   • DB_PASSWORD (strong password required)');
 console.log('   • SESSION_SECRET (64+ character string)');
 console.log('   • JWT_SECRET (64+ character string)');
-console.log('   • DB_PORT=5432 (for consistency)');
+console.log('   • DB_PORT=5433 (for consistency)');
 console.log('   • NODE_ENV=production\n');
 
 console.log('🔍 Validation:');
@@ -111,7 +111,7 @@ console.log('   • No hardcoded credentials remain\n');
 console.log('⚡ Next Steps:');
 console.log('   1. Create production .env file with required secrets');
 console.log('   2. Test Docker Compose configuration locally');
-console.log('   3. Verify all services start correctly on port 5432');
+console.log('   3. Verify all services start correctly on port 5433');
 console.log('   4. Run database migrations to test connectivity');
 console.log('   5. Deploy to production environment\n');
 

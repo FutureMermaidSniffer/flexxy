@@ -2,7 +2,7 @@
 
 /**
  * Migration Port Fix Script
- * Updates all database migration files to use consistent port 5432
+ * Updates all database migration files to use consistent port 5433
  */
 
 const fs = require('fs');
@@ -45,9 +45,9 @@ function fixPortInFile(filePath) {
         let content = fs.readFileSync(fullPath, 'utf8');
         let modified = false;
         
-        // Fix port 5432 to 5432
+        // Fix port 5432 to 5433
         if (content.includes('process.env.DB_PORT || 5432')) {
-            content = content.replace(/process\.env\.DB_PORT \|\| 5432/g, 'process.env.DB_PORT || 5432');
+            content = content.replace(/process\.env\.DB_PORT \|\| 5432/g, 'process.env.DB_PORT || 5433');
             modified = true;
         }
         
@@ -89,10 +89,10 @@ console.log(`❌ Errors encountered: ${errors}`);
 
 if (errors === 0) {
     console.log('\n🎉 All migration files have been updated!');
-    console.log('🔒 Port configuration is now consistent (5432)');
+    console.log('🔒 Port configuration is now consistent (5433)');
     console.log('🛡️  Hardcoded passwords have been removed');
     console.log('\n📝 Next steps:');
-    console.log('1. Update your .env file with DB_PORT=5432');
+    console.log('1. Update your .env file with DB_PORT=5433');
     console.log('2. Ensure DB_PASSWORD is set in environment');
     console.log('3. Run docker-compose up to test the new configuration');
 } else {
