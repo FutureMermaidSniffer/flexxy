@@ -67,6 +67,9 @@ const Error404Handler = require('./backend/middleware/404-handler');
 const app = express();
 const PORT = process.env.PORT || 3003;
 
+// Trust proxy for rate limiting and security
+// This is needed when behind reverse proxy/load balancer
+app.set('trust proxy', 1);
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -467,3 +470,4 @@ app.listen(PORT, async () => {
   // const { createAdminFromEnv } = require('./auto-create-admin');
   // await createAdminFromEnv();
 });
+

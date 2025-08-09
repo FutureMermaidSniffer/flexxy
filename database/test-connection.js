@@ -154,7 +154,7 @@ async function testConnection() {
 
 
 if (require.main === module) {
-    testConnection();
+    testConnection().catch(console.error);
 }
 
 module.exports = testConnection;
