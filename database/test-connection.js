@@ -94,6 +94,7 @@ async function testConnection() {
         }
         
         client.release();
+        console.log('\n🎉 Database connection test completed successfully!');
         
     } catch (error) {
         console.error('❌ Connection failed!');
@@ -118,6 +119,13 @@ async function testConnection() {
     } finally {
         await pool.end();
     }
+}
+
+if (require.main === module) {
+    testConnection().catch(console.error);
+}
+
+module.exports = testConnection;
 }
         
         await connection.end();

@@ -439,6 +439,16 @@ app.get('*', Error404Handler.createHandler('static'));
 
 
 app.use((err, req, res, next) => {
+  // Add console logging for immediate visibility
+  console.error('🔥 SERVER ERROR:', {
+    message: err.message,
+    stack: err.stack,
+    url: req.originalUrl,
+    method: req.method,
+    ip: req.ip,
+    timestamp: new Date().toISOString()
+  });
+  
   // Log error with Winston
   logger.error('SERVER_ERROR', {
     error: err.message,
