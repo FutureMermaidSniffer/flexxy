@@ -136,7 +136,7 @@ class RelevantExperiencePage {
         
         
         setTimeout(() => {
-            window.location.href = '/education-level.html';
+            window.location.href = '/education-level';
         }, 500);
     }
 

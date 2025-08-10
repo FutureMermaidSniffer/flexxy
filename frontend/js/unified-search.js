@@ -157,14 +157,14 @@ class UnifiedSearch {
         
         switch (this.searchType) {
             case 'jobs':
-                redirectUrl = `job-search-results.html?${searchParams.toString()}`;
+                redirectUrl = `/job-search-results?${searchParams.toString()}`;
                 break;
             case 'agents':
-                redirectUrl = `agents.html?${searchParams.toString()}`;
+                redirectUrl = `/agents?${searchParams.toString()}`;
                 break;
             case 'all':
             default:
-                redirectUrl = `search-results.html?${searchParams.toString()}`;
+                redirectUrl = `/search-results?${searchParams.toString()}`;
                 break;
         }
 
@@ -300,10 +300,10 @@ class UnifiedSearch {
 
     selectSuggestion(type, id) {
         if (type === 'job') {
-            window.location.href = `job-preview.html?id=${id}`;
+            window.location.href = `/job-preview?id=${id}`;
         } else if (type === 'agent') {
             
-            window.location.href = `agents.html?agent=${id}`;
+            window.location.href = `/agents?agent=${id}`;
         }
         
         

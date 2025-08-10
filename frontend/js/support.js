@@ -357,7 +357,7 @@ class SupportManager {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Maybe Later</button>
-                            <a href="subscription.html" class="btn btn-primary">Upgrade Now</a>
+                            <a href="/subscription" class="btn btn-primary">Upgrade Now</a>
                         </div>
                     </div>
                 </div>

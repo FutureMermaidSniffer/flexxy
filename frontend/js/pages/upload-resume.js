@@ -400,17 +400,17 @@ class UploadResumePage {
 
     handleBack() {
         
-        window.location.href = 'where-remote.html';
+        window.location.href = '/where-remote';
     }
 
     processResumeAndContinue() {
         
-        window.location.href = 'what-job.html';
+        window.location.href = '/what-job';
     }
 
     continueWithoutUpload() {
         
-        window.location.href = 'what-job.html';
+        window.location.href = '/what-job';
     }
 
     buildJobSearchParams() {

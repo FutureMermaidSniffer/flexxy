@@ -155,7 +155,7 @@ class StatisticsJobManager {
         if (viewDetailsBtn) {
             viewDetailsBtn.addEventListener('click', () => {
                 const jobId = viewDetailsBtn.getAttribute('data-job-id');
-                window.location.href = `job-details.html?id=${jobId}`;
+                window.location.href = `/job-details?id=${jobId}`;
             });
         }
 
@@ -164,7 +164,7 @@ class StatisticsJobManager {
         if (jobCard) {
             jobCard.style.cursor = 'pointer';
             jobCard.addEventListener('click', () => {
-                window.location.href = `job-details.html?id=${job.id}`;
+                window.location.href = `/job-details?id=${job.id}`;
             });
         }
     }

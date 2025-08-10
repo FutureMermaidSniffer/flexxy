@@ -255,9 +255,9 @@ class Auth {
                             <i class="fas fa-chevron-down ms-1"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                            <li><a class="dropdown-item" href="account.html">Account Details</a></li>
-                            <li><a class="dropdown-item" href="faq.html">FAQs</a></li>
-                            <li><a class="dropdown-item" href="support.html">Customer Support</a></li>
+                            <li><a class="dropdown-item" href="/account">Account Details</a></li>
+                            <li><a class="dropdown-item" href="/faq">FAQs</a></li>
+                            <li><a class="dropdown-item" href="/support">Customer Support</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item logout-btn" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                         </ul>
@@ -271,7 +271,7 @@ class Auth {
                     <hr class="mobile-menu__divider">
                     <ul class="mobile-account-list">
                         <li class="mobile-account-item">
-                            <a href="account.html" class="mobile-account-link">
+                            <a href="/account" class="mobile-account-link">
                                 Profile
                             </a>
                         </li>
@@ -298,8 +298,8 @@ class Auth {
             if (desktopNavbarAuth) {
                 desktopNavbarAuth.innerHTML = `
                     <div class="d-flex align-items-center gap-3">
-                        <a href="registration.html" class="text-decoration-none text-white auth-link">Sign Up</a>
-                        <a href="login.html" class="text-decoration-none text-white auth-link">Log In</a>
+                        <a href="/registration" class="text-decoration-none text-white auth-link">Sign Up</a>
+                        <a href="/login" class="text-decoration-none text-white auth-link">Log In</a>
                     </div>
                 `;
             }
@@ -310,12 +310,12 @@ class Auth {
                     <hr class="mobile-menu__divider">
                     <ul class="mobile-account-list">
                         <li class="mobile-account-item">
-                            <a href="registration.html" class="mobile-account-link" style="color:white;">
+                            <a href="/registration" class="mobile-account-link" style="color:white;">
                                 Sign Up
                             </a>
                         </li>
                         <li class="mobile-account-item">
-                            <a href="login.html" class="mobile-account-link" style="color:white;">
+                            <a href="/login" class="mobile-account-link" style="color:white;">
                                 Log In
                             </a>
                         </li>

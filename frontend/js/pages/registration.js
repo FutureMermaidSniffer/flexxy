@@ -155,7 +155,7 @@ class RegistrationPage {
         
         setTimeout(() => {
             this.closeModal();
-            window.location.href = 'browse-jobs.html';
+            window.location.href = '/browse-jobs';
         }, 800);
     }
 
@@ -316,7 +316,7 @@ class RegistrationPage {
             
             
             setTimeout(() => {
-                window.location.href = 'browse-jobs.html';
+                window.location.href = '/browse-jobs';
             }, 1500);
             
         } catch (error) {

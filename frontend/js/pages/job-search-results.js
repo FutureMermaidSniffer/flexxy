@@ -558,7 +558,7 @@ class JobSearchResultsPage {
     handleJobClick(jobId) {
         console.log('Job clicked:', jobId);
         
-        window.location.href = `job-details.html?id=${jobId}`;
+        window.location.href = `/job-details?id=${jobId}`;
     }
 
     handleSaveJob(jobId) {

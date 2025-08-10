@@ -326,12 +326,12 @@ class SalaryPreferencePage {
         this.saveToLocalStorage();
         
         
-        window.location.href = 'where-remote.html';
+        window.location.href = '/where-remote';
     }
 
     handleBack() {
         
-        window.location.href = 'work-type.html';
+        window.location.href = '/work-type';
     }
 
     skip() {
@@ -339,7 +339,7 @@ class SalaryPreferencePage {
         localStorage.removeItem('salaryPreference');
         
         
-        window.location.href = 'where-remote.html';
+        window.location.href = '/where-remote';
     }
 
     saveToLocalStorage() {

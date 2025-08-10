@@ -217,7 +217,7 @@ class WhatJobPage {
         
         
         setTimeout(() => {
-            window.location.href = 'where-remote.html';
+            window.location.href = '/where-remote';
         }, 300);
     }
 
@@ -241,7 +241,7 @@ class WhatJobPage {
         
         
         setTimeout(() => {
-            window.location.href = 'relevant-experience.html';
+            window.location.href = '/relevant-experience';
         }, 500);
     }
 

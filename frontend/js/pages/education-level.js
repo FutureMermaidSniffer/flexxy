@@ -75,7 +75,7 @@ class EducationLevelPage {
         
         
         setTimeout(() => {
-            window.location.href = 'benefits.html';
+            window.location.href = '/benefits';
         }, 500);
     }
 

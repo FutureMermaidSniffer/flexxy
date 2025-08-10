@@ -199,7 +199,7 @@ class JobPreview {
             window.history.back();
         } else {
             
-            window.location.href = 'what-job.html';
+            window.location.href = '/what-job';
         }
     }
 
