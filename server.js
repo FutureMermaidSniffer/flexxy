@@ -244,6 +244,57 @@ app.get('/health', (req, res) => {
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development'
   });
+// Detailed health check for production debugging
+app.get('/health/detailed', async (req, res) => {
+  const health = {
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
+    version: require('./package.json').version || 'unknown',
+    checks: {}
+  };
+
+  // Database check
+  try {
+    const { getOne } = require('./backend/database');
+    await getOne('SELECT 1');
+    health.checks.database = { status: 'healthy', message: 'Connected' };
+  } catch (error) {
+    health.checks.database = { status: 'unhealthy', message: error.message };
+    health.status = 'unhealthy';
+  }
+
+  // JWT check
+  try {
+    const jwt = require('jsonwebtoken');
+    if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET not configured');
+    const testToken = jwt.sign({ test: true }, process.env.JWT_SECRET, { expiresIn: '1m' });
+    jwt.verify(testToken, process.env.JWT_SECRET);
+    health.checks.jwt = { status: 'healthy', message: 'Generation and verification working' };
+  } catch (error) {
+    health.checks.jwt = { status: 'unhealthy', message: error.message };
+    health.status = 'unhealthy';
+  }
+
+  // Environment check
+  const requiredEnvVars = ['DB_HOST', 'DB_NAME', 'JWT_SECRET', 'SESSION_SECRET'];
+  const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+  
+  if (missingVars.length === 0) {
+    health.checks.environment = { status: 'healthy', message: 'All required variables set' };
+  } else {
+    health.checks.environment = { 
+      status: 'unhealthy', 
+      message: `Missing variables: ${missingVars.join(', ')}`
+    };
+    health.status = 'unhealthy';
+  }
+
+  const statusCode = health.status === 'healthy' ? 200 : 503;
+  res.status(statusCode).json(health);
+});
+
 });
 
 // Site configuration endpoint
@@ -480,4 +531,5 @@ app.listen(PORT, async () => {
   // const { createAdminFromEnv } = require('./auto-create-admin');
   // await createAdminFromEnv();
 });
+
 
