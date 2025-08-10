@@ -564,10 +564,10 @@ class MainHeader {
         let searchUrl;
         if (this.options.searchPlaceholder.toLowerCase().includes('agent')) {
             
-            searchUrl = `agents.html?${params.toString()}`;
+            searchUrl = `/agents?${params.toString()}`;
         } else {
             
-            searchUrl = `job-search-results.html?${params.toString()}`;
+            searchUrl = `/job-search-results?${params.toString()}`;
         }
         
         window.location.href = searchUrl;
