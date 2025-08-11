@@ -95,6 +95,8 @@ deployment.tar.gz
 # Production secrets that should never be committed
 .env.production.local
 .env.secrets
+default.conf
+
 
 # === PRODUCTION FILES (EXPLICITLY INCLUDED) ===
 # The following files are REQUIRED for production deployment and are included:

@@ -6,8 +6,8 @@ const pool = new Pool({
   user: process.env.DB_USER || 'postgres',
   host: process.env.DB_HOST || 'localhost',
   database: process.env.DB_NAME || 'flexjobs_db',
-  port: process.env.DB_PORT || 5433,
-  password: process.env.DB_PASSWORD || 'your_password'
+  port: process.env.DB_PORT || 5432,
+  password: process.env.DB_PASSWORD || 'postgres'
 });
 
 // Recruiting consultants data (matching your actual database schema)
@@ -51,9 +51,9 @@ const recruitingConsultants = [
     ])
   },
   {
-    name: 'Olivia Carter',
-    display_name: 'Olivia C. - Tech Recruiting Specialist',
-    bio: 'Technology recruiting specialist with deep expertise in placing software engineers, data scientists, and product managers at top-tier companies. Passionate about helping tech professionals advance their careers.',
+    name: 'Olivia Bennett',
+    display_name: 'Olivia B. - Recruiting Specialist',
+    bio: 'Technology recruiting specialist with deep expertise placing product managers at top-tier companies. Passionate about helping professionals advance their careers.',
     avatar_url: '/images/agents/Olivia.png',
     specializations: JSON.stringify(['Tech Recruiting', 'Software Engineering Roles', 'Data Science Placement', 'Product Management']),
     experience_years: 6,
@@ -89,9 +89,9 @@ const recruitingConsultants = [
     ])
   },
   {
-    name: 'Daniel Rodriguez',
-    display_name: 'Daniel R. - Executive Search Consultant',
-    bio: 'Executive search consultant specializing in C-suite and senior leadership placements across industries. Expert in executive coaching and leadership development with a track record of successful placements.',
+    name: 'Daniel Freeman',
+    display_name: 'Daniel F. - Executive Search Consultant',
+    bio: 'Executive search consultant specializing in placements across industries. Expert in executive coaching and leadership development with a track record of successful placements.',
     avatar_url: '/images/agents/Daniel.jpg',
     specializations: JSON.stringify(['Executive Search', 'Leadership Coaching', 'C-Suite Placement', 'Board Advisory']),
     experience_years: 12,
@@ -127,18 +127,18 @@ const recruitingConsultants = [
     ])
   },
   {
-    name: 'Naomi Kim',
-    display_name: 'Naomi K. - Healthcare & Finance Recruiter',
-    bio: 'Specialized recruiter focusing on healthcare and financial services with expertise in placing professionals from entry-level to executive positions. Known for thorough market knowledge and personalized approach.',
+    name: 'Naomi Clarke',
+    display_name: 'Naomi C. - Executive Search Consultant',
+    bio: 'Specialized recruiter with expertise in placing professionals from entry-level to executive positions. Known for thorough market knowledge and personalized approach.',
     avatar_url: '/images/agents/Naomi.png',
-    specializations: JSON.stringify(['Healthcare Recruiting', 'Financial Services', 'Regulatory Compliance', 'Medical Device Sales']),
+    specializations: JSON.stringify(['Recruiting', 'Financial Services', 'Regulatory Compliance', 'Sales']),
     experience_years: 7,
     hourly_rate: 135.00,
     rating: 4.85,
     total_reviews: 98,
     currency: 'USD',
     languages: JSON.stringify(['English', 'Korean', 'Mandarin']),
-    skills: JSON.stringify(['Healthcare Recruiting', 'Financial Analysis', 'Regulatory Knowledge', 'Clinical Research']),
+    skills: JSON.stringify(['Recruiting', 'Financial Analysis', 'Regulatory Knowledge', 'Research']),
     certifications: JSON.stringify([
       'Healthcare Recruiting Certification',
       'Financial Industry Regulatory Authority (FINRA)',
@@ -165,8 +165,8 @@ const recruitingConsultants = [
     ])
   },
   {
-    name: 'Isha Patel',
-    display_name: 'Isha P. - Marketing & Creative Recruiter',
+    name: 'Isha Malik',
+    display_name: 'Isha M. - Marketing & Creative Recruiter',
     bio: 'Creative and marketing recruitment specialist with a passion for connecting talented professionals with innovative companies. Expertise in digital marketing, creative agencies, and startup environments.',
     avatar_url: '/images/agents/Isha.jpg',
     specializations: JSON.stringify(['Marketing Recruiting', 'Creative Roles', 'Digital Marketing', 'Agency Placement']),
