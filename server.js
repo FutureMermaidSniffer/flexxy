@@ -101,23 +101,47 @@ app.use(helmet({
 // Enhanced CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+    console.log(`CORS request from origin: ${origin}`);
     
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) {
+      console.log('CORS: Allowing request with no origin');
+      return callback(null, true);
+    }
+    
+    // In development, allow localhost and common development ports
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('CORS: Development mode - checking localhost origins');
+      
+      // Check if origin starts with localhost or 127.0.0.1
+      if (origin.startsWith('http://localhost:') || 
+          origin.startsWith('http://127.0.0.1:') ||
+          origin.startsWith('https://localhost:') || 
+          origin.startsWith('https://127.0.0.1:')) {
+        console.log('CORS: Allowing localhost/127.0.0.1 origin');
+        return callback(null, true);
+      }
+    }
+    
+    // Production origins
     const allowedOrigins = process.env.ALLOWED_ORIGINS 
       ? process.env.ALLOWED_ORIGINS.split(',')
-      : ['http://localhost:3000', 'http://localhost:3003', 'http://127.0.0.1:3000', 'http://127.0.0.1:3003'];
+      : [];
+    
+    console.log('CORS: Checking allowed origins:', allowedOrigins);
     
     if (allowedOrigins.includes(origin)) {
+      console.log('CORS: Origin found in allowed list');
       callback(null, true);
     } else {
+      console.log(`CORS: Origin ${origin} not in allowed list`);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
 
 // Rate limiting configuration

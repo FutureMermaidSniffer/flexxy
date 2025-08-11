@@ -96,6 +96,7 @@ deployment.tar.gz
 .env.production.local
 .env.secrets
 default.conf
+.env
 
 
 # === PRODUCTION FILES (EXPLICITLY INCLUDED) ===
