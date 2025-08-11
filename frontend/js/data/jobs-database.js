@@ -152,33 +152,33 @@ const JOBS_DATABASE = [
         views_count: 1234
     },
 
-    // Job 6 - CDOT Database (Product Engagement Advisor)
+    // Job 6 - Shopify (Product Marketing Specialist)
     {
         id: 6,
-        title: "Product Engagement Advisor",
-        company_name: "CDOT Database",
-        company_logo: "images/companies/CDOT.png",
-        location: "Remote, USA",
-        salary_min: 75000,
-        salary_max: 105000,
+        title: "Product Marketing Specialist",
+        company_name: "Shopify",
+        company_logo: "images/companies/shopify.webp",
+        location: "Toronto, ON / Remote",
+        salary_min: 70000,
+        salary_max: 95000,
         salary_type: "annual",
         job_type: "Full-time",
-        remote_type: "fully_remote",
+        remote_type: "hybrid",
         experience_level: "Mid-level",
-        category: "Consulting",
-        skills: ["Product Strategy", "Customer Advisory", "Stakeholder Management", "Analytics", "Presentation"],
-        description: "As a Product Engagement Advisor at CDOT Database, you'll serve as a strategic partner to our key clients, helping them optimize their use of our database solutions. You'll provide expert guidance on product features, implementation best practices, and strategic roadmap planning.",
+        category: "Marketing",
+        skills: ["Product Marketing", "Content Strategy", "Market Research", "Analytics", "Go-to-Market"],
+        description: "Join Shopify's Product Marketing team to drive awareness and adoption of our e-commerce platform. Develop marketing strategies, create compelling content, and collaborate with cross-functional teams to bring products to market.",
         requirements: [
-            "3-5 years of consulting or advisory experience",
-            "Strong presentation and communication skills",
-            "Experience with database technologies",
-            "Ability to work independently in remote environment"
+            "3-5 years of product marketing experience",
+            "Strong writing and communication skills",
+            "Experience with SaaS products",
+            "Data-driven approach to marketing"
         ],
-        benefits: ["Full Remote Work", "Health Insurance", "401k Match", "Annual Bonus", "Tech Stipend"],
+        benefits: ["Remote-First Culture", "Health & Wellness Budget", "Stock Options", "Learning Budget", "Flexible PTO"],
         created_at: "2025-08-02T13:30:00Z",
         is_featured: true,
         is_new: true,
-        application_url: "https://cdotdatabase.com/careers/advisor",
+        application_url: "https://shopify.com/careers/apply",
         views_count: 723
     },
 

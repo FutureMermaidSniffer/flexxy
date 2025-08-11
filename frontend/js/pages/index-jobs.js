@@ -166,18 +166,46 @@ class IndexJobsManager {
             let featuredJobs = window.JOBS_DATABASE.filter(job => job.is_featured === true);
             console.log(`🎯 Found ${featuredJobs.length} featured jobs in database`);
             
-            // If we need more jobs, get regular jobs
-            let jobsToShow = featuredJobs.slice(0, 6);
-            if (jobsToShow.length < 6) {
-                console.log(`🔄 Need ${6 - jobsToShow.length} more jobs, getting regular jobs`);
-                const regularJobs = window.JOBS_DATABASE.filter(job => 
-                    job.is_featured !== true && 
-                    !featuredJobs.find(fJob => fJob.id === job.id)
-                );
-                const additionalJobs = regularJobs.slice(0, 6 - jobsToShow.length);
-                jobsToShow = [...jobsToShow, ...additionalJobs];
-                console.log(`📋 Added ${additionalJobs.length} regular jobs`);
+            // Create a balanced selection with 1 CDOT job for every 2 non-CDOT jobs
+            let jobsToShow = [];
+            let cdotJobs = featuredJobs.filter(job => job.company_name === 'CDOT');
+            let nonCdotJobs = featuredJobs.filter(job => job.company_name !== 'CDOT');
+            
+            // If no featured jobs or need more variety, include regular jobs
+            if (featuredJobs.length < 6) {
+                const regularJobs = window.JOBS_DATABASE.filter(job => job.is_featured !== true);
+                const additionalCdot = regularJobs.filter(job => job.company_name === 'CDOT');
+                const additionalNonCdot = regularJobs.filter(job => job.company_name !== 'CDOT');
+                
+                cdotJobs = [...cdotJobs, ...additionalCdot];
+                nonCdotJobs = [...nonCdotJobs, ...additionalNonCdot];
             }
+            
+            // Create balanced selection: 1 CDOT for every 2 other companies
+            let cdotIndex = 0;
+            let nonCdotIndex = 0;
+            let targetCount = 6;
+            
+            for (let i = 0; i < targetCount; i++) {
+                if (i % 3 === 0 && cdotIndex < cdotJobs.length) {
+                    // Every 3rd job (positions 0, 3) should be CDOT
+                    jobsToShow.push(cdotJobs[cdotIndex]);
+                    cdotIndex++;
+                } else if (nonCdotIndex < nonCdotJobs.length) {
+                    // Other positions get non-CDOT jobs
+                    jobsToShow.push(nonCdotJobs[nonCdotIndex]);
+                    nonCdotIndex++;
+                } else if (cdotIndex < cdotJobs.length) {
+                    // If we run out of non-CDOT, fill with CDOT
+                    jobsToShow.push(cdotJobs[cdotIndex]);
+                    cdotIndex++;
+                } else {
+                    // No more jobs available
+                    break;
+                }
+            }
+            
+            console.log(`✅ Balanced selection: ${jobsToShow.filter(j => j.company_name === 'CDOT').length} CDOT jobs, ${jobsToShow.filter(j => j.company_name !== 'CDOT').length} other company jobs`);
 
             console.log(`✅ Total jobs to display: ${jobsToShow.length}`);
 
