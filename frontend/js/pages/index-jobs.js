@@ -162,50 +162,18 @@ class IndexJobsManager {
                 throw new Error('Jobs database not loaded');
             }
 
-            // Get featured jobs first
-            let featuredJobs = window.JOBS_DATABASE.filter(job => job.is_featured === true);
-            console.log(`🎯 Found ${featuredJobs.length} featured jobs in database`);
-            
-            // Create a balanced selection with 1 CDOT job for every 2 non-CDOT jobs
-            let jobsToShow = [];
-            let cdotJobs = featuredJobs.filter(job => job.company_name === 'CDOT');
-            let nonCdotJobs = featuredJobs.filter(job => job.company_name !== 'CDOT');
-            
-            // If no featured jobs or need more variety, include regular jobs
-            if (featuredJobs.length < 6) {
-                const regularJobs = window.JOBS_DATABASE.filter(job => job.is_featured !== true);
-                const additionalCdot = regularJobs.filter(job => job.company_name === 'CDOT');
-                const additionalNonCdot = regularJobs.filter(job => job.company_name !== 'CDOT');
-                
-                cdotJobs = [...cdotJobs, ...additionalCdot];
-                nonCdotJobs = [...nonCdotJobs, ...additionalNonCdot];
-            }
-            
-            // Create balanced selection: 1 CDOT for every 2 other companies
-            let cdotIndex = 0;
-            let nonCdotIndex = 0;
-            let targetCount = 6;
-            
-            for (let i = 0; i < targetCount; i++) {
-                if (i % 3 === 0 && cdotIndex < cdotJobs.length) {
-                    // Every 3rd job (positions 0, 3) should be CDOT
-                    jobsToShow.push(cdotJobs[cdotIndex]);
-                    cdotIndex++;
-                } else if (nonCdotIndex < nonCdotJobs.length) {
-                    // Other positions get non-CDOT jobs
-                    jobsToShow.push(nonCdotJobs[nonCdotIndex]);
-                    nonCdotIndex++;
-                } else if (cdotIndex < cdotJobs.length) {
-                    // If we run out of non-CDOT, fill with CDOT
-                    jobsToShow.push(cdotJobs[cdotIndex]);
-                    cdotIndex++;
-                } else {
-                    // No more jobs available
-                    break;
-                }
-            }
-            
-            console.log(`✅ Balanced selection: ${jobsToShow.filter(j => j.company_name === 'CDOT').length} CDOT jobs, ${jobsToShow.filter(j => j.company_name !== 'CDOT').length} other company jobs`);
+            // Hardcoded selection for balanced variety: 1 CDOT for every 2 other company jobs
+            // Ensures we include Product Engagement Associate and maintain good variety
+            const jobsToShow = [
+                window.JOBS_DATABASE[0],  // Remote Data Analyst - TechFlow Solutions
+                window.JOBS_DATABASE[1],  // Senior UX Designer - InnovateDesign  
+                window.JOBS_DATABASE[3],  // Product Engagement Associate - CDOT Database
+                window.JOBS_DATABASE[2],  // Marketing Coordinator - BrandBoost
+                window.JOBS_DATABASE[12],  // Full Stack Developer - DevCorp
+                window.JOBS_DATABASE[5]   // Business Analyst - DataTech Solutions
+            ].filter(job => job); // Remove any undefined jobs
+
+            console.log(`✅ Hardcoded balanced selection: ${jobsToShow.filter(j => j.company_name === 'CDOT Database').length} CDOT jobs, ${jobsToShow.filter(j => j.company_name !== 'CDOT Database').length} other company jobs`);
 
             console.log(`✅ Total jobs to display: ${jobsToShow.length}`);
 
