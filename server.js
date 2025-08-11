@@ -75,14 +75,19 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://embed.tawk.to"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      connectSrc: ["'self'", "https://api.yourdomain.com", "wss://tawk.to", "https://tawk.to"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://embed.tawk.to"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://embed.tawk.to", "https://*.tawk.to"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net", "https://embed.tawk.to"],
+      imgSrc: ["'self'", "data:", "https:", "blob:", "https://embed.tawk.to", "https://*.tawk.to"],
+      connectSrc: ["'self'", "https://api.yourdomain.com", "wss://tawk.to", "https://tawk.to", "https://embed.tawk.to", "wss://embed.tawk.to", "https://*.tawk.to", "wss://*.tawk.to"],
       objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'self'", "https://tawk.to"]
+      mediaSrc: ["'self'", "https://embed.tawk.to", "https://*.tawk.to"],
+      frameSrc: ["'self'", "https://tawk.to", "https://embed.tawk.to", "https://*.tawk.to"],
+      workerSrc: ["'self'", "blob:", "https://embed.tawk.to"],
+      childSrc: ["'self'", "https://embed.tawk.to", "https://*.tawk.to"],
+      manifestSrc: ["'self'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"]
     }
   },
   crossOriginEmbedderPolicy: false,
