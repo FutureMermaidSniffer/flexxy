@@ -116,40 +116,83 @@ async function fixAgentsDatabase() {
       );
 
       if (existingAgent.rows.length > 0) {
-        console.log(`⚠️ Agent record already exists for ${consultant.agent_name}`);
-        continue;
+        console.log(`🔄 Updating existing agent record for ${consultant.agent_name}`);
+        
+        // Update existing agent record
+        const updateQuery = `
+          UPDATE agents SET 
+            agent_name = $2, 
+            display_name = $3, 
+            specializations = $4, 
+            bio = $5, 
+            location = $6, 
+            timezone = $7, 
+            experience_years = $8, 
+            rating = $9, 
+            total_reviews = $10,
+            languages = $11, 
+            skills = $12, 
+            avatar_url = $13, 
+            is_featured = $14, 
+            is_active = $15, 
+            updated_at = NOW()
+          WHERE user_id = $1
+          RETURNING id
+        `;
+
+        const result = await pool.query(updateQuery, [
+          userId,
+          consultant.agent_name,
+          consultant.display_name,
+          JSON.stringify(consultant.specializations),
+          consultant.bio,
+          consultant.location,
+          consultant.timezone,
+          consultant.experience_years,
+          consultant.rating,
+          consultant.total_reviews,
+          JSON.stringify(consultant.languages),
+          JSON.stringify(consultant.skills),
+          consultant.avatar_url,
+          true, // is_featured
+          true, // is_active
+        ]);
+
+        console.log(`✅ Updated agent record with ID: ${result.rows[0].id}`);
+      } else {
+        console.log(`➕ Creating new agent record for ${consultant.agent_name}`);
+        
+        // Create agent record
+        const insertQuery = `
+          INSERT INTO agents (
+            user_id, agent_name, display_name, specializations, bio, 
+            location, timezone, experience_years, rating, total_reviews,
+            languages, skills, avatar_url, is_featured, is_active, created_at, updated_at
+          ) VALUES (
+            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, NOW(), NOW()
+          ) RETURNING id
+        `;
+
+        const result = await pool.query(insertQuery, [
+          userId,
+          consultant.agent_name,
+          consultant.display_name,
+          JSON.stringify(consultant.specializations),
+          consultant.bio,
+          consultant.location,
+          consultant.timezone,
+          consultant.experience_years,
+          consultant.rating,
+          consultant.total_reviews,
+          JSON.stringify(consultant.languages),
+          JSON.stringify(consultant.skills),
+          consultant.avatar_url,
+          true, // is_featured
+          true, // is_active
+        ]);
+
+        console.log(`✅ Created agent record with ID: ${result.rows[0].id}`);
       }
-
-      // Create agent record
-      const insertQuery = `
-        INSERT INTO agents (
-          user_id, agent_name, display_name, specializations, bio, 
-          location, timezone, experience_years, rating, total_reviews,
-          languages, skills, avatar_url, is_featured, is_active, created_at, updated_at
-        ) VALUES (
-          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, NOW(), NOW()
-        ) RETURNING id
-      `;
-
-      const result = await pool.query(insertQuery, [
-        userId,
-        consultant.agent_name,
-        consultant.display_name,
-        JSON.stringify(consultant.specializations),
-        consultant.bio,
-        consultant.location,
-        consultant.timezone,
-        consultant.experience_years,
-        consultant.rating,
-        consultant.total_reviews,
-        JSON.stringify(consultant.languages),
-        JSON.stringify(consultant.skills),
-        consultant.avatar_url,
-        true, // is_featured
-        true, // is_active
-      ]);
-
-      console.log(`✅ Created agent record (ID: ${result.rows[0].id}) for ${consultant.agent_name}`);
     }
 
     console.log('\nStep 2: Updating existing agents with null user_id...');

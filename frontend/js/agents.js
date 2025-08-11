@@ -13,7 +13,7 @@ class AgentsManager {
             verification: '',
             sortBy: 'rating'
         };
-        this.viewMode = 'grid'; 
+        this.viewMode = 'list'; 
         this.init();
     }
 
