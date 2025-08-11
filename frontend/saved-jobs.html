@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Jobs - FlexJobs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="main-header-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="page-title">Your Saved Jobs</h1>
+                    <p class="text-muted">Jobs you've bookmarked for later review</p>
+                    
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        This feature is coming soon! You'll be able to save and manage your favorite job opportunities here.
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="/job-search-results" class="btn btn-primary">Browse Jobs</a>
+                        <a href="/account" class="btn btn-outline-secondary ms-2">My Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="components/main-header/main-header.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load header
+            const headerResponse = await fetch('components/main-header/main-header.html');
+            const headerHtml = await headerResponse.text();
+            document.getElementById('main-header-container').innerHTML = headerHtml;
+            
+            // Load footer
+            const footerResponse = await fetch('components/main-footer/main-footer.html');
+            const footerHtml = await footerResponse.text();
+            document.getElementById('footer-container').innerHTML = footerHtml;
+            
+            // Initialize header
+            if (typeof MainHeader !== 'undefined') {
+                window.mainHeader = new MainHeader();
+            }
+        });
+    </script>
+</body>
+</html>

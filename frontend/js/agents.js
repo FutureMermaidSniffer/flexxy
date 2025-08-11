@@ -17,6 +17,34 @@ class AgentsManager {
         this.init();
     }
 
+    // Helper function to get the correct agent image path
+    getAgentImagePath(agent) {
+        // Extract first name from agent_name or display_name
+        const agentName = agent.agent_name || agent.display_name || '';
+        const firstName = agentName.split(' ')[0];
+        
+        // Map agent names to their image files
+        const imageMap = {
+            'Sophie': 'Sophie.png',
+            'Olivia': 'Olivia.png', 
+            'Naomi': 'Naomi.png',
+            'Isha': 'Isha.jpg',
+            'Daniel': 'Daniel.jpg'
+        };
+        
+        if (firstName && imageMap[firstName]) {
+            return `images/agents/${imageMap[firstName]}`;
+        }
+        
+        // Fallback to avatar_url if it contains agents path
+        if (agent.avatar_url && agent.avatar_url.includes('agents/')) {
+            return agent.avatar_url;
+        }
+        
+        // Default fallback
+        return 'images/f.png';
+    }
+
     async init() {
         try {
             
@@ -123,7 +151,7 @@ class AgentsManager {
     }
 
     setupEventListeners() {
-        
+        // Filter change listeners
         const specialtyFilter = document.getElementById('specialtyFilter');
         const ratingFilter = document.getElementById('ratingFilter');
         const verificationFilter = document.getElementById('verificationFilter');
@@ -140,7 +168,15 @@ class AgentsManager {
             }
         });
 
-        
+        // Clear Filters button event listener
+        const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', () => {
+                this.clearFilters();
+            });
+        }
+
+        // View mode listeners
         const gridView = document.getElementById('gridView');
         const listView = document.getElementById('listView');
 
@@ -330,7 +366,7 @@ class AgentsManager {
                 <div class="position-relative">
                     ${badges}
                     <div class="card-body text-center">
-                        <img src="${agent.avatar_url || 'images/f.png'}" 
+                        <img src="${this.getAgentImagePath(agent)}" 
                              alt="${agent.display_name || agent.agent_name}" class="agent-avatar mb-3" onerror="this.src='images/f.png'">
                         <h5 class="card-title mb-2">${agent.display_name || agent.agent_name}</h5>
                         <div class="agent-rating mb-2">
@@ -361,7 +397,7 @@ class AgentsManager {
             <div class="card agent-card agent-card-list" onclick="agentsManager.showAgentModal(${agent.id})">
                 <div class="position-relative">
                     ${badges}
-                    <img src="${agent.avatar_url || 'images/f.png'}" 
+                    <img src="${this.getAgentImagePath(agent)}" 
                          alt="${agent.display_name || agent.agent_name}" class="agent-avatar" onerror="this.src='images/f.png'">
                     <div class="flex-grow-1">
                         <div class="d-flex justify-content-between align-items-start mb-2">
@@ -524,7 +560,7 @@ class AgentsManager {
             <div class="row">
                 <div class="col-md-4 text-center">
                     <div class="position-relative d-inline-block">
-                        <img src="${agent.profile_image || 'images/f.png'}" 
+                        <img src="${this.getAgentImagePath(agent)}" 
                              alt="${agent.name}" class="agent-avatar mb-3" style="width: 120px; height: 120px;" onerror="this.src='images/f.png'">
                         ${badges}
                     </div>

@@ -77,6 +77,7 @@ app.use(helmet({
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://embed.tawk.to"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://embed.tawk.to", "https://*.tawk.to"],
+      scriptSrcAttr: ["'unsafe-inline'"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net", "https://embed.tawk.to"],
       imgSrc: ["'self'", "data:", "https:", "blob:", "https://embed.tawk.to", "https://*.tawk.to"],
       connectSrc: ["'self'", "https://api.yourdomain.com", "wss://tawk.to", "https://tawk.to", "https://embed.tawk.to", "wss://embed.tawk.to", "https://*.tawk.to", "wss://*.tawk.to"],

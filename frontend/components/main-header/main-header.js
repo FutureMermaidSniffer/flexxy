@@ -179,11 +179,11 @@ class MainHeader {
                     <div class="container">
                         <nav class="main-header__nav">
                             <ul class="nav-list">
-                                <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">Browse Jobs</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">Companies</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">Career Advice</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+                                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                                <li class="nav-item"><a href="/job-search-results" class="nav-link">Browse Jobs</a></li>
+                                <li class="nav-item"><a href="/companies" class="nav-link">Companies</a></li>
+                                <li class="nav-item"><a href="/career-advice" class="nav-link">Career Advice</a></li>
+                                <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -227,11 +227,11 @@ class MainHeader {
                     <div class="mobile-menu__content">
                         <!-- Navigation Links -->
                         <ul class="mobile-nav-list">
-                            <li><a href="#" class="mobile-nav-link"><i class="fa-solid fa-home me-3"></i>Home</a></li>
-                            <li><a href="#" class="mobile-nav-link"><i class="fa-solid fa-briefcase me-3"></i>Browse Jobs</a></li>
-                            <li><a href="#" class="mobile-nav-link"><i class="fa-solid fa-building me-3"></i>Companies</a></li>
-                            <li><a href="#" class="mobile-nav-link"><i class="fa-solid fa-graduation-cap me-3"></i>Career Advice</a></li>
-                            <li><a href="#" class="mobile-nav-link"><i class="fa-solid fa-info-circle me-3"></i>About</a></li>
+                            <li><a href="/" class="mobile-nav-link"><i class="fa-solid fa-home me-3"></i>Home</a></li>
+                            <li><a href="/job-search-results" class="mobile-nav-link"><i class="fa-solid fa-briefcase me-3"></i>Browse Jobs</a></li>
+                            <li><a href="/companies" class="mobile-nav-link"><i class="fa-solid fa-building me-3"></i>Companies</a></li>
+                            <li><a href="/career-advice" class="mobile-nav-link"><i class="fa-solid fa-graduation-cap me-3"></i>Career Advice</a></li>
+                            <li><a href="/about" class="mobile-nav-link"><i class="fa-solid fa-info-circle me-3"></i>About</a></li>
                         </ul>
                         
                         <!-- Divider -->
@@ -239,9 +239,9 @@ class MainHeader {
                         
                         <!-- Account Links -->
                         <ul class="mobile-account-list">
-                            <li><a href="#" class="mobile-account-link"><i class="fa-solid fa-user me-3"></i>My Account</a></li>
-                            <li><a href="#" class="mobile-account-link"><i class="fa-solid fa-heart me-3"></i>Saved Jobs</a></li>
-                            <li><a href="#" class="mobile-account-link"><i class="fa-solid fa-file-text me-3"></i>Applications</a></li>
+                            <li><a href="/account" class="mobile-account-link"><i class="fa-solid fa-user me-3"></i>My Account</a></li>
+                            <li><a href="/saved-jobs" class="mobile-account-link"><i class="fa-solid fa-heart me-3"></i>Saved Jobs</a></li>
+                            <li><a href="/applications" class="mobile-account-link"><i class="fa-solid fa-file-text me-3"></i>Applications</a></li>
                             <li><a href="#" class="mobile-account-link logout-link"><i class="fa-solid fa-sign-out-alt me-3"></i>Sign Out</a></li>
                         </ul>
                     </div>

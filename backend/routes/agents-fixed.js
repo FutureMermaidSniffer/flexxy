@@ -99,11 +99,11 @@ router.get('/', async (req, res) => {
     // Search functionality
     if (search) {
       whereConditions.push(`(
-        a.agent_name ILIKE ? OR 
-        a.display_name ILIKE ? OR 
-        a.bio ILIKE ? OR 
-        a.specializations ILIKE ? OR
-        a.skills ILIKE ?
+        a.agent_name LIKE ? OR 
+        a.display_name LIKE ? OR 
+        a.bio LIKE ? OR 
+        a.specializations LIKE ? OR
+        a.skills LIKE ?
       )`);
       const searchTerm = `%${search}%`;
       queryParams.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
@@ -111,7 +111,7 @@ router.get('/', async (req, res) => {
 
     // Specialization filter
     if (specialization) {
-      whereConditions.push('a.specializations ILIKE ?');
+      whereConditions.push('a.specializations LIKE ?');
       queryParams.push(`%"${specialization}"%`);
     }
 
@@ -135,14 +135,30 @@ router.get('/', async (req, res) => {
     const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : '';
 
     // Count query - get total number of matching agents
-    const countQuery = 'SELECT COUNT(*) as total FROM agents a ' + whereClause;
+    const countQuery = `
+      SELECT COUNT(*) as total 
+      FROM agents a 
+      ${whereClause}
+    `;
     
     const { query: convertedCountQuery, params: convertedCountParams } = convertQuery(countQuery, queryParams);
     const countResult = await getOne(convertedCountQuery, convertedCountParams);
     const total = countResult.total;
 
     // Main query - FIXED: Use LEFT JOIN to include agents without user_id
-    const agentsQuery = 'SELECT a.id, a.agent_name, a.display_name, a.bio, a.specializations, a.rating, a.total_reviews, a.currency, a.languages, a.skills, a.location, a.timezone, a.avatar_url, a.is_featured, a.created_at, u.first_name, u.last_name, u.email FROM agents a LEFT JOIN users u ON a.user_id = u.id ' + whereClause + ' ORDER BY a.' + sortField + ' ' + sortDirection + ' LIMIT ? OFFSET ?';
+    const agentsQuery = `
+      SELECT 
+        a.id, a.agent_name, a.display_name, a.bio, a.specializations,
+        a.rating, a.total_reviews, a.currency,
+        a.languages, a.skills, a.location, a.timezone,
+        a.avatar_url, a.is_featured, a.created_at,
+        u.first_name, u.last_name, u.email
+      FROM agents a
+      LEFT JOIN users u ON a.user_id = u.id
+      ${whereClause}
+      ORDER BY a.${sortField} ${sortDirection}
+      LIMIT ? OFFSET ?
+    `;
 
     queryParams.push(parseInt(limit), offset);
     const { query: convertedAgentsQuery, params: convertedAgentsParams } = convertQuery(agentsQuery, queryParams);

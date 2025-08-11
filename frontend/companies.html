@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companies - FlexJobs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <meta name="description" content="Explore top companies offering flexible and remote work opportunities.">
+    <meta name="keywords" content="flexible companies, remote work companies, flexible employers">
+    <meta property="og:title" content="Companies - FlexJobs">
+    <meta property="og:description" content="Discover companies that prioritize work-life balance and offer flexible work arrangements.">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <!-- Header -->
+    <div id="main-header-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section bg-primary text-white py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h1 class="hero-title">Top Companies for Flexible Work</h1>
+                        <p class="hero-subtitle lead">
+                            Discover companies that prioritize work-life balance and offer remote, hybrid, and flexible work opportunities.
+                        </p>
+                        <div class="hero-stats mt-4">
+                            <span class="badge bg-light text-primary fs-6 me-3">500+ Companies</span>
+                            <span class="badge bg-light text-primary fs-6 me-3">Remote Friendly</span>
+                            <span class="badge bg-light text-primary fs-6">Verified Opportunities</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <img src="images/companies-illustration.png" alt="Companies illustration" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Companies Grid -->
+        <section class="companies-section py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <h2 class="section-title">Featured Companies</h2>
+                        <p class="section-subtitle">Companies that are leading the way in flexible work arrangements</p>
+                    </div>
+                </div>
+
+                <div class="row" id="companies-grid">
+                    <!-- Companies will be loaded here via JavaScript -->
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="company-card">
+                            <div class="company-logo">
+                                <img src="images/company-logos/tech-corp.png" alt="TechCorp" class="img-fluid">
+                            </div>
+                            <div class="company-info">
+                                <h5 class="company-name">TechCorp</h5>
+                                <p class="company-description">Leading technology company with 100% remote workforce</p>
+                                <div class="company-stats">
+                                    <span class="stat-item"><i class="fas fa-briefcase"></i> 45 Open Positions</span>
+                                    <span class="stat-item"><i class="fas fa-star"></i> 4.8 Rating</span>
+                                </div>
+                                <div class="company-tags">
+                                    <span class="tag">Remote</span>
+                                    <span class="tag">Technology</span>
+                                    <span class="tag">Flexible Hours</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="company-card">
+                            <div class="company-logo">
+                                <img src="images/company-logos/design-studio.png" alt="Design Studio" class="img-fluid">
+                            </div>
+                            <div class="company-info">
+                                <h5 class="company-name">Creative Design Studio</h5>
+                                <p class="company-description">Award-winning design agency with hybrid work model</p>
+                                <div class="company-stats">
+                                    <span class="stat-item"><i class="fas fa-briefcase"></i> 12 Open Positions</span>
+                                    <span class="stat-item"><i class="fas fa-star"></i> 4.6 Rating</span>
+                                </div>
+                                <div class="company-tags">
+                                    <span class="tag">Hybrid</span>
+                                    <span class="tag">Design</span>
+                                    <span class="tag">Creative</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="company-card">
+                            <div class="company-logo">
+                                <img src="images/company-logos/marketing-pro.png" alt="Marketing Pro" class="img-fluid">
+                            </div>
+                            <div class="company-info">
+                                <h5 class="company-name">Marketing Pro</h5>
+                                <p class="company-description">Digital marketing agency with flexible schedules</p>
+                                <div class="company-stats">
+                                    <span class="stat-item"><i class="fas fa-briefcase"></i> 28 Open Positions</span>
+                                    <span class="stat-item"><i class="fas fa-star"></i> 4.7 Rating</span>
+                                </div>
+                                <div class="company-tags">
+                                    <span class="tag">Flexible</span>
+                                    <span class="tag">Marketing</span>
+                                    <span class="tag">Part-time</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="row">
+                    <div class="col-12 text-center mt-4">
+                        <button class="btn btn-outline-primary btn-lg" id="load-more-companies">
+                            Load More Companies
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Company Benefits Section -->
+        <section class="benefits-section bg-light py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="section-title">Why Companies Choose Flexible Work</h2>
+                        <p class="section-subtitle">Benefits that forward-thinking companies are embracing</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="benefit-card text-center">
+                            <div class="benefit-icon">
+                                <i class="fas fa-users fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="benefit-title">Better Talent Pool</h5>
+                            <p class="benefit-description">Access to global talent without geographical limitations</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="benefit-card text-center">
+                            <div class="benefit-icon">
+                                <i class="fas fa-chart-line fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="benefit-title">Increased Productivity</h5>
+                            <p class="benefit-description">Studies show remote workers are often more productive</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="benefit-card text-center">
+                            <div class="benefit-icon">
+                                <i class="fas fa-dollar-sign fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="benefit-title">Cost Savings</h5>
+                            <p class="benefit-description">Reduced overhead costs for office space and utilities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/component-loader.js"></script>
+    <script src="components/main-header/main-header.js"></script>
+    <script src="js/companies.js"></script>
+
+    <style>
+        .company-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .company-logo img {
+            max-width: 60px;
+            max-height: 60px;
+        }
+
+        .company-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .company-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .stat-item {
+            color: #6c757d;
+        }
+
+        .stat-item i {
+            margin-right: 0.25rem;
+        }
+
+        .company-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .benefit-card {
+            padding: 2rem 1rem;
+        }
+
+        .benefit-icon {
+            margin-bottom: 1rem;
+        }
+
+        .benefit-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-description {
+            color: #6c757d;
+        }
+    </style>
+</body>
+</html>

@@ -349,14 +349,14 @@
                                                     <h5 class="card-title text-primary">FlexJobs Premium</h5>
                                                     <p class="card-text">Full access to all job listings and premium features</p>
                                                     <div class="subscription-details">
-                                                        <p class="mb-1"><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-                                                        <p class="mb-1"><strong>Next billing date:</strong> August 15, 2025</p>
-                                                        <p class="mb-0"><strong>Amount:</strong> $14.95/month</p>
+                                                        <p class="mb-1"><strong>Status:</strong> <span class="badge bg-secondary">Inactive</span></p>
+                                                        <p class="mb-1"><strong>Next billing date:</strong> N/A</p>
+                                                        <p class="mb-0"><strong>Amount:</strong> $0.00/month</p>
                                                     </div>
                                                 </div>
                                                 <div class="subscription-actions">
-                                                    <button class="btn btn-outline-primary btn-sm mb-2" data-action="manage-subscription">Manage Subscription</button>
-                                                    <button class="btn btn-outline-danger btn-sm" data-action="cancel-subscription">Cancel Subscription</button>
+                                                    <button class="btn btn-primary btn-sm mb-2" data-action="upgrade-subscription">Upgrade to Premium</button>
+                                                    <button class="btn btn-outline-secondary btn-sm" disabled>No Active Subscription</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -368,18 +368,11 @@
                                     <h5 class="section-subtitle">Payment Method</h5>
                                     <div class="payment-card">
                                         <div class="card">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="fab fa-cc-visa fa-2x text-primary me-3"></i>
-                                                        <div>
-                                                            <p class="mb-0"><strong>•••• •••• •••• 4532</strong></p>
-                                                            <small class="text-muted">Expires 12/2027</small>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-outline-secondary btn-sm" data-action="update-payment-method">Update</button>
-                                                    </div>
+                                            <div class="card-body text-center">
+                                                <div class="py-4">
+                                                    <i class="fas fa-credit-card fa-3x text-muted mb-3"></i>
+                                                    <p class="text-muted mb-3">No payment method on file</p>
+                                                    <button class="btn btn-primary btn-sm" data-action="add-payment-method">Add Payment Method</button>
                                                 </div>
                                             </div>
                                         </div>
