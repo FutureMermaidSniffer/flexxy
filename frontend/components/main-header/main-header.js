@@ -28,6 +28,9 @@ class MainHeader {
         this.mobileMenu = null;
         this.mobileMenuOverlay = null;
         this.isMenuOpen = false;
+        this.searchType = 'all'; // Track current search type
+        this.searchTypeButtons = null; // Desktop search type buttons
+        this.mobileSearchTypeButtons = null; // Mobile search type buttons
         
         this.init();
     }
@@ -88,6 +91,10 @@ class MainHeader {
         this.mobileMenu = this.headerElement.querySelector('.main-header__mobile-menu');
         this.mobileMenuOverlay = this.headerElement.querySelector('.mobile-menu-overlay');
         
+        // Bind segmented control elements
+        this.searchTypeButtons = this.headerElement.querySelectorAll('input[name="searchType"]');
+        this.mobileSearchTypeButtons = this.headerElement.querySelectorAll('input[name="mobileSearchType"]');
+        
         
         const logoImg = this.headerElement.querySelector('.main-header__logo');
         if (logoImg && this.options.logoPath) {
@@ -114,9 +121,6 @@ class MainHeader {
         
         
         this.initializeDropdowns();
-        
-        
-        this.initializeUnifiedSearch();
         
         
         document.dispatchEvent(new CustomEvent('mainHeaderReady'));
@@ -319,6 +323,7 @@ class MainHeader {
         
         this.setupLogoutHandlers();
         this.setupFlagHandlers();
+        this.setupSearchTypeHandlers();
     }
 
     
@@ -344,6 +349,65 @@ class MainHeader {
                 });
             });
         }
+    }
+
+    
+    setupSearchTypeHandlers() {
+        // Desktop search type handlers
+        if (this.searchTypeButtons) {
+            this.searchTypeButtons.forEach(button => {
+                button.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        this.searchType = e.target.value;
+                        this.updateSearchPlaceholder();
+                        this.syncSearchTypeButtons();
+                    }
+                });
+            });
+        }
+
+        // Mobile search type handlers
+        if (this.mobileSearchTypeButtons) {
+            this.mobileSearchTypeButtons.forEach(button => {
+                button.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        this.searchType = e.target.value;
+                        this.updateSearchPlaceholder();
+                        this.syncSearchTypeButtons();
+                    }
+                });
+            });
+        }
+    }
+
+    
+    updateSearchPlaceholder() {
+        const placeholders = {
+            all: 'Search jobs and agents...',
+            jobs: 'Search for jobs...',
+            agents: 'Search for agents...'
+        };
+
+        const newPlaceholder = placeholders[this.searchType] || placeholders.all;
+        
+        // Update both desktop and mobile search inputs
+        const searchInputs = this.headerElement.querySelectorAll('.search-input');
+        searchInputs.forEach(input => {
+            input.placeholder = newPlaceholder;
+        });
+    }
+
+    
+    syncSearchTypeButtons() {
+        // Sync desktop buttons
+        this.searchTypeButtons.forEach(button => {
+            button.checked = button.value === this.searchType;
+        });
+
+        // Sync mobile buttons
+        this.mobileSearchTypeButtons.forEach(button => {
+            button.checked = button.value === this.searchType;
+        });
     }
 
     
@@ -473,21 +537,6 @@ class MainHeader {
     }
     
     
-    initializeUnifiedSearch() {
-        
-        if (typeof window.UnifiedSearch !== 'undefined') {
-            try {
-                
-                this.unifiedSearch = new UnifiedSearch();
-                console.log('Unified search initialized successfully');
-            } catch (error) {
-                console.error('Error initializing unified search:', error);
-            }
-        } else {
-            console.warn('UnifiedSearch class not available. Make sure unified-search.js is loaded.');
-        }
-    }
-    
     
     toggleMobileMenu() {
         if (this.isMenuOpen) {
@@ -544,7 +593,7 @@ class MainHeader {
         
         
         if (this.options.onSearch && typeof this.options.onSearch === 'function') {
-            this.options.onSearch({ searchTerm, location });
+            this.options.onSearch({ searchTerm, location, searchType: this.searchType });
         } else {
             
             this.performDefaultSearch(searchTerm, location);
@@ -558,15 +607,31 @@ class MainHeader {
     performDefaultSearch(searchTerm, location) {
         const params = new URLSearchParams();
         if (searchTerm) params.append('q', searchTerm);
-        if (location) params.append('location', location);
+        
+        // Apply location filter based on search type
+        if (this.searchType === 'agents') {
+            // For agent searches, don't include location in search params
+            // Agents should be discoverable by name regardless of location
+            console.log('Agent search: ignoring location filter');
+        } else {
+            // For job searches and "all" searches, include location if provided
+            if (location) params.append('location', location);
+        }
+        
+        if (this.searchType !== 'all') params.append('type', this.searchType);
         
         
         let searchUrl;
-        if (this.options.searchPlaceholder.toLowerCase().includes('agent')) {
+        if (this.searchType === 'agents') {
             
             searchUrl = `/agents?${params.toString()}`;
-        } else {
+        } else if (this.searchType === 'jobs') {
             
+            searchUrl = `/job-search-results?${params.toString()}`;
+        } else {
+            // For 'all' search type, use a unified search approach
+            // Include a special parameter to indicate this is a unified search
+            params.append('unified', 'true');
             searchUrl = `/job-search-results?${params.toString()}`;
         }
         
@@ -579,6 +644,7 @@ class MainHeader {
             window.gtag('event', 'search', {
                 search_term: searchTerm,
                 location: location,
+                search_type: this.searchType,
                 page_path: window.location.pathname
             });
         }
@@ -677,7 +743,8 @@ class MainHeader {
     getSearchValues() {
         return {
             searchTerm: this.searchInput ? this.searchInput.value.trim() : '',
-            location: this.locationInput ? this.locationInput.value.trim() : ''
+            location: this.locationInput ? this.locationInput.value.trim() : '',
+            searchType: this.searchType
         };
     }
     

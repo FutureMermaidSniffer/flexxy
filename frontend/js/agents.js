@@ -95,7 +95,15 @@ class AgentsManager {
     parseUrlParams() {
         const urlParams = new URLSearchParams(window.location.search);
         this.filters.search = urlParams.get('q') || '';
-        this.filters.location = urlParams.get('location') || '';
+        
+        // For agent searches, only apply location filter if there's no search term
+        // This supports the new behavior where agents are discoverable by name regardless of location
+        const urlLocation = urlParams.get('location') || '';
+        if (urlLocation && !this.filters.search) {
+            this.filters.location = urlLocation;
+        } else {
+            this.filters.location = '';
+        }
         
         
         const agentId = urlParams.get('agent');
@@ -108,11 +116,12 @@ class AgentsManager {
         
         
         setTimeout(() => {
-            if (window.mainHeader && window.mainHeader.searchInput && this.filters.search) {
-                window.mainHeader.searchInput.value = this.filters.search;
+            if (window.mainHeaderInstance && window.mainHeaderInstance.searchInput && this.filters.search) {
+                window.mainHeaderInstance.searchInput.value = this.filters.search;
             }
-            if (window.mainHeader && window.mainHeader.locationInput && this.filters.location) {
-                window.mainHeader.locationInput.value = this.filters.location;
+            if (window.mainHeaderInstance && window.mainHeaderInstance.locationInput) {
+                // Show the location value in the dropdown but don't use it for filtering if there's a search term
+                window.mainHeaderInstance.locationInput.value = urlLocation;
             }
         }, 100);
     }
@@ -222,8 +231,9 @@ class AgentsManager {
             );
         }
 
-        
-        if (this.filters.location) {
+        // Location filter - ONLY apply if there's NO search term
+        // When searching for agents by name, location should be ignored
+        if (this.filters.location && !this.filters.search) {
             const locationTerm = this.filters.location.toLowerCase();
             filtered = filtered.filter(agent => 
                 agent.location && agent.location.toLowerCase().includes(locationTerm)

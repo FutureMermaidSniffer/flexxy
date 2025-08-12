@@ -57,7 +57,7 @@
                             </h1>
                         </div>
                         
-                        
+                        <!-- Job Title Input Section -->
                         <div class="page-job__input-container mb-5">
                             <div class="position-relative">
                                 <div class="page-job__input-icon position-absolute top-50 start-0 translate-middle-y ms-3 text-muted">
@@ -66,14 +66,27 @@
                                 <input type="text" 
                                        class="form-control form-control-lg ps-5" 
                                        id="jobTitleInput"
-                                       placeholder="Enter job title. You may search more than one."
+                                       placeholder="Enter job title. Press Enter to add it."
                                        style="border-radius: 12px; border: 2px solid #e9ecef; font-size: 1.1rem; min-height: 60px;">
                             </div>
                             
+                            <!-- Helper text -->
+                            <div class="page-job__input-help text-muted small mt-2 text-center">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Type your job title and press <kbd>Enter</kbd> to add it, or choose from suggestions below
+                            </div>
                             
+                            <!-- Job Suggestions Dropdown -->
                             <div class="page-job__suggestions d-none" id="jobSuggestions">
                                 <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
-                                    
+                                    <!-- Dynamic suggestions will be inserted here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Selected Jobs Display -->
+                            <div class="page-job__selected-jobs mt-3" id="selectedJobsDisplay" style="display: none;">
+                                <div class="d-flex flex-wrap gap-2">
+                                    <!-- Selected job tags will be displayed here -->
                                 </div>
                             </div>
                         </div>
@@ -199,6 +212,26 @@
             transform: translateY(-2px);
         }
 
+        /* Custom input feedback */
+        .page-job__input-container .form-control[data-has-custom-input="true"] {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        /* Helper text styling */
+        .page-job__input-help {
+            font-size: 0.875rem;
+        }
+
+        .page-job__input-help kbd {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.75rem;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            color: black;
+        }
+
         .page-job__suggestions .list-group-item {
             transition: all 0.3s ease;
             border: none;
@@ -210,8 +243,37 @@
             transform: translateX(5px);
         }
 
-        .page-job__selected-display {
+        /* Custom job option styling */
+        .page-job__suggestions .custom-job-option {
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6 !important;
+        }
+
+        .page-job__suggestions .custom-job-option:hover {
+            background-color: rgba(40, 167, 69, 0.1);
+        }
+
+        /* Selected jobs display */
+        .page-job__selected-jobs {
             animation: slideIn 0.3s ease-out;
+        }
+
+        .page-job__selected-jobs .badge {
+            transition: all 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .page-job__selected-jobs .badge:hover {
+            transform: scale(1.05);
+        }
+
+        .page-job__selected-jobs .btn-close {
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .page-job__selected-jobs .btn-close:hover {
+            opacity: 1;
         }
 
         @keyframes slideIn {
@@ -272,33 +334,6 @@
         .page-job__skip-btn:hover {
             color: #0891b2 !important;
             transform: translateY(-2px);
-        }
-
-        .page-job__tip {
-            transition: all 0.3s ease;
-            border-radius: 12px;
-        }
-
-        .page-job__tip:hover {
-            background: rgba(13, 202, 240, 0.05);
-            transform: translateY(-5px);
-        }
-
-        .page-job__tip-icon {
-            transition: all 0.3s ease;
-        }
-
-        .page-job__tip:hover .page-job__tip-icon {
-            transform: scale(1.1);
-        }
-
-        /* Badge animations */
-        .badge {
-            transition: all 0.3s ease;
-        }
-
-        .badge:hover {
-            transform: scale(1.05);
         }
 
         /* Mobile responsiveness */

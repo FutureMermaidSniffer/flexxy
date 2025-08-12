@@ -81,12 +81,13 @@
 
 .main-header__search-bar {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     background: white;
     border: 1px solid #e9ecef;
     border-radius: 5px;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.3s ease;
+    flex-wrap: wrap;
 }
 
 .main-header__search-bar:focus-within {
@@ -554,7 +555,9 @@
 .search-type-toggle {
     display: flex;
     align-items: center;
-    margin-left: 8px;
+    background: #f8f9fa;
+    border-left: 1px solid #e9ecef;
+    padding: 4px 8px;
 }
 
 .search-type-toggle .btn-group {
@@ -566,13 +569,15 @@
     color: #004f6e !important;
     border-color: #004f6e !important;
     background-color: transparent;
-    font-size: 0.8rem;
-    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
     font-weight: 500;
     border-width: 1px;
     border-style: solid;
     text-decoration: none;
     transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+    min-width: auto;
 }
 
 .btn-outline-header-blue:hover,
@@ -599,34 +604,57 @@
 }
 
 
-.main-header__search-bar {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
+/* Desktop layout adjustments */
+@media (min-width: 992px) {
+    .main-header__search-bar {
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    
+    .search-input-group {
+        flex: 2;
+    }
+    
+    .location-input-group {
+        flex: 1;
+    }
+    
+    .search-btn {
+        flex-shrink: 0;
+    }
+    
+    .search-type-toggle {
+        flex-shrink: 0;
+        border-left: 1px solid #e9ecef;
+    }
 }
-
-.main-header__search-bar .search-input-group,
-.main-header__search-bar .location-input-group {
-    flex: 1;
-}
-
 
 @media (max-width: 991.98px) {
+    .main-header__search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
     .search-type-toggle {
-        margin-left: 4px;
+        margin-left: 0;
         margin-top: 8px;
         width: 100%;
         justify-content: center;
+        border-left: none;
+        border-top: 1px solid #e9ecef;
+        background: #f8f9fa;
     }
     
     .search-type-toggle .btn-group {
         width: 100%;
+        justify-content: center;
     }
     
     .btn-outline-header-blue {
         flex: 1;
-        font-size: 0.75rem;
-        padding: 0.2rem 0.4rem;
+        font-size: 0.7rem;
+        padding: 0.25rem 0.3rem;
+        text-align: center;
     }
     
     /* Hide flags on mobile to save space */

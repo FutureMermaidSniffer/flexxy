@@ -248,6 +248,60 @@
 }
 
 
+/* Legal Links */
+.main-footer__legal-links {
+    text-align: right;
+}
+
+.legal-links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.legal-links-list li {
+    margin: 0;
+}
+
+.legal-link {
+    color: #004f6e;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.legal-link:hover {
+    color: #ff6b35;
+    text-decoration: underline;
+}
+
+.copyright-text {
+    font-size: 0.7rem;
+    color: #666;
+    margin: 0;
+    text-align: right;
+}
+
+@media (max-width: 767px) {
+    .main-footer__legal-links {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    
+    .legal-links-list {
+        justify-content: center;
+    }
+    
+    .copyright-text {
+        text-align: center;
+    }
+}
+
 @media (prefers-contrast: high) {
     .main-footer {
         border-top-width: 2px;
@@ -265,7 +319,8 @@
 
 @media (prefers-reduced-motion: reduce) {
     .main-footer__link,
-    .main-footer__social-link {
+    .main-footer__social-link,
+    .legal-link {
         transition: none;
     }
 }

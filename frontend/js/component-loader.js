@@ -26,9 +26,6 @@ class ComponentLoader {
             await this.loadJS(`${componentPath}/main-header.js`);
             
             
-            await this.loadJS('js/unified-search.js');
-            
-            
             setTimeout(() => {
                 if (typeof MainHeader !== 'undefined' && !window.mainHeaderInstance) {
                     window.mainHeaderInstance = new MainHeader();
