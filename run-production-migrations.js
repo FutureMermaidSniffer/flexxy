@@ -10,6 +10,11 @@ require('dotenv').config();
 
 const ESSENTIAL_MIGRATIONS = [
     {
+        name: 'Create Core Database Schema',
+        file: 'create-core-schema.js',
+        description: 'Creates all essential tables (users, jobs, companies, etc.)'
+    },
+    {
         name: 'Add Recruiting Consultants (Agents)',
         file: 'add-recruiting-consultants.js',
         description: 'Creates agents table and populates with consultant data'
@@ -45,6 +50,12 @@ async function runProductionMigrations() {
         // Check which migrations are needed
         console.log('🔍 Checking migration status...\n');
         
+        // Check core tables
+        const usersExists = await client.query(`
+            SELECT table_name FROM information_schema.tables 
+            WHERE table_name = 'users'
+        `);
+        
         // Check agents table
         const agentsExists = await client.query(`
             SELECT table_name FROM information_schema.tables 
@@ -64,6 +75,7 @@ async function runProductionMigrations() {
         `);
         
         const migrationStatus = {
+            'create-core-schema.js': usersExists.rows.length > 0,
             'add-recruiting-consultants.js': agentsExists.rows.length > 0,
             'add_selected_agent_id.js': selectedAgentIdExists.rows.length > 0,
             'create_profile_submissions_table.js': profileSubmissionsExists.rows.length > 0
