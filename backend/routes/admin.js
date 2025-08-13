@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
-const { executeQuery } = require('../database');
+const { executeQuery, getOne, getMany, insertOne, updateOne, deleteOne } = require('../database');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
 const siteConfig = require('../config/site');
 
@@ -89,16 +89,47 @@ router.get('/users', async (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
         const offset = (page - 1) * limit;
         const search = req.query.search || '';
+        const userType = req.query.user_type || '';
+        const isActive = req.query.is_active || '';
+        const createdViaWizard = req.query.created_via_wizard || '';
 
-        let query = `SELECT id, email, CONCAT(first_name, ' ', last_name) as full_name, user_type, 
-                            is_active, email_verified, created_at FROM users`;
+        let query = `SELECT id, email, first_name, last_name, CONCAT(first_name, ' ', last_name) as full_name, user_type, 
+                            is_active, email_verified, created_at, created_via_wizard, wizard_completed_at,
+                            work_type_preference, salary_preference, location_preference, job_preference,
+                            experience_level_preference, education_level_preference, benefit_preferences FROM users`;
         let countQuery = 'SELECT COUNT(*) as total FROM users';
+        let whereConditions = [];
         let params = [];
 
+        // Add search condition
         if (search) {
-            query += ' WHERE email ILIKE $1 OR first_name ILIKE $1 OR last_name ILIKE $1';
-            countQuery += ' WHERE email ILIKE $1 OR first_name ILIKE $1 OR last_name ILIKE $1';
-            params = [`%${search}%`];
+            whereConditions.push(`(email ILIKE $${params.length + 1} OR first_name ILIKE $${params.length + 1} OR last_name ILIKE $${params.length + 1})`);
+            params.push(`%${search}%`);
+        }
+
+        // Add user type filter
+        if (userType) {
+            whereConditions.push(`user_type = $${params.length + 1}`);
+            params.push(userType);
+        }
+
+        // Add active status filter
+        if (isActive !== '') {
+            whereConditions.push(`is_active = $${params.length + 1}`);
+            params.push(isActive === 'true');
+        }
+
+        // Add wizard created filter
+        if (createdViaWizard !== '') {
+            whereConditions.push(`created_via_wizard = $${params.length + 1}`);
+            params.push(createdViaWizard === 'true');
+        }
+
+        // Build WHERE clause
+        if (whereConditions.length > 0) {
+            const whereClause = ` WHERE ${whereConditions.join(' AND ')}`;
+            query += whereClause;
+            countQuery += whereClause;
         }
 
         query += ` ORDER BY created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
@@ -106,7 +137,7 @@ router.get('/users', async (req, res) => {
 
         const [usersResult, countResult] = await Promise.all([
             executeQuery(query, params),
-            executeQuery(countQuery, search ? [`%${search}%`] : [])
+            executeQuery(countQuery, params.slice(0, -2)) // Remove limit and offset for count query
         ]);
 
         const users = usersResult;
@@ -134,6 +165,352 @@ router.get('/users', async (req, res) => {
     }
 });
 
+// Get specific user's wizard progress
+router.get('/users/:id/wizard-progress', async (req, res) => {
+    try {
+        const userId = parseInt(req.params.id);
+        
+        if (isNaN(userId)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+
+        const query = `
+            SELECT id, email, first_name, last_name, user_type, created_via_wizard, 
+                   wizard_completed_at, work_type_preference, salary_preference, 
+                   location_preference, job_preference, experience_level_preference,
+                   education_level_preference, benefit_preferences, created_at
+            FROM users 
+            WHERE id = $1
+        `;
+
+        const userResult = await executeQuery(query, [userId]);
+        
+        if (userResult.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const user = userResult[0];
+
+        res.json({
+            message: 'Wizard progress retrieved successfully',
+            data: { user }
+        });
+
+    } catch (error) {
+        console.error('Error fetching wizard progress:', error);
+        res.status(500).json({ 
+            message: 'Error fetching wizard progress',
+            error: error.message 
+        });
+    }
+});
+
+// Get profile form submissions
+router.get('/profile-forms', async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const offset = (page - 1) * limit;
+        const search = req.query.search || '';
+        const agentFilter = req.query.agent || '';
+        const dateFilter = req.query.date || '';
+
+        let query = `
+            SELECT 
+                ps.id,
+                ps.first_name,
+                ps.last_name,
+                ps.email,
+                ps.phone,
+                ps.location,
+                ps.work_eligibility,
+                ps.experience_level,
+                ps.role_type,
+                ps.industry,
+                ps.employment_types,
+                ps.job_preference,
+                ps.bio,
+                ps.data_processing_consent,
+                ps.job_alerts_consent,
+                ps.marketing_consent,
+                ps.selected_agent_id,
+                ps.status,
+                ps.created_at,
+                ps.updated_at,
+                a.agent_name as selected_agent_name,
+                a.display_name as selected_agent_display
+            FROM profile_submissions ps
+            LEFT JOIN agents a ON ps.selected_agent_id = a.id
+            WHERE 1=1
+        `;
+        
+        let countQuery = `
+            SELECT COUNT(*) as total 
+            FROM profile_submissions ps
+            LEFT JOIN agents a ON ps.selected_agent_id = a.id
+            WHERE 1=1
+        `;
+        
+        let params = [];
+
+        // Search filter
+        if (search) {
+            const searchCondition = ` AND (ps.first_name ILIKE $${params.length + 1} OR ps.last_name ILIKE $${params.length + 1} OR ps.email ILIKE $${params.length + 1})`;
+            query += searchCondition;
+            countQuery += searchCondition;
+            params.push(`%${search}%`);
+        }
+
+        // Agent filter
+        if (agentFilter) {
+            const agentCondition = ` AND ps.selected_agent_id = $${params.length + 1}`;
+            query += agentCondition;
+            countQuery += agentCondition;
+            params.push(agentFilter);
+        }
+
+        // Date filter
+        if (dateFilter) {
+            let dateCondition = '';
+            switch (dateFilter) {
+                case 'today':
+                    dateCondition = ` AND ps.created_at >= CURRENT_DATE`;
+                    break;
+                case 'week':
+                    dateCondition = ` AND ps.created_at >= CURRENT_DATE - INTERVAL '7 days'`;
+                    break;
+                case 'month':
+                    dateCondition = ` AND ps.created_at >= CURRENT_DATE - INTERVAL '30 days'`;
+                    break;
+            }
+            if (dateCondition) {
+                query += dateCondition;
+                countQuery += dateCondition;
+            }
+        }
+
+        query += ` ORDER BY ps.created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+        params.push(limit, offset);
+
+        const [formsResult, countResult] = await Promise.all([
+            executeQuery(query, params),
+            executeQuery(countQuery, params.slice(0, -2)) // Remove limit and offset for count query
+        ]);
+
+        const forms = formsResult || [];
+        const total = countResult && countResult[0] ? parseInt(countResult[0].total) : 0;
+
+        // Process the job preferences for each form
+        const processedForms = forms.map(form => {
+            let jobPreference = null;
+            try {
+                if (form.job_preference) {
+                    // Handle both string and object cases
+                    if (typeof form.job_preference === 'string') {
+                        jobPreference = JSON.parse(form.job_preference);
+                    } else if (typeof form.job_preference === 'object') {
+                        jobPreference = form.job_preference;
+                    }
+                }
+            } catch (error) {
+                console.error('Error parsing job preference:', error);
+                jobPreference = null;
+            }
+
+            return {
+                ...form,
+                job_preference: jobPreference,
+                is_complete: !!(form.first_name && form.last_name && form.email && form.location && form.experience_level)
+            };
+        });
+
+        res.json({
+            message: 'Profile forms retrieved successfully',
+            data: {
+                forms: processedForms,
+                pagination: {
+                    page,
+                    limit,
+                    total,
+                    pages: Math.ceil(total / limit)
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error('Error fetching profile forms:', error);
+        res.status(500).json({ 
+            message: 'Error fetching profile forms',
+            error: error.message 
+        });
+    }
+});
+
+// Export profile forms to CSV
+router.get('/profile-forms/export', async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                ps.first_name,
+                ps.last_name,
+                ps.email,
+                ps.phone,
+                ps.location,
+                ps.work_eligibility,
+                ps.experience_level,
+                ps.role_type,
+                ps.industry,
+                ps.employment_types,
+                ps.job_preference,
+                ps.bio,
+                ps.data_processing_consent,
+                ps.job_alerts_consent,
+                ps.marketing_consent,
+                ps.selected_agent_id,
+                ps.status,
+                ps.created_at,
+                ps.updated_at,
+                a.agent_name as selected_agent_name
+            FROM profile_submissions ps
+            LEFT JOIN agents a ON ps.selected_agent_id = a.id
+            ORDER BY ps.created_at DESC
+        `;
+
+        const results = await executeQuery(query);
+        
+        // Create CSV content
+        const csvHeaders = [
+            'First Name', 'Last Name', 'Email', 'Phone', 'Location', 
+            'Work Eligibility', 'Experience Level', 'Role Type', 'Industry', 'Employment Types',
+            'Selected Agent', 'Status', 'Job Alerts Consent', 'Marketing Consent', 
+            'Submitted Date'
+        ];
+
+        const csvRows = results.map(row => {
+            let jobPreference = null;
+            let employmentTypes = '';
+            
+            try {
+                if (row.job_preference) {
+                    // Handle both string and object cases
+                    if (typeof row.job_preference === 'string') {
+                        jobPreference = JSON.parse(row.job_preference);
+                    } else if (typeof row.job_preference === 'object') {
+                        jobPreference = row.job_preference;
+                    }
+                }
+            } catch (error) {
+                console.error('Error parsing job preference:', error);
+            }
+
+            // Handle employment_types safely
+            try {
+                if (row.employment_types) {
+                    if (typeof row.employment_types === 'string') {
+                        // Try to parse as JSON array first
+                        try {
+                            const parsed = JSON.parse(row.employment_types);
+                            if (Array.isArray(parsed)) {
+                                employmentTypes = parsed.join(', ');
+                            } else {
+                                employmentTypes = row.employment_types;
+                            }
+                        } catch {
+                            // If parsing fails, treat as plain string
+                            employmentTypes = row.employment_types;
+                        }
+                    } else if (Array.isArray(row.employment_types)) {
+                        employmentTypes = row.employment_types.join(', ');
+                    }
+                }
+            } catch (error) {
+                console.error('Error parsing employment types:', error);
+                employmentTypes = row.employment_types || '';
+            }
+
+            return [
+                row.first_name || '',
+                row.last_name || '',
+                row.email || '',
+                row.phone || '',
+                row.location || '',
+                row.work_eligibility || '',
+                row.experience_level || '',
+                row.role_type || '',
+                row.industry || '',
+                employmentTypes,
+                row.selected_agent_name || '',
+                row.status || '',
+                row.job_alerts_consent ? 'Yes' : 'No',
+                row.marketing_consent ? 'Yes' : 'No',
+                new Date(row.created_at).toLocaleDateString()
+            ].map(field => `"${field}"`).join(',');
+        });
+
+        const csvContent = [csvHeaders.join(','), ...csvRows].join('\n');
+
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename="profile-forms.csv"');
+        res.send(csvContent);
+
+    } catch (error) {
+        console.error('Error exporting profile forms:', error);
+        res.status(500).json({ 
+            message: 'Error exporting profile forms',
+            error: error.message 
+        });
+    }
+});
+
+// Get individual profile form details
+router.get('/profile-forms/:id', async (req, res) => {
+    try {
+        const submissionId = req.params.id;
+        
+        const submission = await getOne(`
+            SELECT 
+                ps.*,
+                a.agent_name,
+                a.display_name as agent_display_name,
+                a.specializations as agent_specializations
+            FROM profile_submissions ps
+            LEFT JOIN agents a ON ps.selected_agent_id = a.id
+            WHERE ps.id = ?
+        `, [submissionId]);
+
+        if (!submission) {
+            return res.status(404).json({
+                message: 'Profile form submission not found'
+            });
+        }
+
+        // Parse job preference if it exists
+        if (submission.job_preference) {
+            try {
+                // Handle both string and object cases
+                if (typeof submission.job_preference === 'string') {
+                    submission.job_preference_parsed = JSON.parse(submission.job_preference);
+                } else if (typeof submission.job_preference === 'object') {
+                    submission.job_preference_parsed = submission.job_preference;
+                } else {
+                    submission.job_preference_parsed = null;
+                }
+            } catch (error) {
+                console.error('Error parsing job preference:', error);
+                submission.job_preference_parsed = null;
+            }
+        }
+
+        res.json(submission);
+
+    } catch (error) {
+        console.error('Error fetching profile form details:', error);
+        res.status(500).json({ 
+            message: 'Error fetching profile form details',
+            error: error.message 
+        });
+    }
+});
 
 router.get('/jobs', async (req, res) => {
     try {

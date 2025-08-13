@@ -27,9 +27,11 @@ class WhatJobPage {
         this.setupSkipButton();
         this.restoreFromLocalStorage();
         
-        
-        
+        // Always enable next button so users can proceed with or without selections
         this.enableNextButton();
+        
+        // Update display to show any restored selections
+        this.updateSelectedDisplay();
     }
 
     enableNextButton() {
@@ -51,10 +53,13 @@ class WhatJobPage {
             } else {
                 this.hideJobSuggestions();
             }
+            
+            // Enable proceeding with custom input
+            this.updateCustomInputState(query);
         });
         
         jobInput.addEventListener('blur', () => {
-            
+            // Delay hiding suggestions to allow for clicks
             setTimeout(() => {
                 this.hideJobSuggestions();
             }, 200);
@@ -67,7 +72,7 @@ class WhatJobPage {
             }
         });
         
-        
+        // Handle Enter key and comma for adding custom job titles
         jobInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ',') {
                 e.preventDefault();
@@ -76,6 +81,7 @@ class WhatJobPage {
                     this.addJobTitle(query);
                     jobInput.value = '';
                     this.hideJobSuggestions();
+                    this.updateCustomInputState('');
                 }
             }
         });
@@ -90,35 +96,60 @@ class WhatJobPage {
             )
             .slice(0, 6);
         
+        let suggestionsHTML = '';
+        
         if (filteredSuggestions.length > 0) {
-            const suggestionsHTML = filteredSuggestions.map(job => `
+            suggestionsHTML = filteredSuggestions.map(job => `
                 <button class="list-group-item list-group-item-action d-flex align-items-center" 
                         data-job-title="${job}">
                     <i class="fas fa-briefcase me-2 text-muted"></i>
                     ${job}
                 </button>
             `).join('');
-            
-            suggestionsContainer.innerHTML = `
-                <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
-                    ${suggestionsHTML}
-                </div>
-            `;
-            
-            
-            const suggestionButtons = suggestionsContainer.querySelectorAll('[data-job-title]');
-            suggestionButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const jobTitle = button.getAttribute('data-job-title');
-                    this.addJobTitle(jobTitle);
-                });
-            });
-            
-            suggestionsContainer.classList.remove('d-none');
-        } else {
-            this.hideJobSuggestions();
         }
+        
+        // Always add option to use custom input
+        const customOption = `
+            <button class="list-group-item list-group-item-action d-flex align-items-center border-top custom-job-option" 
+                    data-custom-job="${query}">
+                <i class="fas fa-plus me-2 text-primary"></i>
+                <span class="text-primary fw-medium">Use "${query}"</span>
+            </button>
+        `;
+        
+        if (filteredSuggestions.length > 0) {
+            suggestionsHTML += customOption;
+        } else {
+            suggestionsHTML = customOption;
+        }
+        
+        suggestionsContainer.innerHTML = `
+            <div class="list-group mt-2 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+                ${suggestionsHTML}
+            </div>
+        `;
+        
+        // Bind events for suggestion buttons
+        const suggestionButtons = suggestionsContainer.querySelectorAll('[data-job-title]');
+        suggestionButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const jobTitle = button.getAttribute('data-job-title');
+                this.addJobTitle(jobTitle);
+            });
+        });
+        
+        // Bind event for custom job option
+        const customButton = suggestionsContainer.querySelector('[data-custom-job]');
+        if (customButton) {
+            customButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const customJob = customButton.getAttribute('data-custom-job');
+                this.addJobTitle(customJob);
+            });
+        }
+        
+        suggestionsContainer.classList.remove('d-none');
     }
 
     hideJobSuggestions() {
@@ -189,9 +220,58 @@ class WhatJobPage {
     }
 
     updateSelectedDisplay() {
+        // Show selected jobs as removable tags
+        const selectedDisplay = document.getElementById('selectedJobsDisplay');
         
+        if (this.selectedJobs.size > 0) {
+            const jobTags = Array.from(this.selectedJobs).map(job => `
+                <span class="badge bg-primary d-flex align-items-center" style="font-size: 0.9rem; padding: 0.5rem 0.75rem;">
+                    <i class="fas fa-briefcase me-2"></i>
+                    ${job}
+                    <button class="btn-close btn-close-white ms-2" type="button" 
+                            data-remove-job="${job}" aria-label="Remove ${job}"
+                            style="font-size: 0.7rem;"></button>
+                </span>
+            `).join('');
+            
+            selectedDisplay.innerHTML = `
+                <div class="d-flex flex-wrap gap-2">
+                    ${jobTags}
+                </div>
+            `;
+            
+            // Bind remove events
+            const removeButtons = selectedDisplay.querySelectorAll('[data-remove-job]');
+            removeButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const jobToRemove = button.getAttribute('data-remove-job');
+                    this.removeJobTitle(jobToRemove);
+                });
+            });
+            
+            selectedDisplay.style.display = 'block';
+        } else {
+            selectedDisplay.style.display = 'none';
+        }
         
+        // Always enable next button - users can proceed with custom input or selections
         this.enableNextButton();
+    }
+
+    updateCustomInputState(inputValue) {
+        // Enable next button when there's custom input or selected jobs
+        if (inputValue.length > 0 || this.selectedJobs.size > 0) {
+            this.enableNextButton();
+        }
+        
+        // Update placeholder or helper text based on input
+        const jobInput = document.getElementById('jobTitleInput');
+        if (inputValue.length >= 2) {
+            jobInput.setAttribute('data-has-custom-input', 'true');
+        } else {
+            jobInput.removeAttribute('data-has-custom-input');
+        }
     }
 
     skipJobSelection() {
@@ -217,31 +297,32 @@ class WhatJobPage {
         
         
         setTimeout(() => {
-            window.location.href = 'where-remote.html';
+            window.location.href = '/where-remote';
         }, 300);
     }
 
     goNext() {
-        
+        // Capture any remaining text in the input field
         const jobInput = document.getElementById('jobTitleInput');
         if (jobInput && jobInput.value.trim()) {
             const inputValue = jobInput.value.trim();
             this.addJobTitle(inputValue);
+            jobInput.value = ''; // Clear the input after saving
         }
         
-        
+        // Store job preference (even if empty - user might want to skip)
         this.storeJobPreference();
         
-        
+        // Add loading state to next button
         const nextBtn = document.getElementById('nextBtn');
         if (nextBtn) {
             nextBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
             nextBtn.disabled = true;
         }
         
-        
+        // Navigate to next step
         setTimeout(() => {
-            window.location.href = 'relevant-experience.html';
+            window.location.href = '/relevant-experience';
         }, 500);
     }
 
@@ -350,11 +431,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    
+    // Initialize wizard footer
     if (typeof WizardFooter !== 'undefined') {
         window.wizardFooter = new WizardFooter(4, 6, 'Next');
         
-        
+        // Set up event handlers
         window.wizardFooter.handleNext = () => {
             if (window.whatJobPageInstance) {
                 window.whatJobPageInstance.handleNext();
@@ -367,10 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         
-        
-        setTimeout(() => {
-            window.wizardFooter.enableNextButton();
-        }, 200);
+        // Enable next button immediately - users can proceed with custom input
+        window.wizardFooter.enableNextButton();
     }
     
     

@@ -240,12 +240,12 @@ class WhereRemotePage {
         this.saveToLocalStorage();
         
         
-        window.location.href = 'what-job.html';
+        window.location.href = '/what-job';
     }
 
     handleBack() {
         
-        window.location.href = 'why-remote.html';
+        window.location.href = '/why-remote';
     }
 
     skip() {
@@ -253,7 +253,7 @@ class WhereRemotePage {
         localStorage.removeItem('locationPreference');
         
         
-        window.location.href = 'what-job.html';
+        window.location.href = '/what-job';
     }
 
     saveToLocalStorage() {

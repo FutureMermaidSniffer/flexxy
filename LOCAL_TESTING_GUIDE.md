@@ -14,7 +14,7 @@ We've set up three testing environments:
    - Tests on your server at http://144.126.154.23:3003
    - Uses test database and config but with real server 
 
-3. **Production** (.env.docker)
+3. **Production** (.env.production)
    - Identical to your production setup
    - Tests at https://144.126.154.23
 

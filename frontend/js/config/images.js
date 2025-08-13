@@ -1,10 +1,10 @@
 
 
 const IMAGE_CONFIG = {
+    // Base URL for images
+    BASE_URL: '',
     
-    BASE_URL: 'https:
-    
-    
+    // Image paths
     IMAGES: {
         
         hero: {
@@ -38,11 +38,11 @@ const IMAGE_CONFIG = {
         
         
         companies: {
-            dropbox: 'https:
-            netflix: 'https:
-            zillow: 'https:
-            doordash: 'https:
-            reddit: 'https:
+            dropbox: '/images/companies/dropbox.webp',
+            netflix: '/images/companies/netflix.webp',
+            zillow: '/images/companies/zillow.webp',
+            doordash: '/images/companies/doordash.webp',
+            reddit: '/images/companies/reddit.webp'
         }
     }
 };

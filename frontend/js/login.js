@@ -178,9 +178,9 @@ class LoginManager {
                 setTimeout(() => {
                     
                     if (data.user && data.user.user_type === 'admin') {
-                        window.location.href = 'admin-dashboard.html';
+                        window.location.href = '/admin-dashboard';
                     } else {
-                        const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
+                        const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || '/browse-jobs';
                         window.location.href = redirectUrl;
                     }
                 }, 1500);
@@ -262,9 +262,9 @@ class LoginManager {
                 setTimeout(() => {
                     
                     if (data.user && data.user.user_type === 'admin') {
-                        window.location.href = 'admin-dashboard.html';
+                        window.location.href = '/admin-dashboard';
                     } else {
-                        const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
+                        const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || '/browse-jobs';
                         window.location.href = redirectUrl;
                     }
                 }, 1500);
@@ -322,10 +322,10 @@ class LoginUtils {
                 const userData = JSON.parse(user);
                 
                 if (userData.user_type === 'admin') {
-                    window.location.href = 'admin-dashboard.html';
+                    window.location.href = '/admin-dashboard';
                 } else {
                     
-                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || 'browse-jobs.html';
+                    const redirectUrl = new URLSearchParams(window.location.search).get('redirect') || '/browse-jobs';
                     window.location.href = redirectUrl;
                 }
             } catch (error) {
@@ -366,9 +366,9 @@ class LoginUtils {
                     setTimeout(() => {
                         
                         if (data.user && data.user.user_type === 'admin') {
-                            window.location.href = 'admin-dashboard.html';
+                            window.location.href = '/admin-dashboard';
                         } else {
-                            const redirectUrl = urlParams.get('redirect') || 'browse-jobs.html';
+                            const redirectUrl = urlParams.get('redirect') || '/browse-jobs';
                             window.location.href = redirectUrl;
                         }
                     }, 2000);

@@ -352,7 +352,18 @@ class Jobs {
 
     async applyForJob(jobId) {
         if (!auth.isAuthenticated()) {
-            auth.showAlert('Please login to apply for jobs', 'warning');
+            // Store the job ID they want to apply to
+            localStorage.setItem('intended_job_id', jobId.toString());
+            
+            // Open registration modal
+            const authModal = new bootstrap.Modal(document.getElementById('authModal'));
+            authModal.show();
+            
+            // Switch to register tab
+            const registerTab = document.querySelector('#authModal .nav-link[href="#register"]');
+            if (registerTab) {
+                registerTab.click();
+            }
             return;
         }
 

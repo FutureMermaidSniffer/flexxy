@@ -34,22 +34,43 @@ class AccountManager {
     }
 
     getUserData() {
-        
-        const storedUser = localStorage.getItem('currentUser');
+        // Try to get user data from the correct localStorage key used by auth system
+        const storedUser = localStorage.getItem('flexjobs_user');
         if (storedUser) {
-            return JSON.parse(storedUser);
+            const user = JSON.parse(storedUser);
+            // Map the user data to match form fields
+            return {
+                firstName: user.first_name || '',
+                lastName: user.last_name || '',
+                email: user.email || '',
+                phone: user.phone || '',
+                zipCode: user.zip_code || '',
+                state: user.state || '',
+                country: user.country || 'US',
+                timezone: user.timezone || '',
+                emailPreferences: user.email_preferences || {
+                    dailyAlerts: true,
+                    weeklyDigest: true,
+                    instantAlerts: false,
+                    newsletter: true,
+                    promotions: false,
+                    events: true,
+                    accountUpdates: true,
+                    applicationUpdates: true
+                }
+            };
         }
         
-        
+        // Return empty object if no user data found
         return {
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'john.doe@example.com',
-            phone: '+1 (555) 123-4567',
-            zipCode: '10001',
-            state: 'NY',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            zipCode: '',
+            state: '',
             country: 'US',
-            timezone: 'EST',
+            timezone: '',
             emailPreferences: {
                 dailyAlerts: true,
                 weeklyDigest: true,
@@ -156,9 +177,20 @@ class AccountManager {
             await this.simulateApiCall();
 
             
-            const currentUser = this.getUserData();
-            const updatedUser = { ...currentUser, ...updateData };
-            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+            // Update user data in localStorage with the correct key used by auth system
+            const currentUser = JSON.parse(localStorage.getItem('flexjobs_user') || '{}');
+            const updatedUser = {
+                ...currentUser,
+                first_name: updateData.firstName,
+                last_name: updateData.lastName,
+                email: updateData.email,
+                phone: updateData.phone,
+                zip_code: updateData.zipCode,
+                state: updateData.state,
+                country: updateData.country,
+                timezone: updateData.timezone
+            };
+            localStorage.setItem('flexjobs_user', JSON.stringify(updatedUser));
 
             
             this.showAlert('Contact information updated successfully!', 'success');
@@ -296,8 +328,12 @@ class AccountManager {
 
     async loadSubscriptionInfo() {
         try {
-            const token = localStorage.getItem('token');
-            if (!token) return;
+            const token = localStorage.getItem('flexjobs_token');
+            if (!token) {
+                // Show inactive status if no token
+                this.updateSubscriptionDisplay(null);
+                return;
+            }
 
             const response = await fetch('/api/subscriptions/current', {
                 headers: {
@@ -308,16 +344,25 @@ class AccountManager {
             if (response.ok) {
                 const data = await response.json();
                 this.updateSubscriptionDisplay(data.subscription);
+            } else {
+                // Show inactive status if API call fails
+                this.updateSubscriptionDisplay(null);
             }
         } catch (error) {
             console.error('Error loading subscription info:', error);
+            // Show inactive status on error
+            this.updateSubscriptionDisplay(null);
         }
     }
 
     async loadPaymentMethods() {
         try {
-            const token = localStorage.getItem('token');
-            if (!token) return;
+            const token = localStorage.getItem('flexjobs_token');
+            if (!token) {
+                // Show no payment method if no token
+                this.updatePaymentMethodDisplay([]);
+                return;
+            }
 
             const response = await fetch('/api/payment-methods', {
                 headers: {
@@ -328,9 +373,14 @@ class AccountManager {
             if (response.ok) {
                 const data = await response.json();
                 this.updatePaymentMethodDisplay(data.payment_methods);
+            } else {
+                // Show no payment method if API call fails
+                this.updatePaymentMethodDisplay([]);
             }
         } catch (error) {
             console.error('Error loading payment methods:', error);
+            // Show no payment method on error
+            this.updatePaymentMethodDisplay([]);
         }
     }
 

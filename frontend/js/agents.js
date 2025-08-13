@@ -13,8 +13,36 @@ class AgentsManager {
             verification: '',
             sortBy: 'rating'
         };
-        this.viewMode = 'grid'; 
+        this.viewMode = 'list'; 
         this.init();
+    }
+
+    // Helper function to get the correct agent image path
+    getAgentImagePath(agent) {
+        // Extract first name from agent_name or display_name
+        const agentName = agent.agent_name || agent.display_name || '';
+        const firstName = agentName.split(' ')[0];
+        
+        // Map agent names to their image files
+        const imageMap = {
+            'Sophie': 'Sophie.png',
+            'Olivia': 'Olivia.png', 
+            'Naomi': 'Naomi.png',
+            'Isha': 'Isha.jpg',
+            'Daniel': 'Daniel.jpg'
+        };
+        
+        if (firstName && imageMap[firstName]) {
+            return `images/agents/${imageMap[firstName]}`;
+        }
+        
+        // Fallback to avatar_url if it contains agents path
+        if (agent.avatar_url && agent.avatar_url.includes('agents/')) {
+            return agent.avatar_url;
+        }
+        
+        // Default fallback
+        return 'images/f.png';
     }
 
     async init() {
@@ -67,7 +95,15 @@ class AgentsManager {
     parseUrlParams() {
         const urlParams = new URLSearchParams(window.location.search);
         this.filters.search = urlParams.get('q') || '';
-        this.filters.location = urlParams.get('location') || '';
+        
+        // For agent searches, only apply location filter if there's no search term
+        // This supports the new behavior where agents are discoverable by name regardless of location
+        const urlLocation = urlParams.get('location') || '';
+        if (urlLocation && !this.filters.search) {
+            this.filters.location = urlLocation;
+        } else {
+            this.filters.location = '';
+        }
         
         
         const agentId = urlParams.get('agent');
@@ -80,11 +116,12 @@ class AgentsManager {
         
         
         setTimeout(() => {
-            if (window.mainHeader && window.mainHeader.searchInput && this.filters.search) {
-                window.mainHeader.searchInput.value = this.filters.search;
+            if (window.mainHeaderInstance && window.mainHeaderInstance.searchInput && this.filters.search) {
+                window.mainHeaderInstance.searchInput.value = this.filters.search;
             }
-            if (window.mainHeader && window.mainHeader.locationInput && this.filters.location) {
-                window.mainHeader.locationInput.value = this.filters.location;
+            if (window.mainHeaderInstance && window.mainHeaderInstance.locationInput) {
+                // Show the location value in the dropdown but don't use it for filtering if there's a search term
+                window.mainHeaderInstance.locationInput.value = urlLocation;
             }
         }, 100);
     }
@@ -123,7 +160,7 @@ class AgentsManager {
     }
 
     setupEventListeners() {
-        
+        // Filter change listeners
         const specialtyFilter = document.getElementById('specialtyFilter');
         const ratingFilter = document.getElementById('ratingFilter');
         const verificationFilter = document.getElementById('verificationFilter');
@@ -140,7 +177,15 @@ class AgentsManager {
             }
         });
 
-        
+        // Clear Filters button event listener
+        const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', () => {
+                this.clearFilters();
+            });
+        }
+
+        // View mode listeners
         const gridView = document.getElementById('gridView');
         const listView = document.getElementById('listView');
 
@@ -186,8 +231,9 @@ class AgentsManager {
             );
         }
 
-        
-        if (this.filters.location) {
+        // Location filter - ONLY apply if there's NO search term
+        // When searching for agents by name, location should be ignored
+        if (this.filters.location && !this.filters.search) {
             const locationTerm = this.filters.location.toLowerCase();
             filtered = filtered.filter(agent => 
                 agent.location && agent.location.toLowerCase().includes(locationTerm)
@@ -330,7 +376,7 @@ class AgentsManager {
                 <div class="position-relative">
                     ${badges}
                     <div class="card-body text-center">
-                        <img src="${agent.avatar_url || 'images/f.png'}" 
+                        <img src="${this.getAgentImagePath(agent)}" 
                              alt="${agent.display_name || agent.agent_name}" class="agent-avatar mb-3" onerror="this.src='images/f.png'">
                         <h5 class="card-title mb-2">${agent.display_name || agent.agent_name}</h5>
                         <div class="agent-rating mb-2">
@@ -361,7 +407,7 @@ class AgentsManager {
             <div class="card agent-card agent-card-list" onclick="agentsManager.showAgentModal(${agent.id})">
                 <div class="position-relative">
                     ${badges}
-                    <img src="${agent.avatar_url || 'images/f.png'}" 
+                    <img src="${this.getAgentImagePath(agent)}" 
                          alt="${agent.display_name || agent.agent_name}" class="agent-avatar" onerror="this.src='images/f.png'">
                     <div class="flex-grow-1">
                         <div class="d-flex justify-content-between align-items-start mb-2">
@@ -524,7 +570,7 @@ class AgentsManager {
             <div class="row">
                 <div class="col-md-4 text-center">
                     <div class="position-relative d-inline-block">
-                        <img src="${agent.profile_image || 'images/f.png'}" 
+                        <img src="${this.getAgentImagePath(agent)}" 
                              alt="${agent.name}" class="agent-avatar mb-3" style="width: 120px; height: 120px;" onerror="this.src='images/f.png'">
                         ${badges}
                     </div>

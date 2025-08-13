@@ -67,19 +67,28 @@ const Error404Handler = require('./backend/middleware/404-handler');
 const app = express();
 const PORT = process.env.PORT || 3003;
 
+// Trust proxy for rate limiting and security
+// This is needed when behind reverse proxy/load balancer
+app.set('trust proxy', 1);
 
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      connectSrc: ["'self'", "https://api.yourdomain.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://embed.tawk.to"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://embed.tawk.to", "https://*.tawk.to"],
+      scriptSrcAttr: ["'unsafe-inline'"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net", "https://embed.tawk.to"],
+      imgSrc: ["'self'", "data:", "https:", "blob:", "https://embed.tawk.to", "https://*.tawk.to"],
+      connectSrc: ["'self'", "https://api.yourdomain.com", "wss://tawk.to", "https://tawk.to", "https://embed.tawk.to", "wss://embed.tawk.to", "https://*.tawk.to", "wss://*.tawk.to"],
       objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'none'"]
+      mediaSrc: ["'self'", "https://embed.tawk.to", "https://*.tawk.to"],
+      frameSrc: ["'self'", "https://tawk.to", "https://embed.tawk.to", "https://*.tawk.to"],
+      workerSrc: ["'self'", "blob:", "https://embed.tawk.to"],
+      childSrc: ["'self'", "https://embed.tawk.to", "https://*.tawk.to"],
+      manifestSrc: ["'self'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"]
     }
   },
   crossOriginEmbedderPolicy: false,
@@ -93,23 +102,47 @@ app.use(helmet({
 // Enhanced CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+    console.log(`CORS request from origin: ${origin}`);
     
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) {
+      console.log('CORS: Allowing request with no origin');
+      return callback(null, true);
+    }
+    
+    // In development, allow localhost and common development ports
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('CORS: Development mode - checking localhost origins');
+      
+      // Check if origin starts with localhost or 127.0.0.1
+      if (origin.startsWith('http://localhost:') || 
+          origin.startsWith('http://127.0.0.1:') ||
+          origin.startsWith('https://localhost:') || 
+          origin.startsWith('https://127.0.0.1:')) {
+        console.log('CORS: Allowing localhost/127.0.0.1 origin');
+        return callback(null, true);
+      }
+    }
+    
+    // Production origins
     const allowedOrigins = process.env.ALLOWED_ORIGINS 
       ? process.env.ALLOWED_ORIGINS.split(',')
-      : ['http://localhost:3000', 'http://localhost:3003', 'http://127.0.0.1:3000', 'http://127.0.0.1:3003'];
+      : [];
+    
+    console.log('CORS: Checking allowed origins:', allowedOrigins);
     
     if (allowedOrigins.includes(origin)) {
+      console.log('CORS: Origin found in allowed list');
       callback(null, true);
     } else {
+      console.log(`CORS: Origin ${origin} not in allowed list`);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
 
 // Rate limiting configuration
@@ -241,6 +274,57 @@ app.get('/health', (req, res) => {
     uptime: process.uptime(),
     environment: process.env.NODE_ENV || 'development'
   });
+// Detailed health check for production debugging
+app.get('/health/detailed', async (req, res) => {
+  const health = {
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
+    version: require('./package.json').version || 'unknown',
+    checks: {}
+  };
+
+  // Database check
+  try {
+    const { getOne } = require('./backend/database');
+    await getOne('SELECT 1');
+    health.checks.database = { status: 'healthy', message: 'Connected' };
+  } catch (error) {
+    health.checks.database = { status: 'unhealthy', message: error.message };
+    health.status = 'unhealthy';
+  }
+
+  // JWT check
+  try {
+    const jwt = require('jsonwebtoken');
+    if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET not configured');
+    const testToken = jwt.sign({ test: true }, process.env.JWT_SECRET, { expiresIn: '1m' });
+    jwt.verify(testToken, process.env.JWT_SECRET);
+    health.checks.jwt = { status: 'healthy', message: 'Generation and verification working' };
+  } catch (error) {
+    health.checks.jwt = { status: 'unhealthy', message: error.message };
+    health.status = 'unhealthy';
+  }
+
+  // Environment check
+  const requiredEnvVars = ['DB_HOST', 'DB_NAME', 'JWT_SECRET', 'SESSION_SECRET'];
+  const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+  
+  if (missingVars.length === 0) {
+    health.checks.environment = { status: 'healthy', message: 'All required variables set' };
+  } else {
+    health.checks.environment = { 
+      status: 'unhealthy', 
+      message: `Missing variables: ${missingVars.join(', ')}`
+    };
+    health.status = 'unhealthy';
+  }
+
+  const statusCode = health.status === 'healthy' ? 200 : 503;
+  res.status(statusCode).json(health);
+});
+
 });
 
 // Site configuration endpoint
@@ -260,6 +344,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/user', require('./backend/routes/user')); // Profile management routes
+app.use('/api/upload', require('./backend/routes/upload')); // File upload routes
 app.use('/api/applications', applicationRoutes);
 app.use('/api/agents', agentRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
@@ -436,6 +522,16 @@ app.get('*', Error404Handler.createHandler('static'));
 
 
 app.use((err, req, res, next) => {
+  // Add console logging for immediate visibility
+  console.error('🔥 SERVER ERROR:', {
+    message: err.message,
+    stack: err.stack,
+    url: req.originalUrl,
+    method: req.method,
+    ip: req.ip,
+    timestamp: new Date().toISOString()
+  });
+  
   // Log error with Winston
   logger.error('SERVER_ERROR', {
     error: err.message,
@@ -467,3 +563,4 @@ app.listen(PORT, async () => {
   // const { createAdminFromEnv } = require('./auto-create-admin');
   // await createAdminFromEnv();
 });
+

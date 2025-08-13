@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FlexJobs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .registration-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .form-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+        .form-section h5 {
+            color: #495057;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .employment-types {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .file-upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .file-upload-area:hover {
+            border-color: #007bff;
+            background-color: #f8f9ff;
+        }
+        .file-upload-area.dragover {
+            border-color: #007bff;
+            background-color: #e3f2fd;
+        }
+        .privacy-notice {
+            background-color: #e8f4f8;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .loading-spinner {
+            display: none;
+        }
+        .strength-meter {
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 5px;
+            transition: all 0.3s ease;
+        }
+        .strength-weak { background-color: #dc3545; }
+        .strength-medium { background-color: #ffc107; }
+        .strength-strong { background-color: #28a745; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-briefcase me-2"></i>FlexJobs
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="login.html">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="registration-container">
+            <div class="text-center mb-4">
+                <h2><i class="fas fa-user-plus me-2"></i>Create Your Account</h2>
+                <p class="text-muted">Join thousands of professionals finding their perfect remote job</p>
+            </div>
+
+            <form id="registrationForm" class="needs-validation" novalidate>
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h5><i class="fas fa-user me-2"></i>Personal Information</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name" class="form-label">First Name *</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            <div class="invalid-feedback">Please provide a valid first name.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name" class="form-label">Last Name *</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            <div class="invalid-feedback">Please provide a valid last name.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">Please provide a valid email address.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number (Optional)</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1 234 567 8900">
+                        <div class="form-text">We may contact you about suitable opportunities</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location (City & Country) *</label>
+                        <input type="text" class="form-control" id="location" name="location" 
+                               placeholder="e.g., London, United Kingdom" required>
+                        <div class="invalid-feedback">Please provide your location.</div>
+                        <div class="form-text">This helps us show you relevant job opportunities</div>
+                    </div>
+                </div>
+
+                <!-- Work Eligibility Section -->
+                <div class="form-section">
+                    <h5><i class="fas fa-id-card me-2"></i>Work Eligibility</h5>
+                    
+                    <div class="mb-3">
+                        <label for="work_eligibility" class="form-label">Work Authorization Status *</label>
+                        <select class="form-select" id="work_eligibility" name="work_eligibility" required>
+                            <option value="">Select your work status...</option>
+                            <option value="authorized_to_work">Authorized to work in this country</option>
+                            <option value="visa_required">Require work visa/permit</option>
+                            <option value="student_visa">Student visa with work rights</option>
+                            <option value="over_18">Over 18 years old (for age verification)</option>
+                        </select>
+                        <div class="invalid-feedback">Please select your work eligibility status.</div>
+                    </div>
+                </div>
+
+                <!-- Job Preferences Section -->
+                <div class="form-section">
+                    <h5><i class="fas fa-briefcase me-2"></i>Job Preferences</h5>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="role_type" class="form-label">Desired Role Type *</label>
+                            <select class="form-select" id="role_type" name="role_type" required>
+                                <option value="">Select role type...</option>
+                                <option value="software_engineer">Software Engineer</option>
+                                <option value="data_scientist">Data Scientist</option>
+                                <option value="product_manager">Product Manager</option>
+                                <option value="designer">UX/UI Designer</option>
+                                <option value="marketing">Marketing Specialist</option>
+                                <option value="sales">Sales Representative</option>
+                                <option value="customer_support">Customer Support</option>
+                                <option value="content_writer">Content Writer</option>
+                                <option value="project_manager">Project Manager</option>
+                                <option value="business_analyst">Business Analyst</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a role type.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="industry" class="form-label">Preferred Industry</label>
+                            <select class="form-select" id="industry" name="industry">
+                                <option value="">Select industry...</option>
+                                <option value="technology">Technology</option>
+                                <option value="finance">Finance & Banking</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="education">Education</option>
+                                <option value="retail">Retail & E-commerce</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="media">Media & Entertainment</option>
+                                <option value="non_profit">Non-Profit</option>
+                                <option value="government">Government</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Employment Type Preferences *</label>
+                        <div class="employment-types">
+                            <div class="form-check">
+                                <input class="form-check-input employment-type" type="checkbox" id="fulltime" name="employment_type" value="full-time">
+                                <label class="form-check-label" for="fulltime">Full-time</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input employment-type" type="checkbox" id="parttime" name="employment_type" value="part-time">
+                                <label class="form-check-label" for="parttime">Part-time</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input employment-type" type="checkbox" id="contract" name="employment_type" value="contract">
+                                <label class="form-check-label" for="contract">Contract</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input employment-type" type="checkbox" id="freelance" name="employment_type" value="freelance">
+                                <label class="form-check-label" for="freelance">Freelance</label>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback" id="employment-type-error">Please select at least one employment type.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="experience_level" class="form-label">Experience Level *</label>
+                        <select class="form-select" id="experience_level" name="experience_level" required>
+                            <option value="">Select experience level...</option>
+                            <option value="entry">Entry Level (0-2 years)</option>
+                            <option value="mid">Mid Level (3-5 years)</option>
+                            <option value="senior">Senior Level (6-10 years)</option>
+                            <option value="executive">Executive Level (10+ years)</option>
+                        </select>
+                        <div class="invalid-feedback">Please select your experience level.</div>
+                    </div>
+                </div>
+
+                <!-- CV/Resume Section -->
+                <div class="form-section">
+                    <h5><i class="fas fa-file-upload me-2"></i>CV/Resume (Optional)</h5>
+                    
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                        <p class="mb-2">Drag and drop your CV/Resume here or click to browse</p>
+                        <p class="text-muted small">Supported formats: PDF, DOC, DOCX (Max size: 5MB)</p>
+                        <input type="file" class="d-none" id="resume" name="resume" accept=".pdf,.doc,.docx">
+                    </div>
+                    <div id="file-selected" class="mt-2" style="display: none;">
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <span id="file-name"></span>
+                            <button type="button" class="btn-close float-end" id="remove-file"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Security Section -->
+                <div class="form-section">
+                    <h5><i class="fas fa-lock me-2"></i>Account Security</h5>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password *</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="strength-meter" id="strengthMeter"></div>
+                        <div class="form-text" id="password-help">
+                            Password must be at least 8 characters with uppercase, lowercase, number, and special character
+                        </div>
+                        <div class="invalid-feedback">Please provide a strong password.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password *</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        <div class="invalid-feedback">Passwords do not match.</div>
+                    </div>
+                </div>
+
+                <!-- Privacy & Consent Section -->
+                <div class="form-section">
+                    <h5><i class="fas fa-shield-alt me-2"></i>Privacy & Consent</h5>
+                    
+                    <div class="privacy-notice">
+                        <h6><i class="fas fa-info-circle me-2"></i>Data Processing Notice</h6>
+                        <p class="mb-2">We collect and process your personal data to:</p>
+                        <ul class="mb-2">
+                            <li>Provide job matching services</li>
+                            <li>Send relevant job opportunities</li>
+                            <li>Improve our platform</li>
+                            <li>Comply with legal obligations</li>
+                        </ul>
+                        <p class="mb-0 small">You can withdraw consent at any time. See our <a href="/privacy-policy" target="_blank">Privacy Policy</a> for details.</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gdpr_consent" name="gdpr_consent" required>
+                            <label class="form-check-label" for="gdpr_consent">
+                                I consent to the processing of my personal data in accordance with the 
+                                <a href="/privacy-policy" target="_blank">Privacy Policy</a> and 
+                                <a href="/terms" target="_blank">Terms of Service</a>. *
+                            </label>
+                            <div class="invalid-feedback">You must accept the privacy policy and terms to continue.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="newsletter_consent" name="newsletter_consent">
+                            <label class="form-check-label" for="newsletter_consent">
+                                I would like to receive job alerts, career advice, and platform updates via email (optional)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="marketing_consent" name="marketing_consent">
+                            <label class="form-check-label" for="marketing_consent">
+                                I consent to receive marketing communications about premium features and services (optional)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                        <span class="loading-spinner spinner-border spinner-border-sm me-2" role="status"></span>
+                        <i class="fas fa-user-plus me-2"></i>Create Account
+                    </button>
+                </div>
+
+                <div class="text-center mt-3">
+                    <p class="text-muted">Already have an account? <a href="login.html">Sign in here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/register.js"></script>
+</body>
+</html>

@@ -40,6 +40,19 @@ function showNotification(message, type = 'info', title = null) {
     
     const bsModal = new bootstrap.Modal(modal);
     bsModal.show();
+    
+    // Ensure proper cleanup when modal is hidden
+    modal.addEventListener('hidden.bs.modal', function() {
+        // Remove any lingering backdrop
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+        // Restore body scroll
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }, { once: true });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -182,13 +195,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     
+    // Newsletter subscription - use showNotification instead of alert
     const newsletterForm = document.querySelector('.newsletter-form');
     if (newsletterForm) {
         newsletterForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const email = this.querySelector('input[type="email"]').value;
             console.log('Newsletter signup:', email);
-            alert('Thank you for subscribing! You\'ll be notified about upcoming events.');
+            showNotification('Thank you for subscribing! You\'ll be notified about upcoming events.', 'success');
             this.reset();
         });
     }

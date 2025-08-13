@@ -6,12 +6,14 @@ class AdminDashboard {
         this.currentPage = {
             users: 1,
             agents: 1,
-            jobs: 1
+            jobs: 1,
+            profileForms: 1
         };
         this.filters = {
             users: {},
             agents: {},
-            jobs: {}
+            jobs: {},
+            profileForms: {}
         };
         this.init();
     }
@@ -75,6 +77,10 @@ class AdminDashboard {
         document.getElementById('agentSearch')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.searchAgents();
         });
+        
+        document.getElementById('profileFormSearch')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.searchProfileForms();
+        });
     }
 
     handleAction(action, element) {
@@ -86,6 +92,15 @@ class AdminDashboard {
                 break;
             case 'search-users':
                 searchUsers();
+                break;
+            case 'search-profile-forms':
+                this.searchProfileForms();
+                break;
+            case 'filter-profile-forms':
+                this.filterProfileForms();
+                break;
+            case 'export-profile-forms':
+                this.exportProfileForms();
                 break;
             case 'search-agents':
                 searchAgents();
@@ -132,7 +147,7 @@ class AdminDashboard {
                 updateAgent();
                 break;
             case 'filter-users':
-                filterUsers();
+                this.filterUsers();
                 break;
             case 'filter-agents':
                 filterAgents();
@@ -203,6 +218,9 @@ class AdminDashboard {
                 break;
             case 'users':
                 this.loadUsers();
+                break;
+            case 'profile-forms':
+                this.loadProfileForms();
                 break;
             case 'agents':
                 this.loadAgents();
@@ -440,8 +458,16 @@ class AdminDashboard {
                         ${user.is_active ? 'Active' : 'Inactive'}
                     </span>
                 </td>
+                <td>
+                    ${this.renderWizardProgress(user)}
+                </td>
                 <td>${new Date(user.created_at).toLocaleDateString()}</td>
                 <td>
+                    <button class="btn btn-sm btn-info me-1" 
+                            onclick="adminDashboard.viewWizardProgress(${user.id}, '${user.first_name} ${user.last_name}')"
+                            title="View User Information">
+                        <i class="fas fa-user"></i>
+                    </button>
                     <button class="btn btn-sm btn-outline-${user.is_active ? 'danger' : 'success'}" 
                             onclick="adminDashboard.toggleUserStatus(${user.id}, ${user.is_active})">
                         ${user.is_active ? 'Deactivate' : 'Activate'}
@@ -462,6 +488,299 @@ class AdminDashboard {
         return colors[userType] || 'secondary';
     }
 
+    renderWizardProgress(user) {
+        // Simple status - just show what data exists
+        return '<span class="badge bg-info">View Data</span>';
+    }
+
+    async viewWizardProgress(userId, userName) {
+        try {
+            this.showLoading();
+            
+            const response = await fetch(`/api/admin/users/${userId}/wizard-progress`, {
+                headers: this.getAuthHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch wizard progress');
+            }
+
+            const data = await response.json();
+            this.showWizardProgressModal(userName, data.data);
+        } catch (error) {
+            console.error('View wizard progress error:', error);
+            this.showAlert('Failed to load wizard progress', 'danger');
+        } finally {
+            this.hideLoading();
+        }
+    }
+
+    showWizardProgressModal(userName, wizardData) {
+        const modalHtml = `
+            <div class="modal fade" id="wizardProgressModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="fas fa-user me-2"></i>
+                                User Information for ${userName}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            ${this.renderWizardProgressContent(wizardData)}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Remove existing modal if any
+        const existingModal = document.getElementById('wizardProgressModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Add new modal to body
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('wizardProgressModal'));
+        modal.show();
+        
+        // Clean up after modal is hidden
+        document.getElementById('wizardProgressModal').addEventListener('hidden.bs.modal', function() {
+            this.remove();
+        });
+    }
+
+    renderWizardProgressContent(wizardData) {
+        const { user } = wizardData;
+        
+        let content = '<div class="row g-4">';
+        
+        // Always show user info header
+        content += `
+            <div class="col-12">
+                <div class="card border-info">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="card-title mb-0">
+                            <i class="fas fa-user me-2"></i>User Information
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <strong>Name:</strong> ${user.first_name} ${user.last_name}
+                            </div>
+                            <div class="col-md-4">
+                                <strong>Email:</strong> ${user.email}
+                            </div>
+                            <div class="col-md-4">
+                                <strong>Joined:</strong> ${new Date(user.created_at).toLocaleDateString()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Work Type Preferences
+        if (user.work_type_preference) {
+            const workType = JSON.parse(user.work_type_preference);
+            content += `
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-briefcase me-2"></i>Work Type Preference
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <span class="badge bg-primary fs-6">${this.formatWorkType(workType)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Salary Preferences
+        if (user.salary_preference) {
+            const salary = JSON.parse(user.salary_preference);
+            content += `
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-dollar-sign me-2"></i>Salary Preference
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div><strong>Amount:</strong> ${this.formatSalary(salary)}</div>
+                            <div><strong>Type:</strong> ${salary.type || 'Not specified'}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Location Preferences
+        if (user.location_preference) {
+            const location = JSON.parse(user.location_preference);
+            content += `
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-map-marker-alt me-2"></i>Location Preference
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            ${this.formatLocation(location)}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Job Preferences
+        if (user.job_preference) {
+            const jobPref = JSON.parse(user.job_preference);
+            content += `
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-search me-2"></i>Job Preferences
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            ${this.formatJobPreferences(jobPref)}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Experience Level
+        if (user.experience_level_preference) {
+            content += `
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>Experience Level
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <span class="badge bg-info fs-6">${user.experience_level_preference}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Education Level
+        if (user.education_level_preference) {
+            content += `
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-graduation-cap me-2"></i>Education Level
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <span class="badge bg-success fs-6">${this.formatEducationLevel(user.education_level_preference)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Benefit Preferences
+        if (user.benefit_preferences) {
+            const benefits = JSON.parse(user.benefit_preferences);
+            content += `
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title mb-0">
+                                <i class="fas fa-heart me-2"></i>Benefit Preferences
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            ${this.formatBenefits(benefits)}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        content += '</div>';
+        
+        return content;
+    }
+
+    formatWorkType(workType) {
+        const typeMap = {
+            '100-remote': '100% Remote Work',
+            'hybrid': 'Hybrid Remote Work',
+            'flexible': 'Flexible/Open-minded'
+        };
+        return typeMap[workType] || workType;
+    }
+
+    formatSalary(salary) {
+        if (salary.salary) {
+            return `$${parseInt(salary.salary).toLocaleString()}`;
+        }
+        return 'Not specified';
+    }
+
+    formatLocation(location) {
+        if (typeof location === 'string') {
+            return location;
+        }
+        if (location.location) {
+            return location.location;
+        }
+        return 'Not specified';
+    }
+
+    formatJobPreferences(jobPref) {
+        if (jobPref.jobTitles && Array.isArray(jobPref.jobTitles)) {
+            return jobPref.jobTitles.map(job => 
+                `<span class="badge bg-secondary me-1 mb-1">${job}</span>`
+            ).join('');
+        }
+        return 'No specific job titles';
+    }
+
+    formatEducationLevel(education) {
+        const educationMap = {
+            'high-school': 'High School or GED',
+            'associates': "Associate's Degree",
+            'bachelors': "Bachelor's Degree",
+            'masters': "Master's or Higher",
+            'specialized': 'Specialized/Other',
+            'prefer-not': 'Prefer Not to Answer'
+        };
+        return educationMap[education] || education;
+    }
+
+    formatBenefits(benefits) {
+        if (Array.isArray(benefits)) {
+            return benefits.map(benefit => 
+                `<span class="badge bg-primary me-1 mb-1">${benefit}</span>`
+            ).join('');
+        }
+        return 'No specific benefits selected';
+    }
+
     async toggleUserStatus(userId, currentStatus) {
         try {
             const response = await fetch(`/api/admin/users/${userId}/toggle-status`, {
@@ -479,6 +798,238 @@ class AdminDashboard {
         } catch (error) {
             console.error('Toggle user status error:', error);
             this.showAlert('Failed to toggle user status', 'danger');
+        }
+    }
+
+    async loadProfileForms() {
+        try {
+            this.showLoading();
+            
+            const params = new URLSearchParams({
+                page: this.currentPage.profileForms || 1,
+                limit: 20,
+                ...this.filters.profileForms || {}
+            });
+
+            const response = await fetch(`/api/admin/profile-forms?${params}`, {
+                headers: this.getAuthHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch profile forms');
+            }
+
+            const data = await response.json();
+            this.renderProfileFormsTable(data.data.forms);
+            this.renderPagination('profile-forms', data.data.pagination);
+            this.loadProfileFormAgents(); // Load agents for filter dropdown
+        } catch (error) {
+            console.error('Load profile forms error:', error);
+            this.showAlert('Failed to load profile forms', 'danger');
+        } finally {
+            this.hideLoading();
+        }
+    }
+
+    async loadProfileFormAgents() {
+        try {
+            const response = await fetch('/api/agents?limit=100', {
+                headers: this.getAuthHeaders()
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const agentFilter = document.getElementById('profileFormAgentFilter');
+                if (agentFilter && data.agents) {
+                    agentFilter.innerHTML = '<option value="">All Agents</option>' +
+                        data.agents.map(agent => 
+                            `<option value="${agent.id}">${agent.agent_name} - ${agent.display_name}</option>`
+                        ).join('');
+                }
+            }
+        } catch (error) {
+            console.error('Error loading agents for filter:', error);
+        }
+    }
+
+    renderProfileFormsTable(forms) {
+        const tableHtml = forms.map(form => `
+            <tr>
+                <td>${form.first_name} ${form.last_name}</td>
+                <td>${form.email}</td>
+                <td>${form.phone || 'N/A'}</td>
+                <td>${form.location || 'N/A'}</td>
+                <td>
+                    <span class="badge bg-${this.getExperienceColor(form.experience_level)}">
+                        ${form.experience_level || 'N/A'}
+                    </span>
+                </td>
+                <td>
+                    ${form.selected_agent_name ? 
+                        `<span class="badge bg-info">${form.selected_agent_name}</span>` : 
+                        '<span class="text-muted">None</span>'
+                    }
+                </td>
+                <td>
+                    ${form.resume_path ? 
+                        `<a href="${form.resume_path}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-file-pdf"></i>
+                        </a>` : 
+                        '<span class="text-muted">None</span>'
+                    }
+                </td>
+                <td>
+                    <small>${new Date(form.updated_at).toLocaleDateString()}</small>
+                    <br>
+                    <span class="badge bg-${form.is_complete ? 'success' : 'warning'}">
+                        ${form.is_complete ? 'Complete' : 'Incomplete'}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-info me-1" onclick="adminDashboard.viewProfileFormDetails(${form.id})">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-primary" onclick="adminDashboard.exportSingleProfileForm(${form.id})">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+
+        document.getElementById('profileFormsTableBody').innerHTML = tableHtml;
+    }
+
+    getExperienceColor(level) {
+        const colors = {
+            'entry': 'success',
+            'mid': 'primary',
+            'senior': 'warning',
+            'executive': 'danger'
+        };
+        return colors[level] || 'secondary';
+    }
+
+    async viewProfileFormDetails(submissionId) {
+        try {
+            const response = await fetch(`/api/admin/profile-forms/${submissionId}`, {
+                headers: this.getAuthHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch profile form details');
+            }
+
+            const submission = await response.json();
+            this.showProfileFormModal(submission);
+        } catch (error) {
+            console.error('Error fetching profile form details:', error);
+            this.showAlert('Failed to load profile form details', 'danger');
+        }
+    }
+
+    showProfileFormModal(submission) {
+        let jobPreference = null;
+        try {
+            if (submission.job_preference) {
+                jobPreference = JSON.parse(submission.job_preference);
+            }
+        } catch (error) {
+            console.error('Error parsing job preference:', error);
+        }
+
+        const modalHtml = `
+            <div class="modal fade" id="profileFormModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Profile Submission Details - ${submission.first_name} ${submission.last_name}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Personal Information</h6>
+                                    <p><strong>Name:</strong> ${submission.first_name} ${submission.last_name}</p>
+                                    <p><strong>Email:</strong> ${submission.email}</p>
+                                    <p><strong>Phone:</strong> ${submission.phone || 'Not provided'}</p>
+                                    <p><strong>Location:</strong> ${submission.location || 'Not provided'}</p>
+                                    <p><strong>Work Eligibility:</strong> ${submission.work_eligibility || 'Not provided'}</p>
+                                    <p><strong>Experience Level:</strong> ${submission.experience_level || 'Not provided'}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Job Preferences</h6>
+                                    <p><strong>Role Type:</strong> ${jobPreference?.role_type || 'Not specified'}</p>
+                                    <p><strong>Industry:</strong> ${jobPreference?.industry || 'Not specified'}</p>
+                                    <p><strong>Employment Types:</strong> ${jobPreference?.employment_types?.join(', ') || 'Not specified'}</p>
+                                    <p><strong>Selected Agent:</strong> ${submission.agent_name || 'None'}</p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <h6>Submission Details</h6>
+                                    <p><strong>Status:</strong> <span class="badge bg-${submission.status === 'pending' ? 'warning' : submission.status === 'reviewed' ? 'success' : 'secondary'}">${submission.status || 'pending'}</span></p>
+                                    <p><strong>Submitted:</strong> ${new Date(submission.created_at).toLocaleString()}</p>
+                                    <p><strong>Data Processing Consent:</strong> ${submission.data_processing_consent ? 'Yes' : 'No'}</p>
+                                    <p><strong>Job Alerts Consent:</strong> ${submission.job_alerts_consent ? 'Yes' : 'No'}</p>
+                                    <p><strong>Marketing Consent:</strong> ${submission.marketing_consent ? 'Yes' : 'No'}</p>
+                                </div>
+                            </div>
+                            ${submission.bio ? `
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <h6>Additional Information</h6>
+                                        <p>${submission.bio}</p>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="adminDashboard.exportSingleProfileForm(${user.id})">
+                                Export Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Remove existing modal if present
+        const existingModal = document.getElementById('profileFormModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        // Add modal to body
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('profileFormModal'));
+        modal.show();
+    }
+
+    async exportSingleProfileForm(userId) {
+        try {
+            const response = await fetch(`/api/admin/profile-forms/export?user=${userId}`, {
+                headers: this.getAuthHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to export profile form');
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `profile-form-${userId}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Export error:', error);
+            this.showAlert('Failed to export profile form', 'danger');
         }
     }
 
@@ -685,6 +1236,9 @@ class AdminDashboard {
             case 'users':
                 this.loadUsers();
                 break;
+            case 'profile-forms':
+                this.loadProfileForms();
+                break;
             case 'agents':
                 this.loadAgents();
                 break;
@@ -712,9 +1266,64 @@ class AdminDashboard {
         const userType = document.getElementById('userTypeFilter').value;
         const isActive = document.getElementById('userStatusFilter').value;
         
-        this.filters.users = { user_type: userType, is_active: isActive };
+        this.filters.users = { 
+            user_type: userType, 
+            is_active: isActive
+        };
         this.currentPage.users = 1;
         this.loadUsers();
+    }
+
+    searchProfileForms() {
+        const searchTerm = document.getElementById('profileFormSearch').value.trim();
+        this.filters.profileForms = { 
+            ...this.filters.profileForms,
+            search: searchTerm 
+        };
+        this.currentPage.profileForms = 1;
+        this.loadProfileForms();
+    }
+
+    filterProfileForms() {
+        const agent = document.getElementById('profileFormAgentFilter').value;
+        const completion = document.getElementById('profileFormCompletionFilter').value;
+        const date = document.getElementById('profileFormDateFilter').value;
+        
+        this.filters.profileForms = { 
+            agent: agent,
+            completion: completion,
+            date: date
+        };
+        this.currentPage.profileForms = 1;
+        this.loadProfileForms();
+    }
+
+    async exportProfileForms() {
+        try {
+            const params = new URLSearchParams(this.filters.profileForms || {});
+            const response = await fetch(`/api/admin/profile-forms/export?${params}`, {
+                headers: this.getAuthHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to export profile forms');
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'profile-forms.csv';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            
+            this.showAlert('Profile forms exported successfully', 'success');
+        } catch (error) {
+            console.error('Export error:', error);
+            this.showAlert('Failed to export profile forms', 'danger');
+        }
     }
 
     filterAgents() {

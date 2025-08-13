@@ -50,8 +50,18 @@ async function executeQuery(query, params = []) {
 
 
 async function getOne(query, params = []) {
-  const results = await executeQuery(query, params);
-  return results[0] || null;
+  console.log('🔄 DATABASE: Executing getOne query');
+  console.log('🔄 DATABASE: Query:', query);
+  console.log('🔄 DATABASE: Parameters:', params);
+  
+  try {
+    const results = await executeQuery(query, params);
+    console.log('✅ DATABASE: getOne completed, found:', results.length > 0 ? 'record' : 'no record');
+    return results[0] || null;
+  } catch (error) {
+    console.error('❌ DATABASE getOne ERROR:', error.message);
+    throw error;
+  }
 }
 
 
@@ -61,13 +71,39 @@ async function getMany(query, params = []) {
 
 
 async function insertOne(table, data) {
-  const keys = Object.keys(data);
-  const values = Object.values(data);
-  const placeholders = keys.map((_, index) => `$${index + 1}`).join(',');
-  const query = `INSERT INTO ${table} (${keys.join(',')}) VALUES (${placeholders}) RETURNING id`;
-  
-  const result = await pool.query(query, values);
-  return result.rows[0].id;
+  console.log('🔄 DATABASE: Starting insertOne operation');
+  console.log('🔄 DATABASE: Table:', table);
+  console.log('🔄 DATABASE: Data keys:', Object.keys(data));
+  console.log('🔄 DATABASE: Data values (sanitized):', Object.keys(data).reduce((acc, key) => {
+    acc[key] = key.includes('password') ? '[HIDDEN]' : data[key];
+    return acc;
+  }, {}));
+
+  try {
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+    const placeholders = keys.map((_, index) => `$${index + 1}`).join(',');
+    const query = `INSERT INTO ${table} (${keys.join(',')}) VALUES (${placeholders}) RETURNING id`;
+    
+    console.log('🔄 DATABASE: Generated query:', query);
+    console.log('🔄 DATABASE: Query parameters count:', values.length);
+    
+    const result = await pool.query(query, values);
+    console.log('✅ DATABASE: Insert successful, returned ID:', result.rows[0].id);
+    
+    return result.rows[0].id;
+  } catch (error) {
+    console.error('❌ DATABASE INSERT ERROR:', {
+      table,
+      error: error.message,
+      code: error.code,
+      detail: error.detail,
+      constraint: error.constraint,
+      column: error.column,
+      dataKeys: Object.keys(data)
+    });
+    throw error;
+  }
 }
 
 

@@ -22,7 +22,7 @@
                 
                 
                 <div class="col d-lg-none text-center main-header__logo-container">
-                    <a href="/remote-jobs">
+                    <a href="/">
                         <img src="images/FlexJobs_logo-1.png" alt="FlexJobs" class="main-header__logo">
                     </a>
                 </div>
@@ -50,6 +50,19 @@
                             <button class="search-btn" type="button">
                                 <i class="fas fa-search"></i>
                             </button>
+                            <!-- Segmented Control for Search Type -->
+                            <div class="search-type-toggle">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <input type="radio" class="btn-check" name="searchType" id="searchAll" value="all" checked>
+                                    <label class="btn btn-outline-header-blue" for="searchAll">All</label>
+                                    
+                                    <input type="radio" class="btn-check" name="searchType" id="searchJobs" value="jobs">
+                                    <label class="btn btn-outline-header-blue" for="searchJobs">Jobs</label>
+                                    
+                                    <input type="radio" class="btn-check" name="searchType" id="searchAgents" value="agents">
+                                    <label class="btn btn-outline-header-blue" for="searchAgents">Agents</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,6 +123,19 @@
                 <button class="search-btn" type="button">
                     <i class="fas fa-search"></i>
                 </button>
+                <!-- Mobile Segmented Control for Search Type -->
+                <div class="search-type-toggle">
+                    <div class="btn-group btn-group-sm" role="group">
+                        <input type="radio" class="btn-check" name="mobileSearchType" id="mobileSearchAll" value="all" checked>
+                        <label class="btn btn-outline-header-blue" for="mobileSearchAll">All</label>
+                        
+                        <input type="radio" class="btn-check" name="mobileSearchType" id="mobileSearchJobs" value="jobs">
+                        <label class="btn btn-outline-header-blue" for="mobileSearchJobs">Jobs</label>
+                        
+                        <input type="radio" class="btn-check" name="mobileSearchType" id="mobileSearchAgents" value="agents">
+                        <label class="btn btn-outline-header-blue" for="mobileSearchAgents">Agents</label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -200,17 +226,17 @@
                     <hr class="mobile-menu__divider">
                     <ul class="mobile-account-list">
                         <li class="mobile-account-item">
-                            <a href="#" class="mobile-account-link">
+                            <a href="/account" class="mobile-account-link">
                                 Profile
                             </a>
                         </li>
                         <li class="mobile-account-item">
-                            <a href="#" class="mobile-account-link">
+                            <a href="/saved-jobs" class="mobile-account-link">
                                 Saved Jobs
                             </a>
                         </li>
                         <li class="mobile-account-item">
-                            <a href="#" class="mobile-account-link">
+                            <a href="/applications" class="mobile-account-link">
                                 Applications
                             </a>
                         </li>

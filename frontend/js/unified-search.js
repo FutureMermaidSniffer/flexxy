@@ -128,8 +128,8 @@ class UnifiedSearch {
         this.showLoadingState();
 
         try {
-            const results = await this.searchUnified(query, location);
-            this.displayResults(results, query, location);
+            // Direct redirect without showing notifications for successful searches
+            await this.searchUnified(query, location);
         } catch (error) {
             console.error('Search error:', error);
             this.showNotification('Search failed. Please try again.', 'error');
@@ -157,14 +157,14 @@ class UnifiedSearch {
         
         switch (this.searchType) {
             case 'jobs':
-                redirectUrl = `job-search-results.html?${searchParams.toString()}`;
+                redirectUrl = `/job-search-results?${searchParams.toString()}`;
                 break;
             case 'agents':
-                redirectUrl = `agents.html?${searchParams.toString()}`;
+                redirectUrl = `/agents?${searchParams.toString()}`;
                 break;
             case 'all':
             default:
-                redirectUrl = `search-results.html?${searchParams.toString()}`;
+                redirectUrl = `/search-results?${searchParams.toString()}`;
                 break;
         }
 
@@ -257,17 +257,31 @@ class UnifiedSearch {
                                 </div>
                             </div>`;
                     } else {
-                        
+                        // Agent suggestions with proper image paths
                         const rating = item.rating || 0;
                         const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
                         const specialties = item.specializations ? 
                             (Array.isArray(item.specializations) ? item.specializations.slice(0, 2).join(', ') : item.specializations.split(',').slice(0, 2).join(', '))
                             : '';
                         
+                        // Get the agent image path
+                        const agentName = item.agent_name || item.display_name || '';
+                        const firstName = agentName.split(' ')[0];
+                        const imageMap = {
+                            'Sophie': 'Sophie.png',
+                            'Olivia': 'Olivia.png', 
+                            'Naomi': 'Naomi.png',
+                            'Isha': 'Isha.jpg',
+                            'Daniel': 'Daniel.jpg'
+                        };
+                        const imagePath = firstName && imageMap[firstName] ? 
+                            `images/agents/${imageMap[firstName]}` : 
+                            'images/f.png';
+                        
                         html += `
                             <div class="suggestion-item agent-suggestion" data-type="agent" data-id="${item.id}">
                                 <div class="suggestion-icon-wrapper">
-                                    <i class="fas fa-user-tie suggestion-icon"></i>
+                                    <img src="${imagePath}" alt="${agentName}" class="agent-suggestion-avatar" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" onerror="this.src='images/f.png'">
                                 </div>
                                 <div class="suggestion-content">
                                     <div class="suggestion-title">${item.agent_name || item.display_name}</div>
@@ -300,10 +314,10 @@ class UnifiedSearch {
 
     selectSuggestion(type, id) {
         if (type === 'job') {
-            window.location.href = `job-preview.html?id=${id}`;
+            window.location.href = `/job-preview?id=${id}`;
         } else if (type === 'agent') {
             
-            window.location.href = `agents.html?agent=${id}`;
+            window.location.href = `/agents?agent=${id}`;
         }
         
         

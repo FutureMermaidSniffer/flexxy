@@ -155,7 +155,7 @@ class StatisticsPage {
                 localStorage.setItem('jobAppliedFor', 'PEA - CDOT Database');
                 
                 
-                window.location.href = 'registration.html';
+                window.location.href = '/registration';
             });
         }
 
@@ -321,7 +321,7 @@ class StatisticsPage {
                 
                 
                 setTimeout(() => {
-                    window.location.href = `job-details.html?id=${intendedJobId}`;
+                    window.location.href = `/job-details?id=${intendedJobId}`;
                 }, 2000);
             }, this.loadingDuration + 1000); 
         }
@@ -442,7 +442,7 @@ class StatisticsPage {
             
             
             setTimeout(() => {
-                window.location.href = 'job-preview.html';
+                window.location.href = '/registration';
             }, 2000); 
             
         } catch (error) {

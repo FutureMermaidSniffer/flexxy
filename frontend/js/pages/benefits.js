@@ -111,7 +111,7 @@ class BenefitsPage {
         
         
         setTimeout(() => {
-            window.location.href = 'education-level.html';
+            window.location.href = '/education-level';
         }, 300);
     }
 
@@ -128,7 +128,7 @@ class BenefitsPage {
         
         
         setTimeout(() => {
-            window.location.href = 'statistics.html';
+            window.location.href = '/statistics';
         }, 500);
     }
 

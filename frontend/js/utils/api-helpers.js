@@ -211,7 +211,7 @@ class JobAPI {
             } else {
                 localStorage.setItem('redirectAfterLogin', window.location.href);
             }
-            window.location.href = 'login.html';
+            window.location.href = '/login';
             return false;
         }
         return true;

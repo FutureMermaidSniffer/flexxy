@@ -42,31 +42,54 @@ const generateToken = (userId, email, userType) => {
 
 
 router.post('/register', registerValidation, async (req, res) => {
+  console.log('🔄 REGISTRATION: Starting registration process');
+  console.log('🔄 REGISTRATION: Request body received:', {
+    email: req.body.email,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    user_type: req.body.user_type,
+    phone: req.body.phone,
+    location: req.body.location,
+    has_preferences: !!req.body.preferences,
+    is_temp_account: req.body.is_temp_account,
+    created_via_wizard: req.body.created_via_wizard
+  });
+
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log('❌ REGISTRATION: Validation errors:', errors.array());
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, first_name, last_name, user_type, preferences, is_temp_account, created_via_wizard } = req.body;
+    const { email, password, first_name, last_name, user_type, preferences, is_temp_account, created_via_wizard, phone, location } = req.body;
 
+    console.log('✅ REGISTRATION: Validation passed');
     
     const finalFirstName = first_name || 'User';
     const finalLastName = last_name || Date.now().toString().slice(-4); 
 
-    
+    console.log('🔄 REGISTRATION: Final names:', { finalFirstName, finalLastName });
+
+    console.log('🔄 REGISTRATION: Checking for existing user with email:', email);
     const existingUser = await getOne('SELECT id FROM users WHERE email = ?', [email]);
     if (existingUser) {
+      console.log('❌ REGISTRATION: User already exists with ID:', existingUser.id);
       return res.status(400).json({ message: 'User already exists with this email' });
     }
+    console.log('✅ REGISTRATION: No existing user found');
 
-    
+    console.log('✅ REGISTRATION: No existing user found');
+
+    console.log('🔄 REGISTRATION: Starting password hashing');
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
+    console.log('✅ REGISTRATION: Password hashed successfully');
 
-    
+    console.log('🔄 REGISTRATION: Processing wizard data');
     let wizardData = {};
     if (preferences && created_via_wizard) {
+      console.log('🔄 REGISTRATION: Processing preferences:', preferences);
       wizardData = {
         work_type_preference: preferences.workType ? JSON.stringify(preferences.workType) : null,
         salary_preference: preferences.salaryPreference ? JSON.stringify(preferences.salaryPreference) : null,
@@ -77,25 +100,41 @@ router.post('/register', registerValidation, async (req, res) => {
         benefit_preferences: preferences.benefitPreference ? JSON.stringify(preferences.benefitPreference) : null,
         wizard_completed_at: new Date()
       };
+      console.log('✅ REGISTRATION: Wizard data processed:', Object.keys(wizardData));
+    } else {
+      console.log('ℹ️ REGISTRATION: No wizard data to process');
     }
 
-    
+    console.log('🔄 REGISTRATION: Building user data object');
     const userData = {
       email,
       password: hashedPassword,
       first_name: finalFirstName,
       last_name: finalLastName,
       user_type,
+      phone: phone || null,
+      location: location || null,
       is_temp_account: is_temp_account || false,
       created_via_wizard: created_via_wizard || false,
       ...wizardData
     };
 
+    console.log('🔄 REGISTRATION: User data to insert:', {
+      ...userData,
+      password: '[HIDDEN]'
+    });
+
+    console.log('🔄 REGISTRATION: Attempting database insertion');
     const userId = await insertOne('users', userData);
+    console.log('✅ REGISTRATION: User inserted successfully with ID:', userId);
 
-    
+    console.log('✅ REGISTRATION: User inserted successfully with ID:', userId);
+
+    console.log('🔄 REGISTRATION: Generating JWT token');
     const token = generateToken(userId, email, user_type);
+    console.log('✅ REGISTRATION: JWT token generated successfully');
 
+    console.log('✅ REGISTRATION: Registration completed successfully for user:', email);
     res.status(201).json({
       message: 'User registered successfully',
       token,
@@ -109,44 +148,86 @@ router.post('/register', registerValidation, async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('❌ REGISTRATION ERROR: Full error details:', {
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      detail: error.detail,
+      constraint: error.constraint,
+      table: error.table,
+      column: error.column
+    });
+    
+    // Log database-specific errors
+    if (error.code) {
+      console.error('❌ REGISTRATION DATABASE ERROR:', {
+        pgCode: error.code,
+        pgDetail: error.detail,
+        pgConstraint: error.constraint,
+        pgTable: error.table,
+        pgColumn: error.column
+      });
+    }
+    
     res.status(500).json({ message: 'Server error during registration' });
   }
 });
 
 
 router.post('/login', loginValidation, async (req, res) => {
+  console.log('🔄 LOGIN: Starting login process');
+  console.log('🔄 LOGIN: Request body received:', {
+    email: req.body.email,
+    hasPassword: !!req.body.password,
+    passwordLength: req.body.password ? req.body.password.length : 0
+  });
+
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log('❌ LOGIN: Validation errors:', errors.array());
       return res.status(400).json({ errors: errors.array() });
     }
 
     const { email, password } = req.body;
+    console.log('✅ LOGIN: Validation passed for email:', email);
 
-    
+    console.log('🔄 LOGIN: Querying database for user');
     const user = await getOne(
       'SELECT id, email, password, first_name, last_name, user_type, is_active FROM users WHERE email = ?',
       [email]
     );
 
     if (!user) {
+      console.log('❌ LOGIN: No user found with email:', email);
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    console.log('✅ LOGIN: User found:', {
+      id: user.id,
+      email: user.email,
+      user_type: user.user_type,
+      is_active: user.is_active
+    });
+
     if (!user.is_active) {
+      console.log('❌ LOGIN: User account is deactivated for:', email);
       return res.status(400).json({ message: 'Account is deactivated' });
     }
 
-    
+    console.log('🔄 LOGIN: Verifying password');
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
+      console.log('❌ LOGIN: Invalid password for user:', email);
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    
+    console.log('✅ LOGIN: Password verified successfully');
+    console.log('🔄 LOGIN: Generating JWT token');
     const token = generateToken(user.id, user.email, user.user_type);
+    console.log('✅ LOGIN: JWT token generated successfully');
 
+    console.log('✅ LOGIN: Login completed successfully for user:', email);
     res.json({
       message: 'Login successful',
       token,
@@ -159,7 +240,13 @@ router.post('/login', loginValidation, async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('❌ LOGIN ERROR: Full error details:', {
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      detail: error.detail
+    });
+    
     res.status(500).json({ message: 'Server error during login' });
   }
 });
