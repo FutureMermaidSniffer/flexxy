@@ -305,10 +305,16 @@ router.get('/profile-forms', async (req, res) => {
             let jobPreference = null;
             try {
                 if (form.job_preference) {
-                    jobPreference = JSON.parse(form.job_preference);
+                    // Handle both string and object cases
+                    if (typeof form.job_preference === 'string') {
+                        jobPreference = JSON.parse(form.job_preference);
+                    } else if (typeof form.job_preference === 'object') {
+                        jobPreference = form.job_preference;
+                    }
                 }
             } catch (error) {
                 console.error('Error parsing job preference:', error);
+                jobPreference = null;
             }
 
             return {
@@ -382,12 +388,44 @@ router.get('/profile-forms/export', async (req, res) => {
 
         const csvRows = results.map(row => {
             let jobPreference = null;
+            let employmentTypes = '';
+            
             try {
                 if (row.job_preference) {
-                    jobPreference = JSON.parse(row.job_preference);
+                    // Handle both string and object cases
+                    if (typeof row.job_preference === 'string') {
+                        jobPreference = JSON.parse(row.job_preference);
+                    } else if (typeof row.job_preference === 'object') {
+                        jobPreference = row.job_preference;
+                    }
                 }
             } catch (error) {
                 console.error('Error parsing job preference:', error);
+            }
+
+            // Handle employment_types safely
+            try {
+                if (row.employment_types) {
+                    if (typeof row.employment_types === 'string') {
+                        // Try to parse as JSON array first
+                        try {
+                            const parsed = JSON.parse(row.employment_types);
+                            if (Array.isArray(parsed)) {
+                                employmentTypes = parsed.join(', ');
+                            } else {
+                                employmentTypes = row.employment_types;
+                            }
+                        } catch {
+                            // If parsing fails, treat as plain string
+                            employmentTypes = row.employment_types;
+                        }
+                    } else if (Array.isArray(row.employment_types)) {
+                        employmentTypes = row.employment_types.join(', ');
+                    }
+                }
+            } catch (error) {
+                console.error('Error parsing employment types:', error);
+                employmentTypes = row.employment_types || '';
             }
 
             return [
@@ -400,7 +438,7 @@ router.get('/profile-forms/export', async (req, res) => {
                 row.experience_level || '',
                 row.role_type || '',
                 row.industry || '',
-                row.employment_types ? JSON.parse(row.employment_types).join(', ') : '',
+                employmentTypes,
                 row.selected_agent_name || '',
                 row.status || '',
                 row.job_alerts_consent ? 'Yes' : 'No',
@@ -449,7 +487,14 @@ router.get('/profile-forms/:id', async (req, res) => {
         // Parse job preference if it exists
         if (submission.job_preference) {
             try {
-                submission.job_preference_parsed = JSON.parse(submission.job_preference);
+                // Handle both string and object cases
+                if (typeof submission.job_preference === 'string') {
+                    submission.job_preference_parsed = JSON.parse(submission.job_preference);
+                } else if (typeof submission.job_preference === 'object') {
+                    submission.job_preference_parsed = submission.job_preference;
+                } else {
+                    submission.job_preference_parsed = null;
+                }
             } catch (error) {
                 console.error('Error parsing job preference:', error);
                 submission.job_preference_parsed = null;
