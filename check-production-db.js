@@ -76,10 +76,20 @@ async function checkDatabaseStatus() {
             console.log(`   Agents count: ${agentCount.rows[0].count}`);
             
             if (parseInt(agentCount.rows[0].count) > 0) {
-                const sampleAgents = await client.query('SELECT agent_name, specialization FROM agents LIMIT 3');
+                const sampleAgents = await client.query('SELECT name, specializations FROM agents LIMIT 3');
                 console.log('   Sample agents:');
                 sampleAgents.rows.forEach(agent => {
-                    console.log(`     - ${agent.agent_name} (${agent.specialization})`);
+                    // Parse specializations JSON if it exists
+                    let specs = 'No specializations';
+                    try {
+                        if (agent.specializations) {
+                            const parsedSpecs = JSON.parse(agent.specializations);
+                            specs = Array.isArray(parsedSpecs) ? parsedSpecs.join(', ') : agent.specializations;
+                        }
+                    } catch (e) {
+                        specs = agent.specializations || 'No specializations';
+                    }
+                    console.log(`     - ${agent.name} (${specs})`);
                 });
             }
         }

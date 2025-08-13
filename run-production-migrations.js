@@ -16,7 +16,7 @@ const ESSENTIAL_MIGRATIONS = [
     },
     {
         name: 'Add Recruiting Consultants (Agents)',
-        file: 'add-recruiting-consultants.js',
+        file: 'add-recruiting-consultants-fixed.js',
         description: 'Creates agents table and populates with consultant data'
     },
     {
@@ -76,7 +76,7 @@ async function runProductionMigrations() {
         
         const migrationStatus = {
             'create-core-schema.js': usersExists.rows.length > 0,
-            'add-recruiting-consultants.js': agentsExists.rows.length > 0,
+            'add-recruiting-consultants-fixed.js': agentsExists.rows.length > 0,
             'add_selected_agent_id.js': selectedAgentIdExists.rows.length > 0,
             'create_profile_submissions_table.js': profileSubmissionsExists.rows.length > 0
         };
@@ -101,8 +101,14 @@ async function runProductionMigrations() {
                     if (typeof migrationModule.runMigration === 'function') {
                         await migrationModule.runMigration();
                         console.log(`   ✅ ${migration.name} completed\n`);
+                    } else if (typeof migrationModule.addRecruitingConsultants === 'function') {
+                        await migrationModule.addRecruitingConsultants();
+                        console.log(`   ✅ ${migration.name} completed\n`);
+                    } else if (typeof migrationModule.createCoreSchema === 'function') {
+                        await migrationModule.createCoreSchema();
+                        console.log(`   ✅ ${migration.name} completed\n`);
                     } else {
-                        console.log(`   ⚠️  ${migration.name} - no runMigration function found\n`);
+                        console.log(`   ⚠️  ${migration.name} - no migration function found\n`);
                     }
                 } catch (error) {
                     console.error(`   ❌ ${migration.name} failed:`, error.message);
