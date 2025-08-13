@@ -59,7 +59,7 @@ class DatabaseMigration {
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 email VARCHAR(255) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
+                password VARCHAR(255),
                 first_name VARCHAR(100) NOT NULL,
                 last_name VARCHAR(100) NOT NULL,
                 user_type VARCHAR(20) DEFAULT 'job_seeker' CHECK (user_type IN ('job_seeker', 'employer', 'admin')),
@@ -77,6 +77,9 @@ class DatabaseMigration {
                 apple_id VARCHAR(255) UNIQUE,
                 is_temp_account BOOLEAN DEFAULT FALSE,
                 created_via_wizard BOOLEAN DEFAULT FALSE,
+                selected_agent_id INTEGER,
+                job_preference JSONB,
+                work_type_preference JSONB,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
@@ -289,6 +292,37 @@ class DatabaseMigration {
         console.log('✅ Agent Bookings table created');
     }
     
+    async createProfileSubmissionsTable() {
+        const query = `
+            CREATE TABLE IF NOT EXISTS profile_submissions (
+                id SERIAL PRIMARY KEY,
+                first_name VARCHAR(100) NOT NULL,
+                last_name VARCHAR(100) NOT NULL,
+                email VARCHAR(255) NOT NULL,
+                phone VARCHAR(20),
+                location VARCHAR(255) NOT NULL,
+                work_eligibility VARCHAR(255) NOT NULL,
+                experience_level VARCHAR(50) NOT NULL,
+                role_type VARCHAR(255),
+                industry VARCHAR(100),
+                employment_types JSONB,
+                job_preference JSONB,
+                bio TEXT,
+                data_processing_consent BOOLEAN DEFAULT false,
+                job_alerts_consent BOOLEAN DEFAULT false,
+                marketing_consent BOOLEAN DEFAULT false,
+                selected_agent_id INTEGER REFERENCES agents(id) ON DELETE SET NULL,
+                resume_path VARCHAR(500),
+                status VARCHAR(50) DEFAULT 'pending',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `;
+        
+        await this.connection.query(query);
+        console.log('✅ Profile Submissions table created');
+    }
+    
     async createUserSubscriptionsTable() {
         const query = `
             CREATE TABLE IF NOT EXISTS user_subscriptions (
@@ -310,7 +344,28 @@ class DatabaseMigration {
     }
 
     async createIndexes() {
+        // Create foreign key constraints first
+        console.log('🔗 Creating foreign key constraints...');
+        
+        try {
+            // Add foreign key constraint for selected_agent_id in users table
+            await this.connection.query(`
+                ALTER TABLE users 
+                ADD CONSTRAINT fk_users_selected_agent 
+                FOREIGN KEY (selected_agent_id) REFERENCES agents(id) 
+                ON DELETE SET NULL
+            `);
+            console.log('✅ Users selected_agent_id foreign key constraint added');
+        } catch (error) {
+            if (error.code === '42710') {
+                console.log('ℹ️  Users selected_agent_id foreign key constraint already exists');
+            } else {
+                console.log('⚠️  Could not add users selected_agent_id foreign key:', error.message);
+            }
+        }
+        
         // Wait for all tables to be created before creating indexes
+        console.log('🔍 Creating indexes...');
         const indexes = [
             // User related indexes
             'CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)',
@@ -355,6 +410,15 @@ class DatabaseMigration {
             // Agent reviews and bookings
             'CREATE INDEX IF NOT EXISTS idx_agent_reviews_rating ON agent_reviews(rating)',
             'CREATE INDEX IF NOT EXISTS idx_agent_bookings_status ON agent_bookings(status)',
+            
+            // Profile submissions indexes
+            'CREATE INDEX IF NOT EXISTS idx_profile_submissions_email ON profile_submissions(email)',
+            'CREATE INDEX IF NOT EXISTS idx_profile_submissions_status ON profile_submissions(status)',
+            'CREATE INDEX IF NOT EXISTS idx_profile_submissions_agent ON profile_submissions(selected_agent_id)',
+            'CREATE INDEX IF NOT EXISTS idx_profile_submissions_created ON profile_submissions(created_at)',
+            
+            // Users new fields indexes
+            'CREATE INDEX IF NOT EXISTS idx_users_selected_agent ON users(selected_agent_id)',
             
             // Subscriptions
             'CREATE INDEX IF NOT EXISTS idx_user_subscriptions_status ON user_subscriptions(status)',
@@ -508,6 +572,9 @@ class DatabaseMigration {
             await this.createAgentsTable();
             await this.createAgentReviewsTable();
             await this.createAgentBookingsTable();
+            
+            // Create profile submissions table
+            await this.createProfileSubmissionsTable();
             
             // Create subscription tables
             await this.createUserSubscriptionsTable();

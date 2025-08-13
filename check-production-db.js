@@ -11,7 +11,7 @@ require('dotenv').config();
 async function checkDatabaseStatus() {
     const client = new Client({
         host: process.env.DB_HOST,
-        port: process.env.DB_PORT || 5433,
+        port: process.env.DB_PORT || 5432,
         database: process.env.DB_NAME,
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
@@ -76,22 +76,56 @@ async function checkDatabaseStatus() {
             console.log(`   Agents count: ${agentCount.rows[0].count}`);
             
             if (parseInt(agentCount.rows[0].count) > 0) {
-                const sampleAgents = await client.query('SELECT name, specializations FROM agents LIMIT 3');
-                console.log('   Sample agents:');
-                sampleAgents.rows.forEach(agent => {
-                    // Parse specializations JSON if it exists
-                    let specs = 'No specializations';
-                    try {
-                        if (agent.specializations) {
-                            const parsedSpecs = JSON.parse(agent.specializations);
-                            specs = Array.isArray(parsedSpecs) ? parsedSpecs.join(', ') : agent.specializations;
+                // First check what columns exist in the agents table
+                const agentColumns = await client.query(`
+                    SELECT column_name 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'agents'
+                    ORDER BY ordinal_position
+                `);
+                
+                const columnNames = agentColumns.rows.map(row => row.column_name);
+                console.log(`   Agents table columns: ${columnNames.join(', ')}`);
+                
+                // Query using the correct column names
+                let sampleQuery = 'SELECT ';
+                if (columnNames.includes('name')) {
+                    sampleQuery += 'name';
+                } else if (columnNames.includes('agent_name')) {
+                    sampleQuery += 'agent_name as name';
+                } else {
+                    sampleQuery += 'id';
+                }
+                
+                if (columnNames.includes('specializations')) {
+                    sampleQuery += ', specializations';
+                } else if (columnNames.includes('specialization')) {
+                    sampleQuery += ', specialization as specializations';
+                }
+                
+                sampleQuery += ' FROM agents LIMIT 3';
+                
+                try {
+                    const sampleAgents = await client.query(sampleQuery);
+                    console.log('   Sample agents:');
+                    sampleAgents.rows.forEach(agent => {
+                        let specs = 'No specializations';
+                        try {
+                            if (agent.specializations) {
+                                const parsedSpecs = JSON.parse(agent.specializations);
+                                specs = Array.isArray(parsedSpecs) ? parsedSpecs.join(', ') : agent.specializations;
+                            }
+                        } catch (e) {
+                            specs = agent.specializations || 'No specializations';
                         }
-                    } catch (e) {
-                        specs = agent.specializations || 'No specializations';
-                    }
-                    console.log(`     - ${agent.name} (${specs})`);
-                });
+                        console.log(`     - ${agent.name || agent.id} (${specs})`);
+                    });
+                } catch (queryError) {
+                    console.log(`   Could not query agent details: ${queryError.message}`);
+                }
             }
+        } else {
+            console.log('\n❌ Agents table does not exist yet');
         }
         
         console.log('\n🎯 Migration recommendations:');
