@@ -116,3 +116,4 @@ test-*.js
 # Keep these important test utilities for debugging
 !database/test-connection.js
 !scripts/test-scraping-setup.js
+.env
