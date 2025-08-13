@@ -4,17 +4,10 @@ class ProfileForm {
         this.form = document.getElementById('profileForm');
         this.submitBtn = document.getElementById('submitBtn');
         this.loadingSpinner = document.querySelector('.loading-spinner');
-        this.fileUploadArea = document.getElementById('fileUploadArea');
-        this.fileInput = document.getElementById('resume');
-        this.fileSelected = document.getElementById('file-selected');
-        this.fileName = document.getElementById('file-name');
-        this.removeFileBtn = document.getElementById('remove-file');
         
-        this.selectedFile = null;
         this.currentUser = null;
         
         this.initializeEventListeners();
-        this.initializeFileUpload();
         this.initializeAgentSearch();
     }
 
@@ -34,38 +27,6 @@ class ProfileForm {
         // Progress tracking
         this.form.addEventListener('input', this.updateProgress.bind(this));
         this.form.addEventListener('change', this.updateProgress.bind(this));
-    }
-
-    initializeFileUpload() {
-        // Click to upload
-        this.fileUploadArea.addEventListener('click', () => {
-            this.fileInput.click();
-        });
-
-        // File selection
-        this.fileInput.addEventListener('change', this.handleFileSelect.bind(this));
-
-        // Drag and drop
-        this.fileUploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            this.fileUploadArea.classList.add('dragover');
-        });
-
-        this.fileUploadArea.addEventListener('dragleave', () => {
-            this.fileUploadArea.classList.remove('dragover');
-        });
-
-        this.fileUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            this.fileUploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                this.processFile(files[0]);
-            }
-        });
-
-        // Remove file
-        this.removeFileBtn.addEventListener('click', this.removeFile.bind(this));
     }
 
     async loadCurrentUserData() {
@@ -273,7 +234,6 @@ class ProfileForm {
             try {
                 const jobPref = JSON.parse(userData.job_preference);
                 if (jobPref.role_type) document.getElementById('role_type').value = jobPref.role_type;
-                if (jobPref.industry) document.getElementById('industry').value = jobPref.industry;
                 
                 // Employment types
                 if (jobPref.employment_types && Array.isArray(jobPref.employment_types)) {
@@ -352,40 +312,6 @@ class ProfileForm {
         });
     }
 
-    handleFileSelect(event) {
-        const file = event.target.files[0];
-        if (file) {
-            this.processFile(file);
-        }
-    }
-
-    processFile(file) {
-        // Validate file type
-        const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-        if (!allowedTypes.includes(file.type)) {
-            auth.showAlert('Please upload a PDF, DOC, or DOCX file.', 'danger');
-            return;
-        }
-
-        // Validate file size (5MB max)
-        if (file.size > 5 * 1024 * 1024) {
-            auth.showAlert('File size must be less than 5MB.', 'danger');
-            return;
-        }
-
-        this.selectedFile = file;
-        this.fileName.textContent = file.name;
-        this.fileSelected.style.display = 'block';
-        this.fileUploadArea.style.display = 'none';
-    }
-
-    removeFile() {
-        this.selectedFile = null;
-        this.fileInput.value = '';
-        this.fileSelected.style.display = 'none';
-        this.fileUploadArea.style.display = 'block';
-    }
-
     validateEmploymentTypes() {
         // Make validation optional - always return true
         const errorElement = document.getElementById('employment-type-error');
@@ -406,33 +332,6 @@ class ProfileForm {
         return Array.from(checkedTypes).map(checkbox => checkbox.value);
     }
 
-    async uploadResume() {
-        if (!this.selectedFile) return null;
-
-        const formData = new FormData();
-        formData.append('resume', this.selectedFile);
-
-        try {
-            const response = await fetch('/api/upload/resume', {
-                method: 'POST',
-                headers: {
-                    ...auth.getAuthHeaders()
-                },
-                body: formData
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                return result.filePath;
-            } else {
-                throw new Error('Resume upload failed');
-            }
-        } catch (error) {
-            console.error('Resume upload error:', error);
-            return null;
-        }
-    }
-
     async handleSubmit(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -440,17 +339,6 @@ class ProfileForm {
         this.setLoading(true);
 
         try {
-            // Upload resume if provided
-            let resumePath = null;
-            if (this.selectedFile) {
-                resumePath = await this.uploadResume();
-                if (!resumePath) {
-                    this.showAlert('Resume upload failed. Please try again.', 'danger');
-                    this.setLoading(false);
-                    return;
-                }
-            }
-
             // Prepare form data
             const formData = new FormData(this.form);
             const profileData = {
@@ -465,7 +353,6 @@ class ProfileForm {
                 // Job preferences as JSON
                 job_preference: JSON.stringify({
                     role_type: formData.get('role_type'),
-                    industry: formData.get('industry') || null,
                     employment_types: this.getSelectedEmploymentTypes()
                 }),
                 
@@ -478,10 +365,7 @@ class ProfileForm {
                 marketing_consent: formData.get('marketing_consent') === 'on',
                 
                 // Selected agent (optional)
-                selected_agent_id: formData.get('selected_agent') || null,
-                
-                // Resume path if uploaded
-                resume_path: resumePath
+                selected_agent_id: formData.get('selected_agent') || null
             };
 
             // Submit profile form (for new users)

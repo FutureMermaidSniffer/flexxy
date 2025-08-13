@@ -36,22 +36,7 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-        .file-upload-area {
-            border: 2px dashed #dee2e6;
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .file-upload-area:hover {
-            border-color: #007bff;
-            background-color: #f8f9ff;
-        }
-        .file-upload-area.dragover {
-            border-color: #007bff;
-            background-color: #e3f2fd;
-        }
+
         .consent-notice {
             background-color: #e8f4f8;
             border-left: 4px solid #17a2b8;
@@ -227,23 +212,7 @@
                             <div class="invalid-feedback">Please enter your desired role type.</div>
                             <div class="form-text">Enter the specific job title or role you're looking for</div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="industry" class="form-label">Preferred Industry</label>
-                            <select class="form-select" id="industry" name="industry">
-                                <option value="">Select industry...</option>
-                                <option value="technology">Technology</option>
-                                <option value="finance">Finance & Banking</option>
-                                <option value="healthcare">Healthcare</option>
-                                <option value="education">Education</option>
-                                <option value="retail">Retail & E-commerce</option>
-                                <option value="manufacturing">Manufacturing</option>
-                                <option value="consulting">Consulting</option>
-                                <option value="media">Media & Entertainment</option>
-                                <option value="non_profit">Non-Profit</option>
-                                <option value="government">Government</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
+
                     </div>
 
                     <div class="mb-3">
@@ -254,16 +223,12 @@
                                 <label class="form-check-label" for="fulltime">Full-time</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input employment-type" type="checkbox" id="parttime" name="employment_type" value="part-time">
-                                <label class="form-check-label" for="parttime">Part-time</label>
+                                <input class="form-check-input employment-type" type="checkbox" id="remote" name="employment_type" value="remote">
+                                <label class="form-check-label" for="remote">Remote</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input employment-type" type="checkbox" id="contract" name="employment_type" value="contract">
-                                <label class="form-check-label" for="contract">Contract</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input employment-type" type="checkbox" id="freelance" name="employment_type" value="freelance">
-                                <label class="form-check-label" for="freelance">Freelance</label>
+                                <input class="form-check-input employment-type" type="checkbox" id="open" name="employment_type" value="i-am-open">
+                                <label class="form-check-label" for="open">I am open</label>
                             </div>
                         </div>
                         <div class="invalid-feedback" id="employment-type-error">Please select at least one employment type.</div>
@@ -282,24 +247,7 @@
                     </div>
                 </div>
 
-                <!-- CV/Resume Section -->
-                <div class="form-section" id="documents">
-                    <h5><i class="fas fa-file-upload me-2"></i>CV/Resume (Optional)</h5>
-                    
-                    <div class="file-upload-area" id="fileUploadArea">
-                        <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
-                        <p class="mb-2">Drag and drop your CV/Resume here or click to browse</p>
-                        <p class="text-muted small">Supported formats: PDF, DOC, DOCX (Max size: 5MB)</p>
-                        <input type="file" class="d-none" id="resume" name="resume" accept=".pdf,.doc,.docx">
-                    </div>
-                    <div id="file-selected" class="mt-2" style="display: none;">
-                        <div class="alert alert-success">
-                            <i class="fas fa-check-circle me-2"></i>
-                            <span id="file-name"></span>
-                            <button type="button" class="btn-close float-end" id="remove-file"></button>
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- Agent Selection Section -->
                 <div class="form-section" id="agent-selection">

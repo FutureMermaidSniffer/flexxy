@@ -61,6 +61,9 @@ echo -e "${YELLOW}🔍 Checking migration files...${NC}"
 MIGRATION_FILES=(
     "database/migrations/create-core-schema.js"
     "database/migrations/add-salary-type-column.js"
+    "database/migrations/add-tags-column.js"
+    "database/migrations/create_profile_submissions_table.js"
+    "database/migrations/add-recruiting-consultants-fixed.js"
 )
 
 for file in "${MIGRATION_FILES[@]}"; do
@@ -88,6 +91,15 @@ run_ssh_command "node database/migrations/create-core-schema.js" "Running create
 
 # 2. Run salary type column migration
 run_ssh_command "node database/migrations/add-salary-type-column.js" "Running add-salary-type-column.js migration"
+
+# 3. Run tags column migration
+run_ssh_command "node database/migrations/add-tags-column.js" "Running add-tags-column.js migration"
+
+# 4. Run profile submissions table migration
+run_ssh_command "node database/migrations/create_profile_submissions_table.js" "Running create_profile_submissions_table.js migration"
+
+# 5. Run recruiting consultants migration
+run_ssh_command "node database/migrations/add-recruiting-consultants-fixed.js" "Running add-recruiting-consultants-fixed.js migration"
 
 # Verify database schema after migrations
 run_ssh_command "node -e \"
@@ -138,6 +150,9 @@ echo ""
 echo -e "${BLUE}📊 Summary:${NC}"
 echo "• Created core database schema (users, jobs, companies, etc.)"
 echo "• Added salary_type column to jobs table"
+echo "• Added tags column to jobs table"
+echo "• Created profile_submissions table"
+echo "• Added recruiting consultants (agents) system"
 echo "• Verified database structure"
 echo "• Restarted application"
 echo ""
