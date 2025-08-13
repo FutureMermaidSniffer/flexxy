@@ -9,7 +9,7 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
 # Handle API routes (if using Apache as reverse proxy)
-RewriteRule ^api/(.*)$ http://localhost:3003/api/$1 [P,L]
+RewriteRule ^api/(.*)$ http://localhost:3005/api/$1 [P,L]
 
 # Handle component requests
 RewriteCond %{REQUEST_URI} ^/components/

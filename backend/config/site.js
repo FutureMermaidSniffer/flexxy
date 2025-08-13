@@ -5,10 +5,10 @@
 
 const config = {
   // Base site URL - change this for production
-  siteUrl: process.env.SITE_URL || process.env.FRONTEND_URL || 'http://localhost:3003',
+  siteUrl: process.env.SITE_URL || process.env.FRONTEND_URL || 'http://localhost:3005',
   
   // API base URL
-  apiUrl: process.env.API_URL || process.env.SITE_URL || process.env.FRONTEND_URL || 'http://localhost:3003',
+  apiUrl: process.env.API_URL || process.env.SITE_URL || process.env.FRONTEND_URL || 'http://localhost:3005',
   
   // Admin panel URL
   adminUrl: function() {
