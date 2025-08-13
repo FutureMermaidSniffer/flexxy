@@ -110,10 +110,10 @@ server {
     ssl_trusted_certificate /etc/letsencrypt/live/flexjobseu.com/chain.pem;
 
     location / {
-        proxy_pass http://127.0.0.1:3003;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://\${API_HOST:-127.0.0.1}:\${API_PORT:-3005};
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto https;
         proxy_connect_timeout 60s;
         proxy_send_timeout 60s;

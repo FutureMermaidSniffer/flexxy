@@ -71,7 +71,7 @@ http {
     
     # Upstream
     upstream flexjobs_app {
-        server flexjobs-app:3003;
+        server \${API_HOST:-localhost}:\${API_PORT:-3005};
         keepalive 32;
     }
     

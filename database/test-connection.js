@@ -142,7 +142,7 @@ module.exports = testConnection;
             console.log('💡 Solutions:');
             console.log('   1. Make sure MySQL server is installed and running');
             console.log('   2. Check if MySQL service is started');
-            console.log('   3. Verify the host and port (default: localhost:3306)');
+            console.log(`   3. Verify the host and port (configured: ${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '3306'})`);
             console.log('');
             console.log('🔧 Common fixes:');
             console.log('   • Windows: Start "MySQL" service in Services app');

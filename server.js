@@ -65,7 +65,7 @@ const interactionRoutes = require('./backend/routes/interactions');
 const Error404Handler = require('./backend/middleware/404-handler');
 
 const app = express();
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3005;
 
 // Trust proxy for rate limiting and security
 // This is needed when behind reverse proxy/load balancer

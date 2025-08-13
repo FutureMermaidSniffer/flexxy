@@ -16,8 +16,8 @@ pm2 list
 
 echo ""
 echo -e "${YELLOW}2. Port listening check:${NC}"
-echo "Port 3003 (App):"
-sudo netstat -tlnp | grep ':3003' || echo "Nothing listening"
+echo "Port 3005 (App):"
+sudo netstat -tlnp | grep ':3005' || echo "Nothing listening"
 
 echo ""
 echo "Port 8080 (Nginx):"
