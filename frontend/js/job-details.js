@@ -243,9 +243,16 @@ class JobDetails {
         localStorage.setItem('intended_job_id', this.jobId.toString());
         
         
-        window.location.href = 'why-remote.html';
+        const authModal = new bootstrap.Modal(document.getElementById('authModal'));
+        authModal.show();
         
-        console.log('🎯 Redirecting to wizard for account creation, job:', this.jobData.title);
+        
+        const registerTab = document.querySelector('#authModal .nav-link[href="#register"]');
+        if (registerTab) {
+            registerTab.click();
+        }
+        
+        console.log('🎯 Opening registration modal for job application, job:', this.jobData.title);
     }
 
     

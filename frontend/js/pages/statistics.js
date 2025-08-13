@@ -442,7 +442,7 @@ class StatisticsPage {
             
             
             setTimeout(() => {
-                window.location.href = '/job-preview';
+                window.location.href = '/registration';
             }, 2000); 
             
         } catch (error) {

@@ -344,6 +344,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/user', require('./backend/routes/user')); // Profile management routes
+app.use('/api/upload', require('./backend/routes/upload')); // File upload routes
 app.use('/api/applications', applicationRoutes);
 app.use('/api/agents', agentRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);

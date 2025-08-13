@@ -298,7 +298,7 @@ class Auth {
             if (desktopNavbarAuth) {
                 desktopNavbarAuth.innerHTML = `
                     <div class="d-flex align-items-center gap-3">
-                        <a href="/registration" class="text-decoration-none text-white auth-link">Sign Up</a>
+                        <a href="/why-remote" class="text-decoration-none text-white auth-link">Sign Up</a>
                         <a href="/login" class="text-decoration-none text-white auth-link">Log In</a>
                     </div>
                 `;
@@ -310,7 +310,7 @@ class Auth {
                     <hr class="mobile-menu__divider">
                     <ul class="mobile-account-list">
                         <li class="mobile-account-item">
-                            <a href="/registration" class="mobile-account-link" style="color:white;">
+                            <a href="/why-remote" class="mobile-account-link" style="color:white;">
                                 Sign Up
                             </a>
                         </li>
