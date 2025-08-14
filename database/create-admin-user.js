@@ -32,19 +32,14 @@ async function createAdminUser() {
 
     console.log('❌ No admin users found. Creating new admin user...\n');
 
-    // Create admin user
-    const adminData = {
-<<<<<<< HEAD
-      email: 'admin@flexjobs.com',
-      password: 'admin123', // Change this in production!
-=======
-      email: process.env.ADMIN_EMAIL || 'admin@flexjobs.com',
-      password: process.env.ADMIN_PASSWORD || 'change-me-in-production', // SECURITY: Set in environment
->>>>>>> europe
-      first_name: 'Admin',
-      last_name: 'User',
-      user_type: 'admin'
-    };
+// Create admin user
+const adminData = {
+  email: process.env.ADMIN_EMAIL || 'admin@flexjobs.com',
+  password: process.env.ADMIN_PASSWORD || 'change-me-in-production', // SECURITY: Set in environment
+  first_name: 'Admin',
+  last_name: 'User',
+  user_type: 'admin'
+};
 
     // Hash password
     const hashedPassword = await bcrypt.hash(adminData.password, 12);
