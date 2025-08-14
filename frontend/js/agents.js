@@ -661,36 +661,34 @@ class AgentsManager {
         if (text.length <= maxLength) return text;
         return text.substring(0, maxLength) + '...';
     }
-}
 
-
-function clearFilters() {
-    
-    document.getElementById('specialtyFilter').value = '';
-    document.getElementById('ratingFilter').value = '';
-    document.getElementById('verificationFilter').value = '';
-    document.getElementById('sortBy').value = 'rating';
-    
-    
-    if (window.mainHeader && window.mainHeader.searchInput) {
-        window.mainHeader.searchInput.value = '';
+    clearFilters() {
+        document.getElementById('specialtyFilter').value = '';
+        document.getElementById('ratingFilter').value = '';
+        document.getElementById('verificationFilter').value = '';
+        document.getElementById('sortBy').value = 'rating';
+        
+        // Clear search inputs from main header
+        if (window.mainHeader && window.mainHeader.searchInput) {
+            window.mainHeader.searchInput.value = '';
+        }
+        if (window.mainHeader && window.mainHeader.locationInput) {
+            window.mainHeader.locationInput.value = '';
+        }
+        
+        // Reset filters object
+        this.filters = {
+            search: '',
+            location: '',
+            specialty: '',
+            rating: '',
+            verification: '',
+            sortBy: 'rating'
+        };
+        this.currentPage = 1;
+        this.applyFilters();
+        this.updateUrl();
     }
-    if (window.mainHeader && window.mainHeader.locationInput) {
-        window.mainHeader.locationInput.value = '';
-    }
-    
-    
-    agentsManager.filters = {
-        search: '',
-        location: '',
-        specialty: '',
-        rating: '',
-        verification: '',
-        sortBy: 'rating'
-    };
-    agentsManager.currentPage = 1;
-    agentsManager.applyFilters();
-    agentsManager.updateUrl();
 }
 
 

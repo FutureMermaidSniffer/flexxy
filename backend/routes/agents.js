@@ -60,10 +60,25 @@ router.get('/search/suggestions', async (req, res) => {
     
     const suggestions = await getMany(searchQuery, [searchTerm, parseInt(limit)]);
     
+    // Helper function to safely parse JSON or return as array (reused from above)
+    const safeJsonParse = (value) => {
+        if (!value) return [];
+        if (typeof value === 'string') {
+            try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) ? parsed : [value];
+            } catch (e) {
+                // If it's not valid JSON, treat it as a single string
+                return [value];
+            }
+        }
+        return Array.isArray(value) ? value : [value];
+    };
+    
     // Process specializations
     const processedSuggestions = suggestions.map(agent => ({
       ...agent,
-      specializations: agent.specializations ? JSON.parse(agent.specializations) : []
+      specializations: safeJsonParse(agent.specializations)
     }));
     
     res.json({ suggestions: processedSuggestions });
@@ -148,12 +163,27 @@ router.get('/', async (req, res) => {
     const { query: convertedAgentsQuery, params: convertedAgentsParams } = convertQuery(agentsQuery, queryParams);
     const agents = await getMany(convertedAgentsQuery, convertedAgentsParams);
 
+    // Helper function to safely parse JSON or return as array
+    const safeJsonParse = (value) => {
+        if (!value) return [];
+        if (typeof value === 'string') {
+            try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) ? parsed : [value];
+            } catch (e) {
+                // If it's not valid JSON, treat it as a single string
+                return [value];
+            }
+        }
+        return Array.isArray(value) ? value : [value];
+    };
+
     // Process the results - handle JSON fields and null user data
     const processedAgents = agents.map(agent => ({
       ...agent,
-      specializations: agent.specializations ? JSON.parse(agent.specializations) : [],
-      languages: agent.languages ? JSON.parse(agent.languages) : [],
-      skills: agent.skills ? JSON.parse(agent.skills) : [],
+      specializations: safeJsonParse(agent.specializations),
+      languages: safeJsonParse(agent.languages),
+      skills: safeJsonParse(agent.skills),
       // Handle cases where user data is null
       first_name: agent.first_name || '',
       last_name: agent.last_name || '',
@@ -204,13 +234,28 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Agent not found' });
     }
 
+    // Helper function to safely parse JSON or return as array (reused)
+    const safeJsonParse = (value) => {
+        if (!value) return [];
+        if (typeof value === 'string') {
+            try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) ? parsed : [value];
+            } catch (e) {
+                // If it's not valid JSON, treat it as a single string
+                return [value];
+            }
+        }
+        return Array.isArray(value) ? value : [value];
+    };
+
     // Process JSON fields
     const processedAgent = {
       ...agent,
-      specializations: agent.specializations ? JSON.parse(agent.specializations) : [],
-      languages: agent.languages ? JSON.parse(agent.languages) : [],
-      skills: agent.skills ? JSON.parse(agent.skills) : [],
-      certifications: agent.certifications ? JSON.parse(agent.certifications) : [],
+      specializations: safeJsonParse(agent.specializations),
+      languages: safeJsonParse(agent.languages),
+      skills: safeJsonParse(agent.skills),
+      certifications: safeJsonParse(agent.certifications),
       first_name: agent.first_name || '',
       last_name: agent.last_name || '',
       email: agent.email || ''

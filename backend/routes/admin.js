@@ -702,6 +702,29 @@ router.post('/agents', [
             is_active = true, is_featured = false, is_verified = false
         } = req.body;
 
+        // Ensure arrays are properly stringified for database storage
+        const processArrayField = (field) => {
+            if (Array.isArray(field)) {
+                return JSON.stringify(field);
+            }
+            if (typeof field === 'string') {
+                try {
+                    // If it's already a JSON string, keep it as is
+                    JSON.parse(field);
+                    return field;
+                } catch (e) {
+                    // If it's a plain string, wrap it in an array
+                    return JSON.stringify([field]);
+                }
+            }
+            return JSON.stringify([]);
+        };
+
+        const processedSpecializations = processArrayField(specializations);
+        const processedSkills = processArrayField(skills);
+        const processedLanguages = processArrayField(languages);
+        const processedCertifications = processArrayField(certifications);
+
         
         let userResult = await executeQuery('SELECT id FROM users WHERE email = $1', [email]);
         let userId;
@@ -736,8 +759,8 @@ router.post('/agents', [
 
         const agentResult = await executeQuery(agentQuery, [
             userId, agent_name, display_name, bio, avatar_url,
-            experience_years, currency, languages, skills, certifications,
-            location, timezone, linkedin_url, portfolio_url, specializations,
+            experience_years, currency, processedLanguages, processedSkills, processedCertifications,
+            location, timezone, linkedin_url, portfolio_url, processedSpecializations,
             is_featured, is_active
         ]);
 
@@ -807,6 +830,29 @@ router.put('/agents/:id', [
             certifications, linkedin_url, portfolio_url, is_active, is_featured
         } = req.body;
 
+        // Ensure arrays are properly stringified for database storage (reuse logic)
+        const processArrayField = (field) => {
+            if (Array.isArray(field)) {
+                return JSON.stringify(field);
+            }
+            if (typeof field === 'string') {
+                try {
+                    // If it's already a JSON string, keep it as is
+                    JSON.parse(field);
+                    return field;
+                } catch (e) {
+                    // If it's a plain string, wrap it in an array
+                    return JSON.stringify([field]);
+                }
+            }
+            return JSON.stringify([]);
+        };
+
+        const processedSpecializations = processArrayField(specializations);
+        const processedSkills = processArrayField(skills);
+        const processedLanguages = processArrayField(languages);
+        const processedCertifications = processArrayField(certifications);
+
         
         const agentCheck = await executeQuery('SELECT user_id FROM agents WHERE id = $1', [agentId]);
         if (agentCheck.length === 0) {
@@ -831,8 +877,8 @@ router.put('/agents/:id', [
 
         await executeQuery(updateQuery, [
             agent_name, display_name, bio, avatar_url, experience_years,
-            currency, languages, skills, certifications, location, timezone,
-            linkedin_url, portfolio_url, specializations, is_featured, is_active,
+            currency, processedLanguages, processedSkills, processedCertifications, location, timezone,
+            linkedin_url, portfolio_url, processedSpecializations, is_featured, is_active,
             agentId
         ]);
 
