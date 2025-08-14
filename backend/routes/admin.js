@@ -709,7 +709,7 @@ router.post('/agents', [
         if (userResult.length === 0) {
             
             const userQuery = `
-                INSERT INTO users (email, first_name, last_name, user_type, password_hash, is_active)
+                INSERT INTO users (email, first_name, last_name, user_type, password, is_active)
                 VALUES ($1, $2, $3, 'agent', 'temp_hash', true)
                 RETURNING id
             `;
@@ -867,6 +867,37 @@ router.delete('/agents/:id', async (req, res) => {
         console.error('Error deleting agent:', error);
         res.status(500).json({ 
             message: 'Error deleting agent',
+            error: error.message 
+        });
+    }
+});
+
+// Toggle agent featured status
+router.post('/agents/:id/toggle-featured', async (req, res) => {
+    try {
+        const agentId = req.params.id;
+
+        // Check if agent exists
+        const agentResult = await executeQuery('SELECT id, is_featured FROM agents WHERE id = $1', [agentId]);
+        if (agentResult.length === 0) {
+            return res.status(404).json({ message: 'Agent not found' });
+        }
+
+        const currentStatus = agentResult[0].is_featured;
+        const newStatus = !currentStatus;
+
+        // Update featured status
+        await executeQuery('UPDATE agents SET is_featured = $1 WHERE id = $2', [newStatus, agentId]);
+
+        res.json({ 
+            message: `Agent ${newStatus ? 'featured' : 'unfeatured'} successfully`,
+            is_featured: newStatus
+        });
+
+    } catch (error) {
+        console.error('Error toggling agent featured status:', error);
+        res.status(500).json({ 
+            message: 'Error toggling agent featured status',
             error: error.message 
         });
     }

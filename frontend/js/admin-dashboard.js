@@ -1133,11 +1133,6 @@ class AdminDashboard {
                                 title="Edit Agent">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="btn btn-sm btn-outline-${agent.is_verified ? 'warning' : 'success'}" 
-                                onclick="adminDashboard.toggleAgentVerification(${agent.id}, ${agent.is_verified})"
-                                title="Toggle Verification">
-                            <i class="fas fa-${agent.is_verified ? 'times' : 'check'}"></i>
-                        </button>
                         <button class="btn btn-sm btn-outline-${agent.is_featured ? 'secondary' : 'info'}" 
                                 onclick="adminDashboard.toggleAgentFeatured(${agent.id}, ${agent.is_featured})"
                                 title="Toggle Featured">
@@ -1149,26 +1144,6 @@ class AdminDashboard {
         `).join('');
         
         document.getElementById('agentsTableBody').innerHTML = tableHtml;
-    }
-
-    async toggleAgentVerification(agentId, currentStatus) {
-        try {
-            const response = await fetch(`/api/admin/agents/${agentId}/toggle-verification`, {
-                method: 'PUT',
-                headers: this.getAuthHeaders()
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to toggle agent verification');
-            }
-
-            const data = await response.json();
-            this.showAlert(data.message, 'success');
-            this.loadAgents();
-        } catch (error) {
-            console.error('Toggle agent verification error:', error);
-            this.showAlert('Failed to toggle agent verification', 'danger');
-        }
     }
 
     async toggleAgentFeatured(agentId, currentStatus) {
@@ -1598,6 +1573,54 @@ class AdminDashboard {
     loadAnalytics() {
         console.log('Load analytics - to be implemented');
     }
+
+    async editAgent(agentId) {
+        try {
+            
+            const response = await fetch(`/api/admin/agents/${agentId}`, {
+                headers: this.getAuthHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch agent details');
+            }
+
+            const agent = await response.json();
+
+            
+            document.getElementById('editAgentId').value = agent.id;
+            document.getElementById('editAgentName').value = agent.agent_name || '';
+            document.getElementById('editDisplayName').value = agent.display_name || '';
+            document.getElementById('editAgentEmail').value = agent.email || '';
+            document.getElementById('editAgentLocation').value = agent.location || '';
+            document.getElementById('editTimezone').value = agent.timezone || '';
+            document.getElementById('editAvatarUrl').value = agent.avatar_url || '';
+            document.getElementById('editAgentBio').value = agent.bio || '';
+            document.getElementById('editExperienceYears').value = agent.experience_years || 0;
+            document.getElementById('editCurrency').value = agent.currency || 'USD';
+            document.getElementById('editAgentStatus').value = agent.status || 'active';
+            document.getElementById('editSpecializations').value = agent.specializations || '';
+            document.getElementById('editSkills').value = agent.skills || '';
+            document.getElementById('editLanguages').value = agent.languages || '';
+            document.getElementById('editCertifications').value = agent.certifications || '';
+            document.getElementById('editLinkedinUrl').value = agent.linkedin_url || '';
+            document.getElementById('editPortfolioUrl').value = agent.portfolio_url || '';
+            document.getElementById('editIsActive').checked = agent.is_active || false;
+            document.getElementById('editIsFeatured').checked = agent.is_featured || false;
+            document.getElementById('editIsVerified').checked = agent.is_verified || false;
+            
+            
+            document.getElementById('editRating').value = `${agent.rating || '0.00'}/5.00`;
+            document.getElementById('editTotalReviews').value = agent.total_reviews || 0;
+            document.getElementById('editCreatedAt').value = this.formatDate(agent.created_at);
+
+            
+            new bootstrap.Modal(document.getElementById('editAgentModal')).show();
+        } catch (error) {
+            console.error('Edit agent error:', error);
+            this.showAlert('Failed to load agent details', 'danger');
+        }
+    }
 }
 
 
@@ -1662,55 +1685,6 @@ async function createAgent() {
     } catch (error) {
         console.error('Create agent error:', error);
         adminDashboard.showAlert('Failed to create agent', 'danger');
-    }
-}
-
-
-async function editAgent(agentId) {
-    try {
-        
-        const response = await fetch(`/api/admin/agents/${agentId}`, {
-            headers: adminDashboard.getAuthHeaders()
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch agent details');
-        }
-
-        const agent = await response.json();
-
-        
-        document.getElementById('editAgentId').value = agent.id;
-        document.getElementById('editAgentName').value = agent.agent_name || '';
-        document.getElementById('editDisplayName').value = agent.display_name || '';
-        document.getElementById('editAgentEmail').value = agent.email || '';
-        document.getElementById('editAgentLocation').value = agent.location || '';
-        document.getElementById('editTimezone').value = agent.timezone || '';
-        document.getElementById('editAvatarUrl').value = agent.avatar_url || '';
-        document.getElementById('editAgentBio').value = agent.bio || '';
-        document.getElementById('editExperienceYears').value = agent.experience_years || 0;
-        document.getElementById('editCurrency').value = agent.currency || 'USD';
-        document.getElementById('editAgentStatus').value = agent.status || 'active';
-        document.getElementById('editSpecializations').value = agent.specializations || '';
-        document.getElementById('editSkills').value = agent.skills || '';
-        document.getElementById('editLanguages').value = agent.languages || '';
-        document.getElementById('editCertifications').value = agent.certifications || '';
-        document.getElementById('editLinkedinUrl').value = agent.linkedin_url || '';
-        document.getElementById('editPortfolioUrl').value = agent.portfolio_url || '';
-        document.getElementById('editIsActive').checked = agent.is_active || false;
-        document.getElementById('editIsFeatured').checked = agent.is_featured || false;
-        document.getElementById('editIsVerified').checked = agent.is_verified || false;
-        
-        
-        document.getElementById('editRating').value = `${agent.rating || '0.00'}/5.00`;
-        document.getElementById('editTotalReviews').value = agent.total_reviews || 0;
-        document.getElementById('editCreatedAt').value = adminDashboard.formatDate(agent.created_at);
-
-        
-        new bootstrap.Modal(document.getElementById('editAgentModal')).show();
-    } catch (error) {
-        console.error('Edit agent error:', error);
-        adminDashboard.showAlert('Failed to load agent details', 'danger');
     }
 }
 
