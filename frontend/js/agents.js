@@ -13,7 +13,7 @@ class AgentsManager {
             verification: '',
             sortBy: 'rating'
         };
-        this.viewMode = 'list'; 
+        this.viewMode = 'list';
         this.init();
     }
 
@@ -103,15 +103,6 @@ class AgentsManager {
             this.filters.location = urlLocation;
         } else {
             this.filters.location = '';
-        }
-        
-        
-        const agentId = urlParams.get('agent');
-        if (agentId) {
-            
-            setTimeout(() => {
-                this.showAgentModal(agentId);
-            }, 1000);
         }
         
         
@@ -372,7 +363,7 @@ class AgentsManager {
         const rating = this.createRatingStars(agent.rating);
 
         return `
-            <div class="card agent-card h-100" onclick="agentsManager.showAgentModal(${agent.id})">
+            <div class="card agent-card h-100">
                 <div class="position-relative">
                     ${badges}
                     <div class="card-body text-center">
@@ -404,7 +395,7 @@ class AgentsManager {
         const rating = this.createRatingStars(agent.rating);
 
         return `
-            <div class="card agent-card agent-card-list" onclick="agentsManager.showAgentModal(${agent.id})">
+            <div class="card agent-card agent-card-list">
                 <div class="position-relative">
                     ${badges}
                     <img src="${this.getAgentImagePath(agent)}" 
@@ -537,69 +528,6 @@ class AgentsManager {
             this.updateUrl();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    }
-
-    async showAgentModal(agentId) {
-        try {
-            const agent = this.agents.find(a => a.id === agentId);
-            if (!agent) return;
-
-            const modal = new bootstrap.Modal(document.getElementById('agentModal'));
-            const modalBody = document.getElementById('agentModalBody');
-            const bookBtn = document.getElementById('bookConsultationBtn');
-
-            modalBody.innerHTML = this.createAgentModalContent(agent);
-            
-            
-            bookBtn.onclick = () => this.bookConsultation(agentId);
-            
-            modal.show();
-
-        } catch (error) {
-            console.error('Error showing agent modal:', error);
-            this.showAlert('Error loading agent details', 'danger');
-        }
-    }
-
-    createAgentModalContent(agent) {
-        const rating = this.createRatingStars(agent.average_rating);
-        const specialties = agent.specialties.map(s => `<span class="specialty-tag">${s}</span>`).join('');
-        const badges = this.createBadges(agent);
-
-        return `
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="position-relative d-inline-block">
-                        <img src="${this.getAgentImagePath(agent)}" 
-                             alt="${agent.name}" class="agent-avatar mb-3" style="width: 120px; height: 120px;" onerror="this.src='images/f.png'">
-                        ${badges}
-                    </div>
-                    <h4>${agent.name}</h4>
-                    <div class="agent-rating mb-2">
-                        ${rating}
-                        <div class="text-muted">(${agent.total_reviews} reviews)</div>
-                    </div>
-                    <p class="text-muted">${agent.location}</p>
-                </div>
-                <div class="col-md-8">
-                    <h5>About</h5>
-                    <p>${agent.bio}</p>
-                    
-                    <h5>Specialties</h5>
-                    <div class="mb-3">${specialties}</div>
-                    
-                    ${agent.certifications ? `
-                        <h5>Certifications</h5>
-                        <ul>
-                            ${agent.certifications.map(cert => `<li>${cert}</li>`).join('')}
-                        </ul>
-                    ` : ''}
-                    
-                    <h5>Languages</h5>
-                    <p>${agent.languages ? agent.languages.join(', ') : 'English'}</p>
-                </div>
-            </div>
-        `;
     }
 
     bookConsultation(agentId) {
