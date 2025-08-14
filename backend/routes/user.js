@@ -5,6 +5,17 @@ const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Helper function to safely parse JSON with error handling
+function safeJsonParse(jsonString, defaultValue = null) {
+    if (!jsonString) return defaultValue;
+    try {
+        return JSON.parse(jsonString);
+    } catch (error) {
+        console.error('JSON parsing error:', error);
+        return defaultValue;
+    }
+}
+
 // Validation rules for profile update
 const profileUpdateValidation = [
     body('first_name')
@@ -292,13 +303,13 @@ router.get('/preferences', authenticateToken, async (req, res) => {
             });
         }
 
-        // Parse JSON preferences
+        // Parse JSON preferences safely with error handling
         const preferences = {
-            job_preference: user.job_preference ? JSON.parse(user.job_preference) : null,
-            work_type_preference: user.work_type_preference ? JSON.parse(user.work_type_preference) : null,
-            salary_preference: user.salary_preference ? JSON.parse(user.salary_preference) : null,
-            location_preference: user.location_preference ? JSON.parse(user.location_preference) : null,
-            benefit_preferences: user.benefit_preferences ? JSON.parse(user.benefit_preferences) : null
+            job_preference: safeJsonParse(user.job_preference),
+            work_type_preference: safeJsonParse(user.work_type_preference),
+            salary_preference: safeJsonParse(user.salary_preference),
+            location_preference: safeJsonParse(user.location_preference),
+            benefit_preferences: safeJsonParse(user.benefit_preferences)
         };
 
         res.json({
@@ -367,13 +378,15 @@ router.post('/profile-form', async (req, res) => {
 
         // Parse job preferences - frontend sends it as JSON string
         let parsedJobPreference = {};
-        let employmentTypesArray = [];
+        let employmentTypesJson = null;
         
         if (job_preference) {
             try {
                 // Frontend sends job_preference as JSON string, so parse it
                 parsedJobPreference = JSON.parse(job_preference);
-                employmentTypesArray = parsedJobPreference.employment_types || [];
+                const employmentTypesArray = parsedJobPreference.employment_types || [];
+                // Convert array to JSON string for JSONB storage
+                employmentTypesJson = JSON.stringify(employmentTypesArray);
             } catch (error) {
                 console.log('Job preference parsing error, using defaults:', error);
                 parsedJobPreference = {
@@ -381,7 +394,7 @@ router.post('/profile-form', async (req, res) => {
                     industry: null,
                     employment_types: []
                 };
-                employmentTypesArray = [];
+                employmentTypesJson = JSON.stringify([]);
             }
         } else {
             // Default values if no job_preference provided
@@ -390,7 +403,7 @@ router.post('/profile-form', async (req, res) => {
                 industry: null,
                 employment_types: []
             };
-            employmentTypesArray = [];
+            employmentTypesJson = JSON.stringify([]);
         }
 
         // Create new profile submission record
@@ -404,7 +417,7 @@ router.post('/profile-form', async (req, res) => {
             experience_level,
             role_type: parsedJobPreference.role_type || null,
             industry: parsedJobPreference.industry || null,
-            employment_types: employmentTypesArray, // Store as array directly since it's JSONB
+            employment_types: employmentTypesJson, // Store as JSON string for JSONB
             job_preference: job_preference, // Store the original JSON string from frontend
             bio: bio || `Work Eligibility: ${work_eligibility}`,
             data_processing_consent: !!data_processing_consent,

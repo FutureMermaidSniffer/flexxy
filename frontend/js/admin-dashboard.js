@@ -38,6 +38,17 @@ class AdminDashboard {
         document.getElementById('adminName').textContent = `${user.first_name} ${user.last_name}`;
     }
 
+    // Helper function to safely parse JSON with error handling
+    safeJsonParse(jsonString, defaultValue = null) {
+        if (!jsonString) return defaultValue;
+        try {
+            return JSON.parse(jsonString);
+        } catch (error) {
+            console.error('JSON parsing error:', error);
+            return defaultValue;
+        }
+    }
+
     setupEventListeners() {
         
         document.querySelectorAll('[data-section]').forEach(link => {
@@ -590,79 +601,87 @@ class AdminDashboard {
         
         // Work Type Preferences
         if (user.work_type_preference) {
-            const workType = JSON.parse(user.work_type_preference);
-            content += `
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">
-                                <i class="fas fa-briefcase me-2"></i>Work Type Preference
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            <span class="badge bg-primary fs-6">${this.formatWorkType(workType)}</span>
+            const workType = this.safeJsonParse(user.work_type_preference);
+            if (workType) {
+                content += `
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">
+                                    <i class="fas fa-briefcase me-2"></i>Work Type Preference
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <span class="badge bg-primary fs-6">${this.formatWorkType(workType)}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
         
         // Salary Preferences
         if (user.salary_preference) {
-            const salary = JSON.parse(user.salary_preference);
-            content += `
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">
-                                <i class="fas fa-dollar-sign me-2"></i>Salary Preference
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            <div><strong>Amount:</strong> ${this.formatSalary(salary)}</div>
-                            <div><strong>Type:</strong> ${salary.type || 'Not specified'}</div>
+            const salary = this.safeJsonParse(user.salary_preference);
+            if (salary) {
+                content += `
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">
+                                    <i class="fas fa-dollar-sign me-2"></i>Salary Preference
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <div><strong>Amount:</strong> ${this.formatSalary(salary)}</div>
+                                <div><strong>Type:</strong> ${salary.type || 'Not specified'}</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
         
         // Location Preferences
         if (user.location_preference) {
-            const location = JSON.parse(user.location_preference);
-            content += `
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">
-                                <i class="fas fa-map-marker-alt me-2"></i>Location Preference
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            ${this.formatLocation(location)}
+            const location = this.safeJsonParse(user.location_preference);
+            if (location) {
+                content += `
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">
+                                    <i class="fas fa-map-marker-alt me-2"></i>Location Preference
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                ${this.formatLocation(location)}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
         
         // Job Preferences
         if (user.job_preference) {
-            const jobPref = JSON.parse(user.job_preference);
-            content += `
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">
-                                <i class="fas fa-search me-2"></i>Job Preferences
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            ${this.formatJobPreferences(jobPref)}
+            const jobPref = this.safeJsonParse(user.job_preference);
+            if (jobPref) {
+                content += `
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">
+                                    <i class="fas fa-search me-2"></i>Job Preferences
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                ${this.formatJobPreferences(jobPref)}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
         
         // Experience Level
@@ -703,21 +722,23 @@ class AdminDashboard {
         
         // Benefit Preferences
         if (user.benefit_preferences) {
-            const benefits = JSON.parse(user.benefit_preferences);
-            content += `
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="card-title mb-0">
-                                <i class="fas fa-heart me-2"></i>Benefit Preferences
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            ${this.formatBenefits(benefits)}
+            const benefits = this.safeJsonParse(user.benefit_preferences);
+            if (benefits) {
+                content += `
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">
+                                    <i class="fas fa-heart me-2"></i>Benefit Preferences
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                ${this.formatBenefits(benefits)}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
         
         content += '</div>';

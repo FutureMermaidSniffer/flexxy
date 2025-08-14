@@ -11,6 +11,17 @@ class ProfileForm {
         this.initializeAgentSearch();
     }
 
+    // Helper function to safely parse JSON with error handling
+    safeJsonParse(jsonString, defaultValue = null) {
+        if (!jsonString) return defaultValue;
+        try {
+            return JSON.parse(jsonString);
+        } catch (error) {
+            console.error('JSON parsing error:', error);
+            return defaultValue;
+        }
+    }
+
     initializeEventListeners() {
         this.form.addEventListener('submit', this.handleSubmit.bind(this));
         
@@ -231,8 +242,8 @@ class ProfileForm {
 
         // Parse and populate job preferences
         if (userData.job_preference) {
-            try {
-                const jobPref = JSON.parse(userData.job_preference);
+            const jobPref = this.safeJsonParse(userData.job_preference);
+            if (jobPref) {
                 if (jobPref.role_type) document.getElementById('role_type').value = jobPref.role_type;
                 
                 // Employment types
@@ -242,8 +253,6 @@ class ProfileForm {
                         if (checkbox) checkbox.checked = true;
                     });
                 }
-            } catch (error) {
-                console.error('Error parsing job preferences:', error);
             }
         }
 
