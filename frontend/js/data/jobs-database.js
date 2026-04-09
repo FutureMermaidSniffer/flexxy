@@ -25,7 +25,7 @@ const JOBS_DATABASE = [
             "Bachelor's degree in Computer Science or related field"
         ],
         benefits: ["Health Insurance", "401k Matching", "Stock Options", "Flexible PTO", "Home Office Stipend"],
-        created_at: "2025-08-05T10:00:00Z",
+        created_at: "2026-08-05T10:00:00Z",
         is_featured: true,
         is_new: true,
         application_url: "https://careers.microsoft.com/apply",
@@ -55,7 +55,7 @@ const JOBS_DATABASE = [
             "Bachelor's degree preferred"
         ],
         benefits: ["Comprehensive Health Coverage", "Retirement Plan", "Stock Program", "Learning Stipend", "Wellness Programs"],
-        created_at: "2025-08-04T14:30:00Z",
+        created_at: "2026-08-04T14:30:00Z",
         is_featured: false,
         is_new: true,
         application_url: "https://careers.google.com/apply",
@@ -85,7 +85,7 @@ const JOBS_DATABASE = [
             "Bachelor's degree preferred"
         ],
         benefits: ["Health Insurance", "Dental & Vision", "401k", "Flexible Work Hours", "Professional Development"],
-        created_at: "2025-08-04T09:15:00Z",
+        created_at: "2026-08-04T09:15:00Z",
         is_featured: true,
         is_new: true,
         application_url: "https://cdotdatabase.com/careers/apply",
@@ -115,7 +115,7 @@ const JOBS_DATABASE = [
             "Good research and editing skills"
         ],
         benefits: ["Medical Coverage", "Stock Purchase Plan", "Career Development", "Remote Work Stipend"],
-        created_at: "2025-08-03T16:45:00Z",
+        created_at: "2026-08-03T16:45:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://amazon.jobs/apply",
@@ -145,7 +145,7 @@ const JOBS_DATABASE = [
             "Willingness to learn Salesforce certification"
         ],
         benefits: ["Health & Wellness", "Equity Program", "Volunteer Time Off", "Learning Budget", "Flexible Work"],
-        created_at: "2025-08-03T11:20:00Z",
+        created_at: "2026-08-03T11:20:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://salesforce.wd1.myworkdayjobs.com/apply",
@@ -175,7 +175,7 @@ const JOBS_DATABASE = [
             "Data-driven approach to marketing"
         ],
         benefits: ["Remote-First Culture", "Health & Wellness Budget", "Stock Options", "Learning Budget", "Flexible PTO"],
-        created_at: "2025-08-02T13:30:00Z",
+        created_at: "2026-08-02T13:30:00Z",
         is_featured: true,
         is_new: true,
         application_url: "https://shopify.com/careers/apply",
@@ -205,7 +205,7 @@ const JOBS_DATABASE = [
             "Strong problem-solving skills"
         ],
         benefits: ["Health Coverage", "Stock Options", "Meal Credits", "Gym Membership", "Learning Budget"],
-        created_at: "2025-08-02T08:45:00Z",
+        created_at: "2026-08-02T08:45:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://www.metacareers.com/apply",
@@ -235,7 +235,7 @@ const JOBS_DATABASE = [
             "Interest in e-commerce principles"
         ],
         benefits: ["Health & Dental", "Stock Options", "Learning Fund", "Flexible Schedule", "Equipment Allowance"],
-        created_at: "2025-08-01T15:20:00Z",
+        created_at: "2026-08-01T15:20:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://www.shopify.com/careers/apply",
@@ -265,7 +265,7 @@ const JOBS_DATABASE = [
             "Insurance certification preferred"
         ],
         benefits: ["Health Insurance", "Life Insurance", "401k", "Hybrid Work", "Professional Development"],
-        created_at: "2025-08-01T10:15:00Z",
+        created_at: "2026-08-01T10:15:00Z",
         is_featured: true,
         is_new: true,
         application_url: "https://cdotdatabase.com/careers/insurance",
@@ -295,7 +295,7 @@ const JOBS_DATABASE = [
             "Interest in content management systems"
         ],
         benefits: ["Unlimited PTO", "Health Coverage", "Stock Options", "Content Allowance", "Flexible Work"],
-        created_at: "2025-07-31T14:30:00Z",
+        created_at: "2026-07-31T14:30:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://jobs.netflix.com/apply",
@@ -325,7 +325,7 @@ const JOBS_DATABASE = [
             "Good collaboration skills"
         ],
         benefits: ["Health & Wellness", "Equity Program", "Learning Budget", "Remote Work Setup", "Flexible Hours"],
-        created_at: "2025-07-31T09:45:00Z",
+        created_at: "2026-07-31T09:45:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://www.atlassian.com/company/careers/apply",
@@ -355,7 +355,7 @@ const JOBS_DATABASE = [
             "Experience with engagement platforms and tools"
         ],
         benefits: ["Competitive Salary", "Full Remote", "Equity Package", "Health Benefits", "Leadership Development"],
-        created_at: "2025-07-30T16:20:00Z",
+        created_at: "2026-07-30T16:20:00Z",
         is_featured: true,
         is_new: true,
         application_url: "https://cdotdatabase.com/careers/senior-specialist",
@@ -385,7 +385,7 @@ const JOBS_DATABASE = [
             "Understanding of machine learning concepts preferred"
         ],
         benefits: ["Health Insurance", "Spotify Premium", "Wellness Allowance", "Parental Leave", "Flexible Work"],
-        created_at: "2025-07-30T11:15:00Z",
+        created_at: "2026-07-30T11:15:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://www.lifeatspotify.com/apply",
@@ -415,7 +415,7 @@ const JOBS_DATABASE = [
             "Self-motivated and goal-oriented"
         ],
         benefits: ["Base + Commission", "Health Coverage", "Stock Purchase Plan", "Career Development", "Remote First"],
-        created_at: "2025-07-29T13:40:00Z",
+        created_at: "2026-07-29T13:40:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://zoom.wd5.myworkdayjobs.com/apply",
@@ -445,7 +445,7 @@ const JOBS_DATABASE = [
             "Excellent communication and leadership abilities"
         ],
         benefits: ["Management Bonus", "Health Benefits", "Hybrid Work", "Stock Options", "Leadership Training"],
-        created_at: "2025-07-29T08:25:00Z",
+        created_at: "2026-07-29T08:25:00Z",
         is_featured: true,
         is_new: true,
         application_url: "https://cdotdatabase.com/careers/manager",
@@ -476,7 +476,7 @@ const JOBS_DATABASE = [
             "Interest in fintech and payment systems"
         ],
         benefits: ["Competitive Salary", "Equity Package", "Health Coverage", "Commuter Benefits", "Learning Budget"],
-        created_at: "2025-07-28T15:50:00Z",
+        created_at: "2026-07-28T15:50:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://stripe.com/jobs/apply",
@@ -506,7 +506,7 @@ const JOBS_DATABASE = [
             "High school diploma or equivalent required"
         ],
         benefits: ["Global Remote", "Health Benefits", "Professional Development", "Flexible Schedule", "Slack Credits"],
-        created_at: "2025-07-28T10:30:00Z",
+        created_at: "2026-07-28T10:30:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://slack.com/careers/apply",
@@ -536,7 +536,7 @@ const JOBS_DATABASE = [
             "Bachelor's degree in relevant field"
         ],
         benefits: ["Entry-level Friendly", "Full Remote", "Mentorship Program", "Health Benefits", "Growth Opportunities"],
-        created_at: "2025-07-27T14:15:00Z",
+        created_at: "2026-07-27T14:15:00Z",
         is_featured: true,
         is_new: true,
         application_url: "https://cdotdatabase.com/careers/junior-analyst",
@@ -566,7 +566,7 @@ const JOBS_DATABASE = [
             "Interest in travel, hospitality, or community building"
         ],
         benefits: ["Travel Credits", "Health Coverage", "Flexible Work", "Professional Development", "Equity Program"],
-        created_at: "2025-07-27T09:40:00Z",
+        created_at: "2026-07-27T09:40:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://careers.airbnb.com/apply",
@@ -596,7 +596,7 @@ const JOBS_DATABASE = [
             "Interest in sustainable energy and electric vehicles"
         ],
         benefits: ["Stock Purchase Plan", "Health Coverage", "Flexible Work", "Learning Opportunities", "Mission-Driven Work"],
-        created_at: "2025-07-26T16:25:00Z",
+        created_at: "2026-07-26T16:25:00Z",
         is_featured: false,
         is_new: false,
         application_url: "https://www.tesla.com/careers/apply",
@@ -626,7 +626,7 @@ const JOBS_DATABASE = [
             "Customer service background preferred"
         ],
         benefits: ["Full Remote Work", "Health Insurance", "Professional Development", "Mentorship", "Career Growth Path"],
-        created_at: "2025-07-26T11:50:00Z",
+        created_at: "2026-07-26T11:50:00Z",
         is_featured: true,
         is_new: true,
         application_url: "https://cdotdatabase.com/careers/coordinator",
