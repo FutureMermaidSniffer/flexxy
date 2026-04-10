@@ -1,5 +1,5 @@
 Terms of Use
-Last Updated: Jan 16, 2025
+Last Updated: Jan 16, 2026
 
 flexjobseu.com is now part of Bold LLC.
 

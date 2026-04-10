@@ -8,7 +8,7 @@ const updatedLinks = [
     'https://www.indeed.com/career-advice/news/high-paying-remote-jobs',
     'https://www.indeed.com/career-advice/news/ai-job-search-potential',
     'https://www.linkedin.com/advice/0/how-can-you-optimize-your-linkedin-profile',
-    'https://www.forbes.com/sites/rachelwells/2025/08/08/5-free-courses-and-certificates-to-put-on-your-resume-in-2025/',
+    'https://www.forbes.com/sites/rachelwells/2026/08/08/5-free-courses-and-certificates-to-put-on-your-resume-in-2026/',
     'https://www.coursera.org/articles/in-demand-skills',
     'https://www.indeed.com/career-advice/pay-salary/how-to-negotiate-salary',
     'https://www.indeed.com/career-advice/interviewing/interview-question-tell-me-about-yourself',
