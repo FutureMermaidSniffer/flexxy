@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS agent_bookings (
 -- Create subscription plans table
 CREATE TABLE IF NOT EXISTS subscription_plans (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL UNIQUE,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
     billing_period VARCHAR(20) DEFAULT 'monthly' CHECK (billing_period IN ('monthly', 'yearly')),
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS user_subscriptions (
 );
 
 -- Create indexes for performance
-CREATE INDEX IF NOT EXISTS idx_agents_specializations ON agents USING GIN (to_tsvector('english', specializations));
+CREATE INDEX IF NOT EXISTS idx_agents_specializations ON agents(specializations);
 CREATE INDEX IF NOT EXISTS idx_agents_rating ON agents(rating);
 CREATE INDEX IF NOT EXISTS idx_agents_active ON agents(is_active);
 CREATE INDEX IF NOT EXISTS idx_agents_featured ON agents(is_featured);
