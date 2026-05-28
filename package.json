@@ -24,7 +24,8 @@
     "assets:check": "node scripts/dev-assets.js check",
     "assets:list": "node scripts/dev-assets.js list",
     "test": "echo \"No tests specified\" && exit 0",
-    "test:db": "node database/test-connection.js"
+    "test:db": "node database/test-connection.js",
+    "cv:source:migrate": "node backend/migrations/migrations.sql"
   },
   "keywords": [
     "jobs",

@@ -374,7 +374,10 @@ class ProfileForm {
                 marketing_consent: formData.get('marketing_consent') === 'on',
                 
                 // Selected agent (optional)
-                selected_agent_id: formData.get('selected_agent') || null
+                selected_agent_id: formData.get('selected_agent') || null,
+
+                // Raw hostname — backend normalises to 'flexjobs' | 'canadajobs' | 'other'
+                application_source: window.location.hostname || 'unknown'
             };
 
             // Submit profile form (for new users)

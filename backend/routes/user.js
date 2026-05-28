@@ -1,6 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const { getOne, updateOne, insertOne } = require('../database');
+const { detectApplicationSource } = require('./cv-submissions');
 const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
@@ -343,7 +344,8 @@ router.post('/profile-form', async (req, res) => {
             job_alerts_consent,
             marketing_consent,
             resume_path,
-            selected_agent_id
+            selected_agent_id,
+            application_source
         } = req.body;
 
         // Basic validation for required fields
@@ -424,6 +426,7 @@ router.post('/profile-form', async (req, res) => {
             job_alerts_consent: !!job_alerts_consent,
             marketing_consent: !!marketing_consent,
             selected_agent_id: selected_agent_id || null,
+            application_source: detectApplicationSource(req), // checks form field first, then headers
             status: 'pending',
             created_at: new Date(),
             updated_at: new Date()
