@@ -218,7 +218,30 @@
     color: #004f6e;
 }
 
-/* EU Flags */
+/* Language switcher (EN / CS) — separate from country location flags */
+.main-header__lang {
+    display: flex;
+    align-items: center;
+}
+
+.language-switcher {
+    min-width: 7.5rem;
+    font-size: 0.8rem;
+    border: 1px solid rgba(0, 79, 110, 0.25);
+    border-radius: 6px;
+    color: #004f6e;
+    background: #fff;
+    padding: 0.2rem 0.4rem;
+    cursor: pointer;
+}
+
+.language-switcher:focus {
+    border-color: #004f6e;
+    box-shadow: 0 0 0 2px rgba(0, 79, 110, 0.15);
+    outline: none;
+}
+
+/* EU Flags (location filters — not language) */
 .main-header__flags {
     display: flex;
     align-items: center;

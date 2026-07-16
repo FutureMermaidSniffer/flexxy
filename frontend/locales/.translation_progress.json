@@ -1,0 +1,42 @@
+{
+  "cs": {
+    "completed_batches": 1,
+    "total_batches": 1,
+    "completed": true
+  },
+  "es": {
+    "completed_batches": 0,
+    "total_batches": 0,
+    "completed": false
+  },
+  "fr": {
+    "completed_batches": 0,
+    "total_batches": 0,
+    "completed": false
+  },
+  "de": {
+    "completed_batches": 0,
+    "total_batches": 0,
+    "completed": false
+  },
+  "it": {
+    "completed_batches": 0,
+    "total_batches": 0,
+    "completed": false
+  },
+  "pt": {
+    "completed_batches": 0,
+    "total_batches": 0,
+    "completed": false
+  },
+  "pl": {
+    "completed_batches": 0,
+    "total_batches": 0,
+    "completed": false
+  },
+  "nl": {
+    "completed_batches": 0,
+    "total_batches": 0,
+    "completed": false
+  }
+}

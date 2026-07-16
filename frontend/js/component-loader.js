@@ -33,6 +33,10 @@ class ComponentLoader {
                 } else if (window.mainHeaderInstance) {
                     console.log('MainHeader instance already exists, skipping creation');
                 }
+                // Re-apply translations + bind language switcher after header inject
+                if (window.i18n && typeof window.i18n.refresh === 'function') {
+                    window.i18n.refresh();
+                }
             }, 100);
             
             
@@ -66,6 +70,10 @@ class ComponentLoader {
             
             
             await this.loadJS(`${componentPath}/main-footer.js`);
+
+            if (window.i18n && typeof window.i18n.refresh === 'function') {
+                window.i18n.refresh();
+            }
             
             
             this.loadedComponents.add('main-footer');
@@ -75,6 +83,13 @@ class ComponentLoader {
         } catch (error) {
             console.error('Error loading footer component:', error);
             throw error;
+        }
+    }
+
+    /** Notify i18n after any dynamic HTML insert */
+    static refreshI18n() {
+        if (window.i18n && typeof window.i18n.refresh === 'function') {
+            window.i18n.refresh();
         }
     }
 

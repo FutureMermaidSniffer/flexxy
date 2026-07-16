@@ -18,6 +18,12 @@ class LoginManager {
         this.init();
     }
 
+    t(key, fallback) {
+        return (window.i18n && typeof window.i18n.translate === 'function')
+            ? window.i18n.translate(key, fallback)
+            : fallback;
+    }
+
     init() {
         this.setupEventListeners();
         this.setupPasswordToggle();
@@ -69,12 +75,12 @@ class LoginManager {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
         if (!email) {
-            this.showFieldError(this.emailInput, 'Email is required');
+            this.showFieldError(this.emailInput, this.t('login.error.email_required', 'Email is required'));
             return false;
         }
         
         if (!emailRegex.test(email)) {
-            this.showFieldError(this.emailInput, 'Please enter a valid email address');
+            this.showFieldError(this.emailInput, this.t('login.error.email_invalid', 'Please enter a valid email address'));
             return false;
         }
         
@@ -86,12 +92,12 @@ class LoginManager {
         const password = this.passwordInput.value;
         
         if (!password) {
-            this.showFieldError(this.passwordInput, 'Password is required');
+            this.showFieldError(this.passwordInput, this.t('login.error.password_required', 'Password is required'));
             return false;
         }
         
         if (password.length < 6) {
-            this.showFieldError(this.passwordInput, 'Password must be at least 6 characters');
+            this.showFieldError(this.passwordInput, this.t('login.error.password_short', 'Password must be at least 6 characters'));
             return false;
         }
         
@@ -142,7 +148,7 @@ class LoginManager {
         const isPasswordValid = this.validatePassword();
         
         if (!isEmailValid || !isPasswordValid) {
-            this.showNotification('Please fix the errors below', 'error');
+            this.showNotification(this.t('login.error.fix_errors', 'Please fix the errors below'), 'error');
             return;
         }
 
@@ -172,7 +178,7 @@ class LoginManager {
                 localStorage.setItem('flexjobs_token', data.token);
                 localStorage.setItem('flexjobs_user', JSON.stringify(data.user));
                 
-                this.showNotification('Login successful! Redirecting...', 'success');
+                this.showNotification(this.t('login.success', 'Login successful! Redirecting...'), 'success');
                 
                 
                 setTimeout(() => {
@@ -185,11 +191,11 @@ class LoginManager {
                     }
                 }, 1500);
             } else {
-                this.showNotification(data.message || 'Login failed. Please try again.', 'error');
+                this.showNotification(data.message || this.t('login.error.failed', 'Login failed. Please try again.'), 'error');
             }
         } catch (error) {
             console.error('Login error:', error);
-            this.showNotification('Network error. Please check your connection and try again.', 'error');
+            this.showNotification(this.t('login.error.network', 'Network error. Please check your connection and try again.'), 'error');
         } finally {
             this.hideLoadingState();
         }
@@ -294,10 +300,10 @@ class LoginManager {
         };
         
         const titleMap = {
-            success: 'Success',
-            error: 'Error',
-            warning: 'Warning', 
-            info: 'Information'
+            success: this.t ? this.t('common.success', 'Success') : 'Success',
+            error: this.t ? this.t('common.error', 'Error') : 'Error',
+            warning: this.t ? this.t('common.warning', 'Warning') : 'Warning',
+            info: this.t ? this.t('common.info', 'Information') : 'Information'
         };
         
         icon.innerHTML = `<i class="${iconMap[type] || iconMap.info}"></i>`;

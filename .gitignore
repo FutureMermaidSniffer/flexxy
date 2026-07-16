@@ -116,3 +116,5 @@ test-*.js
 !database/test-connection.js
 !scripts/test-scraping-setup.js
 .env
+
+.venv-translate/

@@ -40,6 +40,16 @@ class MainHeader {
         await this.loadHeader();
         this.setupEventListeners();
         this.injectContent();
+        // Keep search placeholders in sync when language changes
+        window.addEventListener('languageChanged', () => {
+            this.updateSearchPlaceholder();
+            if (window.i18n && typeof window.i18n.refresh === 'function') {
+                // header nodes already updated by i18n; re-bind switcher only if needed
+            }
+        });
+        if (window.i18n && typeof window.i18n.refresh === 'function') {
+            window.i18n.refresh();
+        }
     }
     
     
@@ -382,10 +392,15 @@ class MainHeader {
 
     
     updateSearchPlaceholder() {
+        const t = (key, fallback) =>
+            (window.i18n && typeof window.i18n.translate === 'function')
+                ? window.i18n.translate(key, fallback)
+                : fallback;
+
         const placeholders = {
-            all: 'Search jobs and agents...',
-            jobs: 'Search for jobs...',
-            agents: 'Search for agents...'
+            all: t('header.search.placeholder.all', 'Search jobs and agents...'),
+            jobs: t('header.search.placeholder.jobs', 'Search for jobs...'),
+            agents: t('header.search.placeholder.agents', 'Search for agents...')
         };
 
         const newPlaceholder = placeholders[this.searchType] || placeholders.all;

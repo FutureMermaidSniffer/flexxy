@@ -6,7 +6,7 @@
             <div class="row align-items-center">
                 
                 <div class="col-auto d-lg-none">
-                    <button class="main-header__hamburger" id="mobileMenuToggle" aria-label="Menu">
+                    <button class="main-header__hamburger" id="mobileMenuToggle" data-i18n-aria-label="header.aria.menu" aria-label="Menu">
                         <span class="hamburger-line"></span>
                         <span class="hamburger-line"></span>
                         <span class="hamburger-line"></span>
@@ -16,14 +16,14 @@
                 
                 <div class="col-auto d-lg-block d-none main-header__logo-container">
                     <a href="/">
-                        <img src="images/FlexJobs_logo-1.png" alt="FlexJobs" class="main-header__logo">
+                        <img src="images/FlexJobs_logo-1.png" data-i18n-alt="header.logo.alt" alt="FlexJobs" class="main-header__logo">
                     </a>
                 </div>
                 
                 
                 <div class="col d-lg-none text-center main-header__logo-container">
                     <a href="/">
-                        <img src="images/FlexJobs_logo-1.png" alt="FlexJobs" class="main-header__logo">
+                        <img src="images/FlexJobs_logo-1.png" data-i18n-alt="header.logo.alt" alt="FlexJobs" class="main-header__logo">
                     </a>
                 </div>
                 
@@ -33,18 +33,18 @@
                         <div class="main-header__search-bar">
                             <div class="search-input-group">
                                 <i class="fas fa-search search-icon"></i>
-                                <input type="text" class="search-input" placeholder="Search jobs and agents...">
+                                <input type="text" class="search-input" data-i18n-placeholder="header.search.placeholder.all" placeholder="Search jobs and agents...">
                             </div>
                             <div class="location-input-group">
                                 <i class="fas fa-map-marker-alt location-icon"></i>
                                 <select class="location-input">
-                                    <option value="">Location</option>
-                                    <option value="remote">Remote</option>
-                                    <option value="us">US</option>
-                                    <option value="fr">France</option>
-                                    <option value="de">Germany</option>
-                                    <option value="nl">Netherlands</option>
-                                    <option value="world">World</option>
+                                    <option value="" data-i18n="header.search.location">Location</option>
+                                    <option value="remote" data-i18n="header.search.remote">Remote</option>
+                                    <option value="us" data-i18n="header.search.us">US</option>
+                                    <option value="fr" data-i18n="header.search.fr">France</option>
+                                    <option value="de" data-i18n="header.search.de">Germany</option>
+                                    <option value="nl" data-i18n="header.search.nl">Netherlands</option>
+                                    <option value="world" data-i18n="header.search.world">World</option>
                                 </select>
                             </div>
                             <button class="search-btn" type="button">
@@ -54,13 +54,13 @@
                             <div class="search-type-toggle">
                                 <div class="btn-group btn-group-sm" role="group">
                                     <input type="radio" class="btn-check" name="searchType" id="searchAll" value="all" checked>
-                                    <label class="btn btn-outline-header-blue" for="searchAll">All</label>
+                                    <label class="btn btn-outline-header-blue" for="searchAll" data-i18n="header.search.type.all">All</label>
                                     
                                     <input type="radio" class="btn-check" name="searchType" id="searchJobs" value="jobs">
-                                    <label class="btn btn-outline-header-blue" for="searchJobs">Jobs</label>
+                                    <label class="btn btn-outline-header-blue" for="searchJobs" data-i18n="header.search.type.jobs">Jobs</label>
                                     
                                     <input type="radio" class="btn-check" name="searchType" id="searchAgents" value="agents">
-                                    <label class="btn btn-outline-header-blue" for="searchAgents">Agents</label>
+                                    <label class="btn btn-outline-header-blue" for="searchAgents" data-i18n="header.search.type.agents">Agents</label>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,14 @@
                 </div>
                 
                 
-                <div class="col-auto d-none d-lg-block">
+                <div class="col-auto d-none d-lg-flex align-items-center gap-2">
+                    <div class="main-header__lang">
+                        <label for="language-switcher" class="visually-hidden" data-i18n="header.lang.label">Language</label>
+                        <select id="language-switcher" class="language-switcher form-select form-select-sm" aria-label="Language">
+                            <option value="en">English</option>
+                            <option value="cs">Čeština</option>
+                        </select>
+                    </div>
                     <div class="main-header__flags">
                         <div class="flag-container">
                             <button class="flag-btn" data-country="france" title="France" aria-label="Select France">
@@ -90,8 +97,12 @@
                 
                 <div class="col-auto">
                     
-                    <div class="d-lg-none">
-                        <button class="main-header__message-btn" aria-label="Messages">
+                    <div class="d-lg-none d-flex align-items-center gap-2">
+                        <select id="language-switcher-mobile" class="language-switcher form-select form-select-sm" aria-label="Language">
+                            <option value="en">English</option>
+                            <option value="cs">Čeština</option>
+                        </select>
+                        <button class="main-header__message-btn" data-i18n-aria-label="header.aria.messages" aria-label="Messages">
                             <i class="fas fa-envelope"></i>
                         </button>
                     </div>
@@ -106,18 +117,18 @@
             <div class="main-header__search-bar">
                 <div class="search-input-group">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search jobs and agents...">
+                    <input type="text" class="search-input" data-i18n-placeholder="header.search.placeholder.all" placeholder="Search jobs and agents...">
                 </div>
                 <div class="location-input-group">
                     <i class="fas fa-map-marker-alt location-icon"></i>
                     <select class="location-input">
-                        <option value="">Location</option>
-                        <option value="remote">Remote</option>
-                        <option value="us">US</option>
-                        <option value="fr">France</option>
-                        <option value="de">Germany</option>
-                        <option value="nl">Netherlands</option>
-                        <option value="world">World</option>
+                        <option value="" data-i18n="header.search.location">Location</option>
+                        <option value="remote" data-i18n="header.search.remote">Remote</option>
+                        <option value="us" data-i18n="header.search.us">US</option>
+                        <option value="fr" data-i18n="header.search.fr">France</option>
+                        <option value="de" data-i18n="header.search.de">Germany</option>
+                        <option value="nl" data-i18n="header.search.nl">Netherlands</option>
+                        <option value="world" data-i18n="header.search.world">World</option>
                     </select>
                 </div>
                 <button class="search-btn" type="button">
@@ -127,13 +138,13 @@
                 <div class="search-type-toggle">
                     <div class="btn-group btn-group-sm" role="group">
                         <input type="radio" class="btn-check" name="mobileSearchType" id="mobileSearchAll" value="all" checked>
-                        <label class="btn btn-outline-header-blue" for="mobileSearchAll">All</label>
+                        <label class="btn btn-outline-header-blue" for="mobileSearchAll" data-i18n="header.search.type.all">All</label>
                         
                         <input type="radio" class="btn-check" name="mobileSearchType" id="mobileSearchJobs" value="jobs">
-                        <label class="btn btn-outline-header-blue" for="mobileSearchJobs">Jobs</label>
+                        <label class="btn btn-outline-header-blue" for="mobileSearchJobs" data-i18n="header.search.type.jobs">Jobs</label>
                         
                         <input type="radio" class="btn-check" name="mobileSearchType" id="mobileSearchAgents" value="agents">
-                        <label class="btn btn-outline-header-blue" for="mobileSearchAgents">Agents</label>
+                        <label class="btn btn-outline-header-blue" for="mobileSearchAgents" data-i18n="header.search.type.agents">Agents</label>
                     </div>
                 </div>
             </div>
@@ -147,20 +158,20 @@
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <ul class="nav-list d-none d-lg-flex">
                          <li class="nav-item">
-                            <a href="/browse-jobs" class="nav-link">Find Remote, Hybrid, & Flexible Jobs</a>
+                            <a href="/browse-jobs" class="nav-link" data-i18n="header.nav.find_jobs">Find Remote, Hybrid, & Flexible Jobs</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/about" class="nav-link">How FlexJobs Works</a>
+                            <a href="/about" class="nav-link" data-i18n="header.nav.how_it_works">How FlexJobs Works</a>
                         </li>                  
                        
                         <li class="nav-item">
-                            <a href="/career-advice" class="nav-link">Career Advice</a>
+                            <a href="/career-advice" class="nav-link" data-i18n="header.nav.career_advice">Career Advice</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/events" class="nav-link">Events & Webinars</a>
+                            <a href="/events" class="nav-link" data-i18n="header.nav.events">Events & Webinars</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/blog" class="nav-link">Job Search Articles</a>
+                            <a href="/blog" class="nav-link" data-i18n="header.nav.blog">Job Search Articles</a>
                         </li>
                         
                     </ul>
@@ -169,15 +180,15 @@
                     <div id="navbarAuth" class="d-none d-lg-block">
                         <div class="dropdown">
                             <button class="main-header__account-btn dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                My Account
+                                <span data-i18n="header.account.my_account">My Account</span>
                                 <i class="fas fa-chevron-down ms-1"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-                                <li><a class="dropdown-item" href="/account">Account Details</a></li>
-                                <li><a class="dropdown-item" href="/faq">FAQs</a></li>
-                                <li><a class="dropdown-item" href="/support">Customer Support</a></li>
+                                <li><a class="dropdown-item" href="/account" data-i18n="header.account.details">Account Details</a></li>
+                                <li><a class="dropdown-item" href="/faq" data-i18n="header.account.faqs">FAQs</a></li>
+                                <li><a class="dropdown-item" href="/support" data-i18n="header.account.support">Customer Support</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item logout-btn" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                <li><a class="dropdown-item logout-btn" href="#"><i class="fas fa-sign-out-alt me-2"></i><span data-i18n="header.account.logout">Logout</span></a></li>
                             </ul>
                         </div>
                     </div>
@@ -195,27 +206,27 @@
             <nav class="mobile-menu__nav">
                 <ul class="mobile-nav-list">
                     <li class="mobile-nav-item">
-                        <a href="/browse-jobs" class="mobile-nav-link">
+                        <a href="/browse-jobs" class="mobile-nav-link" data-i18n="header.mobile.find_jobs">
                             Find Jobs
                         </a>
                     </li>
                     <li class="mobile-nav-item">
-                        <a href="/career-advice" class="mobile-nav-link">
+                        <a href="/career-advice" class="mobile-nav-link" data-i18n="header.nav.career_advice">
                             Career Advice
                         </a>
                     </li>
                     <li class="mobile-nav-item">
-                        <a href="/events" class="mobile-nav-link">
+                        <a href="/events" class="mobile-nav-link" data-i18n="header.nav.events">
                             Events & Webinars
                         </a>
                     </li>
                     <li class="mobile-nav-item">
-                        <a href="/blog" class="mobile-nav-link">
+                        <a href="/blog" class="mobile-nav-link" data-i18n="header.nav.blog">
                             Job Search Articles
                         </a>
                     </li>
                     <li class="mobile-nav-item">
-                        <a href="/about" class="mobile-nav-link">
+                        <a href="/about" class="mobile-nav-link" data-i18n="header.mobile.about">
                             About
                         </a>
                     </li>
@@ -226,22 +237,22 @@
                     <hr class="mobile-menu__divider">
                     <ul class="mobile-account-list">
                         <li class="mobile-account-item">
-                            <a href="/account" class="mobile-account-link">
+                            <a href="/account" class="mobile-account-link" data-i18n="header.mobile.profile">
                                 Profile
                             </a>
                         </li>
                         <li class="mobile-account-item">
-                            <a href="/saved-jobs" class="mobile-account-link">
+                            <a href="/saved-jobs" class="mobile-account-link" data-i18n="header.mobile.saved_jobs">
                                 Saved Jobs
                             </a>
                         </li>
                         <li class="mobile-account-item">
-                            <a href="/applications" class="mobile-account-link">
+                            <a href="/applications" class="mobile-account-link" data-i18n="header.mobile.applications">
                                 Applications
                             </a>
                         </li>
                         <li class="mobile-account-item">
-                            <a href="#" class="mobile-account-link logout-link logout-btn">
+                            <a href="#" class="mobile-account-link logout-link logout-btn" data-i18n="header.account.logout">
                                 Logout
                             </a>
                         </li>
