@@ -10,12 +10,13 @@ class I18nManager {
         this.translations = {};
         this.defaultLanguage = 'en';
         this.availableLanguages = {
-            en: { name: 'English', flag: '🇬🇧', code: 'en' },
-            cs: { name: 'Čeština', flag: '🇨🇿', code: 'cs' }
+            en: { name: 'English', flag: '🇬🇧', short: 'EN', code: 'en' },
+            cs: { name: 'Čeština', flag: '🇨🇿', short: 'CS', code: 'cs' }
         };
         this.isLoading = false;
         this.loadPromises = {};
         this.ready = false;
+        this._observer = null;
         this.initPromise = this.init();
     }
 
@@ -32,8 +33,11 @@ class I18nManager {
 
         // Always load English as fallback first
         await this.loadTranslations('en');
+        // Ensure a visible control exists even before / without header HTML
+        this.ensureFloatingSwitcher();
         await this.setLanguage(initialLang);
         this.setupLanguageSwitcher();
+        this.watchForDynamicDom();
         this.ready = true;
         console.log(`I18n initialized with language: ${initialLang}`);
     }
@@ -261,8 +265,8 @@ class I18nManager {
     }
 
     setupLanguageSwitcher() {
-        // All language <select> elements (desktop + mobile)
-        document.querySelectorAll('select.language-switcher, #language-switcher, #language-switcher-mobile').forEach(langSwitcher => {
+        // All language <select> elements (desktop + mobile + floating)
+        document.querySelectorAll('select.language-switcher, #language-switcher, #language-switcher-mobile, #flexxy-lang-select').forEach(langSwitcher => {
             if (langSwitcher.dataset.i18nBound) return;
             langSwitcher.dataset.i18nBound = '1';
             langSwitcher.value = this.currentLanguage;
@@ -282,12 +286,13 @@ class I18nManager {
             });
         });
 
-        // Buttons / links with data-lang
-        document.querySelectorAll('[data-lang].lang-option, button[data-lang], a.lang-option[data-lang]').forEach(btn => {
+        // Buttons / links with data-lang (EN / CS toggles)
+        document.querySelectorAll('[data-lang].lang-option, button[data-lang], a.lang-option[data-lang], .lang-toggle-btn[data-lang]').forEach(btn => {
             if (btn.dataset.i18nBound) return;
             btn.dataset.i18nBound = '1';
             btn.addEventListener('click', async (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 const newLang = btn.getAttribute('data-lang');
                 if (newLang && newLang !== this.currentLanguage) {
                     await this.setLanguage(newLang);
@@ -299,10 +304,10 @@ class I18nManager {
     }
 
     updateLanguageSwitcher() {
-        document.querySelectorAll('select.language-switcher, #language-switcher, #language-switcher-mobile').forEach(el => {
+        document.querySelectorAll('select.language-switcher, #language-switcher, #language-switcher-mobile, #flexxy-lang-select').forEach(el => {
             el.value = this.currentLanguage;
         });
-        document.querySelectorAll('[data-lang].lang-option, button[data-lang], a.lang-option[data-lang]').forEach(btn => {
+        document.querySelectorAll('[data-lang].lang-option, button[data-lang], a.lang-option[data-lang], .lang-toggle-btn[data-lang]').forEach(btn => {
             const active = btn.getAttribute('data-lang') === this.currentLanguage;
             btn.classList.toggle('active', active);
             btn.setAttribute('aria-pressed', active ? 'true' : 'false');
@@ -313,8 +318,142 @@ class I18nManager {
         }
     }
 
+    /**
+     * Always-on language control so production users can switch even if
+     * the header component fails to load or omits the switcher markup.
+     */
+    ensureFloatingSwitcher() {
+        if (document.getElementById('flexxy-lang-control')) return;
+
+        if (!document.getElementById('flexxy-lang-styles')) {
+            const style = document.createElement('style');
+            style.id = 'flexxy-lang-styles';
+            style.textContent = `
+#flexxy-lang-control {
+  position: fixed;
+  z-index: 10050;
+  left: 12px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #fff;
+  border: 2px solid #004f6e;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+#flexxy-lang-control .lang-toggle-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #004f6e;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  padding: 10px 14px;
+  cursor: pointer;
+  line-height: 1;
+  min-width: 52px;
+}
+#flexxy-lang-control .lang-toggle-btn.active {
+  background: #004f6e;
+  color: #fff;
+}
+#flexxy-lang-control .lang-toggle-btn:hover:not(.active) {
+  background: rgba(0, 79, 110, 0.08);
+}
+#flexxy-lang-control .lang-toggle-divider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(0, 79, 110, 0.25);
+}
+@media (max-width: 576px) {
+  #flexxy-lang-control { left: 10px; bottom: 12px; }
+  #flexxy-lang-control .lang-toggle-btn { padding: 9px 12px; font-size: 12px; min-width: 48px; }
+}
+/* Header EN/CS toggle (when present) */
+.main-header__lang-toggle {
+  display: inline-flex;
+  border: 1.5px solid #004f6e;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+.main-header__lang-toggle .lang-toggle-btn {
+  border: 0;
+  background: transparent;
+  color: #004f6e;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+  line-height: 1.1;
+}
+.main-header__lang-toggle .lang-toggle-btn.active {
+  background: #004f6e;
+  color: #fff;
+}
+.main-header__lang-toggle .lang-toggle-btn + .lang-toggle-btn {
+  border-left: 1px solid rgba(0, 79, 110, 0.25);
+}
+            `.trim();
+            (document.head || document.documentElement).appendChild(style);
+        }
+
+        const mount = () => {
+            if (document.getElementById('flexxy-lang-control')) return;
+            if (!document.body) return;
+            const wrap = document.createElement('div');
+            wrap.id = 'flexxy-lang-control';
+            wrap.setAttribute('role', 'group');
+            wrap.setAttribute('aria-label', 'Language');
+            wrap.innerHTML = `
+<button type="button" class="lang-toggle-btn" data-lang="en" aria-label="English">EN</button>
+<span class="lang-toggle-divider" aria-hidden="true"></span>
+<button type="button" class="lang-toggle-btn" data-lang="cs" aria-label="Čeština">CS</button>
+`.trim();
+            document.body.appendChild(wrap);
+            this.setupLanguageSwitcher();
+        };
+
+        if (document.body) mount();
+        else document.addEventListener('DOMContentLoaded', mount, { once: true });
+    }
+
+    /** Bind switcher + re-apply text when header/footer inject asynchronously */
+    watchForDynamicDom() {
+        if (this._observer || typeof MutationObserver === 'undefined') return;
+        this._observer = new MutationObserver((mutations) => {
+            let shouldRefresh = false;
+            for (const m of mutations) {
+                if (m.addedNodes && m.addedNodes.length) {
+                    shouldRefresh = true;
+                    break;
+                }
+            }
+            if (!shouldRefresh) return;
+            // Debounce rapid header/footer injections
+            clearTimeout(this._refreshTimer);
+            this._refreshTimer = setTimeout(() => {
+                this.ensureFloatingSwitcher();
+                this.setupLanguageSwitcher();
+                this.updateContent();
+            }, 50);
+        });
+        if (document.body) {
+            this._observer.observe(document.body, { childList: true, subtree: true });
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                this._observer.observe(document.body, { childList: true, subtree: true });
+            }, { once: true });
+        }
+    }
+
     /** Re-apply translations after async header/footer inject */
     refresh() {
+        this.ensureFloatingSwitcher();
         this.updateContent();
         this.setupLanguageSwitcher();
     }

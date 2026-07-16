@@ -69,9 +69,14 @@
                 
                 
                 <div class="col-auto d-none d-lg-flex align-items-center gap-2">
-                    <div class="main-header__lang">
-                        <label for="language-switcher" class="visually-hidden" data-i18n="header.lang.label">Language</label>
-                        <select id="language-switcher" class="language-switcher form-select form-select-sm" aria-label="Language">
+                    <!-- Language: EN / CS (not the same as country location flags) -->
+                    <div class="main-header__lang" role="group" aria-label="Language">
+                        <span class="main-header__lang-label" data-i18n="header.lang.label">Language</span>
+                        <div class="main-header__lang-toggle" id="language-switcher-desktop">
+                            <button type="button" class="lang-toggle-btn" data-lang="en" aria-label="English">EN</button>
+                            <button type="button" class="lang-toggle-btn" data-lang="cs" aria-label="Čeština">CS</button>
+                        </div>
+                        <select id="language-switcher" class="language-switcher form-select form-select-sm visually-hidden" aria-hidden="true" tabindex="-1">
                             <option value="en">English</option>
                             <option value="cs">Čeština</option>
                         </select>
@@ -98,7 +103,11 @@
                 <div class="col-auto">
                     
                     <div class="d-lg-none d-flex align-items-center gap-2">
-                        <select id="language-switcher-mobile" class="language-switcher form-select form-select-sm" aria-label="Language">
+                        <div class="main-header__lang-toggle" id="language-switcher-mobile-toggle" role="group" aria-label="Language">
+                            <button type="button" class="lang-toggle-btn" data-lang="en" aria-label="English">EN</button>
+                            <button type="button" class="lang-toggle-btn" data-lang="cs" aria-label="Čeština">CS</button>
+                        </div>
+                        <select id="language-switcher-mobile" class="language-switcher form-select form-select-sm visually-hidden" aria-hidden="true" tabindex="-1">
                             <option value="en">English</option>
                             <option value="cs">Čeština</option>
                         </select>
@@ -204,6 +213,16 @@
     <div class="main-header__mobile-menu" id="mobileMenu">
         <div class="mobile-menu__content">
             <nav class="mobile-menu__nav">
+                <div class="mobile-menu__lang px-3 py-2">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="fw-semibold" data-i18n="header.lang.label">Language</span>
+                        <div class="main-header__lang-toggle" role="group" aria-label="Language">
+                            <button type="button" class="lang-toggle-btn" data-lang="en" aria-label="English">EN</button>
+                            <button type="button" class="lang-toggle-btn" data-lang="cs" aria-label="Čeština">CS</button>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mobile-menu__divider">
                 <ul class="mobile-nav-list">
                     <li class="mobile-nav-item">
                         <a href="/browse-jobs" class="mobile-nav-link" data-i18n="header.mobile.find_jobs">

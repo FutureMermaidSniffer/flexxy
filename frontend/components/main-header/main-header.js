@@ -40,15 +40,20 @@ class MainHeader {
         await this.loadHeader();
         this.setupEventListeners();
         this.injectContent();
-        // Keep search placeholders in sync when language changes
+        // Keep search placeholders + language buttons in sync when language changes
         window.addEventListener('languageChanged', () => {
             this.updateSearchPlaceholder();
-            if (window.i18n && typeof window.i18n.refresh === 'function') {
-                // header nodes already updated by i18n; re-bind switcher only if needed
-            }
         });
+        // Header HTML is often injected after i18n.js init — always rebind switcher
         if (window.i18n && typeof window.i18n.refresh === 'function') {
             window.i18n.refresh();
+        } else {
+            // i18n still loading: refresh when ready
+            window.addEventListener('i18nReady', () => {
+                if (window.i18n && typeof window.i18n.refresh === 'function') {
+                    window.i18n.refresh();
+                }
+            }, { once: true });
         }
     }
     

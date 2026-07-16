@@ -264,6 +264,18 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 
+// Locales first so EN/CS JSON is always available in production (before other static/HTML routes)
+app.use('/locales', express.static(path.join(__dirname, 'frontend', 'locales'), {
+  maxAge: process.env.NODE_ENV === 'production' ? '1h' : 0,
+  setHeaders(res) {
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Cache-Control', process.env.NODE_ENV === 'production' ? 'public, max-age=3600' : 'no-store');
+  }
+}));
+app.use('/js', express.static(path.join(__dirname, 'frontend', 'js'), {
+  maxAge: process.env.NODE_ENV === 'production' ? '1h' : 0
+}));
+
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Health check endpoint

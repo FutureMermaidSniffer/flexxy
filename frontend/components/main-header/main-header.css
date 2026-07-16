@@ -222,6 +222,48 @@
 .main-header__lang {
     display: flex;
     align-items: center;
+    gap: 8px;
+}
+
+.main-header__lang-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #004f6e;
+    white-space: nowrap;
+}
+
+.main-header__lang-toggle {
+    display: inline-flex;
+    border: 1.5px solid #004f6e;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    flex-shrink: 0;
+}
+
+.main-header__lang-toggle .lang-toggle-btn {
+    border: 0;
+    background: transparent;
+    color: #004f6e;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 6px 11px;
+    cursor: pointer;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.main-header__lang-toggle .lang-toggle-btn.active {
+    background: #004f6e;
+    color: #fff;
+}
+
+.main-header__lang-toggle .lang-toggle-btn + .lang-toggle-btn {
+    border-left: 1px solid rgba(0, 79, 110, 0.25);
+}
+
+.main-header__lang-toggle .lang-toggle-btn:hover:not(.active) {
+    background: rgba(0, 79, 110, 0.08);
 }
 
 .language-switcher {
@@ -239,6 +281,10 @@
     border-color: #004f6e;
     box-shadow: 0 0 0 2px rgba(0, 79, 110, 0.15);
     outline: none;
+}
+
+.mobile-menu__lang {
+    background: #f4f8fa;
 }
 
 /* EU Flags (location filters — not language) */
