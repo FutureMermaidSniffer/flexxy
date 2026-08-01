@@ -41,6 +41,9 @@ class ComponentLoader {
             
             
             this.loadedComponents.add('main-header');
+
+            // Site-wide support chat (also loaded from footer as fallback)
+            await this.loadChatWidget();
             
             console.log('Header component loaded successfully');
             
@@ -77,12 +80,31 @@ class ComponentLoader {
             
             
             this.loadedComponents.add('main-footer');
+
+            // Site-wide support chat widget
+            await this.loadChatWidget();
             
             console.log('Footer component loaded successfully');
             
         } catch (error) {
             console.error('Error loading footer component:', error);
             throw error;
+        }
+    }
+
+    /**
+     * Load floating chat widget (guests + registered users).
+     */
+    static async loadChatWidget() {
+        if (document.body?.classList.contains('admin-dashboard')) return;
+        if (this.loadedComponents.has('chat-widget')) return;
+
+        try {
+            await this.loadCSS('/css/chat-widget.css');
+            await this.loadJS('/js/chat-widget.js');
+            this.loadedComponents.add('chat-widget');
+        } catch (error) {
+            console.warn('Chat widget failed to load:', error.message);
         }
     }
 

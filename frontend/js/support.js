@@ -217,18 +217,51 @@ class SupportManager {
     }
 
     initiateLiveChat() {
-        
         this.trackEvent('live_chat_initiated', { source: 'support_page' });
-        
+
         if (!this.chatAvailable) {
             this.showChatUnavailableMessage();
             return;
         }
 
-        
-        
-        
-        this.showChatModal();
+        // Open first-party chat widget when available
+        if (typeof window.openFlexJobsChat === 'function') {
+            window.openFlexJobsChat();
+            return;
+        }
+
+        // Lazy-load widget if not yet on page
+        if (!window.FlexJobsChatWidget) {
+            const ensureWidget = () => {
+                if (typeof window.openFlexJobsChat === 'function') {
+                    window.openFlexJobsChat();
+                } else if (window.FlexJobsChatWidget) {
+                    window.FlexJobsChatWidget.openPanel();
+                }
+            };
+            const load = async () => {
+                if (!document.querySelector('link[href*="chat-widget.css"]')) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = '/css/chat-widget.css';
+                    document.head.appendChild(link);
+                }
+                if (!document.querySelector('script[src*="chat-widget.js"]')) {
+                    await new Promise((resolve, reject) => {
+                        const s = document.createElement('script');
+                        s.src = '/js/chat-widget.js';
+                        s.onload = resolve;
+                        s.onerror = reject;
+                        document.body.appendChild(s);
+                    });
+                }
+                setTimeout(ensureWidget, 100);
+            };
+            load().catch(() => this.showChatModal());
+            return;
+        }
+
+        window.FlexJobsChatWidget.openPanel();
     }
 
     showChatModal() {

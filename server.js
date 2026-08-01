@@ -62,6 +62,7 @@ const subscriptionRoutes = require('./backend/routes/subscriptions');
 const paymentMethodRoutes = require('./backend/routes/payment-methods');
 const adminRoutes = require('./backend/routes/admin');
 const interactionRoutes = require('./backend/routes/interactions');
+const chatRoutes = require('./backend/routes/chat');
 const Error404Handler = require('./backend/middleware/404-handler');
 
 const app = express();
@@ -189,6 +190,20 @@ app.use('/api/', generalLimiter);
 
 // Apply strict rate limiting to auth routes
 app.use('/api/auth/', authLimiter);
+
+// Rate limit chat message posts
+const chatMessageLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 30,
+  message: {
+    error: 'Too many chat messages, please slow down.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/chat/messages', chatMessageLimiter);
+app.use('/api/chat/admin/conversations/:id/messages', chatMessageLimiter);
 
 // SECURITY: Session configuration with memory store
 const setupSessionMiddleware = require('./backend/session-middleware');
@@ -364,6 +379,7 @@ app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/payment-methods', paymentMethodRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/interactions', interactionRoutes);
+app.use('/api/chat', chatRoutes);
 
 
 app.use('/components', express.static(path.join(__dirname, 'frontend/components')));

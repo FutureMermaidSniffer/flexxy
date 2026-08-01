@@ -894,6 +894,9 @@
                     const html = await response.text();
                     document.getElementById('footer-placeholder').innerHTML = html;
                 }
+                if (typeof ComponentLoader.loadChatWidget === 'function') {
+                    await ComponentLoader.loadChatWidget();
+                }
                 if (window.i18n && typeof window.i18n.refresh === 'function') {
                     window.i18n.refresh();
                 }

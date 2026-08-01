@@ -54,7 +54,9 @@ class AdminDashboard {
         document.querySelectorAll('[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.switchSection(e.target.getAttribute('data-section'));
+                const section = e.currentTarget.getAttribute('data-section')
+                    || e.target.closest('[data-section]')?.getAttribute('data-section');
+                if (section) this.switchSection(section);
             });
         });
 

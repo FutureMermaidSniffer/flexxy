@@ -98,6 +98,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="messages">
+                                <i class="fas fa-comments me-2"></i>
+                                Messages
+                                <span id="adminChatUnreadBadge" class="badge bg-danger rounded-pill ms-1 d-none">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#" data-section="profile-forms">
                                 <i class="fas fa-user-edit me-2"></i>
                                 Profile Forms
@@ -605,6 +612,72 @@
                         <h1 class="h2">Analytics</h1>
                     </div>
                     <p>Analytics dashboard coming soon...</p>
+                </div>
+
+                <div id="messages-section" class="content-section" style="display: none;">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Messages</h1>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="adminChatRefreshBtn">
+                            <i class="fas fa-sync-alt me-1"></i>Refresh
+                        </button>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <div class="input-group input-group-sm">
+                                <input type="search" class="form-control" id="adminChatSearch" placeholder="Search name or email...">
+                                <button class="btn btn-outline-secondary" type="button" id="adminChatSearchBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select form-select-sm" id="adminChatStatusFilter">
+                                <option value="">All statuses</option>
+                                <option value="open">Open</option>
+                                <option value="pending">Pending</option>
+                                <option value="closed">Closed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select form-select-sm" id="adminChatParticipantFilter">
+                                <option value="">All participants</option>
+                                <option value="registered">Registered users</option>
+                                <option value="guest">Guests</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-0 border rounded overflow-hidden bg-white" style="min-height: 520px;">
+                        <div class="col-md-4 col-lg-3 border-end">
+                            <div class="list-group list-group-flush admin-chat-list" id="adminChatConversationList" style="max-height: 560px; overflow-y: auto;">
+                                <div class="text-center text-muted p-4">Loading…</div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-6 d-flex flex-column" style="min-height: 520px;">
+                            <div id="adminChatEmptyState" class="flex-grow-1 d-flex align-items-center justify-content-center text-muted p-4">
+                                <div class="text-center">
+                                    <i class="fas fa-inbox fa-3x mb-3 opacity-50"></i>
+                                    <p class="mb-0">Select a conversation or message a user from the Users tab</p>
+                                </div>
+                            </div>
+                            <div id="adminChatThread" class="d-none d-flex flex-column flex-grow-1" style="min-height: 520px;">
+                                <div id="adminChatThreadHeader" class="p-3 border-bottom bg-light"></div>
+                                <div id="adminChatMessages" class="flex-grow-1 p-3 bg-body-tertiary" style="overflow-y: auto; max-height: 380px; min-height: 280px;"></div>
+                                <div class="p-3 border-top">
+                                    <div class="input-group">
+                                        <textarea class="form-control" id="adminChatReplyInput" rows="2" placeholder="Type a reply… (Enter to send, Shift+Enter for new line)"></textarea>
+                                        <button class="btn btn-primary" type="button" id="adminChatSendBtn">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-lg-3 border-start p-2" id="adminChatMetaPanel">
+                            <div class="text-muted small p-3">Client location and device details appear when you open a conversation.</div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -1293,6 +1366,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script src="js/admin-dashboard.js"></script>
+    <script src="js/admin-chat.js"></script>
 
     <style>
         .admin-dashboard {
