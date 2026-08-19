@@ -37,15 +37,15 @@ function parseUserAgent(ua) {
     else if (/windows nt 6\.2/i.test(ua)) device_os = 'Windows 8';
     else if (/windows nt 6\.1/i.test(ua)) device_os = 'Windows 7';
     else if (/windows/i.test(ua)) device_os = 'Windows';
-    else if (/mac os x/i.test(ua)) {
+    else if (/iphone|ipad|ipod/i.test(ua)) {
+        const m = ua.match(/OS ([\d_]+)/i);
+        device_os = m ? `iOS ${m[1].replace(/_/g, '.')}` : 'iOS';
+    } else if (/mac os x/i.test(ua)) {
         const m = ua.match(/Mac OS X ([\d_]+)/i);
         device_os = m ? `macOS ${m[1].replace(/_/g, '.')}` : 'macOS';
     } else if (/android/i.test(ua)) {
         const m = ua.match(/Android ([\d.]+)/i);
         device_os = m ? `Android ${m[1]}` : 'Android';
-    } else if (/iphone|ipad|ipod/i.test(ua)) {
-        const m = ua.match(/OS ([\d_]+)/i);
-        device_os = m ? `iOS ${m[1].replace(/_/g, '.')}` : 'iOS';
     } else if (/linux/i.test(ua)) device_os = 'Linux';
     else if (/cros/i.test(ua)) device_os = 'Chrome OS';
 
@@ -82,9 +82,27 @@ function isPrivateIp(ip) {
     return false;
 }
 
+function emptyGeo() {
+    return {
+        country: null,
+        region: null,
+        city: null,
+        country_code: null,
+        lat: null,
+        lng: null,
+        org: null,
+        timezone: null
+    };
+}
+
+function parseCoord(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : null;
+}
+
 async function lookupGeoFromIp(ip) {
     if (!ip || isPrivateIp(ip)) {
-        return { country: null, region: null, city: null };
+        return emptyGeo();
     }
 
     const cached = geoCache.get(ip);
@@ -110,29 +128,63 @@ async function lookupGeoFromIp(ip) {
             throw new Error(json.reason || 'Geo lookup error');
         }
 
+        const lat = parseCoord(json.latitude);
+        const lng = parseCoord(json.longitude);
+
         const data = {
             country: json.country_name || json.country || null,
             region: json.region || json.region_code || null,
-            city: json.city || null
+            city: json.city || null,
+            country_code: json.country_code || json.country || null,
+            lat: lat != null && lat >= -90 && lat <= 90 ? lat : null,
+            lng: lng != null && lng >= -180 && lng <= 180 ? lng : null,
+            org: json.org || json.asn || null,
+            timezone: json.timezone || null
         };
 
         geoCache.set(ip, { at: Date.now(), data });
         return data;
     } catch (err) {
         console.warn('Chat geo lookup failed:', err.message);
-        const empty = { country: null, region: null, city: null };
+        const empty = emptyGeo();
         geoCache.set(ip, { at: Date.now(), data: empty });
         return empty;
     }
 }
 
-function buildClientMetadata(clientInfo = {}) {
-    if (!clientInfo || typeof clientInfo !== 'object') return null;
+const CLIENT_META_FIELDS = {
+    language: 32,
+    languages: 128,
+    timezone: 64,
+    timezone_offset: 16,
+    screen: 32,
+    viewport: 32,
+    platform: 64,
+    page_url: 500,
+    referrer: 500,
+    color_scheme: 16,
+    touch: 8,
+    connection: 32,
+    country_code: 8,
+    org: 128,
+    ip_timezone: 64
+};
+
+function takeString(value, max) {
+    if (value == null) return null;
+    const str = Array.isArray(value) ? value.filter(Boolean).join(',') : String(value);
+    const trimmed = str.trim();
+    if (!trimmed) return null;
+    return trimmed.slice(0, max);
+}
+
+function buildClientMetadata(clientInfo = {}, extras = {}) {
+    const source = { ...(clientInfo && typeof clientInfo === 'object' ? clientInfo : {}), ...extras };
     const meta = {};
-    if (clientInfo.language) meta.language = String(clientInfo.language).slice(0, 32);
-    if (clientInfo.timezone) meta.timezone = String(clientInfo.timezone).slice(0, 64);
-    if (clientInfo.screen) meta.screen = String(clientInfo.screen).slice(0, 32);
-    if (clientInfo.platform) meta.platform = String(clientInfo.platform).slice(0, 64);
+    for (const [key, max] of Object.entries(CLIENT_META_FIELDS)) {
+        const value = takeString(source[key], max);
+        if (value) meta[key] = value;
+    }
     return Object.keys(meta).length ? meta : null;
 }
 
@@ -147,8 +199,8 @@ async function collectMessageMetadata(req, body = {}) {
     const parsed = parseUserAgent(userAgent);
     const geo = await lookupGeoFromIp(ip_address);
 
-    let location_lat = null;
-    let location_lng = null;
+    let location_lat = geo.lat;
+    let location_lng = geo.lng;
     if (body.geo && typeof body.geo === 'object') {
         const lat = Number(body.geo.lat);
         const lng = Number(body.geo.lng);
@@ -169,7 +221,11 @@ async function collectMessageMetadata(req, body = {}) {
         device_os: parsed.device_os,
         device_browser: parsed.device_browser,
         user_agent: userAgent ? userAgent.slice(0, 1000) : null,
-        client_metadata: buildClientMetadata(body.client_info)
+        client_metadata: buildClientMetadata(body.client_info, {
+            country_code: geo.country_code,
+            org: geo.org,
+            ip_timezone: geo.timezone
+        })
     };
 }
 

@@ -33,6 +33,30 @@
         return parts.length ? parts.join(', ') : '—';
     }
 
+    function parseClientMeta(meta) {
+        if (!meta) return {};
+        if (typeof meta === 'string') {
+            try {
+                return JSON.parse(meta) || {};
+            } catch {
+                return {};
+            }
+        }
+        return typeof meta === 'object' ? meta : {};
+    }
+
+    function mapLink(lat, lng) {
+        if (lat == null || lng == null || lat === '' || lng === '') return '';
+        const la = Number(lat);
+        const ln = Number(lng);
+        if (!Number.isFinite(la) || !Number.isFinite(ln)) return '';
+        return `https://www.openstreetmap.org/?mlat=${encodeURIComponent(la)}&mlon=${encodeURIComponent(ln)}#map=10/${encodeURIComponent(la)}/${encodeURIComponent(ln)}`;
+    }
+
+    function formatListLocation(c) {
+        return [c.visitor_city, c.visitor_country].filter(Boolean).join(', ');
+    }
+
     class AdminChat {
         constructor(dashboard) {
             this.dashboard = dashboard;
@@ -160,6 +184,9 @@
                         c.status === 'closed'
                             ? '<span class="badge bg-light text-dark border">Closed</span>'
                             : '';
+                    const locHint = formatListLocation(c);
+                    const browserHint = c.visitor_browser || '';
+                    const metaHint = [locHint, browserHint].filter(Boolean).join(' · ');
                     return `
                     <button type="button" class="list-group-item list-group-item-action admin-chat-item ${active}"
                             data-conversation-id="${c.id}">
@@ -171,6 +198,11 @@
                                 <div class="small text-muted text-truncate">
                                     ${escapeHtml(c.last_message_preview || 'No messages yet')}
                                 </div>
+                                ${
+                                    metaHint
+                                        ? `<div class="small text-muted text-truncate mt-1">${escapeHtml(metaHint)}</div>`
+                                        : ''
+                                }
                                 <div class="mt-1 d-flex gap-1 flex-wrap">
                                     ${typeBadge} ${statusBadge}
                                 </div>
@@ -257,7 +289,25 @@
         renderMetaPanel(c) {
             const panel = document.getElementById('adminChatMetaPanel');
             if (!panel) return;
-            const m = c.latest_client_metadata;
+            const m = c.latest_client_metadata || {};
+            const extra = parseClientMeta(m.client_metadata);
+            const osm = mapLink(m.location_lat, m.location_lng);
+            const captured = m.captured_at ? formatTime(m.captured_at) : '';
+            const locationLine = formatLocation(m);
+            const coordLine =
+                m.location_lat != null && m.location_lng != null
+                    ? `${m.location_lat}, ${m.location_lng}`
+                    : '';
+
+            const row = (label, value, opts = {}) => {
+                if (value == null || value === '') {
+                    if (opts.skipEmpty) return '';
+                    value = '—';
+                }
+                return `<dt class="text-muted">${label}</dt>
+                        <dd class="${opts.last ? 'mb-0' : 'mb-2'} ${opts.break ? 'text-break' : ''}">${value}</dd>`;
+            };
+
             panel.innerHTML = `
                 <div class="card border-0 bg-light h-100">
                     <div class="card-body small">
@@ -265,31 +315,42 @@
                             Client details
                         </h6>
                         <dl class="mb-0">
-                            <dt class="text-muted">Participant</dt>
-                            <dd class="mb-2">${escapeHtml(c.display_name)}${c.is_guest ? ' (guest)' : ''}</dd>
+                            ${row('Participant', `${escapeHtml(c.display_name)}${c.is_guest ? ' (guest)' : ''}`)}
+                            ${c.user_email ? row('Email', escapeHtml(c.user_email)) : ''}
+                            ${row('IP address', `<code>${escapeHtml(m.ip_address || '—')}</code>`)}
+                            ${row('Location', escapeHtml(locationLine))}
                             ${
-                                c.user_email
-                                    ? `<dt class="text-muted">Email</dt><dd class="mb-2">${escapeHtml(c.user_email)}</dd>`
+                                coordLine
+                                    ? row(
+                                          'Coords',
+                                          osm
+                                              ? `${escapeHtml(coordLine)} <a href="${escapeHtml(osm)}" target="_blank" rel="noopener">Map</a>`
+                                              : escapeHtml(coordLine)
+                                      )
                                     : ''
                             }
-                            <dt class="text-muted">IP address</dt>
-                            <dd class="mb-2"><code>${escapeHtml(m?.ip_address || '—')}</code></dd>
-                            <dt class="text-muted">Location</dt>
-                            <dd class="mb-2">${escapeHtml(formatLocation(m))}</dd>
-                            ${
-                                m?.location_lat != null
-                                    ? `<dt class="text-muted">Coords</dt>
-                                       <dd class="mb-2">${escapeHtml(m.location_lat)}, ${escapeHtml(m.location_lng)}</dd>`
-                                    : ''
-                            }
-                            <dt class="text-muted">Device</dt>
-                            <dd class="mb-2">${escapeHtml(m?.device_type || '—')}</dd>
-                            <dt class="text-muted">OS</dt>
-                            <dd class="mb-2">${escapeHtml(m?.device_os || '—')}</dd>
-                            <dt class="text-muted">Browser</dt>
-                            <dd class="mb-2">${escapeHtml(m?.device_browser || '—')}</dd>
+                            ${row('Device', escapeHtml(m.device_type || '—'))}
+                            ${row('OS', escapeHtml(m.device_os || '—'))}
+                            ${row('Browser', escapeHtml(m.device_browser || '—'))}
+                            ${extra.language ? row('Language', escapeHtml(extra.language)) : ''}
+                            ${extra.languages && extra.languages !== extra.language ? row('Languages', escapeHtml(extra.languages)) : ''}
+                            ${extra.timezone ? row('Timezone', escapeHtml(extra.timezone)) : ''}
+                            ${extra.screen ? row('Screen', escapeHtml(extra.screen)) : ''}
+                            ${extra.viewport ? row('Viewport', escapeHtml(extra.viewport)) : ''}
+                            ${extra.platform ? row('Platform', escapeHtml(extra.platform)) : ''}
+                            ${extra.connection ? row('Connection', escapeHtml(extra.connection)) : ''}
+                            ${extra.color_scheme ? row('Color scheme', escapeHtml(extra.color_scheme)) : ''}
+                            ${extra.page_url ? row('Page', escapeHtml(extra.page_url), { break: true }) : ''}
+                            ${extra.referrer ? row('Referrer', escapeHtml(extra.referrer), { break: true }) : ''}
+                            ${extra.org ? row('Network', escapeHtml(extra.org)) : ''}
                             <dt class="text-muted">User agent</dt>
-                            <dd class="mb-0 text-break" style="font-size:0.7rem">${escapeHtml(m?.user_agent || '—')}</dd>
+                            <dd class="mb-0">
+                                <details>
+                                    <summary class="text-muted" style="cursor:pointer">Show user agent</summary>
+                                    <div class="text-break mt-1" style="font-size:0.7rem">${escapeHtml(m.user_agent || '—')}</div>
+                                </details>
+                                ${captured ? `<div class="text-muted mt-2" style="font-size:0.7rem">Updated ${escapeHtml(captured)}</div>` : ''}
+                            </dd>
                         </dl>
                     </div>
                 </div>`;

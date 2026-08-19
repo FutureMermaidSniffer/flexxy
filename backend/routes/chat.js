@@ -49,6 +49,94 @@ function getGuestToken(req) {
     );
 }
 
+function serializeMetadataJson(value) {
+    if (value == null) return null;
+    if (typeof value === 'string') return value;
+    try {
+        return JSON.stringify(value);
+    } catch {
+        return null;
+    }
+}
+
+function parseMetadataJson(value) {
+    if (value == null) return null;
+    if (typeof value === 'object') return value;
+    if (typeof value !== 'string') return null;
+    try {
+        return JSON.parse(value);
+    } catch {
+        return null;
+    }
+}
+
+function snapshotFieldsFromMetadata(metadata) {
+    if (!metadata) return {};
+    return {
+        visitor_ip: metadata.ip_address || null,
+        visitor_country: metadata.location_country || null,
+        visitor_region: metadata.location_region || null,
+        visitor_city: metadata.location_city || null,
+        visitor_lat: metadata.location_lat,
+        visitor_lng: metadata.location_lng,
+        visitor_device_type: metadata.device_type || null,
+        visitor_os: metadata.device_os || null,
+        visitor_browser: metadata.device_browser || null,
+        visitor_user_agent: metadata.user_agent || null,
+        visitor_metadata: serializeMetadataJson(metadata.client_metadata)
+    };
+}
+
+function mergeVisitorView(conversation, latestMeta) {
+    const snapMeta = parseMetadataJson(conversation?.visitor_metadata);
+    const msgMeta = parseMetadataJson(latestMeta?.client_metadata);
+    return {
+        ip_address: latestMeta?.ip_address || conversation?.visitor_ip || null,
+        location_country: latestMeta?.location_country || conversation?.visitor_country || null,
+        location_region: latestMeta?.location_region || conversation?.visitor_region || null,
+        location_city: latestMeta?.location_city || conversation?.visitor_city || null,
+        location_lat: latestMeta?.location_lat ?? conversation?.visitor_lat ?? null,
+        location_lng: latestMeta?.location_lng ?? conversation?.visitor_lng ?? null,
+        device_type: latestMeta?.device_type || conversation?.visitor_device_type || null,
+        device_os: latestMeta?.device_os || conversation?.visitor_os || null,
+        device_browser: latestMeta?.device_browser || conversation?.visitor_browser || null,
+        user_agent: latestMeta?.user_agent || conversation?.visitor_user_agent || null,
+        client_metadata: msgMeta || snapMeta || null,
+        captured_at: latestMeta?.created_at || conversation?.updated_at || conversation?.created_at || null
+    };
+}
+
+async function persistVisitorSnapshot(conversationId, req, body) {
+    try {
+        const metadata = await collectMessageMetadata(req, body || {});
+        const existing = await getOne(
+            'SELECT visitor_metadata FROM chat_conversations WHERE id = ?',
+            [conversationId]
+        );
+        const prev = parseMetadataJson(existing?.visitor_metadata) || {};
+        const next = { ...prev, ...(metadata.client_metadata || {}) };
+        metadata.client_metadata = Object.keys(next).length ? next : null;
+
+        await updateOne(
+            'chat_conversations',
+            {
+                ...snapshotFieldsFromMetadata(metadata),
+                updated_at: new Date()
+            },
+            'id = ?',
+            [conversationId]
+        );
+        return metadata;
+    } catch (err) {
+        console.warn('Visitor snapshot failed:', err.message);
+        try {
+            return await collectMessageMetadata(req, body || {});
+        } catch {
+            return null;
+        }
+    }
+}
+
 function clientMessageShape(row) {
     return {
         id: row.id,
@@ -171,6 +259,8 @@ router.post('/session', optionalAuth, async (req, res) => {
                 [req.user.id]
             );
 
+            await persistVisitorSnapshot(conv.id, req, req.body);
+
             return res.json({
                 conversation_id: conv.id,
                 is_guest: false,
@@ -199,6 +289,7 @@ router.post('/session', optionalAuth, async (req, res) => {
                     );
                     conv.status = 'open';
                 }
+                await persistVisitorSnapshot(conv.id, req, req.body);
                 return res.json({
                     conversation_id: conv.id,
                     is_guest: true,
@@ -217,6 +308,7 @@ router.post('/session', optionalAuth, async (req, res) => {
             guest_display_name,
             status: 'open'
         });
+        await persistVisitorSnapshot(id, req, req.body);
 
         res.status(201).json({
             conversation_id: id,
@@ -348,24 +440,24 @@ router.post(
 
             const isGuest = !req.user;
             const sender_type = isGuest ? 'guest' : 'user';
-            const metadata = await collectMessageMetadata(req, req.body);
+            const metadata = await persistVisitorSnapshot(conv.id, req, req.body) || {};
 
             const messageId = await insertOne('chat_messages', {
                 conversation_id: conv.id,
                 sender_type,
                 sender_user_id: req.user ? req.user.id : null,
                 body: text,
-                ip_address: metadata.ip_address,
-                location_country: metadata.location_country,
-                location_region: metadata.location_region,
-                location_city: metadata.location_city,
+                ip_address: metadata.ip_address || null,
+                location_country: metadata.location_country || null,
+                location_region: metadata.location_region || null,
+                location_city: metadata.location_city || null,
                 location_lat: metadata.location_lat,
                 location_lng: metadata.location_lng,
-                device_type: metadata.device_type,
-                device_os: metadata.device_os,
-                device_browser: metadata.device_browser,
-                user_agent: metadata.user_agent,
-                client_metadata: metadata.client_metadata || null,
+                device_type: metadata.device_type || null,
+                device_os: metadata.device_os || null,
+                device_browser: metadata.device_browser || null,
+                user_agent: metadata.user_agent || null,
+                client_metadata: serializeMetadataJson(metadata.client_metadata),
                 is_read: false
             });
 
@@ -510,7 +602,12 @@ router.get('/admin/conversations', authenticateToken, requireAdmin, async (req, 
                 ? c.guest_display_name
                 : [c.user_first_name, c.user_last_name].filter(Boolean).join(' ') || c.user_email || 'User',
             user_email: c.user_email || null,
-            user_type: c.user_type || null
+            user_type: c.user_type || null,
+            visitor_city: c.visitor_city || null,
+            visitor_region: c.visitor_region || null,
+            visitor_country: c.visitor_country || null,
+            visitor_browser: c.visitor_browser || null,
+            visitor_device_type: c.visitor_device_type || null
         }));
 
         const unreadTotal = await getOne(
@@ -565,6 +662,8 @@ router.get('/admin/conversations/:id', authenticateToken, requireAdmin, async (r
             [id]
         );
 
+        const latestClientMetadata = mergeVisitorView(c, latestMeta);
+
         res.json({
             data: {
                 id: c.id,
@@ -583,7 +682,7 @@ router.get('/admin/conversations/:id', authenticateToken, requireAdmin, async (r
                     : [c.user_first_name, c.user_last_name].filter(Boolean).join(' ') || c.user_email || 'User',
                 user_email: c.user_email || null,
                 user_type: c.user_type || null,
-                latest_client_metadata: latestMeta || null
+                latest_client_metadata: latestClientMetadata
             }
         });
     } catch (error) {

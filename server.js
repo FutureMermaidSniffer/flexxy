@@ -143,7 +143,7 @@ app.use(cors({
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'X-Guest-Chat-Token']
 }));
 
 // Rate limiting configuration
@@ -202,6 +202,17 @@ const chatMessageLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false
 });
+const chatSessionLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  message: {
+    error: 'Too many chat sessions, please slow down.',
+    retryAfter: 60
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/chat/session', chatSessionLimiter);
 app.use('/api/chat/messages', chatMessageLimiter);
 app.use('/api/chat/admin/conversations/:id/messages', chatMessageLimiter);
 

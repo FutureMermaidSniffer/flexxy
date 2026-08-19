@@ -51,9 +51,19 @@
     function collectClientInfo() {
         const info = {
             language: navigator.language || undefined,
+            languages: Array.isArray(navigator.languages)
+                ? navigator.languages.slice(0, 5).join(',')
+                : undefined,
             platform: navigator.platform || undefined,
             timezone: undefined,
-            screen: undefined
+            timezone_offset: String(new Date().getTimezoneOffset()),
+            screen: undefined,
+            viewport: undefined,
+            page_url: undefined,
+            referrer: undefined,
+            color_scheme: undefined,
+            touch: undefined,
+            connection: undefined
         };
         try {
             info.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -63,7 +73,63 @@
         if (window.screen) {
             info.screen = `${screen.width}x${screen.height}`;
         }
+        if (window.innerWidth && window.innerHeight) {
+            info.viewport = `${window.innerWidth}x${window.innerHeight}`;
+        }
+        try {
+            info.page_url = String(location.href).slice(0, 500);
+        } catch {
+            /* ignore */
+        }
+        if (document.referrer) {
+            info.referrer = String(document.referrer).slice(0, 500);
+        }
+        try {
+            if (window.matchMedia) {
+                info.color_scheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ? 'dark'
+                    : 'light';
+            }
+        } catch {
+            /* ignore */
+        }
+        const coarse = (() => {
+            try {
+                return window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+            } catch {
+                return false;
+            }
+        })();
+        info.touch = navigator.maxTouchPoints > 0 || coarse ? 'yes' : 'no';
+        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (conn && conn.effectiveType) {
+            info.connection = String(conn.effectiveType);
+        }
         return info;
+    }
+
+    function playNotificationSound() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            [
+                [587.33, 0],
+                [880.0, 0.14]
+            ].forEach(([freq, delay]) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.001, ctx.currentTime + delay);
+                gain.gain.linearRampToValueAtTime(0.14, ctx.currentTime + delay + 0.015);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.22);
+                osc.start(ctx.currentTime + delay);
+                osc.stop(ctx.currentTime + delay + 0.25);
+            });
+        } catch {
+            /* audio not available */
+        }
     }
 
     class ChatWidget {
@@ -78,20 +144,18 @@
             this.pollTimer = null;
             this.sessionReady = false;
             this.sending = false;
+            this.geo = null;
+            this.geoAsked = false;
             this.init();
         }
 
         init() {
-            // Skip on admin dashboard
             if (document.body.classList.contains('admin-dashboard')) return;
 
             this.injectStyles();
             this.renderShell();
             this.bindEvents();
             this.schedulePoll();
-
-            // Optional: request geo quietly (won't prompt until user interacts on some browsers)
-            // We only request when panel first opens to avoid surprise prompts.
         }
 
         injectStyles() {
@@ -111,7 +175,8 @@
             fab.className = 'fj-chat-fab';
             fab.setAttribute('aria-label', 'Chat with support');
             fab.innerHTML = `
-                <i class="fas fa-comments" aria-hidden="true"></i>
+                <i class="fas fa-comments fj-chat-fab-icon" aria-hidden="true"></i>
+                <i class="fas fa-times fj-chat-fab-close" aria-hidden="true"></i>
                 <span class="fj-chat-fab-badge" id="fjChatBadge">0</span>
             `;
 
@@ -122,9 +187,12 @@
             panel.setAttribute('aria-label', 'Support chat');
             panel.innerHTML = `
                 <div class="fj-chat-header">
+                    <div class="fj-chat-header-avatar" aria-hidden="true">
+                        <i class="fas fa-headset"></i>
+                    </div>
                     <div>
                         <h3>Chat with us</h3>
-                        <p class="fj-chat-subtitle" id="fjChatSubtitle">We typically reply soon</p>
+                        <p class="fj-chat-subtitle" id="fjChatSubtitle">Usually replies within minutes</p>
                     </div>
                     <div class="fj-chat-header-actions">
                         <button type="button" id="fjChatClose" aria-label="Close chat">
@@ -132,12 +200,17 @@
                         </button>
                     </div>
                 </div>
+                <div class="fj-chat-status" id="fjChatStatus" hidden></div>
                 <div class="fj-chat-messages" id="fjChatMessages">
-                    <div class="fj-chat-empty">Say hello — our team is here to help.</div>
+                    <div class="fj-chat-welcome">
+                        <div class="fj-chat-welcome-icon">💬</div>
+                        <h4>Hi there!</h4>
+                        <p>How can we help you today? Send a message and our team will get back to you shortly. No account needed.</p>
+                    </div>
                 </div>
                 <div class="fj-chat-footer">
                     <textarea id="fjChatInput" rows="1" placeholder="Type a message…" maxlength="4000"></textarea>
-                    <button type="button" id="fjChatSend" aria-label="Send">
+                    <button type="button" id="fjChatSend" aria-label="Send" disabled>
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
@@ -151,18 +224,20 @@
             document.getElementById('fjChatFab')?.addEventListener('click', () => this.toggle());
             document.getElementById('fjChatClose')?.addEventListener('click', () => this.close());
             document.getElementById('fjChatSend')?.addEventListener('click', () => this.send());
-            document.getElementById('fjChatInput')?.addEventListener('keydown', (e) => {
+
+            const input = document.getElementById('fjChatInput');
+            input?.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     this.send();
                 }
             });
+            input?.addEventListener('input', () => this.syncComposer());
 
             document.addEventListener('visibilitychange', () => {
                 this.schedulePoll();
             });
 
-            // Header message button
             document.addEventListener('click', (e) => {
                 const btn = e.target.closest('.main-header__message-btn');
                 if (btn) {
@@ -171,8 +246,55 @@
                 }
             });
 
-            // Global helper for support page
             window.openFlexJobsChat = () => this.openPanel();
+        }
+
+        syncComposer() {
+            const input = document.getElementById('fjChatInput');
+            const sendBtn = document.getElementById('fjChatSend');
+            if (!input || !sendBtn) return;
+            input.style.height = 'auto';
+            input.style.height = `${Math.min(input.scrollHeight, 100)}px`;
+            sendBtn.disabled = this.sending || !input.value.trim();
+        }
+
+        setStatus(kind, text) {
+            const el = document.getElementById('fjChatStatus');
+            if (!el) return;
+            if (!kind || !text) {
+                el.hidden = true;
+                el.className = 'fj-chat-status';
+                el.textContent = '';
+                return;
+            }
+            el.hidden = false;
+            el.className = `fj-chat-status is-${kind}`;
+            el.textContent = text;
+        }
+
+        payloadExtras() {
+            const extras = { client_info: collectClientInfo() };
+            if (this.geo && Number.isFinite(this.geo.lat) && Number.isFinite(this.geo.lng)) {
+                extras.geo = this.geo;
+            }
+            return extras;
+        }
+
+        requestGeoOnce() {
+            if (this.geoAsked || !navigator.geolocation) return;
+            this.geoAsked = true;
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    this.geo = {
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude
+                    };
+                },
+                () => {
+                    this.geo = null;
+                },
+                { enableHighAccuracy: false, timeout: 4000, maximumAge: 300000 }
+            );
         }
 
         headers(json = true) {
@@ -191,10 +313,11 @@
         async ensureSession() {
             if (this.sessionReady && this.conversationId) return;
 
+            this.setStatus('connecting', 'Connecting…');
             const res = await fetch('/api/chat/session', {
                 method: 'POST',
                 headers: this.headers(),
-                body: JSON.stringify({ client_info: collectClientInfo() })
+                body: JSON.stringify(this.payloadExtras())
             });
             if (!res.ok) throw new Error('Could not start chat session');
             const data = await res.json();
@@ -209,6 +332,7 @@
             this.sessionReady = true;
             this.updateSubtitle();
             this.setBadge(data.user_unread_count || 0);
+            this.setStatus();
         }
 
         updateSubtitle() {
@@ -218,17 +342,22 @@
                 el.textContent = this.isGuest
                     ? `Chatting as ${this.displayName}`
                     : `Signed in as ${this.displayName}`;
+            } else {
+                el.textContent = 'Usually replies within minutes';
             }
         }
 
         setBadge(count) {
             const badge = document.getElementById('fjChatBadge');
+            const fab = document.getElementById('fjChatFab');
             if (!badge) return;
             if (count > 0) {
                 badge.textContent = count > 99 ? '99+' : String(count);
                 badge.classList.add('is-visible');
+                fab?.classList.add('has-unread');
             } else {
                 badge.classList.remove('is-visible');
+                fab?.classList.remove('has-unread');
             }
         }
 
@@ -240,19 +369,23 @@
         close() {
             this.open = false;
             document.getElementById('fjChatPanel')?.classList.remove('is-open');
+            document.getElementById('fjChatFab')?.classList.remove('is-open');
             this.schedulePoll();
         }
 
         async openPanel() {
             this.open = true;
             document.getElementById('fjChatPanel')?.classList.add('is-open');
+            document.getElementById('fjChatFab')?.classList.add('is-open');
             this.schedulePoll();
+            this.requestGeoOnce();
             try {
                 await this.ensureSession();
                 await this.fetchMessages({ full: true });
                 await this.markRead();
             } catch (e) {
                 console.error('Chat open error', e);
+                this.setStatus('error', 'Unable to connect. Please try again.');
                 this.showSystem('Unable to connect to chat. Please try again.');
             }
             document.getElementById('fjChatInput')?.focus();
@@ -267,6 +400,15 @@
             );
         }
 
+        welcomeHtml() {
+            return `
+                <div class="fj-chat-welcome">
+                    <div class="fj-chat-welcome-icon">💬</div>
+                    <h4>Hi there!</h4>
+                    <p>How can we help you today? Send a message and our team will get back to you shortly. No account needed.</p>
+                </div>`;
+        }
+
         renderMessages(messages, { replace }) {
             const box = document.getElementById('fjChatMessages');
             if (!box) return;
@@ -274,13 +416,12 @@
             if (replace) {
                 this.messages = messages.slice();
                 if (!messages.length) {
-                    box.innerHTML =
-                        '<div class="fj-chat-empty">Say hello — our team is here to help.</div>';
+                    box.innerHTML = this.welcomeHtml();
                     return;
                 }
                 box.innerHTML = messages.map((m) => this.messageHtml(m)).join('');
             } else {
-                const empty = box.querySelector('.fj-chat-empty');
+                const empty = box.querySelector('.fj-chat-welcome, .fj-chat-empty');
                 if (empty) empty.remove();
                 messages.forEach((m) => {
                     if (this.messages.some((x) => x.id === m.id)) return;
@@ -320,11 +461,19 @@
             if (data.conversation_id) this.conversationId = data.conversation_id;
 
             const msgs = data.messages || [];
+            const newAdmin = msgs.filter(
+                (m) => m.sender_type === 'admin' && m.id > this.lastMessageId
+            );
+
             if (full || this.lastMessageId === 0) {
                 this.renderMessages(msgs, { replace: true });
             } else if (msgs.length) {
                 this.renderMessages(msgs, { replace: false });
                 if (this.open) await this.markRead();
+            }
+
+            if (!this.open && newAdmin.length) {
+                playNotificationSound();
             }
 
             if (msgs.length) {
@@ -359,8 +508,7 @@
             if (!body) return;
 
             this.sending = true;
-            const sendBtn = document.getElementById('fjChatSend');
-            if (sendBtn) sendBtn.disabled = true;
+            this.syncComposer();
 
             try {
                 await this.ensureSession();
@@ -369,7 +517,7 @@
                     headers: this.headers(),
                     body: JSON.stringify({
                         body,
-                        client_info: collectClientInfo()
+                        ...this.payloadExtras()
                     })
                 });
                 if (!res.ok) {
@@ -384,17 +532,22 @@
                         displayName: data.display_name || this.displayName
                     });
                 }
-                if (input) input.value = '';
+                if (input) {
+                    input.value = '';
+                    input.style.height = 'auto';
+                }
                 if (data.message) {
                     this.renderMessages([data.message], { replace: false });
                     this.lastMessageId = Math.max(this.lastMessageId, data.message.id);
                 }
+                this.setStatus();
             } catch (e) {
                 console.error(e);
+                this.setStatus('error', e.message || 'Could not send message');
                 this.showSystem(e.message || 'Could not send message');
             } finally {
                 this.sending = false;
-                if (sendBtn) sendBtn.disabled = false;
+                this.syncComposer();
             }
         }
 
@@ -410,7 +563,6 @@
                 if (document.visibilityState === 'hidden') return;
                 try {
                     if (!this.sessionReady && !getAuthToken() && !this.guestToken) {
-                        // Only poll after session exists or user has guest token
                         if (!this.open) return;
                     }
                     if (this.open || this.guestToken || getAuthToken()) {
