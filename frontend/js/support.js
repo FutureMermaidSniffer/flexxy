@@ -327,9 +327,13 @@ class SupportManager {
     }
 
     connectToChat() {
-        
-        
-        alert('Chat integration would open here. For now, please use the contact form or email support.');
+        if (typeof window.openFlexJobsChat === 'function') {
+            window.openFlexJobsChat();
+            return;
+        }
+        if (window.FlexJobsChatWidget && typeof window.FlexJobsChatWidget.openPanel === 'function') {
+            window.FlexJobsChatWidget.openPanel();
+        }
     }
 
     showChatUnavailableMessage() {

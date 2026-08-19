@@ -237,14 +237,39 @@ class FAQManager {
     }
 
     startLiveChat() {
-        
-        
-        
         this.trackEvent('live_chat_initiated', { source: 'faq_page' });
-        
-        
-        alert('Live chat feature would be integrated here. For now, please use our contact form.');
-        window.location.href = 'support.html';
+
+        if (typeof window.openFlexJobsChat === 'function') {
+            window.openFlexJobsChat();
+            return;
+        }
+        if (window.FlexJobsChatWidget && typeof window.FlexJobsChatWidget.openPanel === 'function') {
+            window.FlexJobsChatWidget.openPanel();
+            return;
+        }
+
+        const open = () => {
+            if (typeof window.openFlexJobsChat === 'function') {
+                window.openFlexJobsChat();
+            } else if (window.FlexJobsChatWidget) {
+                window.FlexJobsChatWidget.openPanel();
+            }
+        };
+
+        if (!document.querySelector('link[href*="chat-widget.css"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '/css/chat-widget.css';
+            document.head.appendChild(link);
+        }
+        if (!document.querySelector('script[src*="chat-widget.js"]')) {
+            const s = document.createElement('script');
+            s.src = '/js/chat-widget.js';
+            s.onload = open;
+            document.body.appendChild(s);
+            return;
+        }
+        open();
     }
 
     trackEvent(eventName, data = {}) {
