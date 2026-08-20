@@ -17,32 +17,11 @@ class AgentsManager {
         this.init();
     }
 
-    // Helper function to get the correct agent image path
     getAgentImagePath(agent) {
-        // Extract first name from agent_name or display_name
-        const agentName = agent.agent_name || agent.display_name || '';
-        const firstName = agentName.split(' ')[0];
-        
-        // Map agent names to their image files
-        const imageMap = {
-            'Sophie': 'Sophie.png',
-            'Olivia': 'Olivia.png', 
-            'Naomi': 'Naomi.png',
-            'Isha': 'Isha.jpg',
-            'Daniel': 'Daniel.jpg'
-        };
-        
-        if (firstName && imageMap[firstName]) {
-            return `images/agents/${imageMap[firstName]}`;
-        }
-        
-        // Fallback to avatar_url if it contains agents path
-        if (agent.avatar_url && agent.avatar_url.includes('agents/')) {
-            return agent.avatar_url;
-        }
-        
-        // Default fallback
-        return 'images/f.png';
+        const url = (agent?.avatar_url || '').trim();
+        if (!url) return '/images/f.png';
+        if (url.startsWith('http') || url.startsWith('/')) return url;
+        return `/${url}`;
     }
 
     async init() {

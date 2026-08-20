@@ -4,7 +4,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const { getOne, getMany, insertOne, updateOne, deleteOne } = require('../database');
-const { authenticateToken } = require('../middleware/auth');
+const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -272,7 +272,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/agents - Create new agent (Admin only)
-router.post('/', authenticateToken, [
+router.post('/', authenticateToken, requireAdmin, [
   body('agent_name').notEmpty().trim().withMessage('Agent name is required'),
   body('display_name').notEmpty().trim().withMessage('Display name is required'),
   body('specializations').isArray().withMessage('Specializations must be an array'),
@@ -358,7 +358,7 @@ router.post('/', authenticateToken, [
 });
 
 // PUT /api/agents/:id - Update agent (Admin only)
-router.put('/:id', authenticateToken, [
+router.put('/:id', authenticateToken, requireAdmin, [
   body('agent_name').optional().notEmpty().trim().withMessage('Agent name cannot be empty'),
   body('display_name').optional().notEmpty().trim().withMessage('Display name cannot be empty'),
   body('specializations').optional().isArray().withMessage('Specializations must be an array')
@@ -410,7 +410,7 @@ router.put('/:id', authenticateToken, [
 });
 
 // DELETE /api/agents/:id - Soft delete agent (Admin only)
-router.delete('/:id', authenticateToken, async (req, res) => {
+router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     

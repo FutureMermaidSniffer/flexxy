@@ -264,19 +264,11 @@ class UnifiedSearch {
                             (Array.isArray(item.specializations) ? item.specializations.slice(0, 2).join(', ') : item.specializations.split(',').slice(0, 2).join(', '))
                             : '';
                         
-                        // Get the agent image path
                         const agentName = item.agent_name || item.display_name || '';
-                        const firstName = agentName.split(' ')[0];
-                        const imageMap = {
-                            'Sophie': 'Sophie.png',
-                            'Olivia': 'Olivia.png', 
-                            'Naomi': 'Naomi.png',
-                            'Isha': 'Isha.jpg',
-                            'Daniel': 'Daniel.jpg'
-                        };
-                        const imagePath = firstName && imageMap[firstName] ? 
-                            `images/agents/${imageMap[firstName]}` : 
-                            'images/f.png';
+                        const rawAvatar = (item.avatar_url || '').trim();
+                        const imagePath = !rawAvatar
+                            ? '/images/f.png'
+                            : (rawAvatar.startsWith('http') || rawAvatar.startsWith('/') ? rawAvatar : `/${rawAvatar}`);
                         
                         html += `
                             <div class="suggestion-item agent-suggestion" data-type="agent" data-id="${item.id}">

@@ -11,7 +11,7 @@ class AdminDashboard {
         };
         this.pageSize = {
             users: 25,
-            agents: 25,
+            agents: 100,
             jobs: 10,
             profileForms: 25
         };
@@ -21,6 +21,7 @@ class AdminDashboard {
             jobs: {},
             profileForms: {}
         };
+        this.charts = { registrations: null, views: null };
         this.sectionTitles = {
             dashboard: 'Dashboard',
             users: 'Users',
@@ -28,7 +29,6 @@ class AdminDashboard {
             'profile-forms': 'Profile Forms',
             agents: 'Agents',
             jobs: 'Jobs',
-            subscriptions: 'Subscriptions',
             analytics: 'Analytics'
         };
         this.init();
@@ -111,10 +111,6 @@ class AdminDashboard {
             if (e.key === 'Enter') this.searchUsers();
         });
 
-        document.getElementById('userCountryFilter')?.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.filterUsers();
-        });
-        
         document.getElementById('agentSearch')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.searchAgents();
         });
@@ -133,6 +129,15 @@ class AdminDashboard {
                 break;
             case 'search-users':
                 this.searchUsers();
+                break;
+            case 'open-add-admin':
+                this.openAddAdminModal();
+                break;
+            case 'create-admin':
+                this.createAdmin();
+                break;
+            case 'refresh-analytics':
+                this.loadAnalytics();
                 break;
             case 'search-profile-forms':
                 this.searchProfileForms();
@@ -191,7 +196,7 @@ class AdminDashboard {
                 this.filterUsers();
                 break;
             case 'filter-agents':
-                filterAgents();
+                this.filterAgents();
                 break;
             case 'toggle-select-all-jobs':
                 toggleSelectAllJobs();
@@ -287,6 +292,12 @@ class AdminDashboard {
                 this.viewWizardProgress(id, btn.getAttribute('data-user-name') || '');
             } else if (action === 'toggle') {
                 this.toggleUserStatus(id, btn.getAttribute('data-user-active') === 'true');
+            } else if (action === 'message') {
+                if (this.adminChat) {
+                    this.adminChat.startConversationWithUser(id, btn.getAttribute('data-user-name') || '');
+                } else {
+                    this.showAlert('Chat is not ready yet', 'warning');
+                }
             }
         });
         document.addEventListener('change', (e) => {
@@ -356,9 +367,6 @@ class AdminDashboard {
                 break;
             case 'jobs':
                 this.loadJobs();
-                break;
-            case 'subscriptions':
-                this.loadSubscriptions();
                 break;
             case 'analytics':
                 this.loadAnalytics();
@@ -564,12 +572,21 @@ class AdminDashboard {
     }
 
     renderUsersSkeleton() {
-        const row = `<tr class="admin-skeleton">${'<td><span class="admin-skel"></span></td>'.repeat(8)}</tr>`;
+        const row = `<tr class="admin-skeleton">${'<td><span class="admin-skel"></span></td>'.repeat(3)}</tr>`;
         const body = document.getElementById('usersTableBody');
         if (body) body.innerHTML = row.repeat(6);
         const cards = document.getElementById('usersCards');
         if (cards) {
             cards.innerHTML = '<div class="admin-user-card"><span class="admin-skel" style="width:60%"></span></div>'.repeat(3);
+        }
+    }
+
+    currentAdminId() {
+        try {
+            const user = JSON.parse(localStorage.getItem('flexjobs_user') || 'null');
+            return user?.id ? Number(user.id) : null;
+        } catch {
+            return null;
         }
     }
 
@@ -618,11 +635,11 @@ class AdminDashboard {
 
         if (!users.length) {
             if (body) {
-                body.innerHTML = `<tr><td colspan="8">
+                body.innerHTML = `<tr><td colspan="3">
                     <div class="admin-empty">
                         <div class="admin-empty-icon"><i class="fas fa-users"></i></div>
                         <h2 class="h6 mb-1">No users found</h2>
-                        <p class="mb-0">Try a different search or filter.</p>
+                        <p class="mb-0">Try a different search.</p>
                     </div>
                 </td></tr>`;
             }
@@ -630,7 +647,7 @@ class AdminDashboard {
                 cards.innerHTML = `<div class="admin-empty">
                     <div class="admin-empty-icon"><i class="fas fa-users"></i></div>
                     <h2 class="h6 mb-1">No users found</h2>
-                    <p class="mb-0">Try a different search or filter.</p>
+                    <p class="mb-0">Try a different search.</p>
                 </div>`;
             }
             return;
@@ -638,81 +655,51 @@ class AdminDashboard {
 
         const tableHtml = users.map(user => {
             const name = `${user.first_name || ''} ${user.last_name || ''}`.trim() || '—';
-            const extra = this.parseClientMeta(user.last_client_metadata);
-            const location = this.formatUserLocation(user);
-            const tz = extra.timezone || extra.ip_timezone || '';
-            const seen = this.formatRelativeTime(user.last_seen_at);
-            const locSub = [tz, seen].filter(Boolean).join(' · ');
+            const isAdmin = user.user_type === 'admin';
             return `
             <tr>
-                <td>${user.id}</td>
+                <td class="text-nowrap">${user.created_at ? new Date(user.created_at).toLocaleDateString() : '—'}</td>
                 <td>
-                    <div class="d-flex align-items-center gap-2">
-                        <div class="fw-semibold">${this.escapeHtml(name)}</div>
-                        <span class="admin-device" title="${this.escapeHtml(user.last_device_type || 'unknown')}">
-                            <i class="fas ${this.deviceIcon(user.last_device_type)}"></i>
-                        </span>
-                    </div>
-                </td>
-                <td>${this.escapeHtml(user.email || '')}</td>
-                <td>
-                    <span class="badge bg-${this.getUserTypeColor(user.user_type)}">${this.escapeHtml(user.user_type || '')}</span>
-                </td>
-                <td>
-                    <span class="badge bg-${user.is_active ? 'success' : 'secondary'}">
-                        ${user.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                </td>
-                <td>
-                    <div class="admin-loc">
-                        <span class="admin-loc-main">${this.escapeHtml(location || 'Unknown')}</span>
-                        <span class="admin-loc-sub">${this.escapeHtml(locSub || 'No browser details yet')}</span>
-                    </div>
-                </td>
-                <td>${user.created_at ? new Date(user.created_at).toLocaleDateString() : '—'}</td>
-                <td>
-                    <button class="btn btn-sm btn-outline-primary me-1" type="button"
+                    <button type="button" class="btn btn-link text-start text-decoration-none p-0 admin-user-info"
                             data-user-action="view" data-user-id="${user.id}"
-                            data-user-name="${this.escapeHtml(name)}"
-                            title="View user">
-                        <i class="fas fa-user"></i>
+                            data-user-name="${this.escapeHtml(name)}" title="View user">
+                        <span class="admin-user-info-name">${this.escapeHtml(name)}${isAdmin ? ' <span class="badge bg-danger">admin</span>' : ''}</span>
+                        <span class="admin-user-info-email">${this.escapeHtml(user.email || '')}</span>
                     </button>
-                    <button class="btn btn-sm btn-outline-${user.is_active ? 'danger' : 'success'}" type="button"
-                            data-user-action="toggle" data-user-id="${user.id}"
-                            data-user-active="${user.is_active ? 'true' : 'false'}">
-                        ${user.is_active ? 'Deactivate' : 'Activate'}
-                    </button>
+                </td>
+                <td class="text-end">
+                    ${
+                        isAdmin
+                            ? '<span class="text-muted small">—</span>'
+                            : `<button class="btn btn-sm btn-outline-primary py-0" type="button"
+                                    data-user-action="message" data-user-id="${user.id}"
+                                    data-user-name="${this.escapeHtml(name)}" title="Message user">
+                                <i class="fas fa-comment me-1"></i>Message
+                               </button>`
+                    }
                 </td>
             </tr>`;
         }).join('');
 
         const cardsHtml = users.map(user => {
             const name = `${user.first_name || ''} ${user.last_name || ''}`.trim() || '—';
-            const extra = this.parseClientMeta(user.last_client_metadata);
-            const location = this.formatUserLocation(user) || 'Unknown location';
-            const tz = extra.timezone || extra.ip_timezone || '';
+            const isAdmin = user.user_type === 'admin';
             return `
             <article class="admin-user-card">
-                <div class="d-flex justify-content-between gap-2">
-                    <div>
-                        <div class="fw-semibold">${this.escapeHtml(name)}</div>
-                        <div class="small text-muted">${this.escapeHtml(user.email || '')}</div>
-                    </div>
-                    <span class="badge bg-${user.is_active ? 'success' : 'secondary'}">${user.is_active ? 'Active' : 'Inactive'}</span>
-                </div>
-                <div class="admin-loc mt-2">
-                    <span class="admin-loc-main">${this.escapeHtml(location)}</span>
-                    <span class="admin-loc-sub">${this.escapeHtml(tz || user.last_browser || '')}</span>
-                </div>
-                <div class="d-flex gap-2 mt-3">
-                    <button class="btn btn-sm btn-outline-primary" type="button"
+                <div class="d-flex justify-content-between align-items-center gap-2">
+                    <button type="button" class="btn btn-link text-start text-decoration-none p-0 admin-user-info"
                             data-user-action="view" data-user-id="${user.id}"
-                            data-user-name="${this.escapeHtml(name)}">Details</button>
-                    <button class="btn btn-sm btn-outline-${user.is_active ? 'danger' : 'success'}" type="button"
-                            data-user-action="toggle" data-user-id="${user.id}"
-                            data-user-active="${user.is_active ? 'true' : 'false'}">
-                        ${user.is_active ? 'Deactivate' : 'Activate'}
+                            data-user-name="${this.escapeHtml(name)}">
+                        <span class="admin-user-info-name">${this.escapeHtml(name)}</span>
+                        <span class="admin-user-info-email">${this.escapeHtml(user.email || '')}</span>
                     </button>
+                    ${
+                        isAdmin
+                            ? '<span class="badge bg-danger">admin</span>'
+                            : `<button class="btn btn-sm btn-outline-primary py-0" type="button"
+                                    data-user-action="message" data-user-id="${user.id}"
+                                    data-user-name="${this.escapeHtml(name)}">Message</button>`
+                    }
                 </div>
             </article>`;
         }).join('');
@@ -758,72 +745,159 @@ class AdminDashboard {
     }
 
     showWizardProgressModal(userName, wizardData) {
+        const user = wizardData.user || {};
+        const isSelf = this.currentAdminId() === Number(user.id);
+        const isAdmin = user.user_type === 'admin';
         const modalHtml = `
             <div class="modal fade" id="wizardProgressModal" tabindex="-1">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header py-2">
                             <h5 class="modal-title">
                                 <i class="fas fa-user me-2"></i>
-                                User Information for ${this.escapeHtml(userName)}
+                                ${this.escapeHtml(userName)}
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
+                            ${this.renderUserEditForm(user, isSelf)}
                             ${this.renderWizardProgressContent(wizardData)}
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer py-2">
+                            ${
+                                !isAdmin
+                                    ? `<button type="button" class="btn btn-outline-primary me-auto" data-user-action="message" data-user-id="${user.id}" data-user-name="${this.escapeHtml(userName)}">
+                                        <i class="fas fa-comment me-1"></i>Message
+                                       </button>`
+                                    : '<span></span>'
+                            }
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="saveUserDetailsBtn">Save changes</button>
                         </div>
                     </div>
                 </div>
             </div>
         `;
         
-        // Remove existing modal if any
         const existingModal = document.getElementById('wizardProgressModal');
         if (existingModal) {
             existingModal.remove();
         }
         
-        // Add new modal to body
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         
-        // Show modal
         const modal = new bootstrap.Modal(document.getElementById('wizardProgressModal'));
         modal.show();
         
-        // Clean up after modal is hidden
+        document.getElementById('saveUserDetailsBtn')?.addEventListener('click', () => this.saveUserDetails(user.id));
         document.getElementById('wizardProgressModal').addEventListener('hidden.bs.modal', function() {
             this.remove();
         });
     }
 
+    renderUserEditForm(user, isSelf) {
+        const checked = (cond) => cond ? 'checked' : '';
+        return `
+            <form id="editUserForm" class="mb-3">
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <label class="form-label small mb-1" for="editUserFirstName">First name</label>
+                        <input class="form-control form-control-sm" id="editUserFirstName" value="${this.escapeHtml(user.first_name || '')}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small mb-1" for="editUserLastName">Last name</label>
+                        <input class="form-control form-control-sm" id="editUserLastName" value="${this.escapeHtml(user.last_name || '')}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small mb-1" for="editUserEmail">Email</label>
+                        <input type="email" class="form-control form-control-sm" id="editUserEmail" value="${this.escapeHtml(user.email || '')}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small mb-1" for="editUserPhone">Phone</label>
+                        <input class="form-control form-control-sm" id="editUserPhone" value="${this.escapeHtml(user.phone || '')}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small mb-1" for="editUserLocation">Location</label>
+                        <input class="form-control form-control-sm" id="editUserLocation" value="${this.escapeHtml(user.location || '')}">
+                    </div>
+                    <div class="col-md-6 d-flex align-items-end gap-3 pb-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="editUserActive" ${checked(user.is_active)} ${isSelf ? 'disabled' : ''}>
+                            <label class="form-check-label" for="editUserActive">Active</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="editUserAdmin" data-original-type="${this.escapeHtml(user.user_type || 'job_seeker')}" ${checked(user.user_type === 'admin')} ${isSelf ? 'disabled' : ''}>
+                            <label class="form-check-label" for="editUserAdmin">Make admin</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        `;
+    }
+
+    async saveUserDetails(userId) {
+        try {
+            const adminBox = document.getElementById('editUserAdmin');
+            const originalType = adminBox?.getAttribute('data-original-type') || 'job_seeker';
+            const payload = {
+                first_name: document.getElementById('editUserFirstName')?.value.trim(),
+                last_name: document.getElementById('editUserLastName')?.value.trim(),
+                email: document.getElementById('editUserEmail')?.value.trim(),
+                phone: document.getElementById('editUserPhone')?.value.trim(),
+                location: document.getElementById('editUserLocation')?.value.trim(),
+                is_active: !!document.getElementById('editUserActive')?.checked,
+                user_type: adminBox?.checked ? 'admin' : (originalType === 'admin' ? 'job_seeker' : originalType)
+            };
+            const response = await fetch(`/api/admin/users/${userId}`, {
+                method: 'PATCH',
+                headers: this.getAuthHeaders(),
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to save user');
+            }
+            this.showAlert('User updated', 'success');
+            const modal = bootstrap.Modal.getInstance(document.getElementById('wizardProgressModal'));
+            modal?.hide();
+            this.loadUsers();
+        } catch (error) {
+            this.showAlert(error.message || 'Failed to save user', 'danger');
+        }
+    }
+
     renderWizardProgressContent(wizardData) {
-        const { user } = wizardData;
+        const user = wizardData?.user || {};
         
         let content = '<div class="row g-4">';
         
         // Always show user info header
+        const field = (label, value) => {
+            if (value == null || value === '') return '';
+            return `<div class="col-md-4 col-sm-6 mb-2"><div class="text-muted small">${label}</div><div>${value}</div></div>`;
+        };
         content += `
             <div class="col-12">
-                <div class="card border-info">
-                    <div class="card-header bg-info text-white">
-                        <h6 class="card-title mb-0">
-                            <i class="fas fa-user me-2"></i>User Information
-                        </h6>
+                <div class="card">
+                    <div class="card-header py-2">
+                        <h6 class="card-title mb-0">All user information</h6>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <strong>Name:</strong> ${user.first_name} ${user.last_name}
-                            </div>
-                            <div class="col-md-4">
-                                <strong>Email:</strong> ${user.email}
-                            </div>
-                            <div class="col-md-4">
-                                <strong>Joined:</strong> ${new Date(user.created_at).toLocaleDateString()}
-                            </div>
+                    <div class="card-body py-2">
+                        <div class="row small">
+                            ${field('ID', user.id)}
+                            ${field('Type', this.escapeHtml(user.user_type || ''))}
+                            ${field('Status', user.is_active ? 'Active' : 'Inactive')}
+                            ${field('Email verified', user.email_verified ? 'Yes' : 'No')}
+                            ${field('Phone', this.escapeHtml(user.phone || ''))}
+                            ${field('Location', this.escapeHtml(user.location || ''))}
+                            ${field('Experience', this.escapeHtml(user.experience_level || ''))}
+                            ${field('LinkedIn', user.linkedin_url ? `<a href="${this.escapeHtml(user.linkedin_url)}" target="_blank" rel="noopener">${this.escapeHtml(user.linkedin_url)}</a>` : '')}
+                            ${field('Portfolio', user.portfolio_url ? `<a href="${this.escapeHtml(user.portfolio_url)}" target="_blank" rel="noopener">${this.escapeHtml(user.portfolio_url)}</a>` : '')}
+                            ${field('Created via wizard', user.created_via_wizard ? 'Yes' : 'No')}
+                            ${field('Wizard completed', user.wizard_completed_at ? new Date(user.wizard_completed_at).toLocaleString() : '')}
+                            ${field('Updated', user.updated_at ? new Date(user.updated_at).toLocaleString() : '')}
+                            ${user.bio ? `<div class="col-12 mb-2"><div class="text-muted small">Bio</div><div>${this.escapeHtml(user.bio)}</div></div>` : ''}
+                            ${user.skills ? `<div class="col-12 mb-2"><div class="text-muted small">Skills</div><div>${this.escapeHtml(typeof user.skills === 'string' ? user.skills : JSON.stringify(user.skills))}</div></div>` : ''}
                         </div>
                     </div>
                 </div>
@@ -1293,7 +1367,7 @@ class AdminDashboard {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="adminDashboard.exportSingleProfileForm(${user.id})">
+                            <button type="button" class="btn btn-primary" onclick="adminDashboard.exportSingleProfileForm(${submission.id})">
                                 Export Data
                             </button>
                         </div>
@@ -1374,43 +1448,60 @@ class AdminDashboard {
         }
     }
 
+    agentList(value) {
+        if (!value) return [];
+        if (Array.isArray(value)) return value.filter(Boolean);
+        return String(value).split(',').map((s) => s.trim()).filter(Boolean);
+    }
+
     renderAgentsTable(agents) {
-        const tableHtml = agents.map(agent => `
+        if (!agents || !agents.length) {
+            const body = document.getElementById('agentsTableBody');
+            if (body) {
+                body.innerHTML = `<tr><td colspan="15" class="text-center text-muted py-4">No agents found</td></tr>`;
+            }
+            return;
+        }
+        const tableHtml = agents.map(agent => {
+            const name = agent.agent_name || agent.display_name || 'Agent';
+            const specs = this.agentList(agent.specializations);
+            const langs = this.agentList(agent.languages);
+            const initial = name.charAt(0).toUpperCase();
+            return `
             <tr>
                 <td>${agent.id}</td>
                 <td>
                     ${agent.avatar_url ? 
                         `<img src="${agent.avatar_url}" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">` : 
-                        `<div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; color: white; font-weight: bold;">${agent.agent_name.charAt(0).toUpperCase()}</div>`
+                        `<div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; color: white; font-weight: bold;">${initial}</div>`
                     }
                 </td>
                 <td>
-                    <div class="fw-bold">${agent.agent_name}</div>
-                    <small class="text-muted">${agent.specializations ? agent.specializations.split(',').slice(0, 2).join(', ') : 'No specializations'}</small>
+                    <div class="fw-bold">${this.escapeHtml(name)}</div>
+                    <small class="text-muted">${specs.slice(0, 2).join(', ') || 'No specializations'}</small>
                 </td>
                 <td>
-                    <div>${agent.display_name}</div>
-                    ${agent.bio ? `<small class="text-muted">${agent.bio.length > 50 ? agent.bio.substring(0, 50) + '...' : agent.bio}</small>` : ''}
+                    <div>${this.escapeHtml(agent.display_name || '')}</div>
+                    ${agent.bio ? `<small class="text-muted">${this.escapeHtml(agent.bio.length > 50 ? agent.bio.substring(0, 50) + '...' : agent.bio)}</small>` : ''}
                 </td>
                 <td>
-                    <div>${agent.email || 'N/A'}</div>
-                    ${agent.linkedin_url ? `<a href="${agent.linkedin_url}" target="_blank" class="text-decoration-none"><i class="fab fa-linkedin"></i></a>` : ''}
+                    <div>${this.escapeHtml(agent.email || 'N/A')}</div>
+                    ${agent.linkedin_url ? `<a href="${this.escapeHtml(agent.linkedin_url)}" target="_blank" class="text-decoration-none"><i class="fab fa-linkedin"></i></a>` : ''}
                 </td>
                 <td>
-                    <div>${agent.location || 'N/A'}</div>
-                    ${agent.timezone ? `<small class="text-muted">${agent.timezone}</small>` : ''}
+                    <div>${this.escapeHtml(agent.location || 'N/A')}</div>
+                    ${agent.timezone ? `<small class="text-muted">${this.escapeHtml(agent.timezone)}</small>` : ''}
                 </td>
                 <td>
-                    ${agent.specializations ? 
-                        agent.specializations.split(',').slice(0, 3).map(spec => 
-                            `<span class="badge bg-light text-dark me-1">${spec.trim()}</span>`
-                        ).join('') : 
-                        '<span class="text-muted">None</span>'
-                    }
+                    ${specs.length
+                        ? specs.slice(0, 3).map(spec =>
+                            `<span class="badge bg-light text-dark me-1">${this.escapeHtml(spec)}</span>`
+                          ).join('')
+                        : '<span class="text-muted">None</span>'}
                 </td>
                 <td>
                     <div>${agent.experience_years || 0} years</div>
-                    ${agent.languages ? `<small class="text-muted">${agent.languages.split(',').slice(0, 2).join(', ')}</small>` : ''}
+                    ${langs.length ? `<small class="text-muted">${this.escapeHtml(langs.slice(0, 2).join(', '))}</small>` : ''}
                 </td>
                 <td>
                     <div class="rating-stars">${this.renderStars(agent.rating || 0)}</div>
@@ -1452,8 +1543,8 @@ class AdminDashboard {
                         </button>
                     </div>
                 </td>
-            </tr>
-        `).join('');
+            </tr>`;
+        }).join('');
         
         document.getElementById('agentsTableBody').innerHTML = tableHtml;
     }
@@ -1461,7 +1552,7 @@ class AdminDashboard {
     async toggleAgentFeatured(agentId, currentStatus) {
         try {
             const response = await fetch(`/api/admin/agents/${agentId}/toggle-featured`, {
-                method: 'PUT',
+                method: 'POST',
                 headers: this.getAuthHeaders()
             });
 
@@ -1571,8 +1662,7 @@ class AdminDashboard {
 
     searchUsers() {
         const search = document.getElementById('userSearch')?.value.trim() || '';
-        const country = document.getElementById('userCountryFilter')?.value.trim() || '';
-        this.filters.users = { ...this.filters.users, search, country };
+        this.filters.users = { search };
         this.currentPage.users = 1;
         this.loadUsers();
     }
@@ -1585,20 +1675,7 @@ class AdminDashboard {
     }
 
     filterUsers() {
-        const userType = document.getElementById('userTypeFilter')?.value || '';
-        const isActive = document.getElementById('userStatusFilter')?.value || '';
-        const country = document.getElementById('userCountryFilter')?.value.trim() || '';
-        const search = document.getElementById('userSearch')?.value.trim() || this.filters.users.search || '';
-
-        this.filters.users = {
-            ...this.filters.users,
-            search,
-            user_type: userType,
-            is_active: isActive,
-            country
-        };
-        this.currentPage.users = 1;
-        this.loadUsers();
+        this.searchUsers();
     }
 
     searchProfileForms() {
@@ -1918,12 +1995,177 @@ class AdminDashboard {
         this.loadJobs();
     }
 
-    loadSubscriptions() {
-        console.log('Load subscriptions - to be implemented');
+    formatGrowth(percent) {
+        const n = Number(percent) || 0;
+        const cls = n > 0 ? 'is-up' : n < 0 ? 'is-down' : 'is-flat';
+        const sign = n > 0 ? '+' : '';
+        return `<span class="admin-growth ${cls}">${sign}${n}%</span>`;
     }
 
-    loadAnalytics() {
-        console.log('Load analytics - to be implemented');
+    async loadAnalytics() {
+        try {
+            this.showLoading();
+            const range = document.getElementById('analyticsRange')?.value || '30d';
+            const location = document.getElementById('analyticsLocation')?.value || '';
+            const params = new URLSearchParams({ range });
+            if (location) params.set('location', location);
+
+            const response = await fetch(`/api/admin/analytics?${params}`, {
+                headers: this.getAuthHeaders()
+            });
+            if (!response.ok) throw new Error('Failed to fetch analytics');
+            const payload = await response.json();
+            const data = payload.data || {};
+
+            const locSelect = document.getElementById('analyticsLocation');
+            if (locSelect) {
+                const current = locSelect.value;
+                const options = ['<option value="">All locations</option>']
+                    .concat((data.views?.locations || []).map((loc) => {
+                        const sel = loc === current ? 'selected' : '';
+                        return `<option value="${this.escapeHtml(loc)}" ${sel}>${this.escapeHtml(loc)}</option>`;
+                    }));
+                locSelect.innerHTML = options.join('');
+            }
+
+            const kpis = document.getElementById('analyticsKpis');
+            if (kpis) {
+                kpis.innerHTML = `
+                    <div class="col-md-4">
+                        <div class="admin-stat">
+                            <h6>New registrations</h6>
+                            <h3>${data.registrations?.total ?? 0}</h3>
+                            <div>vs prior period ${this.formatGrowth(data.registrations?.growth_percent)}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="admin-stat">
+                            <h6>Job views${location ? ` · ${this.escapeHtml(location)}` : ''}</h6>
+                            <h3>${data.views?.total ?? 0}</h3>
+                            <div class="text-muted small">Filter updates this chart</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="admin-stat">
+                            <h6>Users by last-seen country</h6>
+                            <h3>${data.users_by_location?.total ?? 0}</h3>
+                            <div>vs prior period ${this.formatGrowth(data.users_by_location?.growth_percent)}</div>
+                        </div>
+                    </div>`;
+            }
+
+            this.renderRegistrationsChart(data.registrations?.series || []);
+            this.renderViewsChart(data.views?.by_location || []);
+        } catch (error) {
+            console.error('Load analytics error:', error);
+            this.showAlert('Failed to load analytics', 'danger');
+        } finally {
+            this.hideLoading();
+        }
+    }
+
+    renderRegistrationsChart(series) {
+        const canvas = document.getElementById('registrationsChart');
+        if (!canvas || typeof Chart === 'undefined') return;
+        if (this.charts.registrations) this.charts.registrations.destroy();
+        this.charts.registrations = new Chart(canvas, {
+            type: 'line',
+            data: {
+                labels: series.map((p) => p.day),
+                datasets: [{
+                    label: 'Registrations',
+                    data: series.map((p) => p.count),
+                    borderColor: '#0066cc',
+                    backgroundColor: 'rgba(0, 102, 204, 0.12)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+            }
+        });
+    }
+
+    renderViewsChart(rows) {
+        const canvas = document.getElementById('viewsLocationChart');
+        if (!canvas || typeof Chart === 'undefined') return;
+        if (this.charts.views) this.charts.views.destroy();
+        this.charts.views = new Chart(canvas, {
+            type: 'bar',
+            data: {
+                labels: rows.map((r) => `${r.location} (${r.share_percent || 0}%)`),
+                datasets: [{
+                    label: 'Views',
+                    data: rows.map((r) => r.views),
+                    backgroundColor: '#0ea5e9'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { beginAtZero: true, ticks: { precision: 0 } } }
+            }
+        });
+    }
+
+    async openAddAdminModal() {
+        const modalEl = document.getElementById('addAdminModal');
+        if (!modalEl) return;
+        await this.loadAdminsList();
+        new bootstrap.Modal(modalEl).show();
+    }
+
+    async loadAdminsList() {
+        const list = document.getElementById('currentAdminsList');
+        if (!list) return;
+        try {
+            const response = await fetch('/api/admin/admins', { headers: this.getAuthHeaders() });
+            if (!response.ok) throw new Error('Failed to load admins');
+            const data = await response.json();
+            const admins = data.data?.admins || [];
+            if (!admins.length) {
+                list.textContent = 'No admins found.';
+                return;
+            }
+            list.innerHTML = `<ul class="list-unstyled mb-0">${admins.map((a) =>
+                `<li class="mb-1">${this.escapeHtml(`${a.first_name || ''} ${a.last_name || ''}`.trim())} <span class="text-muted">${this.escapeHtml(a.email || '')}</span></li>`
+            ).join('')}</ul>`;
+        } catch (error) {
+            list.textContent = 'Could not load admins.';
+        }
+    }
+
+    async createAdmin() {
+        const first_name = document.getElementById('adminFirstName')?.value.trim();
+        const last_name = document.getElementById('adminLastName')?.value.trim();
+        const email = document.getElementById('adminEmail')?.value.trim();
+        const password = document.getElementById('adminPassword')?.value;
+        if (!first_name || !last_name || !email || !password) {
+            this.showAlert('Fill in all admin fields', 'warning');
+            return;
+        }
+        try {
+            const response = await fetch('/api/admin/admins', {
+                method: 'POST',
+                headers: this.getAuthHeaders(),
+                body: JSON.stringify({ first_name, last_name, email, password })
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.message || 'Failed to create admin');
+            this.showAlert(data.message || 'Admin created', 'success');
+            document.getElementById('addAdminForm')?.reset();
+            await this.loadAdminsList();
+            if (this.currentSection === 'users') this.loadUsers();
+        } catch (error) {
+            this.showAlert(error.message || 'Failed to create admin', 'danger');
+        }
     }
 
     async editAgent(agentId) {

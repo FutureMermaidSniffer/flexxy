@@ -64,12 +64,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#subscriptions" data-section="subscriptions">
-                        <i class="fas fa-credit-card"></i>
-                        Subscriptions
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#analytics" data-section="analytics">
                         <i class="fas fa-chart-column"></i>
                         Analytics
@@ -152,7 +146,7 @@
                     <div class="admin-section-head">
                         <div>
                             <h1>Users</h1>
-                            <p>Accounts, last-seen location, and status</p>
+                            <p>Accounts and messages</p>
                         </div>
                         <div class="admin-toolbar-actions d-flex flex-wrap gap-2">
                             <div class="input-group">
@@ -161,38 +155,21 @@
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
+                            <button type="button" class="btn btn-primary" data-action="open-add-admin">
+                                <i class="fas fa-user-shield me-1"></i>Add admin
+                            </button>
                         </div>
                     </div>
 
-                    <div class="admin-filters">
-                        <select class="form-select" id="userTypeFilter" data-action="filter-users" style="max-width: 220px;">
-                            <option value="">All user types</option>
-                            <option value="job_seeker">Job seekers</option>
-                            <option value="employer">Employers</option>
-                            <option value="admin">Admins</option>
-                        </select>
-                        <select class="form-select" id="userStatusFilter" data-action="filter-users" style="max-width: 180px;">
-                            <option value="">All statuses</option>
-                            <option value="true">Active</option>
-                            <option value="false">Inactive</option>
-                        </select>
-                        <input type="search" class="form-control" id="userCountryFilter" data-action="filter-users" placeholder="Filter by country" style="max-width: 220px;">
-                    </div>
-
                     <div class="card admin-card">
-                        <div class="card-body">
+                        <div class="card-body p-2 p-md-3">
                             <div class="table-responsive admin-table-wrap admin-users-table">
-                                <table class="table">
+                                <table class="table table-sm align-middle mb-0">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Type</th>
-                                            <th>Status</th>
-                                            <th>Location</th>
                                             <th>Created</th>
-                                            <th>Actions</th>
+                                            <th>Info</th>
+                                            <th class="text-end">Message</th>
                                         </tr>
                                     </thead>
                                     <tbody id="usersTableBody"></tbody>
@@ -543,18 +520,47 @@
                     </div>
                 </div>
 
-                <div id="subscriptions-section" class="content-section" style="display: none;">
-                    <div class="pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Subscription Management</h1>
-                    </div>
-                    <p>Subscription management interface coming soon...</p>
-                </div>
-
                 <div id="analytics-section" class="content-section" style="display: none;">
-                    <div class="pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Analytics</h1>
+                    <div class="admin-section-head">
+                        <div>
+                            <h1>Analytics</h1>
+                            <p>Registration trend and views by location</p>
+                        </div>
+                        <div class="admin-toolbar-actions d-flex flex-wrap gap-2">
+                            <select class="form-select" id="analyticsRange" data-action="refresh-analytics" style="max-width: 140px;">
+                                <option value="7d">Last 7 days</option>
+                                <option value="30d" selected>Last 30 days</option>
+                                <option value="90d">Last 90 days</option>
+                            </select>
+                            <select class="form-select" id="analyticsLocation" data-action="refresh-analytics" style="max-width: 220px;">
+                                <option value="">All locations</option>
+                            </select>
+                        </div>
                     </div>
-                    <p>Analytics dashboard coming soon...</p>
+
+                    <div class="row g-3 mb-3" id="analyticsKpis"></div>
+                    <div class="row g-3">
+                        <div class="col-lg-7">
+                            <div class="card admin-card h-100">
+                                <div class="card-header py-2">
+                                    <h5 class="card-title mb-0">Registration trend</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="registrationsChart" height="220"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="card admin-card h-100">
+                                <div class="card-header py-2">
+                                    <h5 class="card-title mb-0">Views by location</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="viewsLocationChart" height="220"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="messages-section" class="content-section" style="display: none;">
@@ -626,7 +632,46 @@
         </div>
     </div>
 
-    
+    <div class="modal fade" id="addAdminModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add admin</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAdminForm">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <label class="form-label" for="adminFirstName">First name</label>
+                                <input type="text" class="form-control" id="adminFirstName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="adminLastName">Last name</label>
+                                <input type="text" class="form-control" id="adminLastName" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="adminEmail">Email</label>
+                                <input type="email" class="form-control" id="adminEmail" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="adminPassword">Password</label>
+                                <input type="password" class="form-control" id="adminPassword" minlength="6" required>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+                    <h6 class="small text-uppercase text-muted mb-2">Current admins</h6>
+                    <div id="currentAdminsList" class="small">Loading…</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-action="create-admin">Create admin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="addAgentModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
