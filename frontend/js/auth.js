@@ -74,7 +74,12 @@ class Auth {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify(
+                    (typeof window.withClientInfo === 'function' ? window.withClientInfo : (d) => d)({
+                        email,
+                        password
+                    })
+                )
             });
 
             const data = await response.json();
@@ -126,13 +131,15 @@ class Auth {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    first_name: firstName,
-                    last_name: lastName,
-                    email,
-                    password,
-                    user_type: userType
-                })
+                body: JSON.stringify(
+                    (typeof window.withClientInfo === 'function' ? window.withClientInfo : (d) => d)({
+                        first_name: firstName,
+                        last_name: lastName,
+                        email,
+                        password,
+                        user_type: userType
+                    })
+                )
             });
 
             const data = await response.json();
@@ -181,11 +188,51 @@ class Auth {
 
             if (!response.ok) {
                 this.logout();
+                return;
             }
+            this.reportSessionMeta();
         } catch (error) {
             console.error('Token verification error:', error);
             this.logout();
         }
+    }
+
+    reportSessionMeta() {
+        const key = 'flexjobs_session_meta_sent';
+        try {
+            if (sessionStorage.getItem(key) === '1') return;
+            sessionStorage.setItem(key, '1');
+        } catch {
+            /* private mode */
+        }
+        let body = {};
+        if (typeof window.withClientInfo === 'function') {
+            body = window.withClientInfo({});
+        } else {
+            try {
+                body.client_info = {
+                    language: navigator.language || undefined,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    timezone_offset: String(new Date().getTimezoneOffset())
+                };
+            } catch {
+                body = {};
+            }
+        }
+        fetch('/api/auth/session-meta', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${this.token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }).catch(() => {
+            try {
+                sessionStorage.removeItem(key);
+            } catch {
+                /* ignore */
+            }
+        });
     }
 
     setToken(token) {

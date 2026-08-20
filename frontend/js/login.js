@@ -156,11 +156,11 @@ class LoginManager {
         this.showLoadingState();
 
         try {
-            const formData = {
+            const formData = (typeof window.withClientInfo === 'function' ? window.withClientInfo : (d) => d)({
                 email: this.emailInput.value.trim(),
                 password: this.passwordInput.value,
                 rememberMe: document.getElementById('rememberMe')?.checked || false
-            };
+            });
 
             
             const response = await fetch('/api/auth/login', {

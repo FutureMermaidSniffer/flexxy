@@ -292,7 +292,7 @@ class RegistrationPage {
         
         try {
             
-            const registrationData = {
+            const registrationData = (typeof window.withClientInfo === 'function' ? window.withClientInfo : (d) => d)({
                 first_name: firstName,
                 last_name: lastName,
                 email: email,
@@ -300,7 +300,7 @@ class RegistrationPage {
                 user_type: userType,
                 phone: phone || null,
                 location: location || null
-            };
+            });
             
             
             await this.registerUser(registrationData);

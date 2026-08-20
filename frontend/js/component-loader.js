@@ -101,6 +101,7 @@ class ComponentLoader {
 
         try {
             await this.loadCSS('/css/chat-widget.css');
+            await this.loadJS('/js/utils/client-info.js');
             await this.loadJS('/js/chat-widget.js');
             this.loadedComponents.add('chat-widget');
         } catch (error) {

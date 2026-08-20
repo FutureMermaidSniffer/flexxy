@@ -49,6 +49,10 @@
     }
 
     function collectClientInfo() {
+        const shared = window.collectClientInfo;
+        if (typeof shared === 'function' && shared !== collectClientInfo) {
+            return shared();
+        }
         const info = {
             language: navigator.language || undefined,
             languages: Array.isArray(navigator.languages)

@@ -229,10 +229,28 @@ async function collectMessageMetadata(req, body = {}) {
     };
 }
 
+function toUserLocationRow(meta = {}) {
+    return {
+        last_ip: meta.ip_address || null,
+        last_country: meta.location_country || null,
+        last_region: meta.location_region || null,
+        last_city: meta.location_city || null,
+        last_lat: meta.location_lat != null ? meta.location_lat : null,
+        last_lng: meta.location_lng != null ? meta.location_lng : null,
+        last_device_type: meta.device_type || null,
+        last_os: meta.device_os || null,
+        last_browser: meta.device_browser || null,
+        last_user_agent: meta.user_agent || null,
+        last_client_metadata: meta.client_metadata || null,
+        last_seen_at: new Date()
+    };
+}
+
 module.exports = {
     getClientIp,
     parseUserAgent,
     lookupGeoFromIp,
     collectMessageMetadata,
-    buildClientMetadata
+    buildClientMetadata,
+    toUserLocationRow
 };

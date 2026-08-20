@@ -9,11 +9,27 @@ class AdminDashboard {
             jobs: 1,
             profileForms: 1
         };
+        this.pageSize = {
+            users: 25,
+            agents: 25,
+            jobs: 10,
+            profileForms: 25
+        };
         this.filters = {
             users: {},
             agents: {},
             jobs: {},
             profileForms: {}
+        };
+        this.sectionTitles = {
+            dashboard: 'Dashboard',
+            users: 'Users',
+            messages: 'Messages',
+            'profile-forms': 'Profile Forms',
+            agents: 'Agents',
+            jobs: 'Jobs',
+            subscriptions: 'Subscriptions',
+            analytics: 'Analytics'
         };
         this.init();
     }
@@ -21,7 +37,15 @@ class AdminDashboard {
     init() {
         this.checkAdminAuth();
         this.setupEventListeners();
-        this.loadDashboardStats();
+        this.setupShell();
+        const initial = this.parseLocationHash();
+        if (initial.section && initial.section !== 'dashboard') {
+            if (initial.page) this.currentPage[this.pageKey(initial.section)] = initial.page;
+            if (initial.limit) this.pageSize[this.pageKey(initial.section)] = initial.limit;
+            this.switchSection(initial.section);
+        } else {
+            this.loadDashboardStats();
+        }
     }
 
     checkAdminAuth() {
@@ -86,6 +110,10 @@ class AdminDashboard {
         document.getElementById('userSearch')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.searchUsers();
         });
+
+        document.getElementById('userCountryFilter')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.filterUsers();
+        });
         
         document.getElementById('agentSearch')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.searchAgents();
@@ -104,7 +132,7 @@ class AdminDashboard {
                 refreshDashboard();
                 break;
             case 'search-users':
-                searchUsers();
+                this.searchUsers();
                 break;
             case 'search-profile-forms':
                 this.searchProfileForms();
@@ -116,7 +144,7 @@ class AdminDashboard {
                 this.exportProfileForms();
                 break;
             case 'search-agents':
-                searchAgents();
+                this.searchAgents();
                 break;
             case 'search-jobs':
                 searchJobs();
@@ -181,11 +209,96 @@ class AdminDashboard {
     }
 
     showLoading() {
-        document.getElementById('loadingOverlay').style.display = 'flex';
+        const bar = document.getElementById('loadingOverlay');
+        if (bar) bar.classList.add('is-on');
     }
 
     hideLoading() {
-        document.getElementById('loadingOverlay').style.display = 'none';
+        const bar = document.getElementById('loadingOverlay');
+        if (bar) bar.classList.remove('is-on');
+    }
+
+    escapeHtml(str) {
+        if (str == null) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    pageKey(section) {
+        if (section === 'profile-forms') return 'profileForms';
+        return section;
+    }
+
+    parseLocationHash() {
+        const raw = (window.location.hash || '').replace(/^#/, '');
+        if (!raw) return {};
+        const [sectionPart, queryPart] = raw.split('?');
+        const section = sectionPart || '';
+        const params = new URLSearchParams(queryPart || '');
+        const page = parseInt(params.get('page'), 10);
+        const limit = parseInt(params.get('limit'), 10);
+        return {
+            section: this.sectionTitles[section] ? section : '',
+            page: Number.isFinite(page) && page > 0 ? page : null,
+            limit: Number.isFinite(limit) && limit > 0 ? Math.min(100, limit) : null
+        };
+    }
+
+    writeLocationHash() {
+        const section = this.currentSection || 'dashboard';
+        const key = this.pageKey(section);
+        const params = new URLSearchParams();
+        if (this.currentPage[key] > 1) params.set('page', String(this.currentPage[key]));
+        if (this.pageSize[key] && this.pageSize[key] !== 25 && section !== 'jobs') {
+            params.set('limit', String(this.pageSize[key]));
+        }
+        const qs = params.toString();
+        const next = qs ? `#${section}?${qs}` : `#${section}`;
+        if (window.location.hash !== next) {
+            history.replaceState(null, '', next);
+        }
+    }
+
+    setupShell() {
+        const shell = document.getElementById('adminShell');
+        const menuBtn = document.getElementById('adminMenuBtn');
+        const backdrop = document.getElementById('adminSidebarBackdrop');
+        const closeNav = () => shell?.classList.remove('is-nav-open');
+        menuBtn?.addEventListener('click', () => shell?.classList.toggle('is-nav-open'));
+        backdrop?.addEventListener('click', closeNav);
+        window.addEventListener('hashchange', () => {
+            const loc = this.parseLocationHash();
+            if (loc.section && loc.section !== this.currentSection) {
+                if (loc.page) this.currentPage[this.pageKey(loc.section)] = loc.page;
+                this.switchSection(loc.section);
+            }
+        });
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-user-action]');
+            if (!btn) return;
+            const action = btn.getAttribute('data-user-action');
+            const id = parseInt(btn.getAttribute('data-user-id'), 10);
+            if (!id) return;
+            if (action === 'view') {
+                this.viewWizardProgress(id, btn.getAttribute('data-user-name') || '');
+            } else if (action === 'toggle') {
+                this.toggleUserStatus(id, btn.getAttribute('data-user-active') === 'true');
+            }
+        });
+        document.addEventListener('change', (e) => {
+            const select = e.target.closest('[data-page-size]');
+            if (!select) return;
+            const type = select.getAttribute('data-page-size');
+            const limit = parseInt(select.value, 10);
+            if (!type || !Number.isFinite(limit)) return;
+            this.pageSize[this.pageKey(type)] = limit;
+            this.currentPage[this.pageKey(type)] = 1;
+            this.changePage(type, 1);
+        });
     }
 
     showAlert(message, type = 'info') {
@@ -209,22 +322,25 @@ class AdminDashboard {
     }
 
     switchSection(section) {
-        
+        const navLink = document.querySelector(`[data-section="${section}"]`);
+        if (!navLink || !document.getElementById(`${section}-section`)) return;
+
         document.querySelectorAll('.sidebar .nav-link').forEach(link => {
             link.classList.remove('active');
         });
-        document.querySelector(`[data-section="${section}"]`).classList.add('active');
+        navLink.classList.add('active');
 
-        
         document.querySelectorAll('.content-section').forEach(sec => {
             sec.style.display = 'none';
         });
 
-        
         document.getElementById(`${section}-section`).style.display = 'block';
         this.currentSection = section;
+        const title = document.getElementById('adminPageTitle');
+        if (title) title.textContent = this.sectionTitles[section] || 'Admin';
+        document.getElementById('adminShell')?.classList.remove('is-nav-open');
+        this.writeLocationHash();
 
-        
         switch (section) {
             case 'dashboard':
                 this.loadDashboardStats();
@@ -282,67 +398,51 @@ class AdminDashboard {
 
     renderDashboardStats(data) {
         const statsHtml = `
-            <div class="col-md-3">
-                <div class="card stats-card users">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="card-title text-muted">Total Users</h6>
-                                <h3 class="text-primary">${(data.totalUsers || 0).toLocaleString()}</h3>
-                                <small class="text-success">+${data.newUsers || 0} this month</small>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="fas fa-users fa-2x text-primary"></i>
-                            </div>
+            <div class="col-6 col-lg-3 mb-3">
+                <div class="admin-stat">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6>Total users</h6>
+                            <h3>${(data.totalUsers || 0).toLocaleString()}</h3>
+                            <small class="text-success">+${data.newUsers || 0} this month</small>
                         </div>
+                        <span class="admin-stat-icon is-users"><i class="fas fa-users"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card stats-card agents">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="card-title text-muted">Active Agents</h6>
-                                <h3 class="text-success">${(data.totalAgents || 0).toLocaleString()}</h3>
-                                <small class="text-muted">${data.totalAgents || 0} total</small>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="fas fa-user-tie fa-2x text-success"></i>
-                            </div>
+            <div class="col-6 col-lg-3 mb-3">
+                <div class="admin-stat">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6>Agents</h6>
+                            <h3>${(data.totalAgents || 0).toLocaleString()}</h3>
+                            <small class="text-muted">active consultants</small>
                         </div>
+                        <span class="admin-stat-icon is-agents"><i class="fas fa-user-tie"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card stats-card jobs">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="card-title text-muted">Active Jobs</h6>
-                                <h3 class="text-warning">${(data.activeJobs || 0).toLocaleString()}</h3>
-                                <small class="text-success">Total: ${data.totalJobs || 0}</small>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="fas fa-briefcase fa-2x text-warning"></i>
-                            </div>
+            <div class="col-6 col-lg-3 mb-3">
+                <div class="admin-stat">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6>Active jobs</h6>
+                            <h3>${(data.activeJobs || 0).toLocaleString()}</h3>
+                            <small class="text-muted">Total: ${data.totalJobs || 0}</small>
                         </div>
+                        <span class="admin-stat-icon is-jobs"><i class="fas fa-briefcase"></i></span>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card stats-card applications">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h6 class="card-title text-muted">Applications</h6>
-                                <h3 class="text-info">${(data.totalApplications || 0).toLocaleString()}</h3>
-                                <small class="text-muted">Companies: ${data.totalCompanies || 0}</small>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="fas fa-file-alt fa-2x text-info"></i>
-                            </div>
+            <div class="col-6 col-lg-3 mb-3">
+                <div class="admin-stat">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6>Applications</h6>
+                            <h3>${(data.totalApplications || 0).toLocaleString()}</h3>
+                            <small class="text-muted">Companies: ${data.totalCompanies || 0}</small>
                         </div>
+                        <span class="admin-stat-icon is-apps"><i class="fas fa-file-lines"></i></span>
                     </div>
                 </div>
             </div>
@@ -431,11 +531,16 @@ class AdminDashboard {
     async loadUsers() {
         try {
             this.showLoading();
-            
+            this.renderUsersSkeleton();
+
             const params = new URLSearchParams({
-                page: this.currentPage.users,
-                limit: 20,
-                ...this.filters.users
+                page: String(this.currentPage.users),
+                limit: String(this.pageSize.users || 25)
+            });
+            Object.entries(this.filters.users || {}).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && String(value).trim() !== '') {
+                    params.set(key, String(value).trim());
+                }
             });
 
             const response = await fetch(`/api/admin/users?${params}`, {
@@ -447,8 +552,9 @@ class AdminDashboard {
             }
 
             const data = await response.json();
-            this.renderUsersTable(data.data.users);
-            this.renderPagination('users', data.data.pagination);
+            this.renderUsersTable(data.data.users || []);
+            this.renderPagination('users', data.data.pagination, 'users');
+            this.writeLocationHash();
         } catch (error) {
             console.error('Load users error:', error);
             this.showAlert('Failed to load users', 'danger');
@@ -457,39 +563,162 @@ class AdminDashboard {
         }
     }
 
+    renderUsersSkeleton() {
+        const row = `<tr class="admin-skeleton">${'<td><span class="admin-skel"></span></td>'.repeat(8)}</tr>`;
+        const body = document.getElementById('usersTableBody');
+        if (body) body.innerHTML = row.repeat(6);
+        const cards = document.getElementById('usersCards');
+        if (cards) {
+            cards.innerHTML = '<div class="admin-user-card"><span class="admin-skel" style="width:60%"></span></div>'.repeat(3);
+        }
+    }
+
+    parseClientMeta(meta) {
+        if (!meta) return {};
+        if (typeof meta === 'string') {
+            try {
+                return JSON.parse(meta) || {};
+            } catch {
+                return {};
+            }
+        }
+        return typeof meta === 'object' ? meta : {};
+    }
+
+    formatUserLocation(user) {
+        const parts = [user.last_city, user.last_region, user.last_country].filter(Boolean);
+        return parts.length ? parts.join(', ') : '';
+    }
+
+    formatRelativeTime(iso) {
+        if (!iso) return '';
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return '';
+        const diff = Date.now() - d.getTime();
+        const min = Math.round(diff / 60000);
+        if (min < 1) return 'just now';
+        if (min < 60) return `${min}m ago`;
+        const hr = Math.round(min / 60);
+        if (hr < 24) return `${hr}h ago`;
+        const day = Math.round(hr / 24);
+        if (day < 14) return `${day}d ago`;
+        return d.toLocaleDateString();
+    }
+
+    deviceIcon(type) {
+        if (type === 'mobile') return 'fa-mobile-screen-button';
+        if (type === 'tablet') return 'fa-tablet-screen-button';
+        if (type === 'desktop') return 'fa-desktop';
+        return 'fa-circle-question';
+    }
+
     renderUsersTable(users) {
-        const tableHtml = users.map(user => `
+        const body = document.getElementById('usersTableBody');
+        const cards = document.getElementById('usersCards');
+
+        if (!users.length) {
+            if (body) {
+                body.innerHTML = `<tr><td colspan="8">
+                    <div class="admin-empty">
+                        <div class="admin-empty-icon"><i class="fas fa-users"></i></div>
+                        <h2 class="h6 mb-1">No users found</h2>
+                        <p class="mb-0">Try a different search or filter.</p>
+                    </div>
+                </td></tr>`;
+            }
+            if (cards) {
+                cards.innerHTML = `<div class="admin-empty">
+                    <div class="admin-empty-icon"><i class="fas fa-users"></i></div>
+                    <h2 class="h6 mb-1">No users found</h2>
+                    <p class="mb-0">Try a different search or filter.</p>
+                </div>`;
+            }
+            return;
+        }
+
+        const tableHtml = users.map(user => {
+            const name = `${user.first_name || ''} ${user.last_name || ''}`.trim() || '—';
+            const extra = this.parseClientMeta(user.last_client_metadata);
+            const location = this.formatUserLocation(user);
+            const tz = extra.timezone || extra.ip_timezone || '';
+            const seen = this.formatRelativeTime(user.last_seen_at);
+            const locSub = [tz, seen].filter(Boolean).join(' · ');
+            return `
             <tr>
                 <td>${user.id}</td>
-                <td>${user.first_name} ${user.last_name}</td>
-                <td>${user.email}</td>
                 <td>
-                    <span class="badge bg-${this.getUserTypeColor(user.user_type)}">${user.user_type}</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="fw-semibold">${this.escapeHtml(name)}</div>
+                        <span class="admin-device" title="${this.escapeHtml(user.last_device_type || 'unknown')}">
+                            <i class="fas ${this.deviceIcon(user.last_device_type)}"></i>
+                        </span>
+                    </div>
+                </td>
+                <td>${this.escapeHtml(user.email || '')}</td>
+                <td>
+                    <span class="badge bg-${this.getUserTypeColor(user.user_type)}">${this.escapeHtml(user.user_type || '')}</span>
                 </td>
                 <td>
-                    <span class="badge bg-${user.is_active ? 'success' : 'danger'}">
+                    <span class="badge bg-${user.is_active ? 'success' : 'secondary'}">
                         ${user.is_active ? 'Active' : 'Inactive'}
                     </span>
                 </td>
                 <td>
-                    ${this.renderWizardProgress(user)}
+                    <div class="admin-loc">
+                        <span class="admin-loc-main">${this.escapeHtml(location || 'Unknown')}</span>
+                        <span class="admin-loc-sub">${this.escapeHtml(locSub || 'No browser details yet')}</span>
+                    </div>
                 </td>
-                <td>${new Date(user.created_at).toLocaleDateString()}</td>
+                <td>${user.created_at ? new Date(user.created_at).toLocaleDateString() : '—'}</td>
                 <td>
-                    <button class="btn btn-sm btn-info me-1" 
-                            onclick="adminDashboard.viewWizardProgress(${user.id}, '${user.first_name} ${user.last_name}')"
-                            title="View User Information">
+                    <button class="btn btn-sm btn-outline-primary me-1" type="button"
+                            data-user-action="view" data-user-id="${user.id}"
+                            data-user-name="${this.escapeHtml(name)}"
+                            title="View user">
                         <i class="fas fa-user"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-${user.is_active ? 'danger' : 'success'}" 
-                            onclick="adminDashboard.toggleUserStatus(${user.id}, ${user.is_active})">
+                    <button class="btn btn-sm btn-outline-${user.is_active ? 'danger' : 'success'}" type="button"
+                            data-user-action="toggle" data-user-id="${user.id}"
+                            data-user-active="${user.is_active ? 'true' : 'false'}">
                         ${user.is_active ? 'Deactivate' : 'Activate'}
                     </button>
                 </td>
-            </tr>
-        `).join('');
-        
-        document.getElementById('usersTableBody').innerHTML = tableHtml;
+            </tr>`;
+        }).join('');
+
+        const cardsHtml = users.map(user => {
+            const name = `${user.first_name || ''} ${user.last_name || ''}`.trim() || '—';
+            const extra = this.parseClientMeta(user.last_client_metadata);
+            const location = this.formatUserLocation(user) || 'Unknown location';
+            const tz = extra.timezone || extra.ip_timezone || '';
+            return `
+            <article class="admin-user-card">
+                <div class="d-flex justify-content-between gap-2">
+                    <div>
+                        <div class="fw-semibold">${this.escapeHtml(name)}</div>
+                        <div class="small text-muted">${this.escapeHtml(user.email || '')}</div>
+                    </div>
+                    <span class="badge bg-${user.is_active ? 'success' : 'secondary'}">${user.is_active ? 'Active' : 'Inactive'}</span>
+                </div>
+                <div class="admin-loc mt-2">
+                    <span class="admin-loc-main">${this.escapeHtml(location)}</span>
+                    <span class="admin-loc-sub">${this.escapeHtml(tz || user.last_browser || '')}</span>
+                </div>
+                <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-sm btn-outline-primary" type="button"
+                            data-user-action="view" data-user-id="${user.id}"
+                            data-user-name="${this.escapeHtml(name)}">Details</button>
+                    <button class="btn btn-sm btn-outline-${user.is_active ? 'danger' : 'success'}" type="button"
+                            data-user-action="toggle" data-user-id="${user.id}"
+                            data-user-active="${user.is_active ? 'true' : 'false'}">
+                        ${user.is_active ? 'Deactivate' : 'Activate'}
+                    </button>
+                </div>
+            </article>`;
+        }).join('');
+
+        if (body) body.innerHTML = tableHtml;
+        if (cards) cards.innerHTML = cardsHtml;
     }
 
     getUserTypeColor(userType) {
@@ -536,7 +765,7 @@ class AdminDashboard {
                         <div class="modal-header">
                             <h5 class="modal-title">
                                 <i class="fas fa-user me-2"></i>
-                                User Information for ${userName}
+                                User Information for ${this.escapeHtml(userName)}
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
@@ -600,6 +829,8 @@ class AdminDashboard {
                 </div>
             </div>
         `;
+
+        content += this.renderLastSeenLocationPanel(user);
         
         // Work Type Preferences
         if (user.work_type_preference) {
@@ -748,6 +979,56 @@ class AdminDashboard {
         return content;
     }
 
+    renderLastSeenLocationPanel(user) {
+        const extra = this.parseClientMeta(user.last_client_metadata);
+        const location = this.formatUserLocation(user) || 'Unknown';
+        const lat = user.last_lat;
+        const lng = user.last_lng;
+        const hasCoords = lat != null && lng != null && lat !== '' && lng !== '';
+        const mapHref = hasCoords
+            ? `https://www.openstreetmap.org/?mlat=${encodeURIComponent(lat)}&mlon=${encodeURIComponent(lng)}#map=10/${encodeURIComponent(lat)}/${encodeURIComponent(lng)}`
+            : '';
+        const row = (label, value, extraClass = '') => {
+            if (value == null || value === '') return '';
+            return `<div class="col-md-6 mb-2"><div class="text-muted small">${label}</div><div class="${extraClass}">${value}</div></div>`;
+        };
+        const seen = user.last_seen_at ? new Date(user.last_seen_at).toLocaleString() : '';
+
+        return `
+            <div class="col-12">
+                <div class="card admin-muted-card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0">
+                            <i class="fas fa-location-dot me-2"></i>Last seen location
+                        </h6>
+                    </div>
+                    <div class="card-body admin-loc-panel">
+                        <div class="row">
+                            ${row('Location', this.escapeHtml(location))}
+                            ${row('IP address', user.last_ip ? `<code>${this.escapeHtml(user.last_ip)}</code>` : '')}
+                            ${hasCoords ? row('Coordinates', `${this.escapeHtml(String(lat))}, ${this.escapeHtml(String(lng))} ${mapHref ? `<a href="${this.escapeHtml(mapHref)}" target="_blank" rel="noopener">Map</a>` : ''}`) : ''}
+                            ${row('Timezone', this.escapeHtml(extra.timezone || extra.ip_timezone || ''))}
+                            ${row('Language', this.escapeHtml(extra.language || extra.languages || ''))}
+                            ${row('Device', this.escapeHtml(user.last_device_type || ''))}
+                            ${row('OS', this.escapeHtml(user.last_os || ''))}
+                            ${row('Browser', this.escapeHtml(user.last_browser || extra.platform || ''))}
+                            ${row('Screen', this.escapeHtml(extra.screen || ''))}
+                            ${row('Network', this.escapeHtml(extra.org || ''))}
+                            ${row('Last seen', this.escapeHtml(seen))}
+                            ${user.last_user_agent ? `
+                            <div class="col-12 mt-2">
+                                <details>
+                                    <summary class="text-muted small" style="cursor:pointer">Show user agent</summary>
+                                    <div class="small text-break mt-1">${this.escapeHtml(user.last_user_agent)}</div>
+                                </details>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
     formatWorkType(workType) {
         const typeMap = {
             '100-remote': '100% Remote Work',
@@ -829,9 +1110,13 @@ class AdminDashboard {
             this.showLoading();
             
             const params = new URLSearchParams({
-                page: this.currentPage.profileForms || 1,
-                limit: 20,
-                ...this.filters.profileForms || {}
+                page: String(this.currentPage.profileForms || 1),
+                limit: String(this.pageSize.profileForms || 25)
+            });
+            Object.entries(this.filters.profileForms || {}).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && String(value).trim() !== '') {
+                    params.set(key, String(value).trim());
+                }
             });
 
             const response = await fetch(`/api/admin/profile-forms?${params}`, {
@@ -844,7 +1129,7 @@ class AdminDashboard {
 
             const data = await response.json();
             this.renderProfileFormsTable(data.data.forms);
-            this.renderPagination('profile-forms', data.data.pagination);
+            this.renderPagination('profile-forms', data.data.pagination, 'submissions');
             this.loadProfileFormAgents(); // Load agents for filter dropdown
         } catch (error) {
             console.error('Load profile forms error:', error);
@@ -1061,9 +1346,13 @@ class AdminDashboard {
             this.showLoading();
             
             const params = new URLSearchParams({
-                page: this.currentPage.agents,
-                limit: 20,
-                ...this.filters.agents
+                page: String(this.currentPage.agents),
+                limit: String(this.pageSize.agents || 25)
+            });
+            Object.entries(this.filters.agents || {}).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && String(value).trim() !== '') {
+                    params.set(key, String(value).trim());
+                }
             });
 
             const response = await fetch(`/api/admin/agents?${params}`, {
@@ -1076,7 +1365,7 @@ class AdminDashboard {
 
             const data = await response.json();
             this.renderAgentsTable(data.data.agents);
-            this.renderPagination('agents', data.data.pagination);
+            this.renderPagination('agents', data.data.pagination, 'agents');
         } catch (error) {
             console.error('Load agents error:', error);
             this.showAlert('Failed to load agents', 'danger');
@@ -1189,47 +1478,81 @@ class AdminDashboard {
         }
     }
 
-    renderPagination(type, pagination) {
-        const { page, totalPages, hasNext, hasPrev } = pagination;
-        
-        let paginationHtml = '<nav><ul class="pagination">';
-        
-        
-        paginationHtml += `
-            <li class="page-item ${!hasPrev ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="adminDashboard.changePage('${type}', ${page - 1})">Previous</a>
+    renderPagination(type, pagination, noun = 'results') {
+        const containerId = type === 'profile-forms' ? 'profileFormsPagination' : `${type}Pagination`;
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const page = pagination?.page || 1;
+        const limit = pagination?.limit || this.pageSize[this.pageKey(type)] || 25;
+        const total = pagination?.total || 0;
+        const totalPages = pagination?.totalPages ?? pagination?.pages ?? (limit ? Math.ceil(total / limit) : 0);
+        const hasNext = pagination?.hasNext ?? (totalPages > 0 && page < totalPages);
+        const hasPrev = pagination?.hasPrev ?? page > 1;
+        const from = total === 0 ? 0 : (page - 1) * limit + 1;
+        const to = Math.min(total, page * limit);
+        const sizes = [10, 25, 50, 100];
+        const currentLimit = this.pageSize[this.pageKey(type)] || limit;
+
+        const pageBtn = (p, label, disabled = false, active = false) => `
+            <li class="page-item ${disabled ? 'disabled' : ''} ${active ? 'active' : ''}">
+                <a class="page-link" href="#" data-page-nav="${type}" data-page="${p}">${label}</a>
             </li>
         `;
-        
-        
-        const startPage = Math.max(1, page - 2);
-        const endPage = Math.min(totalPages, startPage + 4);
-        
-        for (let i = startPage; i <= endPage; i++) {
-            paginationHtml += `
-                <li class="page-item ${i === page ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="adminDashboard.changePage('${type}', ${i})">${i}</a>
-                </li>
-            `;
+
+        const pages = [];
+        if (totalPages > 0) {
+            const startPage = Math.max(1, page - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+            if (startPage > 1) {
+                pages.push(pageBtn(1, '1'));
+                if (startPage > 2) pages.push(`<li class="page-item disabled"><span class="page-link">…</span></li>`);
+            }
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(pageBtn(i, String(i), false, i === page));
+            }
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) pages.push(`<li class="page-item disabled"><span class="page-link">…</span></li>`);
+                pages.push(pageBtn(totalPages, String(totalPages)));
+            }
         }
-        
-        
-        paginationHtml += `
-            <li class="page-item ${!hasNext ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="adminDashboard.changePage('${type}', ${page + 1})">Next</a>
-            </li>
+
+        container.innerHTML = `
+            <div class="admin-pager-meta">
+                Showing <strong>${from}–${to}</strong> of <strong>${total}</strong> ${this.escapeHtml(noun)}
+            </div>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <select class="form-select form-select-sm" data-page-size="${type}" aria-label="Rows per page" style="width:auto;min-height:40px">
+                    ${sizes.map(s => `<option value="${s}" ${s === currentLimit ? 'selected' : ''}>${s} / page</option>`).join('')}
+                </select>
+                <nav aria-label="Pagination">
+                    <ul class="pagination pagination-sm mb-0">
+                        ${pageBtn(1, '&laquo;', !hasPrev)}
+                        ${pageBtn(page - 1, 'Prev', !hasPrev)}
+                        ${pages.join('')}
+                        ${pageBtn(page + 1, 'Next', !hasNext)}
+                        ${pageBtn(totalPages || 1, '&raquo;', !hasNext)}
+                    </ul>
+                </nav>
+            </div>
         `;
-        
-        paginationHtml += '</ul></nav>';
-        
-        document.getElementById(`${type}Pagination`).innerHTML = paginationHtml;
+
+        container.querySelectorAll('[data-page-nav]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const next = parseInt(link.getAttribute('data-page'), 10);
+                const disabled = link.closest('.page-item')?.classList.contains('disabled');
+                if (disabled || !Number.isFinite(next)) return;
+                this.changePage(type, next);
+            });
+        });
     }
 
     changePage(type, page) {
         if (page < 1) return;
-        
-        this.currentPage[type] = page;
-        
+        const key = this.pageKey(type);
+        this.currentPage[key] = page;
+
         switch (type) {
             case 'users':
                 this.loadUsers();
@@ -1241,14 +1564,15 @@ class AdminDashboard {
                 this.loadAgents();
                 break;
             case 'jobs':
-                this.loadJobs();
+                this.loadJobs(page);
                 break;
         }
     }
 
     searchUsers() {
-        const search = document.getElementById('userSearch').value.trim();
-        this.filters.users.search = search;
+        const search = document.getElementById('userSearch')?.value.trim() || '';
+        const country = document.getElementById('userCountryFilter')?.value.trim() || '';
+        this.filters.users = { ...this.filters.users, search, country };
         this.currentPage.users = 1;
         this.loadUsers();
     }
@@ -1261,12 +1585,17 @@ class AdminDashboard {
     }
 
     filterUsers() {
-        const userType = document.getElementById('userTypeFilter').value;
-        const isActive = document.getElementById('userStatusFilter').value;
-        
-        this.filters.users = { 
-            user_type: userType, 
-            is_active: isActive
+        const userType = document.getElementById('userTypeFilter')?.value || '';
+        const isActive = document.getElementById('userStatusFilter')?.value || '';
+        const country = document.getElementById('userCountryFilter')?.value.trim() || '';
+        const search = document.getElementById('userSearch')?.value.trim() || this.filters.users.search || '';
+
+        this.filters.users = {
+            ...this.filters.users,
+            search,
+            user_type: userType,
+            is_active: isActive,
+            country
         };
         this.currentPage.users = 1;
         this.loadUsers();

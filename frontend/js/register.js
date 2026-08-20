@@ -317,13 +317,16 @@ class RegistrationForm {
                 user_type: 'job_seeker'
             };
 
-            // Submit registration
+            const payload = typeof window.withClientInfo === 'function'
+                ? window.withClientInfo(registrationData)
+                : registrationData;
+
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(registrationData)
+                body: JSON.stringify(payload)
             });
 
             const result = await response.json();

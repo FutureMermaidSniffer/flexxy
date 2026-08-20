@@ -232,14 +232,14 @@ class StatisticsPage {
     
     async createUserAccount(wizardData) {
         
-        const userData = {
+        const userData = (typeof window.withClientInfo === 'function' ? window.withClientInfo : (d) => d)({
             email: `user_${Date.now()}@temp.flexjobs.com`, 
             password: 'temp_password_123', 
             user_type: 'job_seeker',
             preferences: wizardData,
             is_temp_account: true,
             created_via_wizard: true
-        };
+        });
         
         
         const response = await fetch('/api/auth/register', {

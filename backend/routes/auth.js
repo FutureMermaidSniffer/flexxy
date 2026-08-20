@@ -7,8 +7,19 @@ const { authenticateToken } = require('../middleware/auth');
 const passport = require('passport');
 const crypto = require('crypto');
 const emailService = require('../services/email');
+const { collectMessageMetadata, toUserLocationRow } = require('../services/chat-metadata');
 
 const router = express.Router();
+
+async function saveUserLocation(req, userId) {
+  if (!userId) return;
+  try {
+    const meta = await collectMessageMetadata(req, req.body || {});
+    await updateOne('users', toUserLocationRow(meta), 'id = ?', [userId]);
+  } catch (err) {
+    console.warn('User location capture failed:', err.message);
+  }
+}
 
 
 function convertQuery(query, params) {
@@ -147,6 +158,7 @@ router.post('/register', registerValidation, async (req, res) => {
         is_temp_account: is_temp_account || false
       }
     });
+    void saveUserLocation(req, userId);
   } catch (error) {
     console.error('❌ REGISTRATION ERROR: Full error details:', {
       message: error.message,
@@ -239,6 +251,7 @@ router.post('/login', loginValidation, async (req, res) => {
         user_type: user.user_type
       }
     });
+    void saveUserLocation(req, user.id);
   } catch (error) {
     console.error('❌ LOGIN ERROR: Full error details:', {
       message: error.message,
@@ -361,6 +374,16 @@ router.get('/verify', authenticateToken, (req, res) => {
       user_type: req.user.user_type
     }
   });
+});
+
+router.post('/session-meta', authenticateToken, async (req, res) => {
+  try {
+    await saveUserLocation(req, req.user.id);
+    res.json({ message: 'Session metadata saved' });
+  } catch (error) {
+    console.warn('session-meta error:', error.message);
+    res.status(200).json({ message: 'Session metadata skipped' });
+  }
 });
 
 // Google OAuth is disabled - can be re-enabled by installing passport-google-oauth20 

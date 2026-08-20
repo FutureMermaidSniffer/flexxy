@@ -5,9 +5,30 @@ const { executeQuery, getOne, getMany, insertOne, updateOne, deleteOne } = requi
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
 const siteConfig = require('../config/site');
 
-
 router.use(authenticateToken);
 router.use(requireAdmin);
+
+function parsePagination(query, defaultLimit = 25) {
+    const page = Math.max(1, parseInt(query.page, 10) || 1);
+    let limit = parseInt(query.limit, 10);
+    if (!Number.isFinite(limit) || limit < 1) limit = defaultLimit;
+    limit = Math.min(100, limit);
+    return { page, limit, offset: (page - 1) * limit };
+}
+
+function paginationMeta(page, limit, total) {
+    const safeTotal = Number.isFinite(total) ? total : 0;
+    const totalPages = safeTotal === 0 ? 0 : Math.ceil(safeTotal / limit);
+    return {
+        page,
+        limit,
+        total: safeTotal,
+        pages: totalPages,
+        totalPages,
+        hasNext: totalPages > 0 && page < totalPages,
+        hasPrev: page > 1
+    };
+}
 
 
 router.get('/stats', async (req, res) => {
@@ -85,59 +106,59 @@ router.get('/stats', async (req, res) => {
 
 router.get('/users', async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = (page - 1) * limit;
-        const search = req.query.search || '';
-        const userType = req.query.user_type || '';
+        const { page, limit, offset } = parsePagination(req.query);
+        const search = (req.query.search || '').trim();
+        const userType = (req.query.user_type || '').trim();
         const isActive = req.query.is_active || '';
         const createdViaWizard = req.query.created_via_wizard || '';
+        const country = (req.query.country || '').trim();
 
         let query = `SELECT id, email, first_name, last_name, CONCAT(first_name, ' ', last_name) as full_name, user_type, 
-                            is_active, email_verified, created_at, created_via_wizard, wizard_completed_at,
-                            work_type_preference, salary_preference, location_preference, job_preference,
-                            experience_level_preference, education_level_preference, benefit_preferences FROM users`;
+                            is_active, email_verified, created_at,
+                            last_ip, last_country, last_region, last_city, last_lat, last_lng,
+                            last_device_type, last_os, last_browser, last_user_agent,
+                            last_client_metadata, last_seen_at FROM users`;
         let countQuery = 'SELECT COUNT(*) as total FROM users';
         let whereConditions = [];
         let params = [];
 
-        // Add search condition
         if (search) {
             whereConditions.push(`(email ILIKE $${params.length + 1} OR first_name ILIKE $${params.length + 1} OR last_name ILIKE $${params.length + 1})`);
             params.push(`%${search}%`);
         }
 
-        // Add user type filter
         if (userType) {
             whereConditions.push(`user_type = $${params.length + 1}`);
             params.push(userType);
         }
 
-        // Add active status filter
-        if (isActive !== '') {
+        if (isActive === 'true' || isActive === 'false') {
             whereConditions.push(`is_active = $${params.length + 1}`);
             params.push(isActive === 'true');
         }
 
-        // Add wizard created filter
-        if (createdViaWizard !== '') {
+        if (createdViaWizard === 'true' || createdViaWizard === 'false') {
             whereConditions.push(`created_via_wizard = $${params.length + 1}`);
             params.push(createdViaWizard === 'true');
         }
 
-        // Build WHERE clause
+        if (country) {
+            whereConditions.push(`last_country ILIKE $${params.length + 1}`);
+            params.push(`%${country}%`);
+        }
+
         if (whereConditions.length > 0) {
             const whereClause = ` WHERE ${whereConditions.join(' AND ')}`;
             query += whereClause;
             countQuery += whereClause;
         }
 
-        query += ` ORDER BY created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+        query += ` ORDER BY created_at DESC, id DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
         params.push(limit, offset);
 
         const [usersResult, countResult] = await Promise.all([
             executeQuery(query, params),
-            executeQuery(countQuery, params.slice(0, -2)) // Remove limit and offset for count query
+            executeQuery(countQuery, params.slice(0, -2))
         ]);
 
         const users = usersResult;
@@ -147,12 +168,7 @@ router.get('/users', async (req, res) => {
             message: 'Users retrieved successfully',
             data: {
                 users,
-                pagination: {
-                    page,
-                    limit,
-                    total,
-                    pages: Math.ceil(total / limit)
-                }
+                pagination: paginationMeta(page, limit, total)
             }
         });
 
@@ -178,7 +194,10 @@ router.get('/users/:id/wizard-progress', async (req, res) => {
             SELECT id, email, first_name, last_name, user_type, created_via_wizard, 
                    wizard_completed_at, work_type_preference, salary_preference, 
                    location_preference, job_preference, experience_level_preference,
-                   education_level_preference, benefit_preferences, created_at
+                   education_level_preference, benefit_preferences, created_at,
+                   last_ip, last_country, last_region, last_city, last_lat, last_lng,
+                   last_device_type, last_os, last_browser, last_user_agent,
+                   last_client_metadata, last_seen_at
             FROM users 
             WHERE id = $1
         `;
@@ -208,9 +227,7 @@ router.get('/users/:id/wizard-progress', async (req, res) => {
 // Get profile form submissions
 router.get('/profile-forms', async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = (page - 1) * limit;
+        const { page, limit, offset } = parsePagination(req.query);
         const search = req.query.search || '';
         const agentFilter = req.query.agent || '';
         const dateFilter = req.query.date || '';
@@ -328,12 +345,7 @@ router.get('/profile-forms', async (req, res) => {
             message: 'Profile forms retrieved successfully',
             data: {
                 forms: processedForms,
-                pagination: {
-                    page,
-                    limit,
-                    total,
-                    pages: Math.ceil(total / limit)
-                }
+                pagination: paginationMeta(page, limit, total)
             }
         });
 
@@ -514,9 +526,7 @@ router.get('/profile-forms/:id', async (req, res) => {
 
 router.get('/jobs', async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = (page - 1) * limit;
+        const { page, limit, offset } = parsePagination(req.query, 10);
         const search = req.query.search || '';
 
         let query = `SELECT j.id, j.title, c.name as company_name, j.location, j.salary_min, j.salary_max, 
@@ -547,12 +557,7 @@ router.get('/jobs', async (req, res) => {
             message: 'Jobs retrieved successfully',
             data: {
                 jobs,
-                pagination: {
-                    page,
-                    limit,
-                    total,
-                    pages: Math.ceil(total / limit)
-                }
+                pagination: paginationMeta(page, limit, total)
             }
         });
 
@@ -568,9 +573,7 @@ router.get('/jobs', async (req, res) => {
 
 router.get('/agents', async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = (page - 1) * limit;
+        const { page, limit, offset } = parsePagination(req.query);
         const search = req.query.search || '';
 
         let query = `
@@ -611,12 +614,7 @@ router.get('/agents', async (req, res) => {
             message: 'Agents retrieved successfully',
             data: {
                 agents,
-                pagination: {
-                    page,
-                    limit,
-                    total,
-                    pages: Math.ceil(total / limit)
-                }
+                pagination: paginationMeta(page, limit, total)
             }
         });
 
@@ -629,6 +627,38 @@ router.get('/agents', async (req, res) => {
     }
 });
 
+
+router.put('/users/:id/toggle-status', async (req, res) => {
+    try {
+        const userId = parseInt(req.params.id, 10);
+        if (isNaN(userId)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+
+        if (req.user && Number(req.user.id) === userId) {
+            return res.status(400).json({ message: 'You cannot change your own account status' });
+        }
+
+        const user = await getOne('SELECT id, is_active FROM users WHERE id = $1', [userId]);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const newStatus = !user.is_active;
+        await executeQuery('UPDATE users SET is_active = $1 WHERE id = $2', [newStatus, userId]);
+
+        res.json({
+            message: `User ${newStatus ? 'activated' : 'deactivated'} successfully`,
+            is_active: newStatus
+        });
+    } catch (error) {
+        console.error('Error toggling user status:', error);
+        res.status(500).json({
+            message: 'Error toggling user status',
+            error: error.message
+        });
+    }
+});
 
 router.delete('/users/:id', async (req, res) => {
     try {
