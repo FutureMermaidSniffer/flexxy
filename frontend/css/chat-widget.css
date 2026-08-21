@@ -114,6 +114,11 @@
     gap: 10px;
 }
 
+.fj-chat-header h3,
+.fj-chat-header .fj-chat-subtitle {
+    color: #fff !important;
+}
+
 .fj-chat-header-avatar {
     width: 40px;
     height: 40px;
@@ -130,12 +135,14 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
+    color: #fff !important;
 }
 
 .fj-chat-header .fj-chat-subtitle {
     margin: 2px 0 0;
     font-size: 0.75rem;
-    opacity: 0.9;
+    opacity: 0.92;
+    color: #fff !important;
 }
 
 .fj-chat-header-actions {
@@ -180,19 +187,19 @@
 .fj-chat-messages {
     flex: 1;
     overflow-y: auto;
-    padding: 14px;
+    padding: 10px;
     background: #f5f7fb;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
 }
 
 .fj-chat-msg {
     max-width: 85%;
-    padding: 10px 12px;
-    border-radius: 14px;
-    font-size: 0.9rem;
-    line-height: 1.4;
+    padding: 5px 9px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    line-height: 1.35;
     white-space: pre-wrap;
     word-break: break-word;
 }
@@ -222,9 +229,10 @@
 }
 
 .fj-chat-msg-meta {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     opacity: 0.75;
-    margin-bottom: 4px;
+    margin-bottom: 1px;
+    line-height: 1.2;
 }
 
 .fj-chat-empty,

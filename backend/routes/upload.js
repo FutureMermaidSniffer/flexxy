@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
-const { authenticateToken } = require('../middleware/auth');
+const { authenticateToken, requireAdmin } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -49,6 +49,61 @@ const upload = multer({
     limits: {
         fileSize: 5 * 1024 * 1024, // 5MB limit
         files: 1 // Only one file at a time
+    }
+});
+
+const agentImageDir = path.join(__dirname, '../../uploads/agents');
+if (!fs.existsSync(agentImageDir)) {
+    fs.mkdirSync(agentImageDir, { recursive: true });
+}
+
+const agentImageStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, agentImageDir);
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = crypto.randomBytes(12).toString('hex');
+        const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
+        const baseName = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9]/g, '_').slice(0, 40);
+        cb(null, `${baseName}_${uniqueSuffix}${ext}`);
+    }
+});
+
+const agentImageUpload = multer({
+    storage: agentImageStorage,
+    fileFilter: (req, file, cb) => {
+        const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        if (allowed.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid image type. Use JPG, PNG, WEBP, or GIF.'), false);
+        }
+    },
+    limits: { fileSize: 5 * 1024 * 1024, files: 1 }
+});
+
+router.post('/agent-image', authenticateToken, requireAdmin, agentImageUpload.single('image'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({
+                message: 'No image uploaded',
+                type: 'error'
+            });
+        }
+        const filePath = `/uploads/agents/${req.file.filename}`;
+        res.json({
+            message: 'Agent image uploaded',
+            filePath,
+            originalName: req.file.originalname,
+            size: req.file.size,
+            type: 'success'
+        });
+    } catch (error) {
+        console.error('Agent image upload error:', error);
+        res.status(500).json({
+            message: 'Image upload failed',
+            type: 'error'
+        });
     }
 });
 
@@ -134,7 +189,7 @@ router.use((error, req, res, next) => {
         }
     }
     
-    if (error.message === 'Invalid file type. Only PDF, DOC, and DOCX files are allowed.') {
+    if (error.message && error.message.startsWith('Invalid')) {
         return res.status(400).json({
             message: error.message,
             type: 'error'

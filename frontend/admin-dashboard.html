@@ -183,61 +183,65 @@
 
                 <!-- Profile Forms Section -->
                 <div id="profile-forms-section" class="content-section" style="display: none;">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Profile Form Submissions</h1>
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="input-group me-2">
+                    <div class="admin-section-head">
+                        <div>
+                            <h1>Profile forms</h1>
+                            <p>Open a row for experience, agent, resume, and submitted time</p>
+                        </div>
+                        <div class="btn-toolbar">
+                            <div class="input-group input-group-sm me-2">
                                 <input type="text" class="form-control" id="profileFormSearch" placeholder="Search by name or email...">
                                 <button class="btn btn-outline-secondary" type="button" data-action="search-profile-forms">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
-                            <button class="btn btn-primary" data-action="export-profile-forms">
+                            <button class="btn btn-sm btn-primary" data-action="export-profile-forms">
                                 <i class="fas fa-download me-1"></i>Export CSV
                             </button>
                         </div>
                     </div>
 
                     <!-- Filters -->
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            <select class="form-select" id="profileFormAgentFilter" data-action="filter-profile-forms">
+                    <div class="row g-2 mb-3">
+                        <div class="col-6 col-md-3">
+                            <select class="form-select form-select-sm" id="profileFormAgentFilter" data-action="filter-profile-forms">
                                 <option value="">All Agents</option>
                                 <!-- Options will be loaded dynamically -->
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <select class="form-select" id="profileFormCompletionFilter" data-action="filter-profile-forms">
+                        <div class="col-6 col-md-3">
+                            <select class="form-select form-select-sm" id="profileFormCompletionFilter" data-action="filter-profile-forms">
                                 <option value="">All Submissions</option>
                                 <option value="complete">Complete Profiles</option>
                                 <option value="incomplete">Incomplete Profiles</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <select class="form-select" id="profileFormDateFilter" data-action="filter-profile-forms">
+                        <div class="col-6 col-md-3">
+                            <select class="form-select form-select-sm" id="profileFormDateFilter" data-action="filter-profile-forms">
                                 <option value="">All Time</option>
                                 <option value="today">Today</option>
                                 <option value="week">This Week</option>
                                 <option value="month">This Month</option>
                             </select>
                         </div>
+                        <div class="col-6 col-md-3">
+                            <select class="form-select form-select-sm" id="profileFormSort" data-action="filter-profile-forms">
+                                <option value="newest">Newest first</option>
+                                <option value="oldest">Oldest first</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="card admin-card">
-                        <div class="card-body">
+                        <div class="card-body p-2">
                             <div class="table-responsive admin-table-wrap">
-                                <table class="table">
+                                <table class="table table-sm align-middle">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Email</th>
+                                            <th>Applicant</th>
                                             <th>Phone</th>
                                             <th>Location</th>
-                                            <th>Experience</th>
-                                            <th>Selected Agent</th>
-                                            <th>Resume</th>
-                                            <th>Submitted</th>
-                                            <th>Actions</th>
+                                            <th class="text-end">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="profileFormsTableBody">
@@ -563,57 +567,49 @@
                     </div>
                 </div>
 
-                <div id="messages-section" class="content-section" style="display: none;">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Messages</h1>
+                <div id="messages-section" class="content-section admin-messages" style="display: none;">
+                    <div class="admin-messages-toolbar">
+                        <h1 class="h5 mb-0">Messages</h1>
                         <button type="button" class="btn btn-sm btn-outline-secondary" id="adminChatRefreshBtn">
                             <i class="fas fa-sync-alt me-1"></i>Refresh
                         </button>
                     </div>
 
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-4">
-                            <div class="input-group input-group-sm">
-                                <input type="search" class="form-control" id="adminChatSearch" placeholder="Search name or email...">
-                                <button class="btn btn-outline-secondary" type="button" id="adminChatSearchBtn">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+                    <div class="admin-messages-filters">
+                        <div class="input-group input-group-sm">
+                            <input type="search" class="form-control" id="adminChatSearch" placeholder="Search name or email...">
+                            <button class="btn btn-outline-secondary" type="button" id="adminChatSearchBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
-                        <div class="col-md-3">
-                            <select class="form-select form-select-sm" id="adminChatStatusFilter">
-                                <option value="">All statuses</option>
-                                <option value="open">Open</option>
-                                <option value="pending">Pending</option>
-                                <option value="closed">Closed</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select form-select-sm" id="adminChatParticipantFilter">
-                                <option value="">All participants</option>
-                                <option value="registered">Registered users</option>
-                                <option value="guest">Guests</option>
-                            </select>
-                        </div>
+                        <select class="form-select form-select-sm" id="adminChatStatusFilter">
+                            <option value="">All statuses</option>
+                            <option value="open">Open</option>
+                            <option value="pending">Pending</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                        <select class="form-select form-select-sm" id="adminChatParticipantFilter">
+                            <option value="">All participants</option>
+                            <option value="registered">Registered users</option>
+                            <option value="guest">Guests</option>
+                        </select>
                     </div>
 
-                    <div class="row g-0 border rounded overflow-hidden bg-white" style="min-height: 520px;">
-                        <div class="col-md-4 col-lg-3 border-end">
-                            <div class="list-group list-group-flush admin-chat-list" id="adminChatConversationList" style="max-height: 560px; overflow-y: auto;">
-                                <div class="text-center text-muted p-4">Loading…</div>
-                            </div>
+                    <div class="admin-messages-panes">
+                        <div class="admin-messages-list list-group list-group-flush admin-chat-list" id="adminChatConversationList">
+                            <div class="text-center text-muted p-4">Loading…</div>
                         </div>
-                        <div class="col-md-5 col-lg-6 d-flex flex-column" style="min-height: 520px;">
-                            <div id="adminChatEmptyState" class="flex-grow-1 d-flex align-items-center justify-content-center text-muted p-4">
-                                <div class="text-center">
-                                    <i class="fas fa-inbox fa-3x mb-3 opacity-50"></i>
+                        <div class="admin-messages-thread">
+                            <div id="adminChatEmptyState" class="admin-messages-empty">
+                                <div class="text-center text-muted">
+                                    <i class="fas fa-inbox fa-2x mb-2 d-block opacity-50"></i>
                                     <p class="mb-0">Select a conversation or message a user from the Users tab</p>
                                 </div>
                             </div>
-                            <div id="adminChatThread" class="d-none d-flex flex-column flex-grow-1" style="min-height: 520px;">
-                                <div id="adminChatThreadHeader" class="p-3 border-bottom bg-light"></div>
-                                <div id="adminChatMessages" class="flex-grow-1 p-3 bg-body-tertiary" style="overflow-y: auto; max-height: 380px; min-height: 280px;"></div>
-                                <div class="p-3 border-top">
+                            <div id="adminChatThread" class="admin-messages-thread-inner d-none">
+                                <div id="adminChatThreadHeader" class="admin-messages-thread-header"></div>
+                                <div id="adminChatMessages" class="admin-messages-thread-body"></div>
+                                <div class="admin-messages-composer">
                                     <div class="input-group">
                                         <textarea class="form-control" id="adminChatReplyInput" rows="2" placeholder="Type a reply… (Enter to send, Shift+Enter for new line)"></textarea>
                                         <button class="btn btn-primary" type="button" id="adminChatSendBtn">
@@ -623,7 +619,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 col-lg-3 border-start p-2" id="adminChatMetaPanel">
+                        <div class="admin-messages-meta" id="adminChatMetaPanel">
                             <div class="text-muted small p-3">Client location and device details appear when you open a conversation.</div>
                         </div>
                     </div>
@@ -748,8 +744,13 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="avatarUrl" class="form-label">Avatar URL</label>
-                                    <input type="url" class="form-control" id="avatarUrl" placeholder="https://example.com/avatar.jpg">
+                                    <label class="form-label" for="agentImage">Agent image</label>
+                                    <input type="file" class="form-control" id="agentImage" accept="image/jpeg,image/png,image/webp,image/gif">
+                                    <input type="hidden" id="avatarUrl">
+                                    <div class="d-flex align-items-center gap-2 mt-2">
+                                        <img id="agentImagePreview" alt="" class="rounded-circle d-none" width="56" height="56" style="object-fit:cover">
+                                        <small class="text-muted">JPG, PNG, or WEBP. Max 5MB.</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -845,7 +846,7 @@
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" id="isActive" checked>
                                     <label class="form-check-label" for="isActive">
-                                        Active Agent
+                                        Available
                                     </label>
                                 </div>
                             </div>
@@ -954,8 +955,13 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="editAvatarUrl" class="form-label">Avatar URL</label>
-                                    <input type="url" class="form-control" id="editAvatarUrl" placeholder="https://example.com/avatar.jpg">
+                                    <label class="form-label" for="editAgentImage">Agent image</label>
+                                    <input type="file" class="form-control" id="editAgentImage" accept="image/jpeg,image/png,image/webp,image/gif">
+                                    <input type="hidden" id="editAvatarUrl">
+                                    <div class="d-flex align-items-center gap-2 mt-2">
+                                        <img id="editAgentImagePreview" alt="" class="rounded-circle d-none" width="56" height="56" style="object-fit:cover">
+                                        <small class="text-muted">Upload a new photo to replace the current one.</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1051,7 +1057,7 @@
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" id="editIsActive">
                                     <label class="form-check-label" for="editIsActive">
-                                        Active Agent
+                                        Available
                                     </label>
                                 </div>
                             </div>

@@ -110,7 +110,7 @@ class AgentsManager {
         try {
             this.showLoading(true);
             
-            const response = await fetch('/api/agents');
+            const response = await fetch('/api/agents?limit=100');
             const data = await response.json();
             
             if (response.ok) {

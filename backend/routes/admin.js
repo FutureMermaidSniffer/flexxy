@@ -344,7 +344,8 @@ router.get('/profile-forms', async (req, res) => {
             }
         }
 
-        query += ` ORDER BY ps.created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+        const sortDir = req.query.sort === 'oldest' ? 'ASC' : 'DESC';
+        query += ` ORDER BY ps.created_at ${sortDir} LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
         params.push(limit, offset);
 
         const [formsResult, countResult] = await Promise.all([
@@ -898,7 +899,7 @@ router.post('/agents', [
             try {
                 const created = await executeQuery(
                     `INSERT INTO users (email, first_name, last_name, user_type, password, is_active, email_verified)
-                     VALUES ($1, $2, $3, 'agent', $4, true, true) RETURNING id`,
+                     VALUES ($1, $2, $3, 'job_seeker', $4, true, true) RETURNING id`,
                     [email, firstName, lastName, hashed]
                 );
                 userId = created[0].id;
@@ -1027,8 +1028,9 @@ router.put('/agents/:id', [
 
         const userId = agentCheck[0].user_id;
 
-        
-        await executeQuery('UPDATE users SET email = $1 WHERE id = $2', [email, userId]);
+        if (userId) {
+            await executeQuery('UPDATE users SET email = $1 WHERE id = $2', [email, userId]);
+        }
 
         
         const updateQuery = `
@@ -1178,11 +1180,15 @@ router.get('/analytics', async (req, res) => {
         const location = (req.query.location || '').trim();
 
         const registrations = await executeQuery(
-            `SELECT created_at::date AS day, COUNT(*)::int AS count
-             FROM users
-             WHERE created_at >= CURRENT_DATE - ($1::int - 1) * INTERVAL '1 day'
-             GROUP BY created_at::date
-             ORDER BY day ASC`,
+            `SELECT to_char(d.day, 'YYYY-MM-DD') AS day, COUNT(u.id)::int AS count
+             FROM generate_series(
+                    CURRENT_DATE - ($1::int - 1) * INTERVAL '1 day',
+                    CURRENT_DATE,
+                    INTERVAL '1 day'
+                  ) AS d(day)
+             LEFT JOIN users u ON u.created_at::date = d.day::date
+             GROUP BY d.day
+             ORDER BY d.day ASC`,
             [days]
         );
 
@@ -1248,15 +1254,17 @@ router.get('/analytics', async (req, res) => {
         const currentCountryCount = currentRegs?.count || 0;
         const previousCountryCount = previousRegs?.count || 0;
 
-        const seriesMap = new Map((registrations || []).map((r) => [String(r.day).slice(0, 10), Number(r.count) || 0]));
-        const series = [];
-        for (let i = days - 1; i >= 0; i--) {
-            const d = new Date();
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() - i);
-            const key = d.toISOString().slice(0, 10);
-            series.push({ day: key, count: seriesMap.get(key) || 0 });
-        }
+        const series = (registrations || []).map((r) => {
+            const raw = r.day;
+            let day = '';
+            if (raw instanceof Date && !Number.isNaN(raw.getTime())) {
+                day = raw.toISOString().slice(0, 10);
+            } else {
+                const match = String(raw || '').match(/^(\d{4}-\d{2}-\d{2})/);
+                day = match ? match[1] : String(raw || '').slice(0, 10);
+            }
+            return { day, count: Number(r.count) || 0 };
+        });
 
         res.json({
             message: 'Analytics retrieved successfully',

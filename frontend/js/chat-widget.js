@@ -112,9 +112,30 @@
         return info;
     }
 
+    let notifyAudioCtx = null;
+
+    function unlockNotificationAudio() {
+        try {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!Ctx) return;
+            if (!notifyAudioCtx) notifyAudioCtx = new Ctx();
+            if (notifyAudioCtx.state === 'suspended') {
+                notifyAudioCtx.resume().catch(() => {});
+            }
+        } catch {
+            /* audio not available */
+        }
+    }
+
     function playNotificationSound() {
         try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!Ctx) return;
+            if (!notifyAudioCtx) notifyAudioCtx = new Ctx();
+            const ctx = notifyAudioCtx;
+            if (ctx.state === 'suspended') {
+                ctx.resume().catch(() => {});
+            }
             [
                 [587.33, 0],
                 [880.0, 0.14]
@@ -226,6 +247,7 @@
         }
 
         bindEvents() {
+            document.addEventListener('pointerdown', unlockNotificationAudio, { once: true });
             document.getElementById('fjChatFab')?.addEventListener('click', () => this.toggle());
             document.getElementById('fjChatClose')?.addEventListener('click', () => this.close());
             document.getElementById('fjChatSend')?.addEventListener('click', () => this.send());
@@ -482,7 +504,7 @@
                 if (this.open) await this.markRead();
             }
 
-            if (!this.open && newAdmin.length) {
+            if (newAdmin.length && !full) {
                 playNotificationSound();
             }
 

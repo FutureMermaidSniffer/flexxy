@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="components/main-header/main-header.css">
     
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pages/agents.css">
     <link rel="stylesheet" href="components/main-footer/main-footer.css">
     <script src="/js/i18n.js"></script>
 </head>
@@ -25,12 +26,23 @@
     
     <main>
         
-        <section class="hero-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto text-center">
-                        <h1 class="hero-title" style="color: white !important;">Find Your Career Agent</h1>
-                        <p class="hero-subtitle" style="color: white !important">Connect with expert career coaches to accelerate your professional journey</p>
+        <section class="agents-hero">
+            <div class="agents-hero-inner container">
+                <div class="row align-items-center g-4 g-lg-5">
+                    <div class="col-lg-7">
+                        <p class="agents-hero-kicker">Career specialists</p>
+                        <h1 class="agents-hero-title">The right agent<br>changes the search.</h1>
+                        <p class="agents-hero-lead">Meet the FlexJobs specialists who know remote hiring, the roles that fit, and how to get you in front of the right teams.</p>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="agents-hero-portraits" aria-hidden="true">
+                            <img src="/images/agents/Sophie.png" alt="">
+                            <img src="/images/agents/Daniel.jpg" alt="">
+                            <img src="/images/agents/Naomi.png" alt="">
+                            <img src="/images/agents/Isha.jpg" alt="">
+                            <img src="/images/agents/Olivia.png" alt="">
+                            <img src="/images/agents/mo_agents/Maureen.jpeg" alt="">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,160 +184,5 @@
     <script src="js/auth.js"></script>
     
     <script src="js/agents.js"></script>
-
-    <style>
-        .agents-page {
-            background-color: #f8f9fa;
-        }
-
-        .hero-section {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-
-        .hero-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .filters-section {
-            padding: 2rem 0;
-            background: white;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .filters-card {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 1px solid #e9ecef;
-        }
-
-        .agents-section {
-            padding: 2rem 0;
-        }
-
-        .agent-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .agent-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .agent-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #fff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .agent-rating {
-            color: #ffc107;
-        }
-
-        .verification-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #28a745;
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .featured-badge {
-            background: #6366f1;
-        }
-
-        .specialty-tag {
-            background: #e9ecef;
-            color: #495057;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            margin: 0.125rem;
-            display: inline-block;
-        }
-
-        .agent-card-list {
-            display: flex;
-            align-items: center;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .agent-card-list .agent-avatar {
-            width: 60px;
-            height: 60px;
-            margin-right: 1rem;
-        }
-
-        .view-toggle .btn {
-            border-color: #6366f1;
-            color: #6366f1;
-        }
-
-        .view-toggle .btn:hover,
-        .view-toggle .btn.active {
-            background-color: #6366f1;
-            border-color: #6366f1;
-            color: white;
-        }
-
-        .pagination .page-link {
-            color: #6366f1;
-            border-color: #6366f1;
-        }
-
-        .pagination .page-item.active .page-link {
-            background-color: #6366f1;
-            border-color: #6366f1;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .filters-card {
-                padding: 1rem;
-            }
-
-            .view-toggle {
-                width: 100%;
-                margin-top: 1rem;
-            }
-
-            .agent-card-list {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .agent-card-list .agent-avatar {
-                margin-right: 0;
-                margin-bottom: 1rem;
-            }
-        }
-    </style>
 </body>
 </html>

@@ -14,10 +14,8 @@ function convertQuery(query, params) {
   let convertedParams = [...params];
   
   // Convert ? placeholders to $1, $2, etc. for PostgreSQL
-  if (process.env.DB_TYPE === 'postgres') {
-    let paramIndex = 1;
-    convertedQuery = query.replace(/\?/g, () => `$${paramIndex++}`);
-  }
+  let paramIndex = 1;
+  convertedQuery = query.replace(/\?/g, () => `$${paramIndex++}`);
   
   return { query: convertedQuery, params: convertedParams };
 }
@@ -41,11 +39,10 @@ router.get('/search/suggestions', async (req, res) => {
         a.rating,
         a.specializations
       FROM agents a
-      WHERE a.is_active = TRUE 
-        AND (
+      WHERE (
           a.agent_name ILIKE $1 OR 
           a.display_name ILIKE $1 OR
-          a.specializations ILIKE $1 OR
+          CAST(a.specializations AS TEXT) ILIKE $1 OR
           a.location ILIKE $1
         )
       ORDER BY 
@@ -96,7 +93,7 @@ router.get('/', async (req, res) => {
   try {
     const {
       page = 1,
-      limit = 20,
+      limit = 100,
       search,
       specialization,
       min_rating,
@@ -104,12 +101,19 @@ router.get('/', async (req, res) => {
       availability,
       featured,
       sort_by = 'rating',
-      sort_order = 'desc'
+      sort_order = 'desc',
+      is_active
     } = req.query;
 
     const offset = (parseInt(page) - 1) * parseInt(limit);
-    let whereConditions = ['a.is_active = TRUE'];
+    // Admin roster is the public source of truth. Only hide a row when
+    // the client explicitly asks for active/inactive.
+    let whereConditions = [];
     let queryParams = [];
+    if (is_active === 'true' || is_active === 'false') {
+      whereConditions.push('a.is_active = ?');
+      queryParams.push(is_active === 'true');
+    }
 
     // Search functionality
     if (search) {
@@ -148,6 +152,7 @@ router.get('/', async (req, res) => {
     const sortDirection = validSortOrders.includes(sort_order.toLowerCase()) ? sort_order.toUpperCase() : 'DESC';
 
     const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : '';
+    const orderClause = `ORDER BY a.is_featured DESC, a.is_active DESC, a.${sortField} ${sortDirection}, a.agent_name ASC`;
 
     // Count query - get total number of matching agents
     const countQuery = 'SELECT COUNT(*) as total FROM agents a ' + whereClause;
@@ -157,7 +162,7 @@ router.get('/', async (req, res) => {
     const total = countResult.total;
 
     // Main query - FIXED: Use LEFT JOIN to include agents without user_id
-    const agentsQuery = 'SELECT a.id, a.agent_name, a.display_name, a.bio, a.specializations, a.rating, a.total_reviews, a.currency, a.languages, a.skills, a.location, a.timezone, a.avatar_url, a.is_featured, a.created_at, u.first_name, u.last_name, u.email FROM agents a LEFT JOIN users u ON a.user_id = u.id ' + whereClause + ' ORDER BY a.' + sortField + ' ' + sortDirection + ' LIMIT ? OFFSET ?';
+    const agentsQuery = 'SELECT a.id, a.agent_name, a.display_name, a.bio, a.specializations, a.rating, a.total_reviews, a.currency, a.languages, a.skills, a.location, a.timezone, a.avatar_url, a.is_featured, a.is_active, a.created_at, u.first_name, u.last_name, u.email FROM agents a LEFT JOIN users u ON a.user_id = u.id ' + whereClause + ' ' + orderClause + ' LIMIT ? OFFSET ?';
 
     queryParams.push(parseInt(limit), offset);
     const { query: convertedAgentsQuery, params: convertedAgentsParams } = convertQuery(agentsQuery, queryParams);
@@ -224,7 +229,7 @@ router.get('/:id', async (req, res) => {
         u.first_name, u.last_name, u.email
       FROM agents a
       LEFT JOIN users u ON a.user_id = u.id
-      WHERE a.id = ? AND a.is_active = TRUE
+      WHERE a.id = ?
     `;
     
     const { query: convertedQuery, params: convertedParams } = convertQuery(agentQuery, [id]);

@@ -304,6 +304,7 @@ app.use('/js', express.static(path.join(__dirname, 'frontend', 'js'), {
 }));
 
 app.use(express.static(path.join(__dirname, 'frontend')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health check endpoint
 app.get('/health', (req, res) => {

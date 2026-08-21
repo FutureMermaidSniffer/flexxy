@@ -345,11 +345,14 @@ class AdminDashboard {
             sec.style.display = 'none';
         });
 
-        document.getElementById(`${section}-section`).style.display = 'block';
+        const nextSection = document.getElementById(`${section}-section`);
+        nextSection.style.display = section === 'messages' ? 'flex' : 'block';
         this.currentSection = section;
         const title = document.getElementById('adminPageTitle');
         if (title) title.textContent = this.sectionTitles[section] || 'Admin';
-        document.getElementById('adminShell')?.classList.remove('is-nav-open');
+        const shell = document.getElementById('adminShell');
+        shell?.classList.remove('is-nav-open');
+        shell?.classList.toggle('is-messages', section === 'messages');
         this.writeLocationHash();
 
         switch (section) {
@@ -370,6 +373,9 @@ class AdminDashboard {
                 break;
             case 'analytics':
                 this.loadAnalytics();
+                break;
+            case 'messages':
+                this.adminChat?.activate();
                 break;
         }
     }
@@ -1235,50 +1241,41 @@ class AdminDashboard {
     }
 
     renderProfileFormsTable(forms) {
-        const tableHtml = forms.map(form => `
+        const body = document.getElementById('profileFormsTableBody');
+        if (!body) return;
+        if (!forms.length) {
+            body.innerHTML = `<tr><td colspan="4">
+                <div class="admin-empty">
+                    <div class="admin-empty-icon"><i class="fas fa-user-pen"></i></div>
+                    <h2 class="h6 mb-1">No profile forms found</h2>
+                    <p class="mb-0">Try a different search or filter.</p>
+                </div>
+            </td></tr>`;
+            return;
+        }
+        const tableHtml = forms.map(form => {
+            const name = `${form.first_name || ''} ${form.last_name || ''}`.trim() || '—';
+            return `
             <tr>
-                <td>${form.first_name} ${form.last_name}</td>
-                <td>${form.email}</td>
-                <td>${form.phone || 'N/A'}</td>
-                <td>${form.location || 'N/A'}</td>
                 <td>
-                    <span class="badge bg-${this.getExperienceColor(form.experience_level)}">
-                        ${form.experience_level || 'N/A'}
-                    </span>
-                </td>
-                <td>
-                    ${form.selected_agent_name ? 
-                        `<span class="badge bg-info">${form.selected_agent_name}</span>` : 
-                        '<span class="text-muted">None</span>'
-                    }
-                </td>
-                <td>
-                    ${form.resume_path ? 
-                        `<a href="${form.resume_path}" target="_blank" class="btn btn-sm btn-outline-primary">
-                            <i class="fas fa-file-pdf"></i>
-                        </a>` : 
-                        '<span class="text-muted">None</span>'
-                    }
-                </td>
-                <td>
-                    <small>${new Date(form.updated_at).toLocaleDateString()}</small>
-                    <br>
-                    <span class="badge bg-${form.is_complete ? 'success' : 'warning'}">
-                        ${form.is_complete ? 'Complete' : 'Incomplete'}
-                    </span>
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-info me-1" onclick="adminDashboard.viewProfileFormDetails(${form.id})">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-primary" onclick="adminDashboard.exportSingleProfileForm(${form.id})">
-                        <i class="fas fa-download"></i>
+                    <button type="button" class="btn btn-link text-start text-decoration-none p-0 admin-user-info"
+                            onclick="adminDashboard.viewProfileFormDetails(${form.id})">
+                        <span class="admin-user-info-name">${this.escapeHtml(name)}</span>
+                        <span class="admin-user-info-email">${this.escapeHtml(form.email || '')}</span>
                     </button>
                 </td>
-            </tr>
-        `).join('');
+                <td class="text-nowrap">${this.escapeHtml(form.phone || '—')}</td>
+                <td>${this.escapeHtml(form.location || '—')}</td>
+                <td class="text-end text-nowrap">
+                    <button class="btn btn-sm btn-outline-primary py-0" type="button"
+                            onclick="adminDashboard.viewProfileFormDetails(${form.id})" title="View details">
+                        <i class="fas fa-eye me-1"></i>View
+                    </button>
+                </td>
+            </tr>`;
+        }).join('');
 
-        document.getElementById('profileFormsTableBody').innerHTML = tableHtml;
+        body.innerHTML = tableHtml;
     }
 
     getExperienceColor(level) {
@@ -1310,47 +1307,65 @@ class AdminDashboard {
     }
 
     showProfileFormModal(submission) {
-        let jobPreference = null;
-        try {
-            if (submission.job_preference) {
-                jobPreference = JSON.parse(submission.job_preference);
+        let jobPreference = submission.job_preference_parsed || null;
+        if (!jobPreference && submission.job_preference) {
+            try {
+                jobPreference = typeof submission.job_preference === 'string'
+                    ? JSON.parse(submission.job_preference)
+                    : submission.job_preference;
+            } catch (error) {
+                console.error('Error parsing job preference:', error);
             }
-        } catch (error) {
-            console.error('Error parsing job preference:', error);
         }
+
+        const employment = Array.isArray(jobPreference?.employment_types)
+            ? jobPreference.employment_types.join(', ')
+            : (jobPreference?.employment_types || 'Not specified');
+        const name = `${submission.first_name || ''} ${submission.last_name || ''}`.trim();
+        const submitted = submission.created_at
+            ? new Date(submission.created_at).toLocaleString()
+            : 'Not provided';
+        const resumeHref = submission.resume_path
+            ? this.escapeHtml(submission.resume_path)
+            : '';
 
         const modalHtml = `
             <div class="modal fade" id="profileFormModal" tabindex="-1">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Profile Submission Details - ${submission.first_name} ${submission.last_name}</h5>
+                            <h5 class="modal-title">Profile Submission Details - ${this.escapeHtml(name)}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <h6>Personal Information</h6>
-                                    <p><strong>Name:</strong> ${submission.first_name} ${submission.last_name}</p>
-                                    <p><strong>Email:</strong> ${submission.email}</p>
-                                    <p><strong>Phone:</strong> ${submission.phone || 'Not provided'}</p>
-                                    <p><strong>Location:</strong> ${submission.location || 'Not provided'}</p>
-                                    <p><strong>Work Eligibility:</strong> ${submission.work_eligibility || 'Not provided'}</p>
-                                    <p><strong>Experience Level:</strong> ${submission.experience_level || 'Not provided'}</p>
+                                    <p><strong>Name:</strong> ${this.escapeHtml(name)}</p>
+                                    <p><strong>Email:</strong> ${this.escapeHtml(submission.email || '')}</p>
+                                    <p><strong>Phone:</strong> ${this.escapeHtml(submission.phone || 'Not provided')}</p>
+                                    <p><strong>Location:</strong> ${this.escapeHtml(submission.location || 'Not provided')}</p>
+                                    <p><strong>Work Eligibility:</strong> ${this.escapeHtml(submission.work_eligibility || 'Not provided')}</p>
+                                    <p><strong>Experience Level:</strong> ${this.escapeHtml(submission.experience_level || 'Not provided')}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <h6>Job Preferences</h6>
-                                    <p><strong>Role Type:</strong> ${jobPreference?.role_type || 'Not specified'}</p>
-                                    <p><strong>Industry:</strong> ${jobPreference?.industry || 'Not specified'}</p>
-                                    <p><strong>Employment Types:</strong> ${jobPreference?.employment_types?.join(', ') || 'Not specified'}</p>
-                                    <p><strong>Selected Agent:</strong> ${submission.agent_name || 'None'}</p>
+                                    <p><strong>Role Type:</strong> ${this.escapeHtml(jobPreference?.role_type || 'Not specified')}</p>
+                                    <p><strong>Industry:</strong> ${this.escapeHtml(jobPreference?.industry || 'Not specified')}</p>
+                                    <p><strong>Employment Types:</strong> ${this.escapeHtml(employment)}</p>
+                                    <p><strong>Selected Agent:</strong> ${this.escapeHtml(submission.agent_name || submission.agent_display_name || 'None')}</p>
+                                    <p><strong>Resume:</strong> ${
+                                        resumeHref
+                                            ? `<a href="${resumeHref}" target="_blank" rel="noopener">Open resume</a>`
+                                            : 'None'
+                                    }</p>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
                                     <h6>Submission Details</h6>
-                                    <p><strong>Status:</strong> <span class="badge bg-${submission.status === 'pending' ? 'warning' : submission.status === 'reviewed' ? 'success' : 'secondary'}">${submission.status || 'pending'}</span></p>
-                                    <p><strong>Submitted:</strong> ${new Date(submission.created_at).toLocaleString()}</p>
+                                    <p><strong>Status:</strong> <span class="badge bg-${submission.status === 'pending' ? 'warning' : submission.status === 'reviewed' ? 'success' : 'secondary'}">${this.escapeHtml(submission.status || 'pending')}</span></p>
+                                    <p><strong>Submitted:</strong> ${this.escapeHtml(submitted)}</p>
                                     <p><strong>Data Processing Consent:</strong> ${submission.data_processing_consent ? 'Yes' : 'No'}</p>
                                     <p><strong>Job Alerts Consent:</strong> ${submission.job_alerts_consent ? 'Yes' : 'No'}</p>
                                     <p><strong>Marketing Consent:</strong> ${submission.marketing_consent ? 'Yes' : 'No'}</p>
@@ -1360,7 +1375,7 @@ class AdminDashboard {
                                 <div class="row mt-3">
                                     <div class="col-12">
                                         <h6>Additional Information</h6>
-                                        <p>${submission.bio}</p>
+                                        <p>${this.escapeHtml(submission.bio)}</p>
                                     </div>
                                 </div>
                             ` : ''}
@@ -1689,14 +1704,19 @@ class AdminDashboard {
     }
 
     filterProfileForms() {
-        const agent = document.getElementById('profileFormAgentFilter').value;
-        const completion = document.getElementById('profileFormCompletionFilter').value;
-        const date = document.getElementById('profileFormDateFilter').value;
-        
-        this.filters.profileForms = { 
-            agent: agent,
-            completion: completion,
-            date: date
+        const agent = document.getElementById('profileFormAgentFilter')?.value || '';
+        const completion = document.getElementById('profileFormCompletionFilter')?.value || '';
+        const date = document.getElementById('profileFormDateFilter')?.value || '';
+        const sort = document.getElementById('profileFormSort')?.value || 'newest';
+        const search = document.getElementById('profileFormSearch')?.value.trim() || '';
+
+        this.filters.profileForms = {
+            ...this.filters.profileForms,
+            search,
+            agent,
+            completion,
+            date,
+            sort
         };
         this.currentPage.profileForms = 1;
         this.loadProfileForms();
@@ -2068,25 +2088,45 @@ class AdminDashboard {
         const canvas = document.getElementById('registrationsChart');
         if (!canvas || typeof Chart === 'undefined') return;
         if (this.charts.registrations) this.charts.registrations.destroy();
+        const points = (series || []).map((p) => ({
+            day: p.day,
+            count: Number(p.count) || 0
+        }));
+        const labels = points.map((p) => {
+            const d = new Date(`${p.day}T00:00:00`);
+            if (Number.isNaN(d.getTime())) return p.day;
+            return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        });
+        const counts = points.map((p) => p.count);
+        const peak = Math.max(0, ...counts);
         this.charts.registrations = new Chart(canvas, {
             type: 'line',
             data: {
-                labels: series.map((p) => p.day),
+                labels,
                 datasets: [{
                     label: 'Registrations',
-                    data: series.map((p) => p.count),
+                    data: counts,
                     borderColor: '#0066cc',
                     backgroundColor: 'rgba(0, 102, 204, 0.12)',
                     fill: true,
-                    tension: 0.3,
-                    pointRadius: 2
+                    tension: 0.25,
+                    cubicInterpolationMode: 'monotone',
+                    pointRadius: peak > 0 ? 3 : 0,
+                    pointHoverRadius: 5,
+                    spanGaps: false
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: Math.max(1, peak),
+                        ticks: { precision: 0, stepSize: peak <= 8 ? 1 : undefined }
+                    }
+                }
             }
         });
     }
@@ -2189,6 +2229,18 @@ class AdminDashboard {
             document.getElementById('editAgentLocation').value = agent.location || '';
             document.getElementById('editTimezone').value = agent.timezone || '';
             document.getElementById('editAvatarUrl').value = agent.avatar_url || '';
+            const editPreview = document.getElementById('editAgentImagePreview');
+            const editFile = document.getElementById('editAgentImage');
+            if (editFile) editFile.value = '';
+            if (editPreview) {
+                if (agent.avatar_url) {
+                    editPreview.src = agent.avatar_url;
+                    editPreview.classList.remove('d-none');
+                } else {
+                    editPreview.removeAttribute('src');
+                    editPreview.classList.add('d-none');
+                }
+            }
             document.getElementById('editAgentBio').value = agent.bio || '';
             document.getElementById('editExperienceYears').value = agent.experience_years || 0;
             document.getElementById('editCurrency').value = agent.currency || 'USD';
@@ -2228,15 +2280,53 @@ function logout() {
     window.location.href = '/';
 }
 
+async function uploadAgentImageIfSelected(fileInputId, urlInputId) {
+    const fileInput = document.getElementById(fileInputId);
+    const file = fileInput?.files?.[0];
+    if (!file) return document.getElementById(urlInputId)?.value || '';
+    const body = new FormData();
+    body.append('image', file);
+    const response = await fetch('/api/upload/agent-image', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${localStorage.getItem('flexjobs_token')}` },
+        body
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+        throw new Error(result.message || 'Failed to upload agent image');
+    }
+    const path = result.filePath || '';
+    const hidden = document.getElementById(urlInputId);
+    if (hidden) hidden.value = path;
+    return path;
+}
+
+function previewAgentImage(fileInputId, previewId) {
+    const input = document.getElementById(fileInputId);
+    const preview = document.getElementById(previewId);
+    if (!input || !preview) return;
+    input.addEventListener('change', () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        preview.src = url;
+        preview.classList.remove('d-none');
+    });
+}
+
+previewAgentImage('agentImage', 'agentImagePreview');
+previewAgentImage('editAgentImage', 'editAgentImagePreview');
+
 async function createAgent() {
     try {
+        const avatarUrl = await uploadAgentImageIfSelected('agentImage', 'avatarUrl');
         const formData = {
             agent_name: document.getElementById('agentName').value,
             display_name: document.getElementById('displayName').value,
             email: document.getElementById('agentEmail').value,
             location: document.getElementById('agentLocation').value,
             timezone: document.getElementById('timezone').value,
-            avatar_url: document.getElementById('avatarUrl').value,
+            avatar_url: avatarUrl,
             bio: document.getElementById('agentBio').value,
             experience_years: parseInt(document.getElementById('experienceYears').value) || 0,
             currency: document.getElementById('currency').value,
@@ -2272,6 +2362,12 @@ async function createAgent() {
             adminDashboard.showAlert('Agent created successfully', 'success');
             bootstrap.Modal.getInstance(document.getElementById('addAgentModal')).hide();
             document.getElementById('addAgentForm').reset();
+            document.getElementById('avatarUrl').value = '';
+            const preview = document.getElementById('agentImagePreview');
+            if (preview) {
+                preview.removeAttribute('src');
+                preview.classList.add('d-none');
+            }
             adminDashboard.loadAgents();
         } else {
             adminDashboard.showAlert(result.message || 'Failed to create agent', 'danger');
@@ -2286,13 +2382,14 @@ async function createAgent() {
 async function updateAgent() {
     try {
         const agentId = document.getElementById('editAgentId').value;
+        const avatarUrl = await uploadAgentImageIfSelected('editAgentImage', 'editAvatarUrl');
         const formData = {
             agent_name: document.getElementById('editAgentName').value,
             display_name: document.getElementById('editDisplayName').value,
             email: document.getElementById('editAgentEmail').value,
             location: document.getElementById('editAgentLocation').value,
             timezone: document.getElementById('editTimezone').value,
-            avatar_url: document.getElementById('editAvatarUrl').value,
+            avatar_url: avatarUrl,
             bio: document.getElementById('editAgentBio').value,
             experience_years: parseInt(document.getElementById('editExperienceYears').value) || 0,
             currency: document.getElementById('editCurrency').value,
@@ -2673,4 +2770,5 @@ function exportJobs() {
 let adminDashboard;
 document.addEventListener('DOMContentLoaded', function() {
     adminDashboard = new AdminDashboard();
+    window.adminDashboard = adminDashboard;
 });

@@ -6,6 +6,51 @@
 (function () {
     const POLL_MS = 5000;
 
+    let notifyAudioCtx = null;
+
+    function unlockNotificationAudio() {
+        try {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!Ctx) return;
+            if (!notifyAudioCtx) notifyAudioCtx = new Ctx();
+            if (notifyAudioCtx.state === 'suspended') {
+                notifyAudioCtx.resume().catch(() => {});
+            }
+        } catch {
+            /* audio not available */
+        }
+    }
+
+    function playNotificationSound() {
+        try {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!Ctx) return;
+            if (!notifyAudioCtx) notifyAudioCtx = new Ctx();
+            const ctx = notifyAudioCtx;
+            if (ctx.state === 'suspended') {
+                ctx.resume().catch(() => {});
+            }
+            [
+                [523.25, 0],
+                [783.99, 0.12]
+            ].forEach(([freq, delay]) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.001, ctx.currentTime + delay);
+                gain.gain.linearRampToValueAtTime(0.14, ctx.currentTime + delay + 0.015);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.2);
+                osc.start(ctx.currentTime + delay);
+                osc.stop(ctx.currentTime + delay + 0.24);
+            });
+        } catch {
+            /* audio not available */
+        }
+    }
+
     function escapeHtml(str) {
         if (str == null) return '';
         return String(str)
@@ -67,6 +112,10 @@
             this.filters = { status: '', search: '', participant: '' };
             this.page = 1;
             this._bound = false;
+            this.sending = false;
+            this._listSignature = '';
+            this._unreadTotal = 0;
+            this._unreadReady = false;
         }
 
         getAuthHeaders() {
@@ -108,7 +157,12 @@
                 });
                 if (!res.ok) return;
                 const data = await res.json();
-                const total = data.data?.total || 0;
+                const total = parseInt(data.data?.total, 10) || 0;
+                if (this._unreadReady && total > this._unreadTotal) {
+                    playNotificationSound();
+                }
+                this._unreadReady = true;
+                this._unreadTotal = total;
                 const badge = document.getElementById('adminChatUnreadBadge');
                 if (badge) {
                     if (total > 0) {
@@ -140,10 +194,19 @@
                 if (!res.ok) throw new Error('Failed to load conversations');
                 const data = await res.json();
                 this.conversations = data.data?.conversations || [];
-                this.renderConversationList();
-                if (data.data.total_admin_unread != null) {
+                const signature = this.conversationListSignature(this.conversations);
+                if (!opts.silent || signature !== this._listSignature) {
+                    this._listSignature = signature;
+                    this.renderConversationList();
+                }
+                if (data.data?.total_admin_unread != null) {
                     const badge = document.getElementById('adminChatUnreadBadge');
-                    const total = data.data.total_admin_unread;
+                    const total = parseInt(data.data.total_admin_unread, 10) || 0;
+                    if (opts.silent && this._unreadReady && total > this._unreadTotal) {
+                        playNotificationSound();
+                    }
+                    this._unreadReady = true;
+                    this._unreadTotal = total;
                     if (badge) {
                         if (total > 0) {
                             badge.textContent = total > 99 ? '99+' : String(total);
@@ -169,9 +232,26 @@
             }
         }
 
+        conversationListSignature(conversations) {
+            return (
+                JSON.stringify(
+                    (conversations || []).map((c) => [
+                        c.id,
+                        c.status,
+                        c.last_message_at,
+                        c.last_message_preview,
+                        c.admin_unread_count,
+                        c.display_name
+                    ])
+                ) + `|sel:${this.selectedId || ''}`
+            );
+        }
+
         renderConversationList() {
             const list = document.getElementById('adminChatConversationList');
             if (!list) return;
+
+            this._listSignature = this.conversationListSignature(this.conversations);
 
             if (!this.conversations.length) {
                 list.innerHTML = `
@@ -321,7 +401,7 @@
             };
 
             panel.innerHTML = `
-                <div class="card border-0 bg-light h-100">
+                <div class="card border-0 bg-light">
                     <div class="card-body small">
                         <h6 class="card-title text-uppercase text-muted mb-3" style="font-size:0.7rem;letter-spacing:.05em">
                             Client details
@@ -381,7 +461,7 @@
                 );
                 if (!res.ok) throw new Error('Failed to load messages');
                 const data = await res.json();
-                const messages = data.data.messages || [];
+                const messages = data.data?.messages || [];
 
                 if (!opts.incremental || this.lastMessageId === 0) {
                     this.renderMessages(messages, { replace: true });
@@ -419,7 +499,13 @@
             const empty = container.querySelector('.text-center.text-muted');
             if (empty && messages.length) empty.remove();
 
-            const html = messages
+            const incoming = messages.filter((m) => {
+                if (m == null || m.id == null) return true;
+                return !container.querySelector(`[data-message-id="${m.id}"]`);
+            });
+            if (!incoming.length) return;
+
+            const html = incoming
                 .map((m) => {
                     const isAdmin = m.sender_type === 'admin';
                     const align = isAdmin ? 'justify-content-end' : 'justify-content-start';
@@ -433,7 +519,7 @@
                           : 'User';
                     return `
                     <div class="d-flex ${align} mb-2" data-message-id="${m.id}">
-                        <div class="admin-chat-bubble ${bubble} rounded-3 px-3 py-2" style="max-width:75%">
+                        <div class="admin-chat-bubble ${bubble} rounded-3" style="max-width:75%">
                             <div class="small opacity-75 mb-1">${escapeHtml(label)} · ${formatTime(m.created_at)}</div>
                             <div style="white-space:pre-wrap;word-break:break-word">${escapeHtml(m.body)}</div>
                         </div>
@@ -461,13 +547,14 @@
         }
 
         async sendReply() {
-            if (!this.selectedId) return;
+            if (!this.selectedId || this.sending) return;
             const input = document.getElementById('adminChatReplyInput');
             if (!input) return;
             const body = input.value.trim();
             if (!body) return;
 
             const btn = document.getElementById('adminChatSendBtn');
+            this.sending = true;
             if (btn) btn.disabled = true;
 
             try {
@@ -494,6 +581,7 @@
                 console.error(e);
                 this.dashboard.showAlert(e.message || 'Failed to send reply', 'danger');
             } finally {
+                this.sending = false;
                 if (btn) btn.disabled = false;
             }
         }
@@ -548,6 +636,7 @@
         bindUi() {
             if (this._bound) return;
             this._bound = true;
+            document.addEventListener('pointerdown', unlockNotificationAudio, { once: true });
             document.getElementById('adminChatSearch')?.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     this.filters.search = e.target.value.trim();
@@ -591,6 +680,18 @@
         }
     }
 
+    let dashboardPatched = false;
+
+    function bindAdminChat(dash) {
+        if (!dash || dash.adminChat) return;
+        dash.adminChat = new AdminChat(dash);
+        dash.adminChat.updateUnreadBadge();
+        setInterval(() => dash.adminChat.updateUnreadBadge(), 15000);
+        if (dash.currentSection === 'messages') {
+            dash.adminChat.activate();
+        }
+    }
+
     function attachToDashboard() {
         if (typeof AdminDashboard === 'undefined') {
             setTimeout(attachToDashboard, 50);
@@ -598,36 +699,31 @@
         }
 
         const proto = AdminDashboard.prototype;
-        const originalSwitch = proto.switchSection;
-        const originalInit = proto.init;
+        if (!dashboardPatched) {
+            dashboardPatched = true;
+            const originalSwitch = proto.switchSection;
+            const originalInit = proto.init;
 
-        proto.init = function () {
-            originalInit.call(this);
-            this.adminChat = new AdminChat(this);
-            this.adminChat.updateUnreadBadge();
-            setInterval(() => this.adminChat.updateUnreadBadge(), 15000);
-            if (this.currentSection === 'messages') {
-                this.adminChat.activate();
-            }
-        };
+            proto.init = function () {
+                originalInit.call(this);
+                bindAdminChat(this);
+            };
 
-        proto.switchSection = function (section) {
-            originalSwitch.call(this, section);
-            if (section === 'messages' && this.adminChat) {
-                this.adminChat.activate();
-            } else if (this.adminChat) {
-                this.adminChat.stopPolling();
-            }
-        };
-
-        if (window.adminDashboard && !window.adminDashboard.adminChat) {
-            window.adminDashboard.adminChat = new AdminChat(window.adminDashboard);
-            window.adminDashboard.adminChat.updateUnreadBadge();
-            setInterval(() => window.adminDashboard.adminChat.updateUnreadBadge(), 15000);
-            if (window.adminDashboard.currentSection === 'messages') {
-                window.adminDashboard.adminChat.activate();
-            }
+            proto.switchSection = function (section) {
+                originalSwitch.call(this, section);
+                if (section === 'messages' && this.adminChat) {
+                    this.adminChat.activate();
+                } else if (this.adminChat) {
+                    this.adminChat.stopPolling();
+                }
+            };
         }
+
+        const dash =
+            (typeof adminDashboard !== 'undefined' && adminDashboard) ||
+            window.adminDashboard ||
+            null;
+        bindAdminChat(dash);
     }
 
     if (document.readyState === 'loading') {
