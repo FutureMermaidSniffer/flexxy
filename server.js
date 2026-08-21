@@ -156,6 +156,7 @@ const generalLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req) => /\/api\/chat(?:\/|\?|$)/.test(req.originalUrl || req.url || ''),
   handler: (req, res) => {
     console.log(`Rate limit exceeded for IP: ${req.ip}`);
     res.status(429).json({
@@ -191,7 +192,7 @@ app.use('/api/', generalLimiter);
 // Apply strict rate limiting to auth routes
 app.use('/api/auth/', authLimiter);
 
-// Rate limit chat message posts
+// Rate limit chat POSTs only — GET polling must not share this budget
 const chatMessageLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 30,
@@ -212,9 +213,9 @@ const chatSessionLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false
 });
-app.use('/api/chat/session', chatSessionLimiter);
-app.use('/api/chat/messages', chatMessageLimiter);
-app.use('/api/chat/admin/conversations/:id/messages', chatMessageLimiter);
+app.post('/api/chat/session', chatSessionLimiter);
+app.post('/api/chat/messages', chatMessageLimiter);
+app.post('/api/chat/admin/conversations/:id/messages', chatMessageLimiter);
 
 // SECURITY: Session configuration with memory store
 const setupSessionMiddleware = require('./backend/session-middleware');

@@ -150,6 +150,7 @@
             this.sending = false;
             this.geo = null;
             this.geoAsked = false;
+            this.pollBackoffMs = 0;
             this.init();
         }
 
@@ -460,6 +461,11 @@
             const res = await fetch(`/api/chat/messages?${params}`, {
                 headers: this.headers(false)
             });
+            if (res.status === 429) {
+                this.onRateLimited(res);
+                return;
+            }
+            this.pollBackoffMs = 0;
             if (!res.ok) return;
             const data = await res.json();
             if (data.conversation_id) this.conversationId = data.conversation_id;
@@ -525,8 +531,9 @@
                     })
                 });
                 if (!res.ok) {
+                    if (res.status === 429) this.onRateLimited(res);
                     const err = await res.json().catch(() => ({}));
-                    throw new Error(err.message || 'Failed to send');
+                    throw new Error(err.message || err.error || 'Failed to send');
                 }
                 const data = await res.json();
                 if (data.guest_token) {
@@ -555,6 +562,15 @@
             }
         }
 
+        onRateLimited(res) {
+            const retryAfter = parseInt(res.headers.get('Retry-After'), 10);
+            const waitMs = Number.isFinite(retryAfter) && retryAfter > 0
+                ? retryAfter * 1000
+                : Math.min(Math.max(this.pollBackoffMs * 2 || 8000, 8000), 60000);
+            this.pollBackoffMs = waitMs;
+            this.schedulePoll();
+        }
+
         schedulePoll() {
             if (this.pollTimer) {
                 clearInterval(this.pollTimer);
@@ -562,7 +578,8 @@
             }
             if (document.visibilityState === 'hidden') return;
 
-            const ms = this.open ? POLL_OPEN_MS : POLL_CLOSED_MS;
+            const base = this.open ? POLL_OPEN_MS : POLL_CLOSED_MS;
+            const ms = Math.max(base, this.pollBackoffMs || 0);
             this.pollTimer = setInterval(async () => {
                 if (document.visibilityState === 'hidden') return;
                 try {
