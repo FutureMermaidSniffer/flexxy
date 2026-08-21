@@ -1470,98 +1470,49 @@ class AdminDashboard {
     }
 
     renderAgentsTable(agents) {
+        const body = document.getElementById('agentsTableBody');
+        if (!body) return;
         if (!agents || !agents.length) {
-            const body = document.getElementById('agentsTableBody');
-            if (body) {
-                body.innerHTML = `<tr><td colspan="15" class="text-center text-muted py-4">No agents found</td></tr>`;
-            }
+            body.innerHTML = `<tr><td colspan="4">
+                <div class="admin-empty">
+                    <div class="admin-empty-icon"><i class="fas fa-user-tie"></i></div>
+                    <h2 class="h6 mb-1">No agents found</h2>
+                    <p class="mb-0">Try a different search or add an agent.</p>
+                </div>
+            </td></tr>`;
             return;
         }
         const tableHtml = agents.map(agent => {
             const name = agent.agent_name || agent.display_name || 'Agent';
-            const specs = this.agentList(agent.specializations);
-            const langs = this.agentList(agent.languages);
+            const display = agent.display_name && agent.display_name !== name ? agent.display_name : '';
             const initial = name.charAt(0).toUpperCase();
+            const avatar = agent.avatar_url
+                ? `<img src="${this.escapeHtml(agent.avatar_url)}" alt="" class="rounded-circle" width="36" height="36" style="object-fit:cover">`
+                : `<span class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-semibold" style="width:36px;height:36px;font-size:0.85rem">${this.escapeHtml(initial)}</span>`;
             return `
             <tr>
-                <td>${agent.id}</td>
                 <td>
-                    ${agent.avatar_url ? 
-                        `<img src="${agent.avatar_url}" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">` : 
-                        `<div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; color: white; font-weight: bold;">${initial}</div>`
-                    }
-                </td>
-                <td>
-                    <div class="fw-bold">${this.escapeHtml(name)}</div>
-                    <small class="text-muted">${specs.slice(0, 2).join(', ') || 'No specializations'}</small>
-                </td>
-                <td>
-                    <div>${this.escapeHtml(agent.display_name || '')}</div>
-                    ${agent.bio ? `<small class="text-muted">${this.escapeHtml(agent.bio.length > 50 ? agent.bio.substring(0, 50) + '...' : agent.bio)}</small>` : ''}
-                </td>
-                <td>
-                    <div>${this.escapeHtml(agent.email || 'N/A')}</div>
-                    ${agent.linkedin_url ? `<a href="${this.escapeHtml(agent.linkedin_url)}" target="_blank" class="text-decoration-none"><i class="fab fa-linkedin"></i></a>` : ''}
-                </td>
-                <td>
-                    <div>${this.escapeHtml(agent.location || 'N/A')}</div>
-                    ${agent.timezone ? `<small class="text-muted">${this.escapeHtml(agent.timezone)}</small>` : ''}
-                </td>
-                <td>
-                    ${specs.length
-                        ? specs.slice(0, 3).map(spec =>
-                            `<span class="badge bg-light text-dark me-1">${this.escapeHtml(spec)}</span>`
-                          ).join('')
-                        : '<span class="text-muted">None</span>'}
-                </td>
-                <td>
-                    <div>${agent.experience_years || 0} years</div>
-                    ${langs.length ? `<small class="text-muted">${this.escapeHtml(langs.slice(0, 2).join(', '))}</small>` : ''}
-                </td>
-                <td>
-                    <div class="rating-stars">${this.renderStars(agent.rating || 0)}</div>
-                    <small class="text-muted">${agent.rating || '0.00'}/5.00</small>
-                </td>
-                <td>
-                    <div>${agent.total_reviews || 0} reviews</div>
-                    ${agent.certifications ? `<small class="text-success"><i class="fas fa-certificate"></i> Certified</small>` : ''}
-                </td>
-                <td>
-                    <span class="badge bg-${agent.is_active ? 'success' : 'danger'}">
-                        ${agent.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                </td>
-                <td>
-                    <span class="badge bg-${agent.is_verified ? 'success' : 'warning'}">
-                        ${agent.is_verified ? 'Verified' : 'Unverified'}
-                    </span>
-                </td>
-                <td>
-                    <span class="badge bg-${agent.is_featured ? 'info' : 'secondary'}">
-                        ${agent.is_featured ? 'Featured' : 'Regular'}
-                    </span>
-                </td>
-                <td>
-                    <small class="text-muted">${this.formatDate(agent.created_at)}</small>
-                </td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-outline-primary" 
-                                onclick="adminDashboard.editAgent(${agent.id})"
-                                title="Edit Agent">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-${agent.is_featured ? 'secondary' : 'info'}" 
-                                onclick="adminDashboard.toggleAgentFeatured(${agent.id}, ${agent.is_featured})"
-                                title="Toggle Featured">
-                            <i class="fas fa-star"></i>
+                    <div class="d-flex align-items-center gap-2">
+                        ${avatar}
+                        <button type="button" class="btn btn-link text-start text-decoration-none p-0 admin-user-info"
+                                onclick="adminDashboard.editAgent(${agent.id})">
+                            <span class="admin-user-info-name">${this.escapeHtml(name)}</span>
+                            ${display ? `<span class="admin-user-info-email">${this.escapeHtml(display)}</span>` : ''}
                         </button>
                     </div>
                 </td>
+                <td class="text-nowrap">${this.escapeHtml(agent.email || '—')}</td>
+                <td>${this.escapeHtml(agent.location || '—')}</td>
+                <td class="text-end text-nowrap">
+                    <button class="btn btn-sm btn-outline-primary py-0" type="button"
+                            onclick="adminDashboard.editAgent(${agent.id})" title="Edit agent">
+                        <i class="fas fa-edit me-1"></i>Edit
+                    </button>
+                </td>
             </tr>`;
         }).join('');
-        
-        document.getElementById('agentsTableBody').innerHTML = tableHtml;
+
+        body.innerHTML = tableHtml;
     }
 
     async toggleAgentFeatured(agentId, currentStatus) {
