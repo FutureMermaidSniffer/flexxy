@@ -300,6 +300,16 @@ class AdminDashboard {
                 }
             }
         });
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-agent-action]');
+            if (!btn) return;
+            const action = btn.getAttribute('data-agent-action');
+            const id = parseInt(btn.getAttribute('data-agent-id'), 10);
+            if (action === 'delete') {
+                const name = btn.getAttribute('data-agent-name') || '';
+                this.deleteAgent(id || parseInt(document.getElementById('editAgentId')?.value, 10), name);
+            }
+        });
         document.addEventListener('change', (e) => {
             const select = e.target.closest('[data-page-size]');
             if (!select) return;
@@ -1508,11 +1518,47 @@ class AdminDashboard {
                             onclick="adminDashboard.editAgent(${agent.id})" title="Edit agent">
                         <i class="fas fa-edit me-1"></i>Edit
                     </button>
+                    <button class="btn btn-sm btn-outline-danger py-0" type="button"
+                            data-agent-action="delete"
+                            data-agent-id="${agent.id}"
+                            data-agent-name="${this.escapeHtml(name)}"
+                            title="Delete agent">
+                        <i class="fas fa-trash me-1"></i>Delete
+                    </button>
                 </td>
             </tr>`;
         }).join('');
 
         body.innerHTML = tableHtml;
+    }
+
+    async deleteAgent(agentId, agentName = '') {
+        const id = parseInt(agentId, 10);
+        if (!id) return;
+        const name = agentName || document.getElementById('editAgentName')?.value || 'this agent';
+        if (!confirm(`Delete ${name}? This cannot be undone.`)) return;
+
+        try {
+            this.showLoading();
+            const response = await fetch(`/api/admin/agents/${id}`, {
+                method: 'DELETE',
+                headers: this.getAuthHeaders()
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to delete agent');
+            }
+            const modalEl = document.getElementById('editAgentModal');
+            const modal = modalEl && typeof bootstrap !== 'undefined' ? bootstrap.Modal.getInstance(modalEl) : null;
+            modal?.hide();
+            this.showAlert(data.message || 'Agent deleted', 'success');
+            this.loadAgents();
+        } catch (error) {
+            console.error('Delete agent error:', error);
+            this.showAlert(error.message || 'Failed to delete agent', 'danger');
+        } finally {
+            this.hideLoading();
+        }
     }
 
     async toggleAgentFeatured(agentId, currentStatus) {
