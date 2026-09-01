@@ -92,19 +92,13 @@ build/
 deployment.tar.gz
 
 # Production secrets that should never be committed
+.env
+.env.*
+!.env.example
+!.env.production.template
 .env.production.local
 .env.secrets
 default.conf
-.env
-
-
-# === PRODUCTION FILES (EXPLICITLY INCLUDED) ===
-# The following files are REQUIRED for production deployment and are included:
-# - package.json & package-lock.json
-# - .env.example, .env.production
-# - All deployment guides and scripts in DEPLOYMENT_* files
-# - GitHub Actions workflows (.github/workflows/)
-# - Production configuration and deployment scripts (scripts/deploy-*.sh)
 
 # === DEVELOPMENT/TEST FILES (EXCLUDED FROM PRODUCTION) ===
 # Exclude test files from production deployments
@@ -115,6 +109,5 @@ test-*.js
 # Keep these important test utilities for debugging
 !database/test-connection.js
 !scripts/test-scraping-setup.js
-.env
 
 .venv-translate/
