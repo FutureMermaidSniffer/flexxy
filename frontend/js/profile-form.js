@@ -237,6 +237,16 @@ class ProfileForm {
         if (userData.last_name) document.getElementById('last_name').value = userData.last_name;
         if (userData.email) document.getElementById('email').value = userData.email;
         if (userData.phone) document.getElementById('phone').value = userData.phone;
+        if (userData.country_code) {
+            const countryCodeSelect = document.getElementById('country_code');
+            if (countryCodeSelect) {
+                if (window.CountryCodes) {
+                    window.CountryCodes.populateCountryCodeSelect(countryCodeSelect, { selected: userData.country_code });
+                } else {
+                    countryCodeSelect.value = userData.country_code;
+                }
+            }
+        }
         if (userData.location) document.getElementById('location').value = userData.location;
         if (userData.experience_level) document.getElementById('experience_level').value = userData.experience_level;
 
@@ -355,6 +365,7 @@ class ProfileForm {
                 last_name: formData.get('last_name'),
                 email: formData.get('email'), // Include email for new users
                 phone: formData.get('phone') || null,
+                country_code: formData.get('country_code') || null,
                 location: formData.get('location'),
                 work_eligibility: formData.get('work_eligibility'),
                 experience_level: formData.get('experience_level'),

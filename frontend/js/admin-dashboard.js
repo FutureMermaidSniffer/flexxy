@@ -651,7 +651,7 @@ class AdminDashboard {
 
         if (!users.length) {
             if (body) {
-                body.innerHTML = `<tr><td colspan="3">
+                body.innerHTML = `<tr><td colspan="5">
                     <div class="admin-empty">
                         <div class="admin-empty-icon"><i class="fas fa-users"></i></div>
                         <h2 class="h6 mb-1">No users found</h2>
@@ -683,6 +683,8 @@ class AdminDashboard {
                         <span class="admin-user-info-email">${this.escapeHtml(user.email || '')}</span>
                     </button>
                 </td>
+                <td class="text-nowrap">${this.escapeHtml(user.country_code || '—')}</td>
+                <td class="text-nowrap">${this.escapeHtml(user.phone || '—')}</td>
                 <td class="text-end">
                     ${
                         isAdmin
@@ -708,6 +710,7 @@ class AdminDashboard {
                             data-user-name="${this.escapeHtml(name)}">
                         <span class="admin-user-info-name">${this.escapeHtml(name)}</span>
                         <span class="admin-user-info-email">${this.escapeHtml(user.email || '')}</span>
+                        <span class="admin-user-info-email">${this.escapeHtml([user.country_code, user.phone].filter(Boolean).join(' ') || 'No phone')}</span>
                     </button>
                     ${
                         isAdmin
@@ -904,6 +907,7 @@ class AdminDashboard {
                             ${field('Type', this.escapeHtml(user.user_type || ''))}
                             ${field('Status', user.is_active ? 'Active' : 'Inactive')}
                             ${field('Email verified', user.email_verified ? 'Yes' : 'No')}
+                            ${field('Country Code', this.escapeHtml(user.country_code || ''))}
                             ${field('Phone', this.escapeHtml(user.phone || ''))}
                             ${field('Location', this.escapeHtml(user.location || ''))}
                             ${field('Experience', this.escapeHtml(user.experience_level || ''))}
@@ -1254,7 +1258,7 @@ class AdminDashboard {
         const body = document.getElementById('profileFormsTableBody');
         if (!body) return;
         if (!forms.length) {
-            body.innerHTML = `<tr><td colspan="4">
+            body.innerHTML = `<tr><td colspan="5">
                 <div class="admin-empty">
                     <div class="admin-empty-icon"><i class="fas fa-user-pen"></i></div>
                     <h2 class="h6 mb-1">No profile forms found</h2>
@@ -1274,6 +1278,7 @@ class AdminDashboard {
                         <span class="admin-user-info-email">${this.escapeHtml(form.email || '')}</span>
                     </button>
                 </td>
+                <td class="text-nowrap">${this.escapeHtml(form.country_code || '—')}</td>
                 <td class="text-nowrap">${this.escapeHtml(form.phone || '—')}</td>
                 <td>${this.escapeHtml(form.location || '—')}</td>
                 <td class="text-end text-nowrap">
@@ -1353,6 +1358,7 @@ class AdminDashboard {
                                     <h6>Personal Information</h6>
                                     <p><strong>Name:</strong> ${this.escapeHtml(name)}</p>
                                     <p><strong>Email:</strong> ${this.escapeHtml(submission.email || '')}</p>
+                                    <p><strong>Country Code:</strong> ${this.escapeHtml(submission.country_code || 'Not provided')}</p>
                                     <p><strong>Phone:</strong> ${this.escapeHtml(submission.phone || 'Not provided')}</p>
                                     <p><strong>Location:</strong> ${this.escapeHtml(submission.location || 'Not provided')}</p>
                                     <p><strong>Work Eligibility:</strong> ${this.escapeHtml(submission.work_eligibility || 'Not provided')}</p>

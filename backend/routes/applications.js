@@ -185,7 +185,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
         j.location as job_location, j.job_type, j.remote_type,
         j.salary_min, j.salary_max,
         c.name as company_name, c.logo as company_logo,
-        u.first_name, u.last_name, u.email, u.phone,
+        u.first_name, u.last_name, u.email, u.phone, u.country_code,
         u.experience_level, u.location as user_location,
         u.linkedin_url, u.portfolio_url, u.bio
       FROM applications a

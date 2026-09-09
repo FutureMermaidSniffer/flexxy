@@ -73,6 +73,7 @@ class RegistrationPage {
         const emailInput = document.getElementById('emailInput');
         const passwordInput = document.getElementById('passwordInput');
         const phoneInput = document.getElementById('phoneInput');
+        const countryCodeInput = document.getElementById('countryCodeInput');
         const locationInput = document.getElementById('locationInput');
         
         
@@ -107,6 +108,13 @@ class RegistrationPage {
         if (phoneInput) {
             phoneInput.addEventListener('input', () => {
                 this.clearFieldError(phoneInput);
+            });
+        }
+
+        if (countryCodeInput) {
+            countryCodeInput.addEventListener('change', () => {
+                this.clearFieldError(countryCodeInput);
+                if (phoneInput) this.clearFieldError(phoneInput);
             });
         }
         
@@ -223,13 +231,26 @@ class RegistrationPage {
         
         
         const errorDiv = document.createElement('div');
-        errorDiv.className = 'invalid-feedback';
+        errorDiv.className = 'invalid-feedback d-block';
         errorDiv.textContent = message;
-        input.parentNode.appendChild(errorDiv);
+        const phoneGroup = input.closest('.phone-input-group');
+        if (phoneGroup) {
+            phoneGroup.insertAdjacentElement('afterend', errorDiv);
+        } else {
+            input.parentNode.appendChild(errorDiv);
+        }
     }
 
     clearFieldError(input) {
         input.classList.remove('is-invalid');
+        const phoneGroup = input.closest('.phone-input-group');
+        if (phoneGroup) {
+            const next = phoneGroup.nextElementSibling;
+            if (next && next.classList.contains('invalid-feedback')) {
+                next.remove();
+            }
+            return;
+        }
         const errorMsg = input.parentNode.querySelector('.invalid-feedback');
         if (errorMsg) {
             errorMsg.remove();
@@ -242,6 +263,7 @@ class RegistrationPage {
         const emailInput = document.getElementById('emailInput');
         const passwordInput = document.getElementById('passwordInput');
         const phoneInput = document.getElementById('phoneInput');
+        const countryCodeInput = document.getElementById('countryCodeInput');
         const locationInput = document.getElementById('locationInput');
         const userTypeInput = document.getElementById('userTypeInput');
         const submitBtn = document.querySelector('.submit-btn');
@@ -251,6 +273,7 @@ class RegistrationPage {
         const email = emailInput.value.trim();
         const password = passwordInput.value;
         const phone = phoneInput.value.trim();
+        const countryCode = countryCodeInput ? countryCodeInput.value.trim() : '';
         const location = locationInput.value.trim();
         const userType = userTypeInput.value || 'job_seeker';
         
@@ -276,6 +299,11 @@ class RegistrationPage {
             this.showFieldError(passwordInput, 'Password is required');
             hasErrors = true;
         }
+
+        if (phone && !countryCode) {
+            this.showFieldError(countryCodeInput, 'Please select a country code');
+            hasErrors = true;
+        }
         
         
         const isEmailValid = this.validateEmail(emailInput);
@@ -299,6 +327,7 @@ class RegistrationPage {
                 password: password,
                 user_type: userType,
                 phone: phone || null,
+                country_code: countryCode || null,
                 location: location || null
             });
             
@@ -362,6 +391,7 @@ class RegistrationPage {
             first_name: registrationData.first_name,
             last_name: registrationData.last_name,
             phone: registrationData.phone,
+            country_code: registrationData.country_code,
             location: registrationData.location,
             user_type: registrationData.user_type,
             registrationDate: new Date().toISOString(),

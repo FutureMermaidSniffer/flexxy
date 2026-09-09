@@ -117,8 +117,13 @@
 
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number (Optional)</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1 234 567 8900">
-                        <div class="form-text">We may contact you about suitable opportunities</div>
+                        <div class="input-group phone-input-group">
+                            <select class="form-select country-code-select" id="country_code" name="country_code" aria-label="Country calling code">
+                                <option value="+44">+44 GB</option>
+                            </select>
+                            <input type="tel" class="form-control" id="phone" name="phone" placeholder="7123 456 789" inputmode="tel" autocomplete="tel-national">
+                        </div>
+                        <div class="form-text">Include your country code so we can reach you about suitable opportunities</div>
                     </div>
 
                     <div class="mb-3">
@@ -328,6 +333,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/utils/client-info.js"></script>
+    <script src="js/country-codes.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/register.js"></script>
 </body>

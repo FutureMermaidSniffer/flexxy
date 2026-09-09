@@ -8,6 +8,7 @@ const passport = require('passport');
 const crypto = require('crypto');
 const emailService = require('../services/email');
 const { collectMessageMetadata, toUserLocationRow } = require('../services/chat-metadata');
+const { normalizeCountryCode } = require('../utils/phone');
 
 const router = express.Router();
 
@@ -34,7 +35,9 @@ const registerValidation = [
   body('password').isLength({ min: 6 }),
   body('first_name').trim().isLength({ min: 1 }),
   body('last_name').trim().isLength({ min: 1 }),
-  body('user_type').isIn(['job_seeker', 'employer'])
+  body('user_type').isIn(['job_seeker', 'employer']),
+  body('phone').optional({ nullable: true, checkFalsy: true }).trim().isLength({ max: 32 }),
+  body('country_code').optional({ nullable: true, checkFalsy: true }).isString().isLength({ max: 8 })
 ];
 
 const loginValidation = [
@@ -60,6 +63,7 @@ router.post('/register', registerValidation, async (req, res) => {
     last_name: req.body.last_name,
     user_type: req.body.user_type,
     phone: req.body.phone,
+    country_code: req.body.country_code,
     location: req.body.location,
     has_preferences: !!req.body.preferences,
     is_temp_account: req.body.is_temp_account,
@@ -73,7 +77,8 @@ router.post('/register', registerValidation, async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password, first_name, last_name, user_type, preferences, is_temp_account, created_via_wizard, phone, location } = req.body;
+    const { email, password, first_name, last_name, user_type, preferences, is_temp_account, created_via_wizard, phone, country_code, location } = req.body;
+    const normalizedCountryCode = normalizeCountryCode(country_code);
 
     console.log('✅ REGISTRATION: Validation passed');
     
@@ -124,6 +129,7 @@ router.post('/register', registerValidation, async (req, res) => {
       last_name: finalLastName,
       user_type,
       phone: phone || null,
+      country_code: normalizedCountryCode,
       location: location || null,
       is_temp_account: is_temp_account || false,
       created_via_wizard: created_via_wizard || false,
@@ -155,6 +161,8 @@ router.post('/register', registerValidation, async (req, res) => {
         first_name: finalFirstName,
         last_name: finalLastName,
         user_type,
+        phone: phone || null,
+        country_code: normalizedCountryCode,
         is_temp_account: is_temp_account || false
       }
     });
@@ -268,7 +276,7 @@ router.post('/login', loginValidation, async (req, res) => {
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const user = await getOne(
-      `SELECT id, email, first_name, last_name, user_type, phone, bio, skills, 
+      `SELECT id, email, first_name, last_name, user_type, phone, country_code, bio, skills, 
        experience_level, location, profile_image, linkedin_url, portfolio_url,
        created_at FROM users WHERE id = ?`,
       [req.user.id]
@@ -290,6 +298,7 @@ router.put('/profile', authenticateToken, [
   body('first_name').optional().trim().isLength({ min: 1 }),
   body('last_name').optional().trim().isLength({ min: 1 }),
   body('phone').optional().trim(),
+  body('country_code').optional({ nullable: true, checkFalsy: true }).isString().isLength({ max: 8 }),
   body('bio').optional().trim(),
   body('skills').optional().trim(),
   body('experience_level').optional().isIn(['entry', 'mid', 'senior', 'executive']),
@@ -304,9 +313,13 @@ router.put('/profile', authenticateToken, [
     }
 
     const allowedFields = [
-      'first_name', 'last_name', 'phone', 'bio', 'skills',
+      'first_name', 'last_name', 'phone', 'country_code', 'bio', 'skills',
       'experience_level', 'location', 'linkedin_url', 'portfolio_url'
     ];
+
+    if (req.body.country_code !== undefined) {
+      req.body.country_code = normalizeCountryCode(req.body.country_code);
+    }
 
     const updateData = {};
     allowedFields.forEach(field => {

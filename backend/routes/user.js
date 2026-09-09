@@ -2,6 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const { getOne, updateOne, insertOne } = require('../database');
 const { authenticateToken } = require('../middleware/auth');
+const { normalizeCountryCode } = require('../utils/phone');
 
 const router = express.Router();
 
@@ -34,8 +35,14 @@ const profileUpdateValidation = [
     
     body('phone')
         .optional({ nullable: true, checkFalsy: true })
-        .isMobilePhone()
+        .trim()
+        .isLength({ min: 5, max: 32 })
         .withMessage('Please provide a valid phone number'),
+
+    body('country_code')
+        .optional({ nullable: true, checkFalsy: true })
+        .matches(/^\+?\d{1,4}$/)
+        .withMessage('Please provide a valid country code'),
     
     body('location')
         .trim()
@@ -87,7 +94,7 @@ router.get('/profile', authenticateToken, async (req, res) => {
         const userId = req.user.userId;
         
         const user = await getOne(
-            'SELECT id, email, first_name, last_name, phone, location, bio, experience_level, job_preference, work_type_preference, created_at, updated_at FROM users WHERE id = ?',
+            'SELECT id, email, first_name, last_name, phone, country_code, location, bio, experience_level, job_preference, work_type_preference, created_at, updated_at FROM users WHERE id = ?',
             [userId]
         );
 
@@ -126,6 +133,7 @@ router.put('/update-profile', authenticateToken, profileUpdateValidation, async 
             first_name,
             last_name,
             phone,
+            country_code,
             location,
             work_eligibility,
             experience_level,
@@ -167,6 +175,7 @@ router.put('/update-profile', authenticateToken, profileUpdateValidation, async 
             first_name: first_name.trim(),
             last_name: last_name.trim(),
             phone: phone || null,
+            country_code: normalizeCountryCode(country_code),
             location: location.trim(),
             bio: bio || `Work Eligibility: ${work_eligibility}`,
             experience_level,
@@ -224,7 +233,7 @@ router.put('/update-profile', authenticateToken, profileUpdateValidation, async 
 
         // Get updated user data
         const updatedUser = await getOne(
-            'SELECT id, email, first_name, last_name, phone, location, bio, experience_level, job_preference, work_type_preference, updated_at FROM users WHERE id = ?',
+            'SELECT id, email, first_name, last_name, phone, country_code, location, bio, experience_level, job_preference, work_type_preference, updated_at FROM users WHERE id = ?',
             [userId]
         );
 
@@ -252,7 +261,7 @@ router.patch('/update-field', authenticateToken, async (req, res) => {
 
         // Define allowed fields for partial updates
         const allowedFields = [
-            'phone', 'location', 'bio', 'experience_level', 
+            'phone', 'country_code', 'location', 'bio', 'experience_level', 
             'job_preference', 'work_type_preference'
         ];
 
@@ -263,9 +272,11 @@ router.patch('/update-field', authenticateToken, async (req, res) => {
             });
         }
 
+        const normalizedValue = field === 'country_code' ? normalizeCountryCode(value) : value;
+
         // Prepare update data
         const updateData = {
-            [field]: value,
+            [field]: normalizedValue,
             updated_at: new Date()
         };
 
@@ -334,6 +345,7 @@ router.post('/profile-form', async (req, res) => {
             last_name,
             email,
             phone,
+            country_code,
             location,
             work_eligibility,
             experience_level,
@@ -412,6 +424,7 @@ router.post('/profile-form', async (req, res) => {
             last_name: last_name.trim(),
             email: email.trim().toLowerCase(),
             phone: phone || null,
+            country_code: normalizeCountryCode(country_code),
             location: location.trim(),
             work_eligibility,
             experience_level,

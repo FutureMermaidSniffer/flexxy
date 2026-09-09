@@ -550,6 +550,18 @@ p, span, div, a, button, input, textarea, select,
     transition: all 0.2s ease;
 }
 
+.phone-input-group .country-code-select {
+    max-width: 8.75rem;
+    flex: 0 0 8.75rem;
+    padding-left: 0.6rem;
+    padding-right: 1.75rem;
+    font-weight: 600;
+}
+
+.phone-input-group .form-control {
+    flex: 1 1 auto;
+}
+
 .form-control:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.1);

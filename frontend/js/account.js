@@ -44,6 +44,7 @@ class AccountManager {
                 lastName: user.last_name || '',
                 email: user.email || '',
                 phone: user.phone || '',
+                country_code: user.country_code || '',
                 zipCode: user.zip_code || '',
                 state: user.state || '',
                 country: user.country || 'US',
@@ -67,6 +68,7 @@ class AccountManager {
             lastName: '',
             email: '',
             phone: '',
+            country_code: '',
             zipCode: '',
             state: '',
             country: 'US',
@@ -88,7 +90,7 @@ class AccountManager {
         const form = document.getElementById('contactForm');
         if (!form) return;
 
-        const fields = ['firstName', 'lastName', 'email', 'phone', 'zipCode', 'state', 'country', 'timezone'];
+        const fields = ['firstName', 'lastName', 'email', 'phone', 'country_code', 'zipCode', 'state', 'country', 'timezone'];
         
         fields.forEach(field => {
             const input = form.querySelector(`#${field}`);
@@ -185,6 +187,7 @@ class AccountManager {
                 last_name: updateData.lastName,
                 email: updateData.email,
                 phone: updateData.phone,
+                country_code: updateData.country_code,
                 zip_code: updateData.zipCode,
                 state: updateData.state,
                 country: updateData.country,

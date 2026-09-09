@@ -272,6 +272,13 @@ class RegistrationForm {
             return;
         }
 
+        const phoneField = this.form.querySelector('#phone');
+        const countryCodeField = this.form.querySelector('#country_code');
+        if (phoneField && phoneField.value.trim() && countryCodeField && !countryCodeField.value.trim()) {
+            countryCodeField.classList.add('is-invalid');
+            return;
+        }
+
         this.setLoading(true);
 
         try {
@@ -293,6 +300,7 @@ class RegistrationForm {
                 last_name: formData.get('last_name'),
                 email: formData.get('email'),
                 phone: formData.get('phone') || null,
+                country_code: formData.get('country_code') || null,
                 location: formData.get('location'),
                 work_eligibility: formData.get('work_eligibility'),
                 experience_level: formData.get('experience_level'),

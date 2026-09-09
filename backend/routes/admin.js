@@ -164,7 +164,7 @@ router.get('/users', async (req, res) => {
         const country = (req.query.country || '').trim();
 
         let query = `SELECT id, email, first_name, last_name, CONCAT(first_name, ' ', last_name) as full_name, user_type, 
-                            is_active, email_verified, created_at,
+                            phone, country_code, is_active, email_verified, created_at,
                             last_ip, last_country, last_region, last_city, last_lat, last_lng,
                             last_device_type, last_os, last_browser, last_user_agent,
                             last_client_metadata, last_seen_at FROM users`;
@@ -277,6 +277,7 @@ router.get('/profile-forms', async (req, res) => {
                 ps.last_name,
                 ps.email,
                 ps.phone,
+                ps.country_code,
                 ps.location,
                 ps.work_eligibility,
                 ps.experience_level,
@@ -406,6 +407,7 @@ router.get('/profile-forms/export', async (req, res) => {
                 ps.last_name,
                 ps.email,
                 ps.phone,
+                ps.country_code,
                 ps.location,
                 ps.work_eligibility,
                 ps.experience_level,
@@ -431,7 +433,7 @@ router.get('/profile-forms/export', async (req, res) => {
         
         // Create CSV content
         const csvHeaders = [
-            'First Name', 'Last Name', 'Email', 'Phone', 'Location', 
+            'First Name', 'Last Name', 'Email', 'Phone', 'Country Code', 'Location', 
             'Work Eligibility', 'Experience Level', 'Role Type', 'Industry', 'Employment Types',
             'Selected Agent', 'Status', 'Job Alerts Consent', 'Marketing Consent', 
             'Submitted Date'
@@ -484,6 +486,7 @@ router.get('/profile-forms/export', async (req, res) => {
                 row.last_name || '',
                 row.email || '',
                 row.phone || '',
+                row.country_code || '',
                 row.location || '',
                 row.work_eligibility || '',
                 row.experience_level || '',
