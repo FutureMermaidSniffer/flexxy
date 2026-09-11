@@ -21,9 +21,6 @@ class StatisticsPage {
         this.setupCTAButton();
         
         
-        this.setupJobPopup();
-        
-        
         this.setupAgentNotification();
         
         
@@ -101,10 +98,9 @@ class StatisticsPage {
             
             
             this.animateNumbers();
-            
-            
+
             setTimeout(() => {
-                this.showJobPopup();
+                this.goToRegistration();
             }, 2000);
             
             
@@ -112,59 +108,9 @@ class StatisticsPage {
         }, 500);
     }
 
-    showJobPopup() {
-        const jobPopup = document.getElementById('jobPopupOverlay');
-        if (jobPopup) {
-            jobPopup.classList.add('show');
-        }
-    }
-
-    hideJobPopup() {
-        const jobPopup = document.getElementById('jobPopupOverlay');
-        if (jobPopup) {
-            jobPopup.classList.remove('show');
-        }
-    }
-
-    setupJobPopup() {
-        const closePopupBtn = document.getElementById('closeJobPopup');
-        const applyJobBtn = document.getElementById('applyJobBtn');
-        const popupOverlay = document.getElementById('jobPopupOverlay');
-
-        
-        if (closePopupBtn) {
-            closePopupBtn.addEventListener('click', () => {
-                this.hideJobPopup();
-            });
-        }
-
-        
-        if (popupOverlay) {
-            popupOverlay.addEventListener('click', (e) => {
-                if (e.target === popupOverlay) {
-                    this.hideJobPopup();
-                }
-            });
-        }
-
-        
-        if (applyJobBtn) {
-            applyJobBtn.addEventListener('click', () => {
-                
-                localStorage.setItem('showAgentNotification', 'true');
-                localStorage.setItem('jobAppliedFor', 'PEA - CDOT Database');
-                
-                
-                window.location.href = '/registration';
-            });
-        }
-
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                this.hideJobPopup();
-            }
-        });
+    goToRegistration() {
+        this.storeProgress();
+        window.location.href = '/registration';
     }
     
     async processWizardCompletion() {
@@ -442,7 +388,7 @@ class StatisticsPage {
             
             
             setTimeout(() => {
-                window.location.href = '/registration';
+                this.goToRegistration();
             }, 2000); 
             
         } catch (error) {
