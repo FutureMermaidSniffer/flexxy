@@ -111,3 +111,4 @@ test-*.js
 !scripts/test-scraping-setup.js
 
 .venv-translate/
+data/telegram-chats.json

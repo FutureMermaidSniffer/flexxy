@@ -5,6 +5,7 @@ const { body, validationResult } = require('express-validator');
 const { executeQuery, getOne, getMany, insertOne, updateOne, deleteOne } = require('../database');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
 const siteConfig = require('../config/site');
+const { normalizeCountryCode } = require('../utils/phone');
 
 router.use(authenticateToken);
 router.use(requireAdmin);
@@ -730,6 +731,7 @@ router.patch('/users/:id', [
     body('last_name').optional().trim().notEmpty(),
     body('email').optional().isEmail(),
     body('phone').optional({ nullable: true }).trim(),
+    body('country_code').optional({ nullable: true, checkFalsy: true }).isString().isLength({ max: 8 }),
     body('location').optional({ nullable: true }).trim(),
     body('bio').optional({ nullable: true }).trim(),
     body('is_active').optional().isBoolean(),
@@ -753,9 +755,12 @@ router.patch('/users/:id', [
 
         const isSelf = req.user && Number(req.user.id) === userId;
         const updates = {};
-        const allowed = ['first_name', 'last_name', 'email', 'phone', 'location', 'bio', 'is_active', 'user_type'];
+        const allowed = ['first_name', 'last_name', 'email', 'phone', 'country_code', 'location', 'bio', 'is_active', 'user_type'];
         for (const key of allowed) {
             if (req.body[key] !== undefined) updates[key] = req.body[key];
+        }
+        if (updates.country_code !== undefined) {
+            updates.country_code = normalizeCountryCode(updates.country_code);
         }
 
         if (isSelf && updates.user_type && updates.user_type !== 'admin') {

@@ -9,6 +9,7 @@ const crypto = require('crypto');
 const emailService = require('../services/email');
 const { collectMessageMetadata, toUserLocationRow } = require('../services/chat-metadata');
 const { normalizeCountryCode } = require('../utils/phone');
+const telegram = require('../services/telegram');
 
 const router = express.Router();
 
@@ -167,6 +168,17 @@ router.post('/register', registerValidation, async (req, res) => {
       }
     });
     void saveUserLocation(req, userId);
+    if (!is_temp_account) {
+      void telegram.notifySignup({
+        id: userId,
+        email,
+        first_name: finalFirstName,
+        last_name: finalLastName,
+        phone: phone || null,
+        country_code: normalizedCountryCode,
+        location: location || null
+      });
+    }
   } catch (error) {
     console.error('❌ REGISTRATION ERROR: Full error details:', {
       message: error.message,

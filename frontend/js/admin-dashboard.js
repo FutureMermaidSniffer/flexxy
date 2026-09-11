@@ -645,6 +645,23 @@ class AdminDashboard {
         return 'fa-circle-question';
     }
 
+    phoneParts(user) {
+        const storedCode = (user && user.country_code) ? String(user.country_code).trim() : '';
+        const phone = (user && user.phone) ? String(user.phone).trim() : '';
+        if (storedCode && phone.startsWith(storedCode)) {
+            const national = phone.slice(storedCode.length).trim();
+            return { code: storedCode, national: national || phone };
+        }
+        if (storedCode) {
+            return { code: storedCode, national: phone || '—' };
+        }
+        const match = phone.match(/^(\+\d{1,4})(?:\s+)?(.*)$/);
+        if (match) {
+            return { code: match[1], national: (match[2] || '').trim() || phone };
+        }
+        return { code: '—', national: phone || '—' };
+    }
+
     renderUsersTable(users) {
         const body = document.getElementById('usersTableBody');
         const cards = document.getElementById('usersCards');
@@ -672,6 +689,7 @@ class AdminDashboard {
         const tableHtml = users.map(user => {
             const name = `${user.first_name || ''} ${user.last_name || ''}`.trim() || '—';
             const isAdmin = user.user_type === 'admin';
+            const phone = this.phoneParts(user);
             return `
             <tr>
                 <td class="text-nowrap">${user.created_at ? new Date(user.created_at).toLocaleDateString() : '—'}</td>
@@ -683,8 +701,8 @@ class AdminDashboard {
                         <span class="admin-user-info-email">${this.escapeHtml(user.email || '')}</span>
                     </button>
                 </td>
-                <td class="text-nowrap">${this.escapeHtml(user.country_code || '—')}</td>
-                <td class="text-nowrap">${this.escapeHtml(user.phone || '—')}</td>
+                <td class="text-nowrap">${this.escapeHtml(phone.code)}</td>
+                <td class="text-nowrap">${this.escapeHtml(phone.national)}</td>
                 <td class="text-end">
                     ${
                         isAdmin
@@ -702,6 +720,10 @@ class AdminDashboard {
         const cardsHtml = users.map(user => {
             const name = `${user.first_name || ''} ${user.last_name || ''}`.trim() || '—';
             const isAdmin = user.user_type === 'admin';
+            const phone = this.phoneParts(user);
+            const phoneLabel = phone.code === '—' && phone.national === '—'
+                ? 'No phone'
+                : [phone.code !== '—' ? phone.code : '', phone.national !== '—' ? phone.national : ''].filter(Boolean).join(' ');
             return `
             <article class="admin-user-card">
                 <div class="d-flex justify-content-between align-items-center gap-2">
@@ -710,7 +732,7 @@ class AdminDashboard {
                             data-user-name="${this.escapeHtml(name)}">
                         <span class="admin-user-info-name">${this.escapeHtml(name)}</span>
                         <span class="admin-user-info-email">${this.escapeHtml(user.email || '')}</span>
-                        <span class="admin-user-info-email">${this.escapeHtml([user.country_code, user.phone].filter(Boolean).join(' ') || 'No phone')}</span>
+                        <span class="admin-user-info-email">${this.escapeHtml(phoneLabel)}</span>
                     </button>
                     ${
                         isAdmin
@@ -812,10 +834,19 @@ class AdminDashboard {
         document.getElementById('wizardProgressModal').addEventListener('hidden.bs.modal', function() {
             this.remove();
         });
+        const countrySelect = document.getElementById('editUserCountryCode');
+        if (countrySelect && window.CountryCodes && typeof window.CountryCodes.populateCountryCodeSelect === 'function') {
+            window.CountryCodes.populateCountryCodeSelect(countrySelect, {
+                selected: countrySelect.getAttribute('data-selected') || ''
+            });
+        }
     }
 
     renderUserEditForm(user, isSelf) {
         const checked = (cond) => cond ? 'checked' : '';
+        const phone = this.phoneParts(user);
+        const codeValue = phone.code === '—' ? '' : phone.code;
+        const nationalValue = phone.national === '—' ? '' : phone.national;
         return `
             <form id="editUserForm" class="mb-3">
                 <div class="row g-2">
@@ -833,7 +864,12 @@ class AdminDashboard {
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small mb-1" for="editUserPhone">Phone</label>
-                        <input class="form-control form-control-sm" id="editUserPhone" value="${this.escapeHtml(user.phone || '')}">
+                        <div class="input-group input-group-sm phone-input-group">
+                            <select class="form-select country-code-select" id="editUserCountryCode" aria-label="Country calling code" data-selected="${this.escapeHtml(codeValue)}">
+                                ${codeValue ? `<option value="${this.escapeHtml(codeValue)}" selected>${this.escapeHtml(codeValue)}</option>` : '<option value="">Code</option>'}
+                            </select>
+                            <input class="form-control" id="editUserPhone" value="${this.escapeHtml(nationalValue)}" placeholder="Phone number">
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label small mb-1" for="editUserLocation">Location</label>
@@ -863,6 +899,7 @@ class AdminDashboard {
                 last_name: document.getElementById('editUserLastName')?.value.trim(),
                 email: document.getElementById('editUserEmail')?.value.trim(),
                 phone: document.getElementById('editUserPhone')?.value.trim(),
+                country_code: document.getElementById('editUserCountryCode')?.value.trim() || null,
                 location: document.getElementById('editUserLocation')?.value.trim(),
                 is_active: !!document.getElementById('editUserActive')?.checked,
                 user_type: adminBox?.checked ? 'admin' : (originalType === 'admin' ? 'job_seeker' : originalType)
@@ -895,6 +932,7 @@ class AdminDashboard {
             if (value == null || value === '') return '';
             return `<div class="col-md-4 col-sm-6 mb-2"><div class="text-muted small">${label}</div><div>${value}</div></div>`;
         };
+        const phone = this.phoneParts(user);
         content += `
             <div class="col-12">
                 <div class="card">
@@ -907,8 +945,8 @@ class AdminDashboard {
                             ${field('Type', this.escapeHtml(user.user_type || ''))}
                             ${field('Status', user.is_active ? 'Active' : 'Inactive')}
                             ${field('Email verified', user.email_verified ? 'Yes' : 'No')}
-                            ${field('Country Code', this.escapeHtml(user.country_code || ''))}
-                            ${field('Phone', this.escapeHtml(user.phone || ''))}
+                            ${field('Country Code', this.escapeHtml(phone.code === '—' ? '' : phone.code))}
+                            ${field('Phone', this.escapeHtml(phone.national === '—' ? '' : phone.national))}
                             ${field('Location', this.escapeHtml(user.location || ''))}
                             ${field('Experience', this.escapeHtml(user.experience_level || ''))}
                             ${field('LinkedIn', user.linkedin_url ? `<a href="${this.escapeHtml(user.linkedin_url)}" target="_blank" rel="noopener">${this.escapeHtml(user.linkedin_url)}</a>` : '')}

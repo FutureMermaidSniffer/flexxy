@@ -4,6 +4,7 @@ const { body, validationResult, query } = require('express-validator');
 const { getOne, getMany, insertOne, updateOne, executeQuery } = require('../database');
 const { authenticateToken, optionalAuth, requireAdmin } = require('../middleware/auth');
 const { collectMessageMetadata } = require('../services/chat-metadata');
+const telegram = require('../services/telegram');
 
 const router = express.Router();
 
@@ -483,6 +484,16 @@ router.post(
                 conversation_id: conv.id,
                 guest_token: conv.guest_token || undefined,
                 display_name: conv.guest_display_name || undefined
+            });
+
+            void telegram.notifyAdminChatMessage({
+                senderName: req.user
+                    ? (req.user.email || `user ${req.user.id}`)
+                    : (conv.guest_display_name || 'Guest'),
+                senderEmail: req.user ? req.user.email : null,
+                senderType,
+                body: text,
+                conversationId: conv.id
             });
         } catch (error) {
             console.error('Chat send message error:', error);

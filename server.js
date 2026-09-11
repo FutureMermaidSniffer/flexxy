@@ -603,5 +603,10 @@ app.listen(PORT, async () => {
   // Use manual admin setup script when needed
   // const { createAdminFromEnv } = require('./auto-create-admin');
   // await createAdminFromEnv();
+  try {
+    require('./backend/services/telegram').startPolling();
+  } catch (err) {
+    console.warn('Telegram bot failed to start:', err.message);
+  }
 });
 
